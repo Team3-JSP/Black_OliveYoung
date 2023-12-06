@@ -21,6 +21,7 @@
 	 */
 
 %>
+<script src="<%=contextPath %>/resources/js/head.js"></script>
 	<script>
 	$(function() {
 		let mainurl = window.location.href
@@ -316,7 +317,7 @@
 			<div class="header_inner">
 				<h1>
 					<a onclick="" href="<%=contextPath%>/olive/main.do"> <img
-						src="<%=contextPath%>/images/logo.png"
+						src="/resources/images/logo.png"
 						alt="올리브영">
 					</a>
 				</h1>
