@@ -3,11 +3,11 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.blackolive.app.mypage.main.mapper.MypageMainMapper">
+<mapper namespace="com.blackolive.app.mapper.mypage.MypageMainMapper">
 
 
 	<!-- public MypageHeaderVO getHeader(String id) throws ClassNotFoundException, SQLException; -->
-	<resultMap type="com.blackolive.app.mypage.main.domain.MypageHeaderVO" id="myheaderMap">
+	<resultMap type="com.blackolive.app.domain.mypage.MypageHeaderVO" id="myheaderMap">
 		<id property="userid" column="id"/>
 		<result property="username" column="name" />
 		<result property="grade" column="grade"/>

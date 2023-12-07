@@ -18,7 +18,7 @@
 		<mapper resource=""/> 의 작성 기준 -> src/main/resources는 기본적용
 		ex) /com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
-		<mapper resource=""/>	
+			
 	</mappers>
 	
 </configuration>
