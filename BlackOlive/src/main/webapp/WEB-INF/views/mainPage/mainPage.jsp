@@ -13,8 +13,8 @@
 								<div>
 
 									<a
-										onclick="common.reqAmplitude('홈_메인롤링 배너 클릭', {entry_source: '홈', click_source: '메인롤링배너', banner_name: '어워즈&nbsp;사전컴_우종웅', banner_number: '1'});"
-										href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000103390003&amp;trackingCd=Home_Planshop1_1_PROD&amp;t_page=홈&amp;t_click=메인롤링배너&amp;t_banner_name=어워즈&nbsp;사전컴_우종웅&amp;t_number=1"
+										onclick=""
+										href=""
 										class="banner_link" data-attr="홈^메인롤링배너^어워즈&nbsp;사전컴_우종웅^1"
 										data-trk="/" tabindex="-1">
 										<p class="banner_desc">
@@ -31,15 +31,11 @@
 
 
 									<a
-										onclick="common.reqAmplitude('홈_메인롤링 배너 클릭', {entry_source: '홈', click_source: '메인롤링배너', banner_name: '2차&nbsp;H캠페인_임예원', banner_number: '2'});"
+										onclick=""
 										href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000103570001&amp;trackingCd=Home_Planshop1_2_PROD&amp;t_page=홈&amp;t_click=메인롤링배너&amp;t_banner_name=2차&nbsp;H캠페인_임예원&amp;t_number=2"
 										class="banner_link" data-attr="홈^메인롤링배너^2차&nbsp;H캠페인_임예원^2"
 										data-trk="/" tabindex="-1">
 										<p class="banner_desc">
-
-
-
-
 											<span class="tit" style="color: #fff;">헬시어터 </span> <strong
 												style="color: #fff;">건강한 <br>하루를 위한 <br>역대급
 												혜택
@@ -53,14 +49,11 @@
 
 
 									<a
-										onclick="common.reqAmplitude('홈_메인롤링 배너 클릭', {entry_source: '홈', click_source: '메인롤링배너', banner_name: '헬시트렌드_김서현', banner_number: '3'});"
+										onclick=""
 										href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000103460003&amp;trackingCd=Home_Planshop1_3_PROD&amp;t_page=홈&amp;t_click=메인롤링배너&amp;t_banner_name=헬시트렌드_김서현&amp;t_number=3"
 										class="banner_link" data-attr="홈^메인롤링배너^헬시트렌드_김서현^3"
 										data-trk="/" tabindex="-1">
 										<p class="banner_desc">
-
-
-
 
 											<span class="tit">헬시트렌드</span> <strong>요즘 사랑받는<br>헬시
 												아이템을<br>알려드려요
@@ -71,17 +64,12 @@
 									</a>
 								</div>
 								<div>
-
-
 									<a
-										onclick="common.reqAmplitude('홈_메인롤링 배너 클릭', {entry_source: '홈', click_source: '메인롤링배너', banner_name: '1103-0101_최아형_신상로그온', banner_number: '4'});"
+										onclick=""
 										href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102700128&amp;trackingCd=Home_Planshop1_4_PROD&amp;t_page=홈&amp;t_click=메인롤링배너&amp;t_banner_name=1103-0101_최아형_신상로그온&amp;t_number=4"
 										class="banner_link" data-attr="홈^메인롤링배너^1103-0101_최아형_신상로그온^4"
 										data-trk="/" tabindex="-1">
 										<p class="banner_desc">
-
-
-
 
 											<span class="tit" style="color: #fff;">디마르3</span> <strong
 												style="color: #fff;">저자극으로<br>채우는<br>모공의
