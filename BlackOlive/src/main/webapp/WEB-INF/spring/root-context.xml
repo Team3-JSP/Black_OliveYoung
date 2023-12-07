@@ -12,13 +12,13 @@
 		
 	<!-- p84 -->
    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-     <!--    p102
+     <!--    p102     
      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
      <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
-      -->
-      
+     -->      
      <property name="driverClassName"    value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
      <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+       
      <property name="username" value="oy"></property>
      <property name="password" value="1234"></property> 
    </bean>

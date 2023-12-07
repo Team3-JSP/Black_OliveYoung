@@ -1,7 +1,7 @@
 package com.blackolive.app.domain.head;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CategoryLargeDTO {
-
-	private String categoryLargeId;
-	private String categoryLargeName;
-	private int categoryTotalId;
+public class TotalListDTO {
 	
+	private Map<CategoryLargeDTO, List<CategoryMidDTO>> largeList;
+
 } // class

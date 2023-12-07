@@ -1,6 +1,8 @@
+<%@page import="com.blackolive.app.service.head.HeadServiceImpl"%>
+<%@page import="com.blackolive.app.domain.head.TotalListDTO"%>
 <%@page import="com.blackolive.app.domain.head.CategoryMidDTO"%>
 <%@page import="com.blackolive.app.domain.head.CategoryLargeDTO"%>
-<%@page import="com.blackolive.app.service.head.HeadServiceImpl"%>
+
 <%@page import="java.util.Map"%>
 
 <%@page import="java.util.List"%>
@@ -13,8 +15,10 @@
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%--<%@ include file="/WEB-INF/inc/session_auth.jspf"%> --%>
 <%
-	HeadServiceImpl headServiceImpl = new HeadServiceImpl();
-	Map<CategoryLargeDTO,List<CategoryMidDTO>> firstTotalCategory = headServiceImpl.getHeadCategorySerivce(1);
+
+  // HeadServiceImpl headServiceImpl = new
+  
+  
 /* 
 	HeadService headService = HeadService.getInstance();
 	Map<CateLDTO, List<CateMDTO>> bHash = headService.sGetCate(1);
@@ -620,7 +624,7 @@
 								<c:forEach items="${firstTotalCategory}" var="bh" begin="${innerLoopBegin}" end="${innerLoopEnd}" varStatus="innerLoop">
 									
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeID}">${bh.key.categoryLargeName}</a>
+											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeId}">${bh.key.categoryLargeName}</a>
 										</p>
 										<ul>
 											<c:forEach items="${bh.value}" var="value">
@@ -642,8 +646,8 @@
 							<h2>헬스&amp;푸드</h2>
 							
 							<div class="sub_menu_box">
-								<c:if test="${not empty SecondTotalCategory}">
-									<c:forEach items="${hHash}" var="hh">
+								<c:if test="${not empty secondTotalCategory}">
+									<c:forEach items="${secondTotalCategory}" var="hh">
 										<p class="sub_depth">
 											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${hh.key.categoryLargeId}">${hh.key.categoryLargeName}
 											</a>
@@ -669,7 +673,7 @@
 							<h2>라이프</h2>
 							<div class="sub_menu_box">
 								<c:if test="${not empty thirdTotalCategory}">
-									<c:forEach items="${lHash}" var="lh">
+									<c:forEach items="${thirdTotalCategory}" var="lh">
 										<p class="sub_depth">
 											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${lh.key.categoryLargeId}">${lh.key.categoryLargeName}
 											</a>
