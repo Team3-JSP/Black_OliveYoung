@@ -21,7 +21,7 @@ public class MypageMainController {
 	
 	//마이페이지로 이동 컨트롤러 메서드
 	//회원id -  
-	@GetMapping(value = "main.htm")
+	@GetMapping(value = "main")
 	public String mypagemain(
 				//id 가져오기
 				Principal principal

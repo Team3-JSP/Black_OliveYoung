@@ -19,17 +19,17 @@
 	
 	<!-- 로그인 페이지 -->
 	<security:form-login
-			login-page=""
-			authentication-success-handler-ref=""
-			authentication-failure-forward-url=""
-			default-target-url=""
+			login-page="/auth/login"
+			authentication-success-handler-ref="LoginSuccessHandler"
+			authentication-failure-forward-url="/auth/login?error=true"
+			default-target-url="/mypage/main"
 	/>
 	
 	<!-- 로그아웃 처리 -->
 	<security:logout
-			logout-url=""
+			logout-url="/auth/logout"
 			invalidate-session="true"
-			logout-success-url=""
+			logout-success-url="/"
 	/>
 	
 	</security:http>

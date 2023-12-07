@@ -9,7 +9,7 @@
 	
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
-		
+		<typeAlias type="" alias=""/>
 	</typeAliases>
 	
 	<!-- 언더바를 대문자를 바꿔주는 작업 -->
@@ -18,7 +18,8 @@
 		<mapper resource=""/> 의 작성 기준 -> src/main/resources는 기본적용
 		ex) /com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
-			
+		
+				
 	</mappers>
 	
 </configuration>
