@@ -308,7 +308,7 @@
 					<li class="customer"><a onclick="" href="#"
 						data-attr="공통^헤더^고객센터">고객센터</a></li>
 					<li class="store"><a onclick=""
-						href="<%=contextPath%>/olive/getStoreMain.do"
+						href="<c:url value='/store/getStoreMain'/>"
 						data-attr="공통^헤더^매장안내">매장안내</a></li>
 					<li class="global"><a href="#" title="올리브영 글로벌 새창으로 열기"
 						data-attr="공통^헤더^Global">Global</a></li>
