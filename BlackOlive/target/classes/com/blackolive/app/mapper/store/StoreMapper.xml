@@ -5,9 +5,26 @@
 
 <mapper namespace="com.blackolive.app.mapper.store.StoreMapper">
 
+	<select id="selectAllCity" resultType="com.blackolive.app.domain.store.CityDTO">
+		SELECT *
+		FROM city
+	</select>
+	
+	<select id="selectAllDistrict" resultType="com.blackolive.app.domain.store.DistrictDTO">
+		SELECT *
+		FROM district
+		WHERE city_id = #{city_id}
+	</select>
+
 	<select id="selectAllStore" resultType="com.blackolive.app.domain.store.StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
+	</select>
+	
+	<select id="selectStoreList" resultType="com.blackolive.app.domain.store.StoreDTO">
+		SELECT *
+		FROM store s JOIN store_time st ON s.store_id = st.store_id
+		WHERE store_address LIKE '%' || #{city} || ' ' || #{district} || '%'
 	</select>
 
 </mapper>

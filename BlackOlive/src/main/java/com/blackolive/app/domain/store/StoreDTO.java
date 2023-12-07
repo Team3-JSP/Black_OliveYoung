@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class StoreDTO {
-	private String store_id;
-	private String district_id;
-	private String store_name;
-	private String store_tel;
-	private String store_address;
-	private String store_direction;
-	private String store_parking;
-	private String store_significant;
-	private int store_favorite;
+	private String storeId;
+	private String districtId;
+	private String storeName;
+	private String storeTel;
+	private String storeAddress;
+	private String storeDirection;
+	private String storeParking;
+	private String storeSignificant;
+	private int storeFavorite;
 	private double lat;
 	private double lng;
 	private String weekday;

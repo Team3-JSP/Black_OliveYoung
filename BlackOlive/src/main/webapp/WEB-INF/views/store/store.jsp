@@ -94,19 +94,18 @@
 								</div>
 								<div class="sroll_store scrbar mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="overflow: auto;"><div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 									<ul class="mlist-reStore" id="wordStoreList">	
-										<c:forEach items="${list}" var="list">
-											<li class="${list.store_id }">
+										<c:forEach items="${storeList}" var="list">
+											<li class="${list.storeId }">
 											<div class="li_Pc_reInner">
 												<h4 class="tit">
-													<a href="javascript:;">${list.store_name }</a>
-													<span class="store_nearWay">0.3km</span>
+													<a href="javascript:;">${list.storeName }</a>
 												</h4>
-												<p class="addr">${list.store_address }</p> 
+												<p class="addr">${list.storeAddress }</p> 
 												<div class="area">
-													<div class="call">${list.store_tel }</div>
+													<div class="call">${list.storeTel }</div>
 													<div class="time on">영업중</div>	
 												</div>
-												<div class="fv_reShop_in"><span>${list.store_favorite }</span>명이 관심매장으로 등록했습니다.</div>
+												<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
 												<button class="star active" onclick="javascript:store.main.setStarEvent($(this))" title="관심매장 해제됨">관심매장</button>
 											</div>
 											</li>
@@ -127,7 +126,10 @@
 											<ul class="clearfix">
 												<li>
 													<select title="지역을 선택하세요." id="mainAreaList" class="act">
-														
+														<option value="none" selected="selected">지역</option>
+														<c:forEach items="${cityList}" var="list">
+															<option value="${list.cityId }">${list.cityName}</option>
+														</c:forEach>
 													</select>
 												</li>
 												<li>
@@ -728,46 +730,8 @@ $(function() {
 	
 	
 	
-	
-	
-	
 	/* 지역검색 탭 */
-	
-	
-	$.ajax({
-			type : 'get'
-			, async : false
-			, cache: false
-			, url : '/Black_OY/store/getStoreCity.do'
-			, dataType : 'text'
-			, data : {}
-			, success : function(data) {
-				let citys = JSON.parse(data);
-				let select = $("#mainAreaList");
-				$(select).empty();
-				let firstOpt = $("<option>")
-					.prop({
-						value : "none"
-						, selected : true
-					}).text("지역")
-				
-				$(select).append(firstOpt);
-				
-				for(let i=0; i<citys.citys.length; i++) {
-					let li = $("<option>").prop({
-						value : citys.citys[i].city_id
-					}).text(citys.citys[i].city_name);
-					
-					$(select).append(li);
-				}
-				// console.log(data);
-            }
-			, error : function (data, textStatus) {
-                console.log('error');
-            }
-		});
-	
-	
+
 	// 시,도가 바꼈을 때
 	$("#mainAreaList").on("change", function() {
 		let city_id = $(this).val();
@@ -779,26 +743,22 @@ $(function() {
 			type : 'get'
 			, async : false
 			, cache: false
-			, url : '/Black_OY/store/getStoreDistrict.do'
-			, dataType : 'text'
-			, data : {
-				city_id : city_id
-			}
+			, url : '/store/getDistrict/' + city_id
+			, dataType : 'json'
 			, success : function(data) {
 				if(data == "") {
 					$("#subAreaList option:not(:first)").remove();
 					return;
 				}
 				
-				// console.log(data)
+				console.log(data)
 				let select = $("#subAreaList");
 				$("#subAreaList option:not(:first)").remove();
 				
-				let districts = JSON.parse(data);
-				for(let i=0; i<districts.districts.length; i++) {
+				for(let i=0; i<data.length; i++) {
 					let li = $("<option>").prop({
-						value : districts.districts[i].city_id
-					}).text(districts.districts[i].district_name);
+						value : data[i].cityId
+					}).text(data[i].districtName);
 					
 					$(select).append(li);
 				}
@@ -818,13 +778,15 @@ $(function() {
             type : 'get'
 			, async : false
 			, cache: false
-			, url : '/Black_OY/store/getStoreList.do'
-			, dataType : 'text'
+			, url : '/store/getStoreList'
+			, dataType : 'json'
 			, data : {
-				city : city 
+				city : city
 				, district : district
 			}
 			, success : function(data) {
+				console.log(data);
+				
 				$("#areaStoreList").empty();
 				
 				if(data === "") {
@@ -951,7 +913,7 @@ $(function() {
 			    
 				
 				
-                // console.log(data);
+                
             }
 			, error : function (data, textStatus) {
                console.log('error');
