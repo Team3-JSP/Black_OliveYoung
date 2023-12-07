@@ -43,4 +43,8 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+
 </beans>
