@@ -6,7 +6,7 @@
 <mapper namespace="com.blackolive.app.mapper.mypage.MypageMainMapper">
 
 
-	<!-- public MypageHeaderVO getHeader(String id) throws ClassNotFoundException, SQLException; -->
+	<!-- public MypageHeaderVO getHeader(String userid) throws ClassNotFoundException, SQLException; -->
 	<resultMap type="com.blackolive.app.domain.mypage.MypageHeaderVO" id="myheaderMap">
 		<id property="userid" column="id"/>
 		<result property="username" column="name" />
@@ -37,15 +37,17 @@
 		LEFT JOIN
 		    user_coupon c ON u.user_id = c.user_id
 		WHERE
-		    u.user_id = 'user1'
+		    u.user_id = #{ userid }
 		GROUP BY
-		    u.user_id, user_name, grade_name, user_point, PROFILE_IMG, TOTOAL_DEPOSIT;
+		    u.user_id, user_name, grade_name, user_point, PROFILE_IMG, TOTOAL_DEPOSIT
 	</select>
 	
 	
-	<!-- public int getSide(String id) throws ClassNotFoundException, SQLException; -->
+	<!-- public int getSide(String userid) throws ClassNotFoundException, SQLException; -->
 	<select id="getSide" resultType="int">
-		쿼리쿼리
+		   SELECT COUNT(*)
+                    FROM REVIEW
+                    WHERE user_id = #{ userid }
 	</select>
 	
 

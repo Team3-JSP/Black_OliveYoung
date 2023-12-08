@@ -1,6 +1,8 @@
 package com.blackolive.app.security.mypage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		// TODO Auto-generated method stub		
 		log.warn("> login Success");
+		
+		List<String> roles = new ArrayList<String>();
+		
+		authentication.getAuthorities().forEach(
+				auth->{
+					roles.add(auth.getAuthority());
+					}
+				);
+		log.warn("role : " + roles);
+		
+		response.sendRedirect("/mypage/main");
+		
 		
 	}
 	
