@@ -23,7 +23,7 @@
 		    user_name AS name,
 		    grade_name AS grade,
 		    user_point AS point,
-		    COALESCE(PROFILE_IMG, 'https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/06/1699251894483.png') AS img,
+		    COALESCE(PROFILE_IMG, 'https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg') AS img,
 		    COALESCE(TOTOAL_DEPOSIT, 0) AS deposit,
 		    COUNT(coupon_id) AS coupon
 		FROM
@@ -48,6 +48,19 @@
 		   SELECT COUNT(*)
                     FROM REVIEW
                     WHERE user_id = #{ userid }
+	</select>
+	
+	<!-- public int getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException; -->
+	<select id="getDeliveryStatus" resultType="java.util.Map">
+		SELECT 
+		    COUNT(CASE WHEN order_status='주문접수' THEN 1 END) AS orderState1,
+		    COUNT(CASE WHEN order_status='결제완료' THEN 1 END) AS orderState2,
+		    COUNT(CASE WHEN order_status='배송준비중' THEN 1 END) AS orderState3,
+		    COUNT(CASE WHEN order_status='배송중' THEN 1 END) AS orderState4,
+		    COUNT(CASE WHEN order_status='배송완료' THEN 1 END) AS orderState5
+		FROM olive_user u 
+		LEFT JOIN olive_order o ON u.user_id = o.user_id 
+		WHERE u.user_id = #{userid} AND order_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
 	</select>
 	
 

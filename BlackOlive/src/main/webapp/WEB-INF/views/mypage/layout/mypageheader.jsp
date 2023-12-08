@@ -1,25 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+
 <div class="mypage-head">
 		<h1 class="tit">
 			<a href="${pageContext.request.contextPath}/mypage/main">마이페이지</a>
 		</h1>
-	
+			
 		<div class="grd-box">
+				
 			<div class="info_user clrfix">
-	
-				<img
-					src="https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/06/1699251894483.png"
-					alt="" onerror="common.errorProfileImg(this);"
-					onload="common.onLoadProfileImg(this, 120);"
-					style="display: none;">
-	
+				
 				<div class="thum">
-					<span class="bg"></span> <img
+					<span class="bg"></span> 
+					<img
 						src="${ headerVO.userimg }"
 						alt="" class="profileThum_s"
-						style="background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg) no-repeat 0 0; background-size: 120px">
+						style="background: url('${ headerVO.userimg }') no-repeat 0 0; background-size: 120px">
 	
 				</div>
 				<p class="txt">
@@ -54,6 +51,7 @@
 	
 				</ul>
 			</div>
+	
 		</div>
 </div>
 	
@@ -80,3 +78,5 @@
 			
 		});
 	</script>
+	
+	

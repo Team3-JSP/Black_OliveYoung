@@ -21,18 +21,19 @@
 		<a href="${pageContext.request.contextPath}/olive/orderDelivery.do" class="order_view"
 			data-attr="마이페이지^주문배송조회_요약건수">
 			<ul class="mypage-step">
-				<c:forEach items="${ userOrderState }" var="order">
-					<li><em> <%-- 주문접수 --%> ${ order.uorderState1 }
+			
+				<c:set value="${ deliveryStatusMap }" var="delivery" /> 
+					<li><em> <%-- 주문접수 --%> ${ delivery.orderState1 }
 					</em> <span>주문접수</span></li>
-					<li><em> <%-- 결제완료 --%> ${ order.uorderState2 }
+					<li><em> <%-- 결제완료 --%> ${ delivery.orderState2 }
 					</em> <span>결제완료</span></li>
-					<li><em> <%-- 배송준비중 --%> ${ order.uorderState3 }
+					<li><em> <%-- 배송준비중 --%> ${ delivery.orderState3 }
 					</em> <span>배송준비중</span></li>
-					<li><em> <%-- 배송중 --%> ${ order.uorderState4 }
+					<li><em> <%-- 배송중 --%> ${ delivery.orderState4 }
 					</em> <span>배송중</span></li>
-					<li><em> <%-- 배송완료 --%> ${ order.uorderState5 }
+					<li><em> <%-- 배송완료 --%> ${ delivery.orderState5 }
 					</em> <span>배송완료</span></li>
-				</c:forEach>
+				
 			</ul>
 		</a>
 
