@@ -29,7 +29,7 @@
 	request.setAttribute("lHash", lHash);
 	 */
 %>
-<script src="<%=contextPath %>/resources/js/head.js"></script>
+<script src="/resources/js/head.js"></script>
 	<script>
 	$(function() {
 		let mainurl = window.location.href
@@ -624,12 +624,12 @@
 								<c:forEach items="${firstTotalCategory}" var="bh" begin="${innerLoopBegin}" end="${innerLoopEnd}" varStatus="innerLoop">
 									
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeId}">${bh.key.categoryLargeName}</a>
+											<a href="/store/display?dispCapno=${bh.key.categoryLargeId}">${bh.key.categoryLargeName}</a>
 										</p>
 										<ul>
 											<c:forEach items="${bh.value}" var="value">
 												<li>
-													<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+													<a href="/store/display?dispCapno=${bh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 													</a>
 												</li>
@@ -649,13 +649,13 @@
 								<c:if test="${not empty secondTotalCategory}">
 									<c:forEach items="${secondTotalCategory}" var="hh">
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${hh.key.categoryLargeId}">${hh.key.categoryLargeName}
+											<a href="/store/display?dispCapno=${hh.key.categoryLargeId}">${hh.key.categoryLargeName}
 											</a>
 										</p>
 										<c:forEach items="${hh.value }" var="value">
 										<ul>
 											<li>
-												<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${hh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+												<a href="/store/display?dispCapno=${hh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 												</a>
 											</li>
@@ -675,13 +675,13 @@
 								<c:if test="${not empty thirdTotalCategory}">
 									<c:forEach items="${thirdTotalCategory}" var="lh">
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${lh.key.categoryLargeId}">${lh.key.categoryLargeName}
+											<a href="/store/display?dispCapno=${lh.key.categoryLargeId}">${lh.key.categoryLargeName}
 											</a>
 										</p>
 										<c:forEach items="${lh.value }" var="value">
 										<ul>
 											<li>
-												<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${lh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+												<a href="/store/display?dispCapno=${lh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 												</a>
 											</li>

@@ -33,7 +33,7 @@ public class ProductListController {
 	private static int totalpage = 0;
 	
 	
-	@GetMapping("/")
+	@GetMapping()
 	public String getProductList(@RequestParam(value = "dispCapno" , defaultValue = "00010001")String dispCapno
 			, @RequestParam(value="sort", defaultValue = "1") String sort
 			, @RequestParam(value="brandId", defaultValue = "") String[] brandId
