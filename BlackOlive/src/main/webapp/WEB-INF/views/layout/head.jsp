@@ -296,7 +296,7 @@
 
 					<c:choose>
 						<c:when test="${empty sessionScope.logOn }">
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
@@ -324,7 +324,7 @@
 			</div>
 			<div class="header_inner">
 				<h1>
-					<a onclick="" href="<%=contextPath%>/olive/main.do"> <img
+					<a onclick="" href="/"> <img
 						src="/resources/images/logo.png"
 						alt="올리브영">
 					</a>
