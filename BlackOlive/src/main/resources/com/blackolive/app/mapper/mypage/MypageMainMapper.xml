@@ -53,11 +53,11 @@
 	<!-- public int getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException; -->
 	<select id="getDeliveryStatus" resultType="java.util.Map">
 		SELECT 
-		    COUNT(CASE WHEN order_status='주문접수' THEN 1 END) AS orderState1,
-		    COUNT(CASE WHEN order_status='결제완료' THEN 1 END) AS orderState2,
-		    COUNT(CASE WHEN order_status='배송준비중' THEN 1 END) AS orderState3,
-		    COUNT(CASE WHEN order_status='배송중' THEN 1 END) AS orderState4,
-		    COUNT(CASE WHEN order_status='배송완료' THEN 1 END) AS orderState5
+		    COUNT(CASE WHEN order_status='주문접수' THEN 1 END) ,
+		    COUNT(CASE WHEN order_status='결제완료' THEN 1 END),
+		    COUNT(CASE WHEN order_status='배송준비중' THEN 1 END),
+		    COUNT(CASE WHEN order_status='배송중' THEN 1 END) ,
+		    COUNT(CASE WHEN order_status='배송완료' THEN 1 END)
 		FROM olive_user u 
 		LEFT JOIN olive_order o ON u.user_id = o.user_id 
 		WHERE u.user_id = #{userid} AND order_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE

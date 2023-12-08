@@ -16,7 +16,7 @@ public class MypageMainServiceImpl implements MypageMainService {
 	private MypageMainMapper mapper;
 	
 	@Override
-	public Map<String, String> deliveryStatus(String userid) throws ClassNotFoundException, SQLException {
+	public List<Integer> deliveryStatus(String userid) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		return this.mapper.getDeliveryStatus(userid);
 	}

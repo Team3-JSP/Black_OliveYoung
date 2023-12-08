@@ -49,8 +49,8 @@ public class MypageMainController {
 				
 		//컨텐츠 가져오기
 		//주문배송현황
-		Map<String, String> deliveryStatusMap = this.mainService.deliveryStatus(principal.getName());
-		model.addAttribute("deliveryStatusMap", deliveryStatusMap);
+		List<Integer> deliveryStatusList = this.mainService.deliveryStatus(principal.getName());
+		model.addAttribute("deliveryStatusList", deliveryStatusList);
 		//좋아요한 상품
 		//1:1문의내역
 		//
