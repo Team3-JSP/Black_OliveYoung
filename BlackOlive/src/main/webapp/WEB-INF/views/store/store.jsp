@@ -17,10 +17,6 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/Black_OY/js/head.js"></script>
-<link rel="stylesheet" href="/cdn-main/style.css">
-
-
 
 <title>블랙올리브영 온라인몰</title>
 </head>
@@ -84,7 +80,7 @@
 										<a href="javascript:;" class="btn_sch_del"><span class="blind">검색어 삭제</span></a>
 										<a href="javascript:;" class="btn_sch"><span class="blind">검색</span></a>
 									</div>
-									<dl class="reShop_result"><dt><span></span>개의 매장이 검색되었습니다.</dt><dd><span class="oyblind">관심매장</span>클릭하여 관심매장을 등록하세요.</dd></dl>
+									<dl class="reShop_result"><dt><span>${storeList.size() }</span>개의 매장이 검색되었습니다.</dt><dd><span class="oyblind">관심매장</span>클릭하여 관심매장을 등록하세요.</dd></dl>
 									<div class="urNotice"><p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p></div>
 								</div>
 								<div class="no_store" id="noSearchWordInfo" style="display: none">
@@ -106,7 +102,7 @@
 													<div class="time on">영업중</div>	
 												</div>
 												<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
-												<button class="star active" onclick="javascript:store.main.setStarEvent($(this))" title="관심매장 해제됨">관심매장</button>
+												<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
 											</div>
 											</li>
 										</c:forEach>
@@ -524,6 +520,55 @@
 </script>
 
 <script>
+//즐겨찾기 버튼 눌렀을 때 
+function favBtnClick(myBtn) {
+	// 로그인 수정
+	let logonCheck = true; <%-- <%= logonCheck%> --%>
+	if(!logonCheck) {
+		let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+		if(check) {
+			location.href = '/Black_OY/olive/LogOn.do';
+		}
+		return;
+		// return;
+	} 
+	// 로그인 수정
+	let userId = 'user1'; <%-- "<%= user_id %>"; --%>
+	let clickCheck = 0;
+	
+	if($(myBtn).hasClass("active")) {
+		$(myBtn).removeClass("active").addClass("on");
+		clickCheck = 1;
+	} else {
+		$(myBtn).removeClass("on").addClass("active");
+		clickCheck = -1;
+	}
+	
+	let cnt = $(myBtn).prev().children("span").html();
+	$(myBtn).prev().children("span").html(Number(cnt) + clickCheck);
+	
+	let storeId = $(myBtn).parent().parent().attr("class");
+	
+	$.ajax({
+		type : 'post'
+		, async : false
+		, cache: false
+		, url : '/store/setStoreFavorite'
+		, dataType : 'json'
+		, data : {
+			storeId : storeId
+			, clickCheck : clickCheck
+			, userId : userId
+		}
+		, success : function(data) {
+			console.log("즐겨찾기 업데이트 완료~~")
+        }
+		, error : function (data, textStatus) {
+            console.log('error');
+        }
+	});
+} 
+
 // 위도 경도를 저장
 let latLngs;
 let latLng;
@@ -579,9 +624,7 @@ $(function() {
 		$(".reShop_opList > ul > li > button").removeClass("on");
 	});
 	
-	
-	
-	
+
 	
 	/* 직접검색 탭 */
 	
@@ -593,8 +636,8 @@ $(function() {
 				type : 'get'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/store/getStoreListKeyword.do'
-				, dataType : 'text'
+				, url : '/store/getStoreKeyword'
+				, dataType : 'json'
 				, data : { keyword : keyword }
 				, success : function(data) {
 					$("#wordStoreList").empty();
@@ -603,22 +646,23 @@ $(function() {
 						$("#searchWordDiv .reShop_result > dt > span").text("0");
 						return;
 					}
+					// console.log(data);
+					
 					$("#noSearchWordInfo").hide();
-					let stores = JSON.parse(data);
-					$("#searchWordDiv .reShop_result > dt > span").text(stores.stores.length);
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
+					$("#searchWordDiv .reShop_result > dt > span").text(data.length);
+					for(let i=0; i<data.length; i++) {
+						let li = $("<li>").addClass(data[i].storeId);
 						let div = $("<div>").addClass("li_Pc_reInner");
 						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
+						let a = $("<a>").text(data[i].storeName);
+						let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
+						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
 						let date = new Date();
 						let hour = date.getHours() + "";
 						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
+						let weekday = data[i].weekday;
 						let weekdays = weekday.split(" - ");
 						let time;
 						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
@@ -630,7 +674,7 @@ $(function() {
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+											.html(`<span>\${data[i].storeFav}</span>명이 관심매장으로 등록했습니다.`);
 						let button = $("<button>").addClass(["star", "active"]).on("click", function() {
 							favBtnClick(this);
 						});
@@ -649,7 +693,7 @@ $(function() {
 						$("#wordStoreList").append(li);
 					}
 					
-					//console.log(data);
+					
 	            }
 				, error : function (data, textStatus) {
 	                console.log('error');
@@ -661,71 +705,72 @@ $(function() {
 	// 돋보기를 눌렀을 때
 	$(".btn_sch").on("click", function() {
 		let keyword = $("#searchWord").val();
-			$.ajax({
-				type : 'get'
-				, async : false
-				, cache: false
-				, url : '/Black_OY/store/getStoreListKeyword.do'
-				, dataType : 'text'
-				, data : { keyword : keyword }
-				, success : function(data) {
-					$("#wordStoreList").empty();
-					if(data == "") {
-						$("#noSearchWordInfo").show();
-						$("#searchWordDiv .reShop_result > dt > span").text("0");
-						return;
+		$.ajax({
+			type : 'get'
+			, async : false
+			, cache: false
+			, url : '/store/getStoreKeyword'
+			, dataType : 'json'
+			, data : { keyword : keyword }
+			, success : function(data) {
+				$("#wordStoreList").empty();
+				if(data == "") {
+					$("#noSearchWordInfo").show();
+					$("#searchWordDiv .reShop_result > dt > span").text("0");
+					return;
+				}
+				// console.log(data);
+				
+				$("#noSearchWordInfo").hide();
+				$("#searchWordDiv .reShop_result > dt > span").text(data.length);
+				for(let i=0; i<data.length; i++) {
+					let li = $("<li>").addClass(data[i].storeId);
+					let div = $("<div>").addClass("li_Pc_reInner");
+					let h4 = $("<h4>").addClass("tit")
+					let a = $("<a>").text(data[i].storeName);
+					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
+					let area = $("<div>").addClass("area");
+					let call = $("<div>").addClass("call").text(data[i].storeTel);
+					
+					let date = new Date();
+					let hour = date.getHours() + "";
+					let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
+					let weekday = data[i].weekday;
+					let weekdays = weekday.split(" - ");
+					let time;
+					if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
+						time = $("<div>").addClass(["time", "on"]).text("영업중");
+					} else {
+						time = $("<div>").addClass("time").text("영업 준비중");
 					}
-					$("#noSearchWordInfo").hide();
-					let stores = JSON.parse(data);
-					$("#searchWordDiv .reShop_result > dt > span").text(stores.stores.length)
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
-						let div = $("<div>").addClass("li_Pc_reInner");
-						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
-						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
-						
-						let date = new Date();
-						let hour = date.getHours() + "";
-						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
-						let weekdays = weekday.split(" - ");
-						let time;
-						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-							time = $("<div>").addClass(["time", "on"]).text("영업중");
-						} else {
-							time = $("<div>").addClass("time").text("영업 준비중");
-						}
-						
-						
-						let fv_reShop_in = $("<div>")
-											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
-						let button = $("<button>").addClass(["star", "active"]).on("click", function() {
-							favBtnClick(this);
-						});
-						
-						$(area).append(call);
-						$(area).append(time);
-						
-						$(h4).append(a);
-						$(div).append(h4);
-						$(div).append(p);
-						$(div).append(area);
-						$(div).append(fv_reShop_in);
-						$(div).append(button);
-						
-						$(li).append(div);
-						$("ul#wordStoreList").append(li);
-					}
-					//console.log(data);
-	            }
-				, error : function (data, textStatus) {
-	                console.log('error');
-	            }
-			});
+					
+					
+					let fv_reShop_in = $("<div>")
+										.addClass("fv_reShop_in")
+										.html(`<span>\${data[i].storeFav}</span>명이 관심매장으로 등록했습니다.`);
+					let button = $("<button>").addClass(["star", "active"]).on("click", function() {
+						favBtnClick(this);
+					});
+					
+					$(area).append(call);
+					$(area).append(time);
+					
+					$(h4).append(a);
+					$(div).append(h4);
+					$(div).append(p);
+					$(div).append(area);
+					$(div).append(fv_reShop_in);
+					$(div).append(button);
+					
+					$(li).append(div);
+					$("#wordStoreList").append(li);
+				}
+				
+            }
+			, error : function (data, textStatus) {
+                console.log('error');
+            }
+		});
 	});
 	
 	
@@ -774,6 +819,7 @@ $(function() {
 	$("#searchAreaButton").on("click", function() {
 		let city = $("#mainAreaList > option:selected").val() === "none" ? "" : $("#mainAreaList > option:selected").text();
 		let district = $("#subAreaList > option:selected").val() === "none" ? "" : $("#subAreaList > option:selected").text();
+		
 		$.ajax({
             type : 'get'
 			, async : false
@@ -785,7 +831,7 @@ $(function() {
 				, district : district
 			}
 			, success : function(data) {
-				console.log(data);
+				// console.log(data);
 				
 				$("#areaStoreList").empty();
 				
@@ -795,8 +841,8 @@ $(function() {
 					return;
 				}
 				$("#noSearchAreaInfo").hide();
-				let stores = JSON.parse(data);
-				$("#searchAreaDiv .reShop_result > dt > span").text(stores.stores.length)
+				
+				$("#searchAreaDiv .reShop_result > dt > span").text(data.length)
 				
 				latLngs = new Array();
 				for ( var j = 0; j < markers.length; j++ ) {
@@ -805,29 +851,27 @@ $(function() {
 				markers = [];
 				contents = [];
 				
-				for(let i=0; i<stores.stores.length; i++) {
+				for(let i=0; i<data.length; i++) {
 					
 					latLng = {
-							title : stores.stores[i].store_name
-							, latlng : new kakao.maps.LatLng(stores.stores[i].lat, stores.stores[i].lng)
+							title : data[i].storeName
+							, latlng : new kakao.maps.LatLng(data[i].lat, data[i].lng)
 					};
-					
-					
-									
+			
 					latLngs.push(latLng);
 					
-					let li = $("<li>").addClass(stores.stores[i].store_id);
+					let li = $("<li>").addClass(data[i].storeId);
 					let div = $("<div>").addClass("li_Pc_reInner");
 					let h4 = $("<h4>").addClass("tit")
-					let a = $("<a>").text(stores.stores[i].store_name);
-					let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
+					let a = $("<a>").text(data[i].storeName);
+					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 					let area = $("<div>").addClass("area");
-					let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
+					let call = $("<div>").addClass("call").text(data[i].storeTel);
 					
 					let date = new Date();
 					let hour = date.getHours() + "";
 					let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-					let weekday = stores.stores[i].weekday;
+					let weekday = data[i].weekday;
 					let weekdays = weekday.split(" - ");
 					let time;
 					let onCheck = "on";
@@ -845,7 +889,7 @@ $(function() {
 					
 					let fv_reShop_in = $("<div>")
 										.addClass("fv_reShop_in")
-										.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+										.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
 					// 즐겨찾기 눌렀을 때
 					// 로그인 했는지 체크 후
 					// db에도 +1 하기
@@ -855,13 +899,13 @@ $(function() {
 					});
 					
 					var content = '<div class="way_view">' 
-						+ '  <h4 class="tit">' + stores.stores[i].store_name + '</h4>'
-						+ '  <p class="addr" style="white-space:nonrmal">' + stores.stores[i].store_addr + '</p>'
+						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
+						+ '  <p class="addr" style="white-space:nonrmal">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
-						+ '    <div class="call">' + stores.stores[i].store_tel + '</div>'
+						+ '    <div class="call">' + data[i].storeTel + '</div>'
 						+ '    <div class="time ' + onCheck + '">' + openCheck + '</div>'
 						+ '    <div class="fv_reShop_in_DD75_cnt">'
-						+ '      <span>' + stores.stores[i].store_fav + '</span>'
+						+ '      <span>' + data[i].storeFavorite + '</span>'
 						+ '      명이 관심매장으로 등록했습니다.'
 						+ '  </div>'
 						+ '</div>'
@@ -921,55 +965,6 @@ $(function() {
         });
 	});
 	
-	// 즐겨찾기 버튼 눌렀을 때 
-	function favBtnClick(myBtn) {
-		// 로그인 수정
-		let logonCheck = true; <%-- <%= logonCheck%> --%>
-		if(!logonCheck) {
-			let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
-			if(check) {
-				location.href = '/Black_OY/olive/LogOn.do';
-			}
-			return;
-			// return;
-		} 
-		// 로그인 수정
-		let user_id = 'user1'; <%-- "<%= user_id %>"; --%>
-		let clickCheck = 0;
-		
-		if($(myBtn).hasClass("active")) {
-			$(myBtn).removeClass("active").addClass("on");
-			clickCheck = 1;
-		} else {
-			$(myBtn).removeClass("on").addClass("active");
-			clickCheck = -1;
-		}
-		
-		let cnt = $(myBtn).prev().children("span").html();
-		$(myBtn).prev().children("span").html(Number(cnt) + clickCheck);
-		
-		let store_id = $(myBtn).parent().parent().attr("class");
-		
-		$.ajax({
-			type : 'get'
-			, async : false
-			, cache: false
-			, url : '/Black_OY/store/updStoreFav.do'
-			, dataType : 'text'
-			, data : {
-				store_id : store_id
-				, clickCheck : clickCheck
-				, user_id : user_id
-			}
-			, success : function(data) {
-				console.log("즐겨찾기 업데이트 완료~~")
-            }
-			, error : function (data, textStatus) {
-                console.log('error');
-            }
-		});
-	} 
-	
 	
 	// 지역검색 눌렀을 때 자동 클릭되게 만듬
 	$("#searchAreaTab").on("click", function() {	
@@ -991,7 +986,7 @@ $(function() {
 	        $("#noLoginInfo").show();
 		} else {
 			// 로그인 수정
-			let user_id = user1; <%-- "<%= user_id %>"; --%>
+			let userId = user1; <%-- "<%= user_id %>"; --%>
 			let stores; // JSON객체로 받을 거
 			let attShopCnt; // 회원의 관심매장 수
 			
@@ -1004,10 +999,10 @@ $(function() {
 				type : 'post'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/store/getAttShopList.do'
+				, url : '/store/getInterestShopList'
 				, dataType : 'text'
 				, data : {
-					user_id : user_id
+					userId : userId
 				}
 				, success : function(data) {
 					// console.log(data)
@@ -1172,11 +1167,11 @@ $(function() {
 	            type : 'get'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/store/getStoreListCondition.do'
-				, dataType : 'text'
+				, url : '/store/getStoreCondition'
+				, dataType : 'json'
 				, data : {
-					tcs : tcs.toString()
-					, pss : pss.toString()
+					tcs : tcs
+					, pss : pss
 					, keyword : keyword
 				}
 				, success : function(data) {
