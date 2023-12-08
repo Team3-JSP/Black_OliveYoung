@@ -1,6 +1,8 @@
+<%@page import="com.blackolive.app.service.head.HeadServiceImpl"%>
+<%@page import="com.blackolive.app.domain.head.TotalListDTO"%>
 <%@page import="com.blackolive.app.domain.head.CategoryMidDTO"%>
 <%@page import="com.blackolive.app.domain.head.CategoryLargeDTO"%>
-<%@page import="com.blackolive.app.service.head.HeadServiceImpl"%>
+
 <%@page import="java.util.Map"%>
 
 <%@page import="java.util.List"%>
@@ -13,8 +15,10 @@
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%--<%@ include file="/WEB-INF/inc/session_auth.jspf"%> --%>
 <%
-	HeadServiceImpl headServiceImpl = new HeadServiceImpl();
-	Map<CategoryLargeDTO,List<CategoryMidDTO>> firstTotalCategory = headServiceImpl.getHeadCategorySerivce(1);
+
+  // HeadServiceImpl headServiceImpl = new
+  
+  
 /* 
 	HeadService headService = HeadService.getInstance();
 	Map<CateLDTO, List<CateMDTO>> bHash = headService.sGetCate(1);
@@ -25,7 +29,7 @@
 	request.setAttribute("lHash", lHash);
 	 */
 %>
-<script src="<%=contextPath %>/resources/js/head.js"></script>
+<script src="/resources/js/head.js"></script>
 	<script>
 	$(function() {
 		let mainurl = window.location.href
@@ -292,7 +296,7 @@
 
 					<c:choose>
 						<c:when test="${empty sessionScope.logOn }">
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
@@ -320,7 +324,7 @@
 			</div>
 			<div class="header_inner">
 				<h1>
-					<a onclick="" href="<%=contextPath%>/olive/main.do"> <img
+					<a onclick="" href="/"> <img
 						src="/resources/images/logo.png"
 						alt="올리브영">
 					</a>
@@ -620,12 +624,12 @@
 								<c:forEach items="${firstTotalCategory}" var="bh" begin="${innerLoopBegin}" end="${innerLoopEnd}" varStatus="innerLoop">
 									
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeID}">${bh.key.categoryLargeName}</a>
+											<a href="/store/display?dispCapno=${bh.key.categoryLargeId}">${bh.key.categoryLargeName}</a>
 										</p>
 										<ul>
 											<c:forEach items="${bh.value}" var="value">
 												<li>
-													<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${bh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+													<a href="/store/display?dispCapno=${bh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 													</a>
 												</li>
@@ -642,16 +646,16 @@
 							<h2>헬스&amp;푸드</h2>
 							
 							<div class="sub_menu_box">
-								<c:if test="${not empty SecondTotalCategory}">
-									<c:forEach items="${hHash}" var="hh">
+								<c:if test="${not empty secondTotalCategory}">
+									<c:forEach items="${secondTotalCategory}" var="hh">
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${hh.key.categoryLargeId}">${hh.key.categoryLargeName}
+											<a href="/store/display?dispCapno=${hh.key.categoryLargeId}">${hh.key.categoryLargeName}
 											</a>
 										</p>
 										<c:forEach items="${hh.value }" var="value">
 										<ul>
 											<li>
-												<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${hh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+												<a href="/store/display?dispCapno=${hh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 												</a>
 											</li>
@@ -669,15 +673,15 @@
 							<h2>라이프</h2>
 							<div class="sub_menu_box">
 								<c:if test="${not empty thirdTotalCategory}">
-									<c:forEach items="${lHash}" var="lh">
+									<c:forEach items="${thirdTotalCategory}" var="lh">
 										<p class="sub_depth">
-											<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${lh.key.categoryLargeId}">${lh.key.categoryLargeName}
+											<a href="/store/display?dispCapno=${lh.key.categoryLargeId}">${lh.key.categoryLargeName}
 											</a>
 										</p>
 										<c:forEach items="${lh.value }" var="value">
 										<ul>
 											<li>
-												<a href="<%=contextPath%>/olive/pmidlistproduct.do?displNum=${lh.key.categoryLargeId}${value.categoryMidId}&sort=1">
+												<a href="/store/display?dispCapno=${lh.key.categoryLargeId}${value.categoryMidId}&sort=1">
 													${value.categoryMidName}
 												</a>
 											</li>

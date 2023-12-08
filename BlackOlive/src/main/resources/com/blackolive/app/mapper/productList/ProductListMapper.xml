@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.blackolive.app.mapper.productList.ProductListMapper">
+
+	<!-- // 중분류 카테고리를 선택할 시 상위 카테고리 갖고오기 public List<CategoryLargeDTO> getCategoryLarge 
+		(String midId); -->
+
+	<select id="getCategoryLarge" resultType="categoryLarge">
+		SELECT * FROM category_large
+		<where>
+			<if test=" midId &lt;= 58 ">
+				category_large_id &lt;= 12
+			</if>
+			<if test=" 58 &lt;midId and midId &lt;= 78">
+				12 &lt; category_large_id and category_large_id &lt;= 16
+			</if>
+			<if test=" 78 &lt; midId ">
+				17 &lt; category_large_id
+			</if>
+		</where>
+	</select>
+
+	<!-- // 중분류 카테고리 선택할 시 하위 분류 카테고리 갖고오기 public List<CategorySmallDTO> getCategorySmall(String 
+		midId); -->
+	<select id="getCategorySmall" resultType="categorySmall">
+		SELECT * FROM
+		category_small
+		WHERE category_mid_id = #{midId}
+	</select>
+
+	<!-- // 소분류 카테고리를 선택할 시 중위 카테고리 갖고오기 public List<CategoryMidDTO> getCategoryMid(String 
+		smallId); -->
+	<select id="getCategoryMid" resultType="categoryMid">
+		SELECT * FROM
+		category_mid
+		WHERE category_large_id = #{largeId}
+	</select>
+
+	<!-- // 총 레코드 수 갖고오는 작업 public int getTotalRecords(int group, String id, 
+		String brandId[]); -->
+	<select id="getTotalRecords" resultType="int">
+		SELECT COUNT(*)
+		FROM productcontainer
+		<where>
+			<choose>
+				<when test="group == 1">
+					category_large_id = #{id}
+				</when>
+				<when test="group == 2">
+					category_mid_id = #{id}
+				</when>
+				<when test="group == 3">
+					category_small_id = #{id}
+				</when>
+			</choose>
+
+			<if test="brandId != null and brandId.length > 0">
+				AND brand_id IN
+				<foreach collection="brandId" item="brandId" open="("
+					close=")" separator=",">
+					#{brandId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="getTotalPages" resultType="int">
+		SELECT CEIL(COUNT(*) / #{perPage})
+		FROM productcontainer
+		<where>
+			<choose>
+				<when test="group == 1">
+					category_large_id = #{id}
+				</when>
+				<when test="group == 2">
+					category_mid_id = #{id}
+				</when>
+				<when test="group == 3">
+					category_small_id = #{id}
+				</when>
+			</choose>
+
+			<if test="brandId != null and brandId.length > 0">
+				AND brand_id IN
+				<foreach collection="brandId" item="brandId" open="("
+					close=")" separator=",">
+					#{brandId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<!-- // 선택한 카테고리를 팔고 있는 브랜드를 갖고오는 작업 public List<BrandDTO> getBrandList(String 
+		id); -->
+	<select id="getBrandList" resultType="BrandDTO">
+		SELECT DISTINCT b.brand_id, b.brand_name
+		FROM brand b
+		JOIN product_display pd ON b.brand_id = pd.brand_id
+		JOIN product p ON pd.product_display_id = p.product_display_id
+		JOIN category_small cs ON p.category_small_id = cs.category_small_id
+		JOIN category_mid cm ON cm.category_mid_id = cs.category_mid_id
+		<where>
+			<choose>
+				<when test="group == 2">
+					cm.category_mid_id = #{id}
+				</when>
+				<when test="group == 3">
+					cs.category_small_id = #{id}
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- // 선택한 카테고리의 상품 리스트 갖고오는 작업 + 선택브랜드만 갖고오는 작업 예정
+	public List<ProductContainer> getProductList( -->
+	<select id="getProductList" resultType="ProductContainer">
+        SELECT *
+        FROM (
+            SELECT ROWNUM no, t.*
+            FROM (
+                SELECT *
+                FROM productcontainer
+                <where>
+                    <choose>
+                        <when test="group == 1">
+                           category_large_id = #{id}
+                        </when>
+                        <when test="group == 2">
+                           category_mid_id = #{id}
+                        </when>
+                        <when test="group == 3">
+                           category_small_id = #{id}
+                        </when>
+                    </choose>
+
+                    <if test="brandId != null and brandId.length > 0">
+                        AND brand_id IN
+                        <foreach collection="brandId" item="brandId" open="(" close=")" separator=",">
+                            #{brandId}
+                        </foreach>
+                    </if>
+                </where>
+
+                <choose>
+                    <when test="sort == '1'">
+                        ORDER BY product_display_like DESC
+                    </when>
+                    <when test="sort == '2'">
+                        ORDER BY product_display_regdate DESC
+                    </when>
+                    <when test="sort == '3'">
+                        ORDER BY ordercnt DESC
+                    </when>
+                    <when test="sort == '4'">
+                        ORDER BY afterprice ASC
+                    </when>
+                    <when test="sort == '5'">
+                        ORDER BY (minprice - afterprice) / minprice * 100 DESC
+                    </when>
+                </choose>
+            ) t
+        ) b
+        WHERE b.no BETWEEN #{begin} AND #{end}
+    </select>
+	
+
+</mapper>
