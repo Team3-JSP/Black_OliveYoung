@@ -4,9 +4,6 @@
 
     <wb-module deploy-name="BlackOlive">
 
-
-                        
-        
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
                 		
         

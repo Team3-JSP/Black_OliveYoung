@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.mypage.MypageMainMapper">
+
+
+	<!-- public MypageHeaderVO getHeader(String userid) throws ClassNotFoundException, SQLException; -->
+	<resultMap type="com.blackolive.app.domain.mypage.MypageHeaderVO" id="myheaderMap">
+		<id property="userid" column="id"/>
+		<result property="username" column="name" />
+		<result property="grade" column="grade"/>
+		<result property="userimg" column="img"/>			
+		<result property="usercoupon" column="coupon" />
+		<result property="userpoint" column="point" />
+		<result property="userdeposit" column="deposit" />
+	</resultMap>
+
+	<select id="getHeader" resultMap="myheaderMap">
+		SELECT
+		    u.user_id AS id,
+		    user_name AS name,
+		    grade_name AS grade,
+		    user_point AS point,
+		    COALESCE(PROFILE_IMG, 'https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg') AS img,
+		    COALESCE(TOTOAL_DEPOSIT, 0) AS deposit,
+		    COUNT(coupon_id) AS coupon
+		FROM
+		    olive_user u
+		LEFT JOIN
+		    olive_members m ON u.grade_id = m.grade_id
+		LEFT JOIN
+		    userprofile up ON u.user_id = up.user_id
+		LEFT JOIN
+		    user_deposit d ON u.user_id = d.user_id
+		LEFT JOIN
+		    user_coupon c ON u.user_id = c.user_id
+		WHERE
+		    u.user_id = #{ userid }
+		GROUP BY
+		    u.user_id, user_name, grade_name, user_point, PROFILE_IMG, TOTOAL_DEPOSIT
+	</select>
+	
+	
+	<!-- public int getSide(String userid) throws ClassNotFoundException, SQLException; -->
+	<select id="getSide" resultType="int">
+		   SELECT COUNT(*)
+                    FROM REVIEW
+                    WHERE user_id = #{ userid }
+	</select>
+	
+	<!-- public int getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException; -->
+	<select id="getDeliveryStatus" resultType="java.util.Map">
+		SELECT 
+		    COUNT(CASE WHEN order_status='주문접수' THEN 1 END) AS orderState1,
+		    COUNT(CASE WHEN order_status='결제완료' THEN 1 END) AS orderState2,
+		    COUNT(CASE WHEN order_status='배송준비중' THEN 1 END) AS orderState3,
+		    COUNT(CASE WHEN order_status='배송중' THEN 1 END) AS orderState4,
+		    COUNT(CASE WHEN order_status='배송완료' THEN 1 END) AS orderState5
+		FROM olive_user u 
+		LEFT JOIN olive_order o ON u.user_id = o.user_id 
+		WHERE u.user_id = #{userid} AND order_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
+	</select>
+	
+
+
+
+</mapper>
