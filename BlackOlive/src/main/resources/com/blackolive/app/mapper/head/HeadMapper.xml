@@ -6,30 +6,36 @@
 <mapper namespace="com.blackolive.app.mapper.head.HeadMapper">
 
 	<!-- public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategory (int categoryTotalId); -->
+	
+	<!-- <resultMap type="com.blackolive.app.domain.head.TotalListDTO" id="TotalResultMap">
+		<collection property="largeList" resultMap="LargeResultMap"></collection>
+	</resultMap> -->
 
 	<resultMap type="com.blackolive.app.domain.head.CategoryLargeDTO" id="LargeResultMap">
-	
-	<id property="categoryLargeId" column="category_large_id"/>
-	<result property="categoryLargeName" column="category_large_name"/>
-	<result property="categoryTotalId" column="category_total_Id"/>
-	<collection property="midList" ofType="com.blackolive.app.domain.head.CategoryMidDTO" resultMap="MidResultMap"></collection>
-	
-	</resultMap>
-	
-	<resultMap type="com.blackolive.app.domain.head.CategoryMidDTO" id="MidResultMap">
-	<id property="categoryMidId" column="category_mid_id"/>
-	<result property="categoryMidName" column="category_mid_name"/>
-	<result property="categoryLargeId" column="category_large_id"/>		
-	</resultMap>
-	
-	<select id="getHeadCategory" resultMap="LargeResultMap">
-		SELECT ct.category_total_id , cl.category_large_id, cl.category_large_name, cm.category_mid_id, cm.category_mid_name
-		FROM category_large cl
-		JOIN category_mid cm ON cl.category_large_id = cm.category_large_id
-		JOIN category_total ct ON ct.category_total_id = cl.category_total_id
-		WHERE ct.category_total_id = #{categoryTotalId}
-		ORDER BY cl.category_large_id asc
-	</select>
+        <id property="categoryLargeId" column="category_large_id"/>
+        <result property="categoryLargeName" column="category_large_name"/>
+        <result property="categoryTotalId" column="category_total_Id"/>
+    </resultMap>
+
+    <resultMap type="com.blackolive.app.domain.head.CategoryMidDTO" id="MidResultMap">
+        <id property="categoryMidId" column="category_mid_id"/>
+        <result property="categoryMidName" column="category_mid_name"/>
+        <result property="categoryLargeId" column="category_large_id"/>
+    </resultMap>
+
+    <select id="getHeadCategory" resultMap="LargeResultMap">
+        SELECT cl.category_large_id, cl.category_large_name, cl.category_total_id
+        FROM category_large cl
+        WHERE cl.category_total_id = #{categoryTotalId}
+        ORDER BY cl.category_large_id ASC
+    </select>
+
+    <select id="getHeadCategoryMid" resultMap="MidResultMap">
+        SELECT cm.category_mid_id, cm.category_mid_name, cm.category_large_id
+        FROM category_mid cm
+        JOIN category_large cl ON cm.category_large_id = cl.category_large_id
+        ORDER BY cm.category_mid_id ASC
+    </select>
 	
 	<select id="getExample" resultType="com.blackolive.app.domain.head.ExampleDTO">
 		SELECT *

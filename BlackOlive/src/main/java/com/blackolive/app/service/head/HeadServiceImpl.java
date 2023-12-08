@@ -1,6 +1,9 @@
 package com.blackolive.app.service.head;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
+
 public class HeadServiceImpl implements HeadService{
 
 	@Autowired
@@ -23,21 +27,34 @@ public class HeadServiceImpl implements HeadService{
 	
 	@Override
 	public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategorySerivce(int categoryTotalId) throws SQLException, ClassNotFoundException {
-		Map<CategoryLargeDTO, List<CategoryMidDTO>> map = null;
+		
 		
 		log.info(">>HeadService call...");
-		
-		try {
+		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> "+headMapper);
+	
 			
-//			map = this.headMapper.getHeadCategory(categoryTotalId);
+//		Map<CategoryLargeDTO, List<CategoryMidDTO>> list  = this.headMapper.getHeadCategory(categoryTotalId);
 			
-		} catch (Exception e) {
-			log.info("HeadService exception");
-			e.printStackTrace();
-		} // try
-		
-		return map;
-	}
+		List<CategoryLargeDTO> largeList = headMapper.getHeadCategory(categoryTotalId);
+        List<CategoryMidDTO> midList = headMapper.getHeadCategoryMid(categoryTotalId);
+        System.out.println(">>>>>midLst입니다 " + midList);
+        
+        Map<CategoryLargeDTO, List<CategoryMidDTO>> resultMap = new LinkedHashMap<>();
+
+        for (CategoryLargeDTO largeDTO : largeList) {
+            List<CategoryMidDTO> associatedMidList = new ArrayList<>();
+
+            for (CategoryMidDTO midDTO : midList) {
+                if (midDTO.getCategoryLargeId().equals( largeDTO.getCategoryLargeId() ) ) {
+                    associatedMidList.add(midDTO);
+                }
+            }
+
+            resultMap.put(largeDTO, associatedMidList);
+        }
+
+        return resultMap;
+	} // getHeadCategorySerivce
 
 	@Override
 	public ExampleDTO getExample() throws SQLException {
@@ -45,6 +62,7 @@ public class HeadServiceImpl implements HeadService{
 		
 		System.out.println(dto);
 		System.out.println("=================================================================");
+		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> "+headMapper);
 		return dto;
 	}
 
