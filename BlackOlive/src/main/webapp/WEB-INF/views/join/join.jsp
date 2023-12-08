@@ -10,8 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../css/CJbase.css"/>
-<link rel="stylesheet" href="../css/CJparticipate.css"/>
+<link rel="stylesheet" href="../resources/cdn-main/css/CJbase.css"/>
+<link rel="stylesheet" href="../resources/cdn-main/CJparticipate.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src = "https://www.cjone.com/cjmweb/js/modules/cjoneCore.js"></script>
 </head>
@@ -113,8 +113,7 @@
 																placeholder="아이디를 입력해주세요." name="userId" id="mbr_id"
 																maxlength="12" value=""></span>
 
-															<button type="button" class="btn btn_search"
-																id="btnIdCheck">중복확인</button>
+															<button type="button" class="btn btn_search" id="btnIdCheck">중복확인</button>
 															<p class="msg_info em " id="alert_mbr_id"></p>
 														</div>
 														<p class="msg_desc">CGV,CJ온스타일 등 기존의 CJ ONE 제휴 브랜드
@@ -356,15 +355,13 @@
 												<tr class="input">
 													<th scope="row" class="mandatory"
 														style="background-image: url('https://www.cjone.com/cjmweb/images/common/ico_mandatory.png'); background-repeat: no-repeat; background-position: 20px 29px;">
-														<label for="mob_no_1"><span class="haze">"필수"</span>
-															휴대전화번호</label>
-														<input type="hidden" id="u_tel" name="u_tel" value="">
+														<label for="mob_no_1"><span class="haze">"필수"</span>	휴대전화번호</label>
+														<input type="hidden" id="userTel" name="userTel" value="">
 													</th>
 													<td><span class="input_txt mob_no">
 															 <input type="text" name="mob_no"id="mob_no" value="">
 													</span>
-														<p class="msg_desc">주문 및 배송, 쿠폰, 이벤트 정보 등을 제공 받으실 수
-															있습니다.</p></td>
+														<p class="msg_desc">주문 및 배송, 쿠폰, 이벤트 정보 등을 제공 받으실 수 있습니다.</p></td>
 												</tr>
 												<tr class="input">
 													<th scope="row" class="mandatory"
@@ -567,31 +564,31 @@
 </body>
 
 <script>
-	//아이디 중복체크
+//아이디 중복체크
 	$(function () {
 		$("#btnIdCheck").on("click", function () {
 			let user_id = $("#mbr_id").val();
 			$.ajax({
-				url: "/Black_OY/view/join/idCheck.jsp"
-				, dataType: "text"
+				url: `/idCheck/\${userId}`
+				, dataType: "json"
 				, type:"POST"
-				, data: {user_id:user_id}
+				, data: {userId:userId}
 				, cache: false
 				
-				, success: function (data) {
+				, success: function (data, textStatus, jqXHR) {
 					//alert(data);
-					if (data == "1") {
+					if (data == "Y") {
 						alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						$("#alert_mbr_id").text("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						
 					} else{
 						$("#alert_mbr_id").text("사용가능한 아이디입니다.");
+						$("#pwd").trigger("focus");
 					
 					}//if	
 				}
-				, error: function (request,status,error) {
-					   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
+				, error: function (error) {
+					   alert(error);
 				}
 			});
 		});
@@ -679,12 +676,12 @@ var length = inputVal.length;
 	var nowYear;
 	if ( gender == 1 || gender == 2){
 		nowYear= 1900+ Number(result1) ; 
-	} else if ( gender == 3 || gender == 4 ){
+	} else ( gender == 3 || gender == 4 ){
 		nowYear= 2000+ Number(result1) ; 
 	}
 	
 	sel = $("#birth_yy");
-	var selYYvalue = result1;
+	var selYYvalue = nowYear;
 
 	sel.find("option[value='" + selYYvalue + "']").prop("selected", true);
 

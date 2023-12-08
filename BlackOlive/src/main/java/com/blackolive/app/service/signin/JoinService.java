@@ -13,4 +13,6 @@ public interface JoinService {
 	public OliveUserDTO getVerifyOk() throws SQLException, ClassNotFoundException;
 	//회원가입
 	public int insertUser(OliveUserDTO userDto) throws ClassNotFoundException, SQLException;
+	//아이디 중복체크
+//	public int idCheck(String userId) throws ClassNotFoundException, SQLException;
 }

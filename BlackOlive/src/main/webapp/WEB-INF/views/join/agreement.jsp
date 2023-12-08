@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
-<%@ page import="com.blackolive.app.domain.signin.OliveUserDTO" %>
+<%@ page import="com.blackolive.app.domain.signin.OliveUserDTO"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../../css/CJbase.css" />
-<link rel="stylesheet" href="../../css/CJparticipate.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../css/CJbase.css" />
+<link rel="stylesheet" href="../css/CJparticipate.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -21,7 +22,7 @@
 	<div id="bodyWrap">
 
 		<!--header-->
-		
+
 		<!--header-->
 		<div id="part_headerWrap">
 			<div class="part_header_wrap">
@@ -43,15 +44,14 @@
 		<div id="contentsWrap">
 
 			<form id="form1" name="form1" method="post" action="/join/join">
-		
+
 				<div id="contents">
 					<!--title-->
 
 					<div class="location_wrap">
 						<div class="location">
-							<a href="#" class="home">
-							<span class="haze">홈</span></a>
-							<a href="joinCheck.jsp" class="now"><span>회원가입</span></a>
+							<a href="#" class="home"> <span class="haze">홈</span></a> <a
+								href="joinCheck.jsp" class="now"><span>회원가입</span></a>
 						</div>
 					</div>
 					<div class="cont_header">
@@ -72,7 +72,7 @@
 								</ul>
 							</div>
 							<!--//step-->
-							
+
 							<div class="agreement_sec">
 								<div class="box_member">
 									<h2 class="h2_tit">CJ ONE 서비스 이용약관 및 정보 활용 동의</h2>
@@ -83,7 +83,7 @@
 											아이디를 사용하여 로그인 하시려면 <strong class="em">각 브랜드에 대한 정보
 												제공 및 브랜드 이용약관에 대한 동의를 거친 후 이용</strong>하실 수 있습니다.
 										</p>
-				
+
 									</div>
 
 									<!-- 약관 -->
@@ -1374,14 +1374,14 @@
 														class="em">미 동의 시 회원가입을 하실 수 없습니다.</strong>
 												</p>
 
-<!-- 												<a href="#" onclick="javascript:viewAgrAll('view_agr_10','viewall00');"
+												<!-- 												<a href="#" onclick="javascript:viewAgrAll('view_agr_10','viewall00');"
 													id="viewall00" class="btn btn_sm view_all"
 													data-control="modal">전문보기</a> -->
 												<div class="radio_agreement">
 													<span class="radio_btn on" data-skin="accept"
 														data-checked-text="선택됨" data-unchecked-text="미선택됨">
-														<a href="#"><span class="haze">미동의</span></a>
-														<span class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
+														<a href="#"><span class="haze">미동의</span></a> <span
+														class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
 														<input type="radio" class="chk"
 														id="svcuse_agr_typ_cd_0_disagree"
 														name="svcuse_agr_typ_cd_0" checked="checked"> <label
@@ -1389,13 +1389,14 @@
 															class="ico"></span>미동의</label>
 													</span> <span class="radio_btn " data-skin="accept"
 														data-checked-text="선택됨" data-unchecked-text="미선택됨">
-														<!-- <a href="#"> --> <span class="haze">동의</span><!-- </a> -->
-														<span class="hide"><span class="haze">동의<span>선택불가</span></span></span>
+														<!-- <a href="#"> --> <span class="haze">동의</span>
+													<!-- </a> --> <span class="hide"><span class="haze">동의<span>선택불가</span></span></span>
 														<input type="radio" class="chk"
 														id="svcuse_agr_typ_cd_0_agree" value="10"
 														name="svcuse_agr_typ_cd_0"> <label
 														for="svcuse_agr_typ_cd_0_agree"><span class="ico"></span>동의</label>
-													</span> <input type="hidden" name="effchar1" id="0" value="Y" title="CJ ONE 서비스 이용약관 ">
+													</span> <input type="hidden" name="effchar1" id="0" value="Y"
+														title="CJ ONE 서비스 이용약관 ">
 												</div>
 											</div>
 
@@ -1443,25 +1444,30 @@
 													이용자는 개인정보 수집 및 활용(필수)에 대한 동의를 거부할 권리가 있으나, <strong
 														class="em">미 동의 시 회원가입을 하실 수 없습니다.</strong>
 												</p>
-<!-- 												<a href="#"
+												<!-- 												<a href="#"
 													onclick="javascript:viewAgrAll('view_agr_11','viewall01');"
 													id="viewall01" class="btn btn_sm view_all"
 													data-control="modal">전문보기</a> -->
-												<div class="radio_agreement"> 
-													<span class="radio_btn on" data-skin="accept" 	data-checked-text="선택됨" data-unchecked-text="미선택됨">
-														<a href="#"><span class="haze">미동의<span>선택됨</span></span></a> 
-													<span class="hide"><span class="haze">미동의<span>선택불가</span></span>
-													</span>
-
-														<input type="radio" class="chk" id="svcuse_agr_typ_cd_1_disagree"
-														name="svcuse_agr_typ_cd_1" checked="checked">
-														<label for="svcuse_agr_typ_cd_1_disagree"><span class="ico"></span>미동의</label></span>
-													 <span class="radio_btn " data-skin="accept" 	data-checked-text="선택됨" data-unchecked-text="미선택됨">
+												<div class="radio_agreement">
+													<span class="radio_btn on" data-skin="accept"
+														data-checked-text="선택됨" data-unchecked-text="미선택됨">
+														<a href="#"><span class="haze">미동의<span>선택됨</span></span></a>
+														<span class="hide"><span class="haze">미동의<span>선택불가</span></span>
+													</span> <input type="radio" class="chk"
+														id="svcuse_agr_typ_cd_1_disagree"
+														name="svcuse_agr_typ_cd_1" checked="checked"> <label
+														for="svcuse_agr_typ_cd_1_disagree"><span
+															class="ico"></span>미동의</label>
+													</span> <span class="radio_btn " data-skin="accept"
+														data-checked-text="선택됨" data-unchecked-text="미선택됨">
 														<a href="#"> <span class="haze">동의<span>미선택됨</span></span></a>
 														<span class="hide"><span class="haze">동의<span>선택불가</span></span></span>
-														<input type="radio" class="chk" id="svcuse_agr_typ_cd_1_agree" value="11"
-														name="svcuse_agr_typ_cd_1"> <label for="svcuse_agr_typ_cd_1_agree"><span class="ico"></span>동의</label>
-													</span> <input type="hidden" name="effchar1" id="1" value="Y" title="개인정보 수집 및 활용 동의">
+														<input type="radio" class="chk"
+														id="svcuse_agr_typ_cd_1_agree" value="11"
+														name="svcuse_agr_typ_cd_1"> <label
+														for="svcuse_agr_typ_cd_1_agree"><span class="ico"></span>동의</label>
+													</span> <input type="hidden" name="effchar1" id="1" value="Y"
+														title="개인정보 수집 및 활용 동의">
 												</div>
 											</div>
 
@@ -1515,7 +1521,7 @@
 
 
 
-<!-- 												<a href="#"
+												<!-- 												<a href="#"
 													onclick="javascript:viewAgrAll('view_agr_30','viewall02');"
 													id="viewall02" class="btn btn_sm view_all"
 													data-control="modal">전문보기</a> -->
@@ -1588,15 +1594,15 @@
 												</ul>
 
 
-<!-- 												<a href="#"
+												<!-- 												<a href="#"
 													onclick="javascript:viewAgrAll('view_agr_40','viewall03');"
 													id="viewall03" class="btn btn_sm view_all"
 													data-control="modal">전문보기</a> -->
 												<div class="radio_agreement">
 													<span class="radio_btn on" data-skin="accept"
 														data-checked-text="선택됨" data-unchecked-text="미선택됨">
-														<a href="#"> <span class="haze">미동의</span></a>
-													<span class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
+														<a href="#"> <span class="haze">미동의</span></a> <span
+														class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
 														<input type="radio" class="chk"
 														id="svcuse_agr_typ_cd_3_disagree"
 														name="svcuse_agr_typ_cd_3" checked="checked"> <label
@@ -1701,7 +1707,7 @@
 														</div>
 													</div>
 												</div>
-<!-- 												<a href="#" class="btn btn_sm view_all" data-control="modal"
+												<!-- 												<a href="#" class="btn btn_sm view_all" data-control="modal"
 													id="agr99_viewall"
 													onclick="javascript:viewCoopcoAgr99('7030', '98', 'agr99_viewall')">전문보기</a> -->
 												<p class="s_txt">
@@ -1719,8 +1725,8 @@
 														for="sync_agr_n"><span class="ico"></span>미동의</label>
 													</span> <span class="radio_btn " data-skin="accept"
 														data-checked-text="선택됨" data-unchecked-text="미선택됨">
-														<a href="#"><span class="haze">동의</span></a>
-													<span class="hide"><span class="haze">동의<span>선택불가</span></span></span>
+														<a href="#"><span class="haze">동의</span></a> <span
+														class="hide"><span class="haze">동의<span>선택불가</span></span></span>
 														<input type="radio" class="chk" id="sync_agr_y" value="99"
 														name="sync_agr_yn"> <label for="sync_agr_y"><span
 															class="ico"></span>동의</label>
@@ -1848,10 +1854,10 @@
 
 
 														<style type="text/css">
-ol, ul, li {
-	list-style: none;
-}
-</style>
+													ol, ul, li {
+																list-style: none;
+															}
+																</style>
 														<div class="course">
 
 
@@ -3249,8 +3255,8 @@ ol, ul, li {
 													<div class="radio_agreement">
 														<span class="radio_btn on" data-skin="accept"
 															data-checked-text="선택됨" data-unchecked-text="미선택됨">
-															<a href="#"> <span class="haze">미동의</span></a>
-														<span class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
+															<a href="#"> <span class="haze">미동의</span></a> <span
+															class="hide"><span class="haze">미동의<span>선택불가</span></span></span>
 															<input type="radio" class="chk"
 															id="omniagreeNN1071301301" name="omniagreeN1071301301"
 															value="" checked="checked"> <label
@@ -4133,7 +4139,7 @@ function goFooterMenu(type){
 </script>
 		</div>
 	</div>
-<script>
+	<script>
 	$(function () {
 		var agreeButtons = $(".radio_agreement .radio_btn");
 		agreeButtons.each(function() {
@@ -4153,12 +4159,13 @@ function goFooterMenu(type){
 		$(".radio_btn:odd").addClass("on");
 	});
 });
-</script>							
-<script>
-	$("#btn_prev").click(goCancel);
-	function goCancel() {
-		alert('약관동의 취소하시겠습니까?');
-		location.href = "<%=contextPath%>/olive/main.do";
+</script>
+	<script>
+		$("#btn_prev").click(goCancel);
+		function goCancel() {
+			alert('약관동의 취소하시겠습니까?');
+			location.href = "
+	<%=contextPath%>/olive/main.do";
 	}
 
 	$("#btn_agree").on("click", function () {

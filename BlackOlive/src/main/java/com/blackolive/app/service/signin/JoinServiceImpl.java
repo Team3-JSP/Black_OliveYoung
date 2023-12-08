@@ -35,5 +35,11 @@ public class JoinServiceImpl implements JoinService{
 		return this.joinMapper.join(userDto);
 	}
 
+//	@Override
+//	public int idCheck(String userId) throws ClassNotFoundException, SQLException {
+//		
+//		return this.joinMapper.idCheck(userId);
+//	}
+
 
 }

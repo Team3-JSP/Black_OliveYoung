@@ -103,11 +103,11 @@ public class JoinController {
 //	private PasswordEncoder passwordEncoder;
 //	
 //	// 회원가입
-//	@PostMapping("/join")
-//	public String join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
+	@PostMapping("/join")
+	public String join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
 //		String userPassword = userDto.getUserPassword();
 //		userDto.setUserPassword( this.passwordEncoder.encode(userPassword) );
-//		this.joinService.insertUser(userDto);
-//		return "/";
-//	}
+		this.joinService.insertUser(userDto);
+		return "../auth.login";
+	}
 }
