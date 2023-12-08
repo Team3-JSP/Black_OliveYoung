@@ -292,7 +292,7 @@
 
 					<c:choose>
 						<c:when test="${empty sessionScope.logOn }">
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
