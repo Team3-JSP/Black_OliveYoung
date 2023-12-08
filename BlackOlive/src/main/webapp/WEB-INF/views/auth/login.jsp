@@ -32,11 +32,11 @@
 						<ul>
 							<li>
 								<label for="loginId" class="ir">아이디를 입력해 주세요.</label>
-								<input type="text" id="loginId" placeholder="CJ ONE 통합회원 아이디 입력" name="loginId" width="100" value="" autocomplete="off" title="아이디를 입력해 주세요.">
+								<input type="text" id="userId" placeholder="CJ ONE 통합회원 아이디 입력" name="username" width="100" value="" autocomplete="off" title="아이디를 입력해 주세요.">
 							</li>
 							<li>
 								<label for="password" class="ir">비밀번호를 입력해 주세요.</label>
-								<input type="password" value="" id="password" placeholder="비밀번호 (8-12자 영문자+숫자+특수문자)" name="password" width="100" onkeyup="" autocomplete="off" title="비밀번호를 입력해 주세요.">
+								<input type="password" value="" id="userPassword" placeholder="비밀번호 (8-12자 영문자+숫자+특수문자)" name="password" width="100" onkeyup="" autocomplete="off" title="비밀번호를 입력해 주세요.">
 							</li>
 						</ul>
 						<div class="loginError" style="display:none;">
@@ -61,6 +61,7 @@
 								<a href="#" onclick="">비밀번호 찾기</a>
 							</div>
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="btnArea">
 							<button type="submit" class="btnGreen" data-attr="로그인^로그인^로그인">로그인</button>
 						</div>
@@ -88,7 +89,7 @@
 							
 						</div>
 					</div>
-					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					
 					
 				</form>
 			</div>

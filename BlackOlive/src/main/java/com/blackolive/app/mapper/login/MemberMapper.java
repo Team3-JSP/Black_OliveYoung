@@ -9,4 +9,5 @@ public interface MemberMapper {
 	//회원 + 권한정보 가져오기
 	public MemberVO login(@Param("userid") String userid);
 	
+	
 }

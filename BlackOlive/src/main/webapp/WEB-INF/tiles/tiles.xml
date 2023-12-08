@@ -12,6 +12,15 @@
 		<put-attribute name="title" value="블랙 올리브영"/>
 		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
 	</definition>
-
+	
+	<definition name="mypage.*" template="/WEB-INF/views/mypage/layout/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/layout/head.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
+		<put-attribute name="mypageheader" value="/WEB-INF/views/mypage/mypageheader.jsp"/>
+		<put-attribute name="mypagesider" value="/WEB-INF/views/mypage/mypagesider.jsp"/>
+		<put-attribute name="mypagecontent" value="/WEB-INF/views/mypage/{1}.jsp"/>
+		<put-attribute name="title" value="블랙 올리브영"/>
+		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
+	</definition>
 
 </tiles-definitions>

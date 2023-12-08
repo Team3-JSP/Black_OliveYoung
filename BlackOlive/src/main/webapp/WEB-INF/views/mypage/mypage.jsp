@@ -3,30 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/Black_OY/js/head.js"></script>
 
-<title>블랙올리브영 온라인몰</title>
-</head>
 <body>
-
-	<div id="Container">
-
-		<div id="Contents">
-
-			<!-- mainheader -->
-
-
-			<div class="mypage-ix">
-
-
-				<!-- 마이페이지 SUB 메뉴 -->
-				<!--  side -->
-
 
 				<div class="mypage-conts">
 					<script
@@ -197,13 +175,4 @@
 
 				</div>
 
-			</div>
-
-		</div>
-
-	</div>
-
-
-	<!-- footer -->
 </body>
-</html>

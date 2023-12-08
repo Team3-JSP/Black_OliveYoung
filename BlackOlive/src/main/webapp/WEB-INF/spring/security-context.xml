@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 	
 	<!-- resources 파일 보안 설정 안함 -->
 	<security:http pattern="/resources/**" security="none"></security:http>
@@ -12,15 +12,16 @@
 	<security:http use-expressions="true" >
 	
 	<!-- 접근 권한 설정 -->
-	<security:intercept-url pattern="/mypage/main.htm" access="isAuthenticated()"/>	
+	<security:intercept-url pattern="/mypage/mypage" access="isAuthenticated()"/>	
+	<security:intercept-url pattern="/**" access="permitAll" />
 	
 	<!-- 접근 금지 발생시 -->
-	<security:access-denied-handler/>
+	<security:access-denied-handler ref="loginAccessDeniedHandler"/>
 	
 	<!-- 로그인 페이지 -->
 	<security:form-login
 			login-page="/auth/login"
-			authentication-success-handler-ref="LoginSuccessHandler"
+			authentication-success-handler-ref="loginSuccessHandler"
 			authentication-failure-forward-url="/auth/login?error=true"
 			default-target-url="/mypage/main"
 	/>

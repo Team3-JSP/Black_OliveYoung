@@ -14,7 +14,9 @@ import lombok.extern.log4j.Log4j;
 
 @Component("loginSuccessHandler")
 @Log4j
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {@Override
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+	
+	@Override
 	public void onAuthenticationSuccess(
 			HttpServletRequest request, 
 			HttpServletResponse response,

@@ -40,7 +40,7 @@ public class MypageMainController {
 		//
 		
 		
-		return "mypage.mainpage";//변경
+		return "mypage.mypage";//변경
 		// mypage/mainpage.jsp로 이동 예정
 	}
 	

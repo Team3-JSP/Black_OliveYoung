@@ -10,49 +10,30 @@
 	<resultMap type="com.blackolive.app.domain.login.MemberVO" id="loginMap">
 		<id property="userId" column="id"/>
 		<result property="userPassword" column="pwd" />
-		<result property="userName" column="name" />
-		<result property="gradeId" column="grade"/>
-		<result property="userPoint" column="point" />
-		<result property="profileImg" column="profileImg"/>			
-		<result property="userCouponCount" column="userCouponCount" />
-		<result property="userDeposit" column="userDeposit" />
 		<result property="enabled" column="enabled" />
 		<collection property="authority" resultMap="authMap" />
 	</resultMap>
 	<resultMap type="com.blackolive.app.domain.login.AuthVO" id="authMap">
 		<result property="username" column="username"/>
-		<result property="authority" column="authority"/>		
+		<result property="authority" column="auth"/>		
 	</resultMap>
 
 	<select id="login" resultMap="loginMap">
-		SELECT
-				    u.user_id AS id,
+ 		SELECT
+				    user_id AS id,
 				    user_password AS pwd,
-				    user_name AS name,
-				    grade_name AS grade,
-				    user_point AS point,
-				    COALESCE(PROFILE_IMG, 'https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/06/1699251894483.png') AS profileImg,
-				    COALESCE(TOTOAL_DEPOSIT, 0) AS userDeposit,
-				    COUNT(coupon_id) AS userCouponCount,
-		            enabled,
+				    enabled,
 		            AUTHORITY AS auth
 				FROM
 				    olive_user u
-					LEFT JOIN
-					    olive_members m ON u.grade_id = m.grade_id
-					LEFT JOIN
-					    userprofile up ON u.user_id = up.user_id
-					LEFT JOIN
-					    user_deposit d ON u.user_id = d.user_id
-					LEFT JOIN
-					    user_coupon c ON u.user_id = c.user_id
 		            LEFT JOIN
 		                user_authorities a ON u.user_id = a.username
 				WHERE
-				    u.user_id = #{ userid }
+				    user_id = #{ userid }
 				GROUP BY
-				    u.user_id, user_name, user_password, grade_name, user_point, PROFILE_IMG, TOTOAL_DEPOSIT, enabled, AUTHORITY;
+				    user_id, user_password, enabled, AUTHORITY
 	</select>
 	
+
 	
 </mapper>
