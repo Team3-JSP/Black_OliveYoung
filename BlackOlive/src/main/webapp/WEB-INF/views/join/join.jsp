@@ -594,7 +594,7 @@
 		});
 	});
 
-	$(function () {
+$(function () {
      $('#mbr_id').keydown(function(event) {
      	if ( event.which == 13 ){
      		$("#btnIdCheck").click();	

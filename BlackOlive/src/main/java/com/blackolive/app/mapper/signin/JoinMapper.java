@@ -14,5 +14,5 @@ public interface JoinMapper {
 	//회원가입
 	public int join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException;
 	//아이디 중복체크
-	public int idCheck(String user_id) throws ClassNotFoundException, SQLException;
+//	public int idCheck(String user_id) throws ClassNotFoundException, SQLException;
 }
