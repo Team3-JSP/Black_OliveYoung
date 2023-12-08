@@ -47,4 +47,10 @@
 		 WHERE user_id = #{userId} AND product_id = #{productId} 
 	</delete>
 	
+	<select id="basketCnt" resultType="integer">
+		select count(*) from today_pickup_basket where user_id = #{userId}
+		union
+		select count(*) from basket where user_id = #{userId}
+	</select>
+	
 </mapper>

@@ -13,4 +13,6 @@ public interface BasketMapper {
 	int update(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productCnt")int productCnt,@Param("productId")String productId);
 	// 장바구니 삭제
 	int delete(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productId")String productId);
+	
+	List<Integer> basketCnt(@Param("userId") String userId);
 }

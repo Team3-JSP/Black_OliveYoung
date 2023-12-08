@@ -108,10 +108,10 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 			<ul class="comm5sTabs" id="ulDelivGb">
 				<li quickyn="N" class="on"><button type="button"
 						class="basketType nb" data-attr="장바구니^Tab^일반 배송" title="선택됨">일반
-						배송 (${sessionScope.basketlistcnt[0]})</button></li>
+						배송 (${sessionScope.basketlistcnt[1]})</button></li>
 				<li quickyn="Y"><button type="button" class="basketType tb"
 						data-attr="장바구니^Tab^오늘 드림">오늘드림&amp;픽업
-						(${sessionScope.basketlistcnt[1]})</button></li>
+						(${sessionScope.basketlistcnt[0]})</button></li>
 			</ul>
 			<!--// 일반배송, 당일배송 탭 -->
 

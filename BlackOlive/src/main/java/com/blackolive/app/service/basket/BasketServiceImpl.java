@@ -60,4 +60,19 @@ public class BasketServiceImpl implements BasketService{
 		return row;
 	}
 
+	@Override
+	public List<Integer> basketcntService(String userId) {
+		log.info("basketService");
+		List<Integer> cnt = null;
+		
+		try {
+			cnt = this.basketMapper.basketCnt(userId);
+		} catch (Exception e) {
+			System.out.println("basketService 오류");
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+
 }

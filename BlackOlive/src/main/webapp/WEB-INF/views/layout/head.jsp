@@ -320,7 +320,7 @@
 			</div>
 			<div class="header_inner">
 				<h1>
-					<a onclick="" href="<%=contextPath%>/olive/main.do"> <img
+					<a onclick="" href="/"> <img
 						src="/resources/images/logo.png"
 						alt="올리브영">
 					</a>

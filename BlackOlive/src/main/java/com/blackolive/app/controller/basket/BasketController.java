@@ -2,6 +2,9 @@ package com.blackolive.app.controller.basket;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +24,12 @@ public class BasketController {
 	private BasketService basketService;
 	
 	@RequestMapping("/basket")
-	public String basket(@RequestParam(value = "quickyn",defaultValue = "N")String quickyn,
+	public String basket(HttpServletRequest request, @RequestParam(value = "quickyn",defaultValue = "N")String quickyn,
 			@RequestParam(value = "userId",defaultValue = "user1")String userId, Model model) {
 		List<BasketDTO> list = this.basketService.basketService(quickyn, userId);
+		HttpSession session = request.getSession();
+		List<Integer> cnt = this.basketService.basketcntService(userId);
+		session.setAttribute("basketlistcnt", cnt);
 		model.addAttribute("list",list);
 		return "basket.basket";
 	}
@@ -35,6 +41,6 @@ public class BasketController {
 		int row = this.basketService.deleteService(quickyn, userId, productId);
 		List<BasketDTO> list = this.basketService.basketService(quickyn, userId);
 		model.addAttribute("list",list);
-		return "basket.basket";
+		return "redirect:/basket";
 	}
 }
