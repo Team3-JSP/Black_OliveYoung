@@ -14,6 +14,7 @@
 			<typeAlias type="com.blackolive.app.domain.head.CategoryLargeDTO" alias="categoryLarge" />
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
 			<typeAlias type="com.blackolive.app.domain.head.CategorySmallDTO" alias="categorySmall" />
+			<typeAlias type="com.blackolive.app.domain.basket.BasketDTO" alias="basketDTO" />
 			
 	</typeAliases>
 	
@@ -24,6 +25,7 @@
 		ex) com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
 		<mapper resource="com/blackolive/app/mapper/head/HeadMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
 		
 	</mappers>
 	

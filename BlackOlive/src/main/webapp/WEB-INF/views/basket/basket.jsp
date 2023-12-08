@@ -1,19 +1,18 @@
+<%@page import="com.blackolive.app.domain.basket.BasketDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+
 <%
-	String quickyn = "n";
-%>
-<%-- <%
 ArrayList<BasketDTO> basketList = (ArrayList) request.getAttribute("list");
 String quickyn = request.getParameter("quickyn");
 if(quickyn == null || quickyn.equals("")){
 	quickyn = "N";
 }
 %>
- --%>
+
 
 
 <script
@@ -67,15 +66,6 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 			<!--// title_box -->
 
 			<!-- membership_box -->
-
-
-
-
-
-
-
-
-
 
 
 			<div class="membership_box">
@@ -172,12 +162,6 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 				</div>
 				<!-- 20191213 s -->
 
-
-
-
-
-
-
 				<dl class="error_boxMod">
 
 
@@ -187,13 +171,6 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 
 
 				</dl>
-
-
-
-
-
-
-
 
 				<!-- 20191213 e -->
 			</div>
@@ -244,13 +221,13 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 				<c:forEach items="${ list }" var="bpl">
 
 					<c:set var="totalPrice"
-						value="${totalPrice + (bpl.proPrice * bpl.product_cnt)}"
+						value="${totalPrice + (bpl.minPrice * bpl.productCnt)}"
 						scope="page" />
 					<c:set var="salePrice"
-						value="${salePrice + (bpl.afterPrice * bpl.product_cnt)}"
+						value="${salePrice + (bpl.afterPrice * bpl.productCnt)}"
 						scope="page" />
-					<tr soldoutyn="N" cno="677745447" goodsno="${bpl.productID }"
-						itemno="002" lgcgoodsno="8809643061308" oripno="${bpl.proPrice }"
+					<tr soldoutyn="N" cno="677745447" goodsno="${bpl.productId }"
+						itemno="002" lgcgoodsno="8809643061308" oripno="${bpl.afterPrice }"
 						pno="${bpl.afterPrice}" promkndcd="" rsvsaleyn="N" drtpuryn="N"
 						dispcatno="" buycondstrtqtyamt="" getcondstrtqtyamt=""
 						pkggoodsno="" quickyn="N" strno="" onladltcertyn="N"
@@ -276,7 +253,7 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 										cpndcamt="1160" ordqty="1" rsvstockqty="N" stockqty="208"
 										checked="checked" id="inp_prd_chk1" name="s_checkbox"
 										soldoutyn="N" value="0" class="chkSmall"
-										title="${bpl.displProName }"> <input type="hidden"
+										title="${bpl.productDisplayName }"> <input type="hidden"
 										name="s_cart_no" value="677745447"> <input
 										type="hidden" name="s_prom_no" value=""> <input
 										type="hidden" name="s_buy_cond_strt_qty_amt" value="">
@@ -299,10 +276,10 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 								<div class="tbl_cell w390">
 									<div class="prd_info ">
 
-										<a class="prd_img" href="/Black_OY/olive/productDetail.do?goodsNo=${bpl.displId }&displNum=${bpl.lid}${bpl.mid}"> <img
+										<a class="prd_img" href="/Black_OY/olive/productDetail.do?goodsNo=${bpl.productDisplayId }&displNum=${bpl.categoryLargeId}${bpl.categoryMidId}"> <img
 											data-original="https://image.oliveyoung.co.kr/uploads/images/goods/220/10/0000/0018/A00000018412902ko.jpg?l=ko"
 											class="completed-seq-lazyload" alt="상품이미지"
-											onerror="common.errorImg(this);" src="${bpl.displImgSrc }">
+											onerror="common.errorImg(this);" src="${bpl.productDisplaySrc }">
 										</a>
 										<!-- 
 											셀링포인트영역 셋팅시작
@@ -314,14 +291,14 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 
 
 
-										<a class="prd_name" href="/Black_OY/olive/productDetail.do?goodsNo=${bpl.displId }&displNum=${bpl.lid}${bpl.mid}"> <span class="tx_sale_info">
+										<a class="prd_name" href="/Black_OY/olive/productDetail.do?goodsNo=${bpl.productDisplayId }&displNum=${bpl.categoryLargeId}${bpl.categoryMidId}"> <span class="tx_sale_info">
 										</span> <!-- 브랜드명 및 할인정보 --> <span id="brandNm">${bpl.brandName }
 										</span>
-											<p id="goodsNm">${bpl.displProName }</p>
+											<p id="goodsNm">${bpl.productDisplayName }</p>
 										</a>
 										<p class="prd_opt">
 
-											<i class="tit">옵션</i><span>${bpl.pro_name }</span>
+											<i class="tit">옵션</i><span>${bpl.productName }</span>
 
 											<button type="button" class="change"
 												data-ref-goodsno="A000000184129" data-ref-itemno="002">옵션변경</button>
@@ -329,16 +306,16 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 
 										</p>
 										<p class="prd_flag">
-											<c:if test="${bpl.pdc eq 1}">
+											<c:if test="${bpl.discountflag eq 1}">
 												<span class="icon_flag sale">세일</span>
 											</c:if>
-											<c:if test="${bpl.prc eq 1}">
+											<c:if test="${bpl.couponflag eq 1}">
 												<span class="icon_flag coupon">쿠폰</span>
 											</c:if>
-											<c:if test="${bpl.pmp eq 1 }">
+											<c:if test="${bpl.presentflag eq 1 }">
 												<span class="icon_flag gift">증정</span>
 											</c:if>
-											<c:if test="${bpl.stock > 0}">
+											<c:if test="${bpl.todayPickupflag > 0}">
 												<span class="icon_flag delivery">오늘드림</span>
 											</c:if>
 
@@ -348,7 +325,7 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 								<div class="tbl_cell w110">
 
 
-									<span class="cur_price"><span class="tx_num">${bpl.proPrice }</span>원</span>
+									<span class="cur_price"><span class="tx_num">${bpl.minPrice }</span>원</span>
 
 								</div>
 								<div class="tbl_cell w100">
@@ -362,7 +339,7 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 
 											<c:forEach var="value" begin="1" end="10">
 												<option value="${value}"
-													<c:if test="${value == bpl.product_cnt}">selected</c:if>>${value}</option>
+													<c:if test="${value == bpl.productCnt}">selected</c:if>>${value}</option>
 											</c:forEach>
 											<option value="10+">10+</option>
 
@@ -383,9 +360,9 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 								<div class="tbl_cell w110">
 
 
-									<span class="org_price"> <span class="tx_num">${bpl.proPrice * bpl.product_cnt}</span>원
+									<span class="org_price"> <span class="tx_num">${bpl.minPrice * bpl.productCnt}</span>원
 
-									</span> <span class="pur_price"><span class="tx_num">${bpl.afterPrice * bpl.product_cnt}</span>원</span>
+									</span> <span class="pur_price"><span class="tx_num">${bpl.afterPrice * bpl.productCnt}</span>원</span>
 
 								</div>
 
@@ -3391,7 +3368,7 @@ yx-axis
 			<button class="layer_close type4" onclick="closeCrtPopWrap()">창
 				닫기</button>
 			<input type="hidden" id="recoGoodsYn" value="Y">
-			<!-- 
+			
 			<script type="text/javascript">
 	$(function() {
 		
@@ -3489,10 +3466,10 @@ yx-axis
 	});
 </script>
 
--->
+
 		</div>
 	</div>
-	<!-- 
+	
 	<script>
 	
 	$(document).on("change", "select.amount", function () {
@@ -3500,17 +3477,14 @@ yx-axis
 		let productcnt = $(this).val();
 		quickyn = "<%=quickyn%>";
 		
-		 
-		
-		
-		let data = {
-		        productid: productid,
-		        productcnt: productcnt,
+			let data = {
+				productId: productid,
+		        productCnt: productcnt,
 		        quickyn: quickyn
 		    };
 		
 		$.ajax({
-			url: "<%=contextPath%>/olive/basketAdd.do",
+			url: "/basket/update",
 			data:data,
 			cache: false,
 			
@@ -3519,7 +3493,7 @@ yx-axis
 	              $("#Contents").append( response );
 	          }
 	        , error		: function() {
-	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+	            alert( '1서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
 	        }
 		})
 	});
@@ -3657,10 +3631,10 @@ yx-axis
 
 	})
 	</script>
- -->
+ 
 
 	<!-- // 장바구니 삭제 버튼 클릭시 -->
-	<!-- 
+	
 	<script>
 $(document).ready(function() {
 	
@@ -3679,14 +3653,14 @@ $(document).ready(function() {
 		
         
         alert("goodsno test: " + goodsno);
-        window.location.href = "<%=contextPath%>/olive/delete.do?quickyn=" +"<%=quickyn%>"+ "&productid=" + goodsno;
+        window.location.href = "/basket/delete?quickyn=" +"<%=quickyn%>"+ "&productId=" + goodsno;
         
     });
     
     $("button.basketType").click(function() {
     	var basketType = $(this).closest('li').attr("quickyn");
     	//alert("basketType: " + basketType);
-    	 window.location.href = "<%=contextPath%>/olive/basket.do?quickyn=" + basketType;
+    	 window.location.href = "/basket?quickyn=" + basketType;
 	})
 	
 	
@@ -3749,7 +3723,7 @@ $(document).ready(function() {
     
 });
 </script>
-  -->
+  
 	<script>
 	
 </script>

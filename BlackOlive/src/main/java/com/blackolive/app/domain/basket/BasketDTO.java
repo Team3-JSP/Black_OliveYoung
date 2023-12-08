@@ -16,19 +16,23 @@ public class BasketDTO {
     private String brandId;
     private String productDisplayName;
     private int minPrice;
-    private int categoryLargeId;
-    private int categoryMidId;
-    private int categorySmallId;
+    private String categoryLargeId;
+    private String categoryMidId;
+    private String categorySmallId;
     private int afterPrice;
     private String productDisplayId;
     private String productId;
-    private String couponFlag;
-    private String discountFlag;
-    private String presentFlag;
-    private String todayPickupFlag;
-    private int orderCount;
+    private String couponflag;
+    private String discountflag;
+    private String presentflag;
+    private String todayPickupflag;
+    private int orderCnt;
     private int productStock;
     private int productDisplayLike;
     private Date productDisplayRegDate;
+    private String basketId;
+    private String userId;
+    private int productCnt;
+    private String productName;
 	
 }
