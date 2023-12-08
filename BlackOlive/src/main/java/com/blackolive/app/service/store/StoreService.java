@@ -22,7 +22,7 @@ public interface StoreService {
 
 	List<StoreDTO> getStoreService(String keyword); // 오버로딩
 
-	List<StoreDTO> getStoreService(String[] tcs, String[] pcs, String keyword); // 오버로딩
+	List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword); // 오버로딩
 
 	
 }

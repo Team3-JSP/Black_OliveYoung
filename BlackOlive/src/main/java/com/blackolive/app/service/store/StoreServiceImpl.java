@@ -67,7 +67,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pcs, String keyword) {
-		return this.storeMapper.selectStoreCondition(tcs, pcs, keyword);
+	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword) {
+		return this.storeMapper.selectStoreCondition(tcs, pss, keyword);
 	}
 }

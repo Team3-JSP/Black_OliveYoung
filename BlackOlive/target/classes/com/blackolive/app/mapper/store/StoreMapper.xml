@@ -61,6 +61,7 @@
 	<select id="selectStoreCondition" resultType="com.blackolive.app.domain.store.StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
+		
 		<!-- WHERE (s.store_id IN ( 
 		        SELECT DISTINCT(store_id)
 		        FROM handling_store

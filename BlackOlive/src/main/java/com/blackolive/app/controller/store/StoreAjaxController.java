@@ -41,9 +41,9 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/getStoreCondition")
-	public ResponseEntity<List<StoreDTO>> getStoreCondition(@RequestBody String[] tcs, String[] pcs, String keyword) {
-		ResponseEntity<List<StoreDTO>> rett = new ResponseEntity<List<StoreDTO>>(this.storeService.getStoreService(tcs, pcs, keyword), HttpStatus.OK);
-		System.out.println("tsc : " + Arrays.toString(tcs) + ", pcs : " + Arrays.toString(pcs) + ", keyword : " + keyword);
+	public ResponseEntity<List<StoreDTO>> getStoreCondition(String[] tcs, String[] pss, String keyword) {
+		ResponseEntity<List<StoreDTO>> rett = new ResponseEntity<List<StoreDTO>>(this.storeService.getStoreService(tcs, pss, keyword), HttpStatus.OK);
+		System.out.println("tsc : " + Arrays.toString(tcs) + ", pss : " + Arrays.toString(pss) + ", keyword : " + keyword);
 		return rett;
 	}
 	

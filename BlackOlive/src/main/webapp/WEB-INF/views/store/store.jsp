@@ -1170,8 +1170,8 @@ $(function() {
 				, url : '/store/getStoreCondition'
 				, dataType : 'json'
 				, data : {
-					tcs : tcs
-					, pss : pss
+					tcs : JSON.stringify(tcs)
+					, pss : JSON.stringify(pss)
 					, keyword : keyword
 				}
 				, success : function(data) {
