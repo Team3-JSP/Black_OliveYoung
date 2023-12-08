@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OliveUserDTO {
-	private String useId;
+	private String userId;
 	private String userName;
 	private String userPassword;
 	private String userTel;

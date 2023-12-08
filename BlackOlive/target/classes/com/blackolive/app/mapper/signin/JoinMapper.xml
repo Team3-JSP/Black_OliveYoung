@@ -5,8 +5,8 @@
 
 <mapper namespace="com.blackolive.app.mapper.signin.JoinMapper">
   <!-- 회원가입여부 체크 -->
-	 <select id="joinCheck" resultType="String">
-	 SELECT * 
+	 <select id="joinCheck" resultType="com.blackolive.app.domain.signin.OliveUserDTO">
+	 SELECT *
 	 FROM( 
 	   SELECT user_id
 	   			, user_name
@@ -16,4 +16,10 @@
 	 )
 	 WHERE userTel = #{userTel} 
 	 </select>
+	 <!-- 	 회원가입 -->
+	 <insert id="join">
+	INSERT INTO olive_user (user_id, user_name, user_pwd, user_tel, user_birth, user_email)
+	VALUES (#{user_id}, #{user_name},#{user_pwd}, #{user_tel}, #{user_birth}, #{user_email} )
+	 </insert>
+	 
 </mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+<%@ page import="com.blackolive.app.domain.signin.OliveUserDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +21,7 @@
 	<div id="bodyWrap">
 
 		<!--header-->
-		<form id="headerFrm" method="get">
-			<input type="hidden" name="h_search_keyword" id="h_search_keyword">
-		</form>
+		
 		<!--header-->
 		<div id="part_headerWrap">
 			<div class="part_header_wrap">
@@ -43,53 +42,8 @@
 		<!--contents-->
 		<div id="contentsWrap">
 
-			<form id="form1" name="form1" method="post" action="<%=contextPath%>/olive/agreement.do">
-				<input type="hidden" name="coopco_cd" id="coopco_cd" value="7030">
-				<input type="hidden" name="brnd_cd" id="brnd_cd" value="3000">
-				<input type="hidden" name="mcht_no" id="mcht_no" value="3000">
-				<input type="hidden" name="coop_return_url" id="coop_return_url" value="">
-				<input type="hidden" name="sub_type" id="sub_type" value="1">
-				<input type="hidden" name="ipin_use_yn" id="ipin_use_yn" value="">
-				<input type="hidden" name="hg_nm" id="hg_nm" value="">
-				<!-- ####주민번호미보유#### 주민번호 삭제 -->
-				<input type="hidden" name="ipin_ci" id="ipin_ci"
-					value="BbsvNWk1mdc5XVc15zRkJnUtVGjsQhgH/yb1b1CyDeRgEROBXbgIYB+4GXnADTnpcfHRkc4n9FRRtqWaNV0NaA==">
-				<input type="hidden" name="ipin_di" id="ipin_di" value="">
-				<input type="hidden" name="gender" id="gender" value="M">
-				<input type="hidden" name="legl_birth_dy" id="legl_birth_dy" 	value="">
-				<input type="hidden" name="frgnr_yn" id="frgnr_yn" value="N">
-				<input type="hidden" name="under_14" id="under_14" value="N">
-				<input type="hidden" name="agr_dy" id="agr_dy" value="">
-				<input type="hidden" name="agr_tm" id="agr_tm" value="">
-				<input type="hidden" name="agr_yn" id="agr_yn" value=""> 
-				<input type="hidden" name="agr_sub_yn99" id="agr_sub_yn99" value="">
-				<!-- 제3자 정보제공동의 추가  -->
-				<input type="hidden" id="mbr_no" name="mbr_no" value=""> 
-				<input type="hidden" id="mbr_id" name="mbr_id" value=""> 
-				<input type="hidden" id="mbr_typ_cd" name="mbr_typ_cd" value="11">
-				<input type="hidden" id="join_coopco_list" name="join_coopco_list" value="">
-				<input type="hidden" id="coopco_hg_nm" name="coopco_hg_nm" value="올리브영">
-				<input type="hidden" name="agr_typ_onln" value=",">
-				<input type="hidden" id="rejoin_yn" name="rejoin_yn" value="N">
-				<input type="hidden" id="nm_cnfm_yn" name="nm_cnfm_yn" value="Y">
-				<input type="hidden" id="upd_coopco_id" name="upd_coopco_id" value="">
-				<input type="hidden" name="evt_typ" id="evt_typ" value="">
-				<input type="hidden" name="ret_mbr_id" id="ret_mbr_id" value="">
-				<input type="hidden" name="phone_no" id="phone_no" value="">
-
-				<!-- ipin 업체에서 응답받기 원하는 데이타를 설정하기 위해 사용. 인증결과 응답시, 해당 값을 그대로 송신함. 2012.01.04 wee -->
-				<input type="hidden" name="enc_data" id="enc_data"> 
-				<input type="hidden" name="param_r1" id="param_r1">
-				<input type="hidden" name="param_r2" id="param_r2"> 
-				<input type="hidden" name="param_r3" id="param_r3"> 
-				<input type="hidden" name="enc_com" id="enc_com"> 
-				<input type="hidden" id="legl_rep_nm" name="legl_rep_nm" value="">
-				<input type="hidden" id="legl_birth_day" name="legl_birth_day" value="">
-				<input type="hidden" id="legl_ipin_ci" name="legl_ipin_ci" value="">
-				<input type="hidden" id="legl_cert" name="legl_cert" value="">
-				<input type="hidden" id="legl_typ_cd" name="legl_typ_cd" value="">
-				<input type="hidden" id="legl_rep_agr_yn" name="legl_rep_agr_yn"	value="">
-
+			<form id="form1" name="form1" method="post" action="/join/join">
+		
 				<div id="contents">
 					<!--title-->
 

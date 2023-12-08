@@ -16,10 +16,6 @@
 <script src = "https://www.cjone.com/cjmweb/js/modules/cjoneCore.js"></script>
 </head>
 <body>
-		<form id="headerFrm" method="get">
-			<input type="hidden" name="h_search_keyword" id="h_search_keyword">
-		</form>
-
 		<!--header-->
 		<div id="part_headerWrap">
 			<div class="part_header_wrap">
@@ -75,60 +71,6 @@
 							<h2 class="haze">회원정보 입력</h2>
 							<div class="member_info">
 								<form id="formJoin" name="formJoin" method="post" action="">
-									<input type="hidden" id="coopco_cd" name="coopco_cd"
-										value="7030"> <input type="hidden" id="brnd_cd"
-										name="brnd_cd" value="3000"> <input type="hidden"
-										id="mcht_no" name="mcht_no" value="3000"> <input
-										type="hidden" name="coop_return_url" id="coop_return_url"
-										value=""> <input type="hidden" id="sub_type"
-										name="sub_type" value="1"> <input type="hidden"
-										id="ipin_use_yn" name="ipin_use_yn" value=""> <input
-										type="hidden" id="hg_nm" name="hg_nm" value=""> <input
-										type="hidden" id="vno" name="vno" value="">
-									<input type="hidden" id="ipin_ci" name="ipin_ci"
-										value="BbsvNWk1mdc5XVc15zRkJnUtVGjsQhgH/yb1b1CyDeRgEROBXbgIYB+4GXnADTnpcfHRkc4n9FRRtqWaNV0NaA==">
-									<input type="hidden" id="ssn1" name="ssn1" value=""> <input
-										type="hidden" id="ssn2" name="ssn2" value=""> <input
-										type="hidden" id="ipin_di" name="ipin_di" value=""> <input
-										type="hidden" id="gender" name="gender" value="M"> <input
-										type="hidden" id="legl_birth_dy" name="legl_birth_dy"
-										value=""> <input type="hidden" id="frgnr_yn"
-										name="frgnr_yn" value="N"> <input type="hidden"
-										id="under_14" name="under_14" value="N"> <input
-										type="hidden" id="id_validate" name="id_validate" value="">
-									<input type="hidden" id="agr_dy" name="agr_dy" value="20231106">
-									<input type="hidden" id="agr_tm" name="agr_tm" value="175010">
-									<input type="hidden" id="agr_yn" name="agr_yn" value="Y">
-									<input type="hidden" name="svcuse_agr_typ_cd"
-										value="10,11,30,40,"> <input type="hidden"
-										name="agr_sub_yn99" id="agr_sub_yn99" value="Y">
-									<!-- 3자 동의파라메터   -->
-									<input type="hidden" id="mbr_no" name="mbr_no" value="">
-									<input type="hidden" id="mbr_typ_cd" name="mbr_typ_cd"
-										value="11"> <input type="hidden" id="legl_rep_nm"
-										name="legl_rep_nm" value=""> <input type="hidden"
-										id="legl_birth_day" name="legl_birth_day" value=""> <input
-										type="hidden" id="legl_ipin_ci" name="legl_ipin_ci" value="">
-									<input type="hidden" id="legl_cert" name="legl_cert" value="">
-									<input type="hidden" id="legl_typ_cd" name="legl_typ_cd"
-										value=""> <input type="hidden" id="legl_rep_agr_yn"
-										name="legl_rep_agr_yn" value=""> <input type="hidden"
-										id="join_coopco_list" name="join_coopco_list" value="">
-									<input type="hidden" id="rejoin_yn" name="rejoin_yn" value="N">
-									<input type="hidden" id="actionUrl" name="actionUrl" value="">
-									<input type="hidden" id="nm_cnfm_yn" name="nm_cnfm_yn" value="">
-									<input type="hidden" id="coopco_hg_nm" name="coopco_hg_nm"
-										value="올리브영"> <input type="hidden" name="agr_typ_onln"
-										value="10,20,"> <input type="hidden" id="card_chk"
-										name="card_chk" value="N"> <input type="hidden"
-										name="evt_typ" id="evt_typ" value=""> <input
-										type="hidden" id="clndr_typ_cd" name="clndr_typ_cd" value="S">
-									<input type="hidden" id="upd_coopco_id" name="upd_coopco_id"
-										value=""> <input type="hidden" id="sns_yn"
-										name="sns_yn" value=""> <input type="hidden"
-										name="omni_agr_list" id="omni_agr_list"
-										value="10|7060|6040,10|7130|1301,10|7040|4070,10|7030|3000,10|7240|2401,10|7010|1000,10|7020|2000,10|7190|1900">
-								
 									<div class="table_header">
 										<h3 class="h3_tit">기본정보</h3>
 										<div class="info">
@@ -154,7 +96,7 @@
 															이름</label>
 													</th>
 													<td><span class="input_txt">
-													<input type="text" name ="u_name"	readonly="" value="${u_name}" class="text readonly member_name"
+													<input type="text" name ="u_name"	readonly="" value="${userName}" class="text readonly member_name"
 															id="input_member_name"></span>
 													<!-- 에러시 .error 클래스 추가 --></td>
 												</tr>
@@ -168,7 +110,7 @@
 														<div class="input_group">
 															<span class="input_txt w250"><input type="text"
 																class="text" title="사용 할 영문 아이디 명 입력"
-																placeholder="아이디를 입력해주세요." name="mbr_id" id="mbr_id"
+																placeholder="아이디를 입력해주세요." name="userId" id="mbr_id"
 																maxlength="12" value=""></span>
 
 															<button type="button" class="btn btn_search"
@@ -186,7 +128,7 @@
 														<div class="input_group">
 															<span class="input_txt w250"><input
 																type="password" class="text" placeholder="비밀번호를 입력해주세요."
-																name="pwd" id="pwd" maxlength="50"></span> <span
+																name="userPassword" id="pwd" maxlength="50"></span> <span
 																class="pwd_lv" id="alert_pwd_strength"></span>
 															<p class="msg_info em hide" id="msg_pwd">비밀번호는 영문자,
 																숫자, 특수문자 모두 최소 1가지 이상 조합한 8~12자리이어야 합니다.</p>
@@ -622,55 +564,6 @@
 		</div>
 		<!-- //footer -->
 	</div>
-	
-	<form method="post" name="form2" id="form2">
-		<input type="hidden" id="sns_yn" name="sns_yn" value=""> <input
-			type="hidden" id="coopco_cd" name="coopco_cd" value=""> <input
-			type="hidden" id="brnd_cd" name="brnd_cd" value=""> <input
-			type="hidden" id="mcht_no" name="mcht_no" value=""> <input
-			type="hidden" name="coop_return_url" id="coop_return_url" value="">
-		<input type="hidden" id="return_func" name="return_func" value="">
-		<input type="hidden" id="mbr_id" name="mbr_id" value=""> <input
-			type="hidden" id="sub_type" name="sub_type" value=""> <input
-			type="hidden" id="ipin_use_yn" name="ipin_use_yn" value=""> <input
-			type="hidden" id="hg_nm" name="hg_nm" value=""> <input
-			type="hidden" id="vno" name="vno" value=""> <input
-			type="hidden" id="ssn1" name="ssn1" value=""> <input
-			type="hidden" id="ssn2" name="ssn2" value=""> <input
-			type="hidden" id="ipin_ci" name="ipin_ci" value=""> <input
-			type="hidden" id="ipin_di" name="ipin_di" value=""> <input
-			type="hidden" id="gender" name="gender" value=""> <input
-			type="hidden" id="frgnr_yn" name="frgnr_yn" value=""> <input
-			type="hidden" id="under_14" name="under_14" value=""> <input
-			type="hidden" id="id_validate" name="id_validate" value=""> <input
-			type="hidden" id="agr_dy" name="agr_dy" value=""> <input
-			type="hidden" id="agr_tm" name="agr_tm" value=""> <input
-			type="hidden" id="agr_yn" name="agr_yn" value=""> <input
-			type="hidden" name="agr_sub_yn99" id="agr_sub_yn99" value="">
-		<!-- 3자 동의파라메터   -->
-		<input type="hidden" id="mbr_no" name="mbr_no" value=""> <input
-			type="hidden" id="mbr_typ_cd" name="mbr_typ_cd" value=""> <input
-			type="hidden" id="legl_rep_nm" name="legl_rep_nm" value=""> <input
-			type="hidden" id="legl_birth_day" name="legl_birth_day" value="">
-		<input type="hidden" id="legl_ipin_ci" name="legl_ipin_ci" value="">
-		<input type="hidden" id="legl_cert" name="legl_cert" value="">
-		<input type="hidden" id="legl_typ_cd" name="legl_typ_cd" value="">
-		<input type="hidden" id="legl_rep_agr_yn" name="legl_rep_agr_yn"
-			value=""> <input type="hidden" id="join_coopco_list"
-			name="join_coopco_list" value=""> <input type="hidden"
-			id="rejoin_yn" name="rejoin_yn" value=""> <input
-			type="hidden" id="action_url" name="action_url" value=""> <input
-			type="hidden" name="evt_typ" id="evt_typ" value=""> <input
-			type="hidden" name="strEvtCode" id="strEvtCode" value=""> <input
-			type="hidden" name="evt_coopco_cd" id="evt_coopco_cd" value="">
-		<input type="hidden" name="evt_brnd_cd" id="evt_brnd_cd" value="">
-		<input type="hidden" name="evt_mcht_no" id="evt_mcht_no" value="">
-		<input type="hidden" name="evt_mbr_no" id="evt_mbr_no" value="">
-		<input type="hidden" name="card_register_error"
-			id="card_register_error" value=""> <input type="hidden"
-			name="upd_coopco_id" id="upd_coopco_id" value=""> <input
-			type="hidden" name="card_chk" id="card_chk" value="">
-	</form>
 </body>
 
 <script>
@@ -778,11 +671,18 @@ var length = inputVal.length;
 <script>
 	//생년월일
 	var sel;
-	var str = "${u_birth}";
-	const result1 = str.substr(0, 4);
-	const result2 = str.substr(4, 2);
-	const result3 = str.substr(6, 2);
-
+	var str = "${userBirth}";
+	var gender = "${userGender}";
+	const result1 = str.substr(0, 2);
+	const result2 = str.substr(2, 2);
+	const result3 = str.substr(4, 2);
+	var nowYear;
+	if ( gender == 1 || gender == 2){
+		nowYear= 1900+ Number(result1) ; 
+	} else if ( gender == 3 || gender == 4 ){
+		nowYear= 2000+ Number(result1) ; 
+	}
+	
 	sel = $("#birth_yy");
 	var selYYvalue = result1;
 
@@ -808,14 +708,18 @@ var length = inputVal.length;
 </script>
 <script>
 	//휴대전화번호 마스킹처리
-	var str = "${u_tel}";
-	const result4=str.substr(0,4);		
-	const result5=str.substr(4,4);	
-				let str1 = result4;
-				let str2 = result5;
-				let strAll = "010" + str1.replace(str1, '****') +str2;
-				$("#mob_no").val(strAll);
-		$("#u_tel").val("010-"+str1+"-"+str2);
+	var str = "${userTel}";
+	
+	const rs1=str.substr(0,3);		
+	const rs2=str.substr(3,4);		
+	const rs3=str.substr(7,4);	
+	let str1 = rs1;
+	let str2 = rs2;
+	let str3 = rs3;
+
+	let strAll = str1+ str2.replace(str2, '****') +str3;
+		$("#mob_no").val(strAll);
+		$("#userTel").val(str1+"-"+str2+"-"+str3);
 	</script>
 
 <script>
@@ -832,10 +736,5 @@ var length = inputVal.length;
 		}
 	});
 </script>
-<%
-	session.removeAttribute("u_name");
-	session.removeAttribute("u_birth");
-	session.removeAttribute("tel");
-%>
 </body>
 </html>

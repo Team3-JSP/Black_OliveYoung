@@ -6,7 +6,11 @@ import com.blackolive.app.domain.signin.OliveUserDTO;
 
 public interface JoinService {
 	//회원가입 여부 체크
-	public String getJoinCheck(String u_tel) throws ClassNotFoundException, SQLException;
+	public OliveUserDTO getJoinCheck(String userTel) throws ClassNotFoundException, SQLException;
 	//가입된 회원
 	public OliveUserDTO getAlreadyUser (OliveUserDTO userDto) throws ClassNotFoundException, SQLException;
+	//회원가입 휴대폰인증 완료 
+	public OliveUserDTO getVerifyOk() throws SQLException, ClassNotFoundException;
+	//회원가입
+	public int insertUser(OliveUserDTO userDto) throws ClassNotFoundException, SQLException;
 }

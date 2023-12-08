@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title><tiles:getAsString name="title"></tiles:getAsString> </title>
-<link href='${pageContext.request.contextPath}<tiles:getAsString name="cjCss1" />' rel="stylesheet">
-<link href='${pageContext.request.contextPath}<tiles:getAsString name="cjCss2" />' rel="stylesheet">
+<%-- <link href='${pageContext.request.contextPath}<tiles:getAsString name="cjCss1" />' rel="stylesheet">
+<link href='${pageContext.request.contextPath}<tiles:getAsString name="cjCss2" />' rel="stylesheet"> --%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 

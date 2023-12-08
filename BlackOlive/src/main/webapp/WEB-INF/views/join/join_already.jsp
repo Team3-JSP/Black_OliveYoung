@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/CJbase.css"/>
+<link rel="stylesheet" href="../css/CJparticipate.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src = "https://www.cjone.com/cjmweb/js/modules/cjoneCore.js"></script>
+</head>
+<body>
 <!--contents-->
 <div id="contentsWrap">
 	<form method="post" id="form1" name="form1" action="">
@@ -41,11 +51,11 @@
 								<span class="ico"></span>
 
 								<p class="b_txt">
-									<strong class="em">${userName }</strong>님! 이미 CJ ONE 회원으로 등록되어
+									<strong class="em">${userDto.userName}</strong>님! 이미 CJ ONE 회원으로 등록되어
 									있습니다.
 								</p>
-								<p class="s_txt">
-									회원 아이디<em>(아이디)</em>로 로그인 하시거나 아이디 찾기를 진행해 주세요.
+								<p class="s_txt" >
+									회원 아이디<em>(${userDto.userId})</em>로 로그인 하시거나 아이디 찾기를 진행해 주세요.
 								</p>
 							</div>
 							<div class="btn_sec">
@@ -98,3 +108,5 @@
 	</form>
 </div>
 <!--//contents-->
+</body>
+</html>
