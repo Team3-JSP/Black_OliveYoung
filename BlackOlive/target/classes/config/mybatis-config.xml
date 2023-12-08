@@ -30,9 +30,13 @@
 		ex) com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
 		<mapper resource="com/blackolive/app/mapper/head/HeadMapper.xml"/>
+
+		<mapper resource="com/blackolive/app/mapper/store/StoreMapper.xml"/>
+
 		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
+
 		
 	</mappers>
 	
