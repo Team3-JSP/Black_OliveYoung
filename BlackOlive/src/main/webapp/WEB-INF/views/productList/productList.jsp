@@ -2,35 +2,191 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 
+<script src="/resources/js/productList.js"></script>
 
+<script>
+$(function () {
+	
+	if (${param.plusButtonFlag eq 'Y'}) {
+		$('.cate_brand_box').addClass("more_view")
+	}
+	
+	
+	console.log(window.location.href);
+	$(".loc_history>li").mouseover(function () {
+		$(this).addClass("active");
+		$("history_cate_box").css("display","block");
+	})
+	$(".loc_history>li").mouseleave(function () {
+		$(".loc_history>li").removeClass("active");
+	})
+	//
+	
+	 $('.btn_more').click(function() {
+	        const brandBox = $('.cate_brand_box');
+	        if (brandBox.hasClass('more_view')) {
+	            brandBox.removeClass('more_view');
+	            $(this).text('더보기');
+	        } else {
+	            brandBox.addClass('more_view');
+	            $(this).text('축소');
+	        }
+	    });
+	
+	 var urlParams = new URLSearchParams(window.location.search);
+
+     // plusbutton 매개변수가 있고 값이 'y'인 경우 체크박스 체크
+     if (urlParams.has('plusbutton') && urlParams.get('plusbutton') === 'y') {
+         $('#checkbox').prop('checked', true);
+     }
+	//
+
+	 // midId와 일치하는 id를 가진 li 요소에 'on' 클래스 추가
+	$( '.loc_history li a#' + '').addClass('on');
+	$('#Contents > div.page_location > ul > li:nth-child(2) > div > ul > li a#' + '').addClass('on'); 
+	$('#Contents > div.page_location > ul > li:nth-child(3) > div > ul > li a#' + '').addClass('on');
+	 
+	// 정렬 리스트 class on 추가
+	$(".cate_align_box .align_sort ul > li").removeClass("on");
+	/* $(".cate_align_box .align_sort ul > li").eq( ${param.sort} == null ? 1 : ${param.sort}-1).addClass("on"); */
+	
+	//
+	$("#Contents > ul.cate_list_box li").removeClass("on");
+	$('#Contents > ul.cate_list_box li#' + '').addClass('on') ; 
+	/* if ( == ("0000")) {
+		$('#Contents > ul.cate_list_box li.first').addClass('on') ; 
+	} */
+	
+	$("div.count_sort.tx_num > ul > li").removeClass("on");
+	$("div.count_sort.tx_num > ul > li").eq().addClass("on");
+	
+
+	var urlParams = new URLSearchParams(window.location.search);
+    var checkboxes = document.querySelectorAll('input[name="brandId"]');
+
+    // 브랜드 체크 처리
+    if (urlParams.has('brandId')) {
+        var selectedBrands = urlParams.getAll('brandId');
+        
+        checkboxes.forEach(function(checkbox) {
+            var brandID = checkbox.value;
+            if (selectedBrands.includes(brandID)) {
+                checkbox.checked = true; // 파라미터에 해당하는 값이 있으면 체크박스를 체크함
+            }
+        });
+    }
+
+    $('input[name="brandId"]').on('change', function() {
+    	
+    	var url = "/Black_OY/view/product/pmidlistproduct.do?displNum="+' '+"&sort=${param.sort}&currentpage=1";
+    	console.log(url);
+        var brandID = $(this).val();
+		var plusButtonFlag = "&plusButtonFlag=Y";
+		const brandBox = $('.cate_brand_box');
+        if ($(this).is(':checked')) {
+            // 체크박스가 체크되었을 때
+            if (url.indexOf('brandId=' + brandID) === -1) {
+                // 파라미터가 없으면 파라미터 추가
+                var separator = url.indexOf('?') !== -1 ? '&' : '?';
+                if (brandBox.hasClass('more_view')) {
+                	window.location.href = url + separator + 'brandId=' + brandID + plusButtonFlag;
+				}else{
+					window.location.href = url + separator + 'brandId=' + brandID;
+				}
+                
+            }
+        } else {
+            // 체크박스가 해제되었을 때
+            if (url.indexOf('brandId=' + brandID) !== -1) {
+                // 파라미터가 있으면 파라미터 삭제
+                var newUrl = url.replace(new RegExp('[?&]brandId=' + brandID), '');
+                if (brandBox.hasClass('more_view')) {
+                	window.location.href = newUrl + plusButtonFlag;
+				}else{
+					window.location.href = newUrl;
+				}
+                
+            }
+        }
+    })   
+    
+    
+}) ; 
+
+function changePerPage(value) { // perPage 수정
+	  // 현재 URL 또는 기존 링크에서 파라미터 값 가져오기
+	const currentURL = window.location.href;
+	  const url = new URL(currentURL);
+
+	  // 'perPage' 파라미터 값 변경
+	  url.searchParams.set('perPage', value);
+
+	  // 새 URL을 만들고 브라우저의 주소창을 업데이트
+	  window.location.href = url;
+	}
+	
+function changePerPageAndClass(value) {
+	  const perPage = value.toString();
+	  const currentURL = new URL(window.location.href);
+	  
+	  // Set 'perPage' parameter value
+	  currentURL.searchParams.set('perPage', perPage);
+	  
+	  
+	  // Go to the new URL with updated 'perPage' parameter
+	  window.location.href = currentURL;
+
+	  // Remove 'on' class from all li elements
+	  const allLi = document.querySelectorAll('.count_sort tx_num ul li');
+	  allLi.forEach(li => {
+	    li.classList.remove('on');
+	  });
+
+	  // Get 'perPage' parameter value from the URL
+	  const urlParams = currentURL.searchParams.get('perPage');
+
+	  // Add 'on' class to the li element matching the 'perPage' parameter
+	  const matchedLi = document.querySelector(`.count_sort tx_num ul li a[href*="perPage=${urlParams}"]`);
+	  if (matchedLi) {
+	    matchedLi.parentElement.classList.add('on');
+	  }
+	}
+	$(function(){
+	// 브랜드 선택 초기화
+	$("#onlBrndReSet").on("click",function(){
+		var url = "/Black_OY/view/product/pmidlistproduct.do?displNum="+''+"&sort=${param.sort}&currentpage=1";
+		window.location.href = url;
+	})
+	})
+</script>
 <div id="Container">
 		<div id="Contents">
 			<div class="page_location">
 				<a href="<%=contextPath%>/olive/main.do" class="loc_home">홈</a>
 				<ul class="loc_history">
-					<li><a href="#" class="cate_y">${mnameiddto.catLName} </a>
+					<li><a href="#" class="cate_y"> 수정중</a>
 						<div class="history_cate_box" style="width: 242px">
 							<ul>
-								<c:if test="${not empty topcatedto}">
-									<c:forEach items="${topcatedto}" var="tcd">
-										<li><a id="${tcd.id}"
-											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${tcd.id}">${tcd.name}</a></li>
+								<c:if test="${not empty categoryLargeList}">
+									<c:forEach items="${categoryLargeList}" var="tcd">
+										<li><a id="${tcd.categoryLargeId}"
+											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${tcd.categoryLargeId}">${tcd.categoryLargeName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y"> ${mnameiddto.catMName}</a>
+					<li><a href="#" class="cate_y">수정중</a>
 						<div class="history_cate_box" style="width: 122px">
 							<ul>
-								<c:if test="${not empty midcatedto}">
-									<c:forEach items="${midcatedto}" var="mcd">
-										<li><a id="${mcd.id}"
-											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${mnameiddto.catLId}${mcd.id}&sort=1">${mcd.name}</a></li>
+								<c:if test="${not empty categoryMidList}">
+									<c:forEach items="${categoryMidList}" var="mcd">
+										<li><a id="${mcd.categoryMidId}"
+											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${mcd.categoryMidId}&sort=1">${mcd.categoryMidName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<%
+					<%-- <%
 					
 					%>
 					<c:if test="${not empty pLowcateList}">
@@ -47,25 +203,24 @@
 
 					<%
 		
-					%>
+					%> --%>
 
 				</ul>
 			</div>
 
 			<div class="titBox">
-				<h1>${pcurnamedto.name}</h1>
+				<h1>현재 카테고리 이름</h1>
 			</div>
 
 			<ul class="cate_list_box">
 				<li class="first on"><a
-					href="pmidlistproduct.do?displNum=${mnameiddto.catLId}${mnameiddto.catMId}&sort=1"
-					class="<%= %>" data-attr="카테고리상세^카테고리리스트^전체">전체</a></li>
+					href="pmidlistproduct.do?displNum=&sort=1"
+					class="on" data-attr="카테고리상세^카테고리리스트^전체">전체</a></li>
 				<c:set var="counter" value="0" />
-				<c:if test="${not empty pLowcateList}">
-					<c:forEach items="${pLowcateList}" var="pl">
-						<li id="${pl.sId}"><a
-							data-attr="카테고리상세^카테고리리스트^${pl.plowcate}"
-							href="pmidlistproduct.do?displNum=${mnameiddto.catLId}${mnameiddto.catMId}${pl.sId}&sort=1">${pl.plowcate}</a></li>
+				<c:if test="${not empty categorySmallList}">
+					<c:forEach items="${categorySmallList}" var="pl">
+						<li id="${pl.categorySmallId}"><a
+							href="pmidlistproduct.do?displNum=${pl.categorySmallId}&sort=1">${pl.categorySmallName}</a></li>
 						<c:set var="counter" value="${counter + 1}" />
 					</c:forEach>
 				</c:if>
@@ -82,12 +237,12 @@
 				</div>
 				<ul class="brand_list">
 
-					<c:if test="${ not empty pbrandlist }">
-						<c:forEach items="${ pbrandlist }" var="pbl">
-							<li><input type="checkbox" id="${ pbl.brandID }"
-								name="brandId" value="${ pbl.brandID }"
+					<c:if test="${ not empty brandList }">
+						<c:forEach items="${ brandList }" var="pbl">
+							<li><input type="checkbox" id="${ pbl.brandId }"
+								name="brandId" value="${ pbl.brandId }"
 								 /> <label
-								for="${pbl.brandID}"> ${pbl.pBrandName} </label></li>
+								for="${pbl.brandId}"> ${pbl.brandName} </label></li>
 						</c:forEach>
 
 					</c:if>
@@ -168,13 +323,13 @@
 			<!-- //2020.12.01 기획전 개선 -->
 			
 			<p class="cate_info_tx">
-				${pcurnamedto.name}<span> ${totalRecords}</span> 개의 상품이 등록되어 있습니다.
+				현재 카테고리 <span> ${totalRecords}</span> 개의 상품이 등록되어 있습니다.
 			</p>
 
 			<div class="cate_align_box">
 				<div class="align_sort">
 					<ul>
-						<li><a class="on"
+						<li class="on"><a 
 							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=1&currentpage=1"
 							data-prdsoting="01">인기순</a></li>
 						<li><a
@@ -216,29 +371,29 @@
 			</div>
 
 			<!-- pmidlistdto -->
-			<c:if test="${not empty pmidlistdto}">
+			<c:if test="${not empty productList}">
 				<c:forEach var="i" varStatus="outerLoop" begin="1" end="6">
 					<ul class="cate_prd_list gtm_cate_list">
 
 						<c:set var="innerLoopBegin" value="${(outerLoop.index - 1) * 4}" />
 						<c:set var="innerLoopEnd" value="${(outerLoop.index * 4) -1}" />
 
-						<c:forEach items="${pmidlistdto}" var="pml"
+						<c:forEach items="${productList}" var="pml"
 							begin="${innerLoopBegin}" end="${innerLoopEnd}"
 							varStatus="innerLoop">
 
 							<li class="flag">
 								<div class="prd_info">
-									<a href="<%=contextPath%>/olive/productDetail.do?goodsNo=${pml.displId}&displNum=<%= %>" class="prd_thumb goodsList"
-										name="${pml.displId}"> <img src="${pml.displImgSrc}" alt="사진"
+									<a href="<%=contextPath%>/olive/productDetail.do?goodsNo=${pml.productDisplayId}" class="prd_thumb goodsList"
+										name="${pml.productDisplayId}"> <img src="${pml.productDisplaySrc}" alt="사진"
 										class="completed-seq-lazyload" />
-										<c:if test="${pml.prostock eq 0 }">
+										<c:if test="${pml.productStock eq 0 }">
 										<span class="status_flag soldout">일시품절</span>
 										</c:if>
 									</a>
 									<div class="prd_name">
 										<a href="#" class="goodsList"> <span class="tx_brand">${pml.brandName}</span>
-											<p class="tx_name">${pml.displProName}</p>
+											<p class="tx_name">${pml.productDisplayName}</p>
 										</a>
 									</div>
 									<button class="btn_zzim jeem" data-ref-goodsno="A000000185252">
@@ -246,31 +401,31 @@
 									</button>
 									<p class="prd_price">
 										<span class="tx_org"> <span class="tx_num">
-												${pml.proPrice}</span> 원
+												${pml.minprice}</span> 원
 										</span> <span class="tx_cur"> <span class="tx_num">
-												${pml.afterPrice}</span> 원
+												${pml.afterprice}</span> 원
 										</span>
 									</p>
 									<p class="prd_flag">
-										<c:if test="${pml.pdc eq 1}">
+										<c:if test="${pml.discountflag eq 1}">
 											<span class="icon_flag sale">세일</span>
 										</c:if>
-										<c:if test="${pml.prc eq 1}">
+										<c:if test="${pml.couponflag eq 1}">
 											<span class="icon_flag coupon">쿠폰</span>
 										</c:if>
 
-										<c:if test="${pml.pmp eq 1}">
+										<c:if test="${pml.presentflag eq 1}">
 											<span class="icon_flag gift">증정</span>
 										</c:if>
 
-										<c:if test="${pml.stock > 0}">
+										<c:if test="${pml.todaypickupflag > 0}">
 											<span class="icon_flag delivery">오늘드림</span>
 										</c:if>
 									</p>
 									<!-- 리뷰점수 추가 -->
 									
 									<p class="prd_btn_area">
-										<button class="cartBtn" id="${pml.displId }" data-ref-goodsno="A000000188420" data-ref-dispcatno="100000100010009" data-ref-itemno="001">장바구니</button>
+										<button class="cartBtn" id="${pml.productDisplayId }" data-ref-goodsno="A000000188420" data-ref-dispcatno="100000100010009" data-ref-itemno="001">장바구니</button>
 										<button class="btn_new_pop goodsList" name="Cat100000100010009_MID">새창보기</button>
 									</p>
 									
@@ -285,24 +440,24 @@
 		</div>
 
 		<div class="pageing">
-			<c:if test="${pDto.prev }">
-				<a class="prev" href="<%=contextPath%>/view/product/pmidlistproduct.do?displNum=${param.displNum}&sort=${param.sort}&currentpage=${pDto.start-1}<%= %>&perPage=${param.perPage}" data-page-no="1">이전 10
+			<c:if test="${pageDTO.prev }">
+				<a class="prev" href="#" data-page-no="1">이전 10
 				페이지</a>
 			</c:if>
-			<c:forEach var="i" begin="${pDto.start }" end="${pDto.end }" step="1">
+			<c:forEach var="i" begin="${pageDTO.start }" end="${pageDTO.end }" step="1">
 				<c:choose>
-					<c:when test="${i eq pDto.currentPage}">
+					<c:when test="${i eq pageDTO.currentPage}">
 						<strong title="현재 페이지">${i}</strong>
 						<%-- <a class="active" href="#">${i }</a> --%>
 					</c:when>
 					<c:otherwise>
 						<a
-							href="<%=contextPath%>/view/product/pmidlistproduct.do?displNum=&sort=&currentpage=<%=%>&perPage=${param.perPage}">${i }</a>
+							href="#">${i }</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-			<c:if test="${pDto.next }">
-				<a class="next" href="<%=contextPath%>/view/product/pmidlistprduct.do?displNum=${param.displNum}&sort=${param.sort}&currentpage=${pDto.end+1}<%= %>&perPage=${param.perPage}" data-page-no="21">다음 10 페이지</a>
+			<c:if test="${pageDTO.next }">
+				<a class="next" href="#" data-page-no="">다음 10 페이지</a>
 			</c:if>
 			<!-- <strong title="현재 페이지">1</strong> -->
 		</div>

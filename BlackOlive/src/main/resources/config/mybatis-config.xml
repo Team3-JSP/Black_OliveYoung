@@ -15,6 +15,11 @@
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
 			<typeAlias type="com.blackolive.app.domain.head.CategorySmallDTO" alias="categorySmall" />
 			
+			
+			
+			<typeAlias type="com.blackolive.app.domain.productList.BrandDTO" alias="BrandDTO" />
+			<typeAlias type="com.blackolive.app.domain.productList.ProductContainer" alias="ProductContainer" />
+			
 	</typeAliases>
 	
 	<!-- 언더바를 대문자를 바꿔주는 작업 -->
@@ -24,6 +29,8 @@
 		ex) com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
 		<mapper resource="com/blackolive/app/mapper/head/HeadMapper.xml"/>
+		
+		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
 		
 	</mappers>
 	
