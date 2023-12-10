@@ -61,9 +61,11 @@
 	<select id="selectStoreCondition" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		<where>
-			
-		</where>
+		<trim prefix="where" prefixOverrides="AND">
+			<if test="keyword != ''">
+				AND store_address LIKE '%' || #{keyword}  ||'%' OR store_name LIKE '%' || #{keyword} || '%'
+			</if>
+		</trim>
 		<!-- WHERE (s.store_id IN ( 
 		        SELECT DISTINCT(store_id)
 		        FROM handling_store
