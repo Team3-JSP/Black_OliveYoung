@@ -140,8 +140,13 @@ gradle-app.setting
 #서버파일
 Servers/
 
+# Eclipse Core       
+.project 
+
+# JDT-specific (Eclipse Java Development Tools)      
+.classpath
+.settings/
 
 
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,java,eclipse,gradle
-
