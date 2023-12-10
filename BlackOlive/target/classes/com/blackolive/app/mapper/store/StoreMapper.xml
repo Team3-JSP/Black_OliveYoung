@@ -16,12 +16,12 @@
 		WHERE city_id = #{city_id}
 	</select>
 
-	<select id="selectAllStore" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectAllStore" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 	</select>
 	
-	<select id="selectStoreList" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectStoreList" resultType="StoreDTO">
 		<![CDATA[
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
@@ -52,16 +52,18 @@
 		WHERE user_id = #{userId};
 	</select>
 	
-	<select id="selectStoreKeyword" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectStoreKeyword" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		WHERE store_address LIKE '%'||#{param1}||'%' OR store_name LIKE '%'||#{param1}||'%'
 	</select>
 
-	<select id="selectStoreCondition" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectStoreCondition" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		
+		<where>
+			
+		</where>
 		<!-- WHERE (s.store_id IN ( 
 		        SELECT DISTINCT(store_id)
 		        FROM handling_store
