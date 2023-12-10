@@ -1150,13 +1150,15 @@ $(function() {
 	// 적용하기 버튼을 눌렀을 때
 	$(".btnSmall.choice_btn").on("click", function() {
 		let keyword = $("#searchWord").val();
-		let tcs = [];
-		let pss = [];
 		let tc = $("#tc_list button.on").next();
 		let ps = $("#ps_list button.on").next();
+		let tcs = [];
+		let pss = [];
+		
 		for(let i=0; i<tc.length; i++) {
 			tcs.push($(tc[i]).val());
 		}
+		
 		for(let i=0; i<ps.length; i++) {
 			pss.push($(ps[i]).val());
 		}
@@ -1170,8 +1172,8 @@ $(function() {
 				, url : '/store/getStoreCondition'
 				, dataType : 'json'
 				, data : {
-					tcs : JSON.stringify(tcs)
-					, pss : JSON.stringify(pss)
+					tcs : tcs.toString()
+					, pss : pss.toString()
 					, keyword : keyword
 				}
 				, success : function(data) {
@@ -1183,21 +1185,20 @@ $(function() {
 						return;
 					}
 					$("#noSearchWordInfo").hide();
-					let stores = JSON.parse(data);
-					$("#searchWordDiv .reShop_result > dt > span").text(stores.stores.length)
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
+					$("#searchWordDiv .reShop_result > dt > span").text(data.length)
+					for(let i=0; i<data.length; i++) {
+						let li = $("<li>").addClass(data[i].storeId);
 						let div = $("<div>").addClass("li_Pc_reInner");
 						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
+						let a = $("<a>").text(data[i].storeName);
+						let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
+						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
 						let date = new Date();
 						let hour = date.getHours() + "";
 						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
+						let weekday = data[i].weekday;
 						let weekdays = weekday.split(" - ");
 						let time;
 						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
@@ -1209,7 +1210,7 @@ $(function() {
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+											.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
 						// 즐겨찾기 눌렀을 때
 						// 로그인 했는지 체크 후
 						// db에도 +1 하기

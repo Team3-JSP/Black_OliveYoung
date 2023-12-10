@@ -21,6 +21,8 @@
 			<typeAlias type="com.blackolive.app.domain.productList.BrandDTO" alias="BrandDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.ProductContainer" alias="ProductContainer" />
 			
+			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
+			
 	</typeAliases>
 	
 	<!-- 언더바를 대문자를 바꿔주는 작업 -->

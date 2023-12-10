@@ -29,4 +29,6 @@ public interface StoreMapper {
 	List<StoreDTO> selectStoreKeyword(String keyword); // 키워드로 매장 검색
 
 	List<StoreDTO> selectStoreCondition(String[] tcs, String[] pss, String keyword); // 매장 검색 옵션 + 키워드
+	
+	int selectStoreCnt(); // 검색 된 매장 전체 수
 }
