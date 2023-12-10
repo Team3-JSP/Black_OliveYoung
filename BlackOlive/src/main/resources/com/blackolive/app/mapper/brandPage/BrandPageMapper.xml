@@ -12,11 +12,12 @@
     <result property="brandSummary" column="brand_summ"/>
     <result property="brandExplaination" column="brand_expl"/>
     <result property="brandImgSrc" column="brand_img_src"/>
-    <result property="productDisplayId" column="product_display_id"/>
+
+    <result property="productDisplayId" column="ProductDisplayid"/>
     <result property="productPrice" column="pro_price"/>
-    <result property="productDisplayName" column="product_display_name"/>
-    <result property="productDisplaySrc" column="product_display_src"/>
-    <result property="productDisplayLike" column="product_displsplay_like"/>
+    <result property="productDisplayName" column="ProductDisplayname"/>
+    <result property="productDisplaySrc" column="ProductDisplaysrc"/>
+    <result property="productDisplayLike" column="ProductDisplaylsplay_like"/>
     <result property="reviewId" column="review_id"/>
     <result property="reviewLike" column="review_like"/>
     <result property="reviewContent" column="review_content"/>
@@ -36,7 +37,7 @@
     <result property="productStock" column="product_stock"/>
   </resultMap>
    <!-- 상단 브랜드 이미지,설명 등을 가져오기 -->
-	<select id="getBrands" resultType="BrandDTO">
+	<select id="getBrands" parameterType="String" resultType="BrandDTO">
 		SELECT b.brand_id, 
             B.brandName, B.brandLike, B.brandSummary, B.brandExplaination, BI.brandImgSrc 
             FROM brand B JOIN BrandImg BI ON B.brandId = BI.brandId
@@ -46,7 +47,7 @@
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기    -->
 	<select id="getSortBrands" resultType="BrandDTO">
   SELECT *
-  FROM pmlistview
+  FROM productcontainer
   WHERE brandId = #{brandId}
     <choose>
       <when test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
@@ -77,7 +78,7 @@
         ORDER BY ProductPrice ASC
       </when>
       <when test="sort.equals('d')">
-        ORDER BY (proprice - afterprice) / proprice * 100 DESC
+        ORDER BY (minprice - afterprice) / minprice * 100 DESC
       </when>
     </choose>
   </if> 
@@ -88,11 +89,11 @@
 	  <![CDATA[
 	SELECT ROWNUM, t.* 
             FROM ( 
-                SELECT PD.PRO_DISPL_NAME, PDI.PRO_DISPL_SRC, PD.PRO_DISPL_LIKE, P.PRO_PRICE  
-                FROM PRODUCT_DISPLAY PD JOIN PRODUCT P ON PD.PRO_DISPL_ID = P.PRO_DISPL_ID  
-                                        JOIN PRO_DISPL_IMG PDI ON PD.PRO_DISPL_ID = PDI.PRO_DISPL_ID  
-               WHERE PD.BRAND_ID = ?  
-                ORDER BY PD.PRO_DISPL_LIKE DESC 
+                SELECT PD.productDisplayName, PDI.productDisplaySrc, PD.productDisplayLike, P.ProductPrice  
+                FROM ProductDisplay PD JOIN PRODUCT P ON PD.productDisplayId = P.productDisplayId  
+                                        JOIN productDisplayImg PDI ON PD.productDisplayId = PDI.ProductDisplayID  
+               WHERE PD.BRANDID = ?  
+                ORDER BY PD.ProductDisplayLike DESC 
              ) t 
              WHERE ROWNUM < 5
                ]]>     
@@ -100,11 +101,11 @@
 	
 	<!-- 리뷰가져오기  -->
   	<select id="getReviews" resultType="BrandDTO">
-	SELECT r.REV_ID, pdi.PRO_DISPL_SRC, r.REV_LIKE, r.REV_GRADE, r.REV_CONTENT, pd.pro_displ_id 
-     FROM PRODUCT_DISPLAY pd 
-      JOIN PRO_DISPL_IMG pdi ON pd.PRO_DISPL_ID = pdi.PRO_DISPL_ID 
-       JOIN REVIEW r ON pd.PRO_DISPL_ID = r.PRO_DISPL_ID 
-         WHERE pd.PRO_DISPL_ID = #{ productDisplayId }
+	SELECT r.reviewId, pdi.productDisplaySrc, r.reviewLike, r.reviewGrade, r.reviewContent, pd.productDisplayId 
+     FROM ProductDisplay pd 
+      JOIN productDisplay_IMG pdi ON pd.productDisplayId = pdi.productDisplayId 
+       JOIN review r ON pd.productDisplayId = r.productDisplayId 
+         WHERE pd.productDisplayId = #{ productDisplayId }
 	</select>
 	
 	<!-- 상품   -->
@@ -112,7 +113,14 @@
 	
 	<!-- 리뷰 클릭시  상세보기   -->
 	<!-- 프로필 가져오기  -->
-	
+	<select id="getReviewProfile">
+	 SELECT *
+	 FROM USERPROFILE
+	</select>
 	<!-- 리뷰 상세내역 가져오기  -->
-
+     <select id="getReviewContent">
+     
+     </select>
 </mapper>
+
+  
