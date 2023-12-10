@@ -140,7 +140,12 @@ gradle-app.setting
 #서버파일
 Servers/
 
+# Eclipse Core       
+.project 
 
+# JDT-specific (Eclipse Java Development Tools)      
+.classpath
+출처: https://we-always-fight-with-code.tistory.com/66 [감귤농장:티스토리]
 
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,java,eclipse,gradle
