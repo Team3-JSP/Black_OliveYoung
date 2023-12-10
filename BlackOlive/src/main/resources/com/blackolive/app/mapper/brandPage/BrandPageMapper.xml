@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.blackolive.app.mapper.mainPage.BrandPageMapper">
+
+  <resultMap type="BrandDTO" id="BrandDTOMap">
+       <result property="brandId" column="brand_id"/>
+    <result property="brandName" column="brand_name"/>
+    <result property="brandLike" column="brand_like"/>
+    <result property="brandSummary" column="brand_summ"/>
+    <result property="brandExplaination" column="brand_expl"/>
+    <result property="brandImgSrc" column="brand_img_src"/>
+    <result property="productDisplayId" column="product_display_id"/>
+    <result property="productPrice" column="pro_price"/>
+    <result property="productDisplayName" column="product_display_name"/>
+    <result property="productDisplaySrc" column="product_display_src"/>
+    <result property="productDisplayLike" column="product_displsplay_like"/>
+    <result property="reviewId" column="review_id"/>
+    <result property="reviewLike" column="review_like"/>
+    <result property="reviewContent" column="review_content"/>
+    <result property="reviewGrade" column="review_grade"/>
+    <result property="productReg" column="product_reg"/>
+    <result property="categoryLargeId" column="category_large_id"/>
+    <result property="categoryLargeName" column="category_large_name"/>
+    <result property="afterPrice" column="afterprice"/>
+    <result property="productId" column="product_id"/>
+   <!--  <result property="prc" column="prc"/>
+    <result property="pdc" column="pdc"/>
+    <result property="pmp" column="pmp"/>
+    <result property="stock" column="stock"/> -->
+    <result property="displLike" column="displLike"/>
+    <result property="ordercnt" column="ordercnt"/>
+    <result property="productReg" column="productReg"/>
+    <result property="productStock" column="product_stock"/>
+  </resultMap>
+   <!-- 상단 브랜드 이미지,설명 등을 가져오기 -->
+	<select id="getBrands" resultType="BrandDTO">
+		SELECT b.brand_id, 
+            B.brandName, B.brandLike, B.brandSummary, B.brandExplaination, BI.brandImgSrc 
+            FROM brand B JOIN BrandImg BI ON B.brandId = BI.brandId
+            WHERE B.brandId = #{ brandId } 	
+	</select>
+	
+	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기    -->
+	<select id="getSortBrands" resultType="BrandDTO">
+  SELECT *
+  FROM pmlistview
+  WHERE brandId = #{brandId}
+    <choose>
+      <when test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
+        AND (categoryLargeId IN ('0001', '0002', '0004'))
+      </when>
+      <when test="dispcatno.equals('cate_02')">
+        AND categoryLargeId = '0001'
+      </when>
+      <when test="dispcatno.equals('cate_03')">
+        AND categoryLargeId = '0002'
+      </when>
+      <when test="dispcatno.equals('cate_04')">
+        AND categoryLargeId = '0004'
+      </when>
+    </choose>
+  <if test="sort != null">
+    <choose>
+      <when test="sort.equals('p')">
+        ORDER BY productDisplayLike DESC
+      </when>
+      <when test="sort.equals('n')">
+        ORDER BY productReg DESC
+      </when>
+      <when test="sort.equals('s')">
+        ORDER BY ordercnt DESC
+      </when>
+      <when test="sort.equals('l')">
+        ORDER BY ProductPrice ASC
+      </when>
+      <when test="sort.equals('d')">
+        ORDER BY (proprice - afterprice) / proprice * 100 DESC
+      </when>
+    </choose>
+  </if> 
+</select>
+	
+	<!-- 베스트상품 4개(술라이드바용)  -->
+	<select id="getsellProduct" resultType="BrandDTO">
+	  <![CDATA[
+	SELECT ROWNUM, t.* 
+            FROM ( 
+                SELECT PD.PRO_DISPL_NAME, PDI.PRO_DISPL_SRC, PD.PRO_DISPL_LIKE, P.PRO_PRICE  
+                FROM PRODUCT_DISPLAY PD JOIN PRODUCT P ON PD.PRO_DISPL_ID = P.PRO_DISPL_ID  
+                                        JOIN PRO_DISPL_IMG PDI ON PD.PRO_DISPL_ID = PDI.PRO_DISPL_ID  
+               WHERE PD.BRAND_ID = ?  
+                ORDER BY PD.PRO_DISPL_LIKE DESC 
+             ) t 
+             WHERE ROWNUM < 5
+               ]]>     
+	</select>
+	
+	<!-- 리뷰가져오기  -->
+  	<select id="getReviews" resultType="BrandDTO">
+	SELECT r.REV_ID, pdi.PRO_DISPL_SRC, r.REV_LIKE, r.REV_GRADE, r.REV_CONTENT, pd.pro_displ_id 
+     FROM PRODUCT_DISPLAY pd 
+      JOIN PRO_DISPL_IMG pdi ON pd.PRO_DISPL_ID = pdi.PRO_DISPL_ID 
+       JOIN REVIEW r ON pd.PRO_DISPL_ID = r.PRO_DISPL_ID 
+         WHERE pd.PRO_DISPL_ID = #{ productDisplayId }
+	</select>
+	
+	<!-- 상품   -->
+	
+	
+	<!-- 리뷰 클릭시  상세보기   -->
+	<!-- 프로필 가져오기  -->
+	
+	<!-- 리뷰 상세내역 가져오기  -->
+
+</mapper>
