@@ -140,6 +140,12 @@ gradle-app.setting
 #서버파일
 Servers/
 
+# Eclipse Core       
+.project 
+
+# JDT-specific (Eclipse Java Development Tools)      
+.classpath
+
 
 
 
