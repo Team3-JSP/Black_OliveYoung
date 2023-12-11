@@ -6,6 +6,14 @@
 
 <body>
 <div>
+<script>
+$(document).ready(function() {
+	var error = "${param.error}"
+	if (error == "true") {
+		alert("아이디 또는 패스워드가 일치하지 않습니다.");
+	};
+});
+</script>
 <div id="Container" class="bgf6">
 	<div id="Contents">
 		
@@ -13,7 +21,7 @@
 			
 			<div class="loginArea new login">
 				
-				
+					
 				
 					
 					
@@ -21,9 +29,9 @@
 							<h2>로그인</h2>
 							<p>올리브영의 다양한 서비스와 혜택을 누리세요.</p>
 						</div>
-					<c:if test="${ param.error eq true }">
+				<%-- <c:if test=" ${ param.error eq true }">
 						<strong style="color:red"> 아이디 또는 패스워드가 일치하지 않습니다.</strong><br>
-					</c:if>			
+				</c:if>	 --%>		
 				<form id="formLogin" name="formLogin" action="/login" method="post">
 					<input type="hidden" id="bSId" name="bSId" value="">
 					<input type="hidden" id="captchaYn" name="captchaYn" value="N">

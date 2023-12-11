@@ -40,7 +40,6 @@ public class JoinController {
 
 		OliveUserDTO userDto = this.joinService.getJoinCheck(userTel);
 
-		// **경로확인하기
 		if(userDto == null ) {
 			return "join.verify";
 		}else {
@@ -85,29 +84,29 @@ public class JoinController {
 		return "join.agreement";
 	}
 	// 회원가입-약관동의
-	@PostMapping("/agreement")
-	public String agreement(@RequestParam("userName") String userName
-			, @RequestParam("userTel") String userTel
-			, @RequestParam("userBirth") String userBirth
-			, @RequestParam("userGender") String userGender
-			, Model model) throws SQLException, ClassNotFoundException{
-		log.info("agreement_POST...");
-		model.addAttribute("userName", userName);
-		model.addAttribute("userTel", userTel);
-		model.addAttribute("userBirth", userBirth);
-		model.addAttribute("userGender", userGender);
-		return "join.join";
-	}
-	
+//	@PostMapping("/agreement")
+//	public String agreement(@RequestParam("userName") String userName
+//			, @RequestParam("userTel") String userTel
+//			, @RequestParam("userBirth") String userBirth
+//			, @RequestParam("userGender") String userGender
+//			, Model model) throws SQLException, ClassNotFoundException{
+//		log.info("agreement_POST...");
+//		model.addAttribute("userName", userName);
+//		model.addAttribute("userTel", userTel);
+//		model.addAttribute("userBirth", userBirth);
+//		model.addAttribute("userGender", userGender);
+//		return "join.join";
+//	}
+//	
 //	@Autowired
 //	private PasswordEncoder passwordEncoder;
 //	
 //	// 회원가입
-	@PostMapping("/join")
-	public String join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
+//	@PostMapping("/join")
+//	public String join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
 //		String userPassword = userDto.getUserPassword();
 //		userDto.setUserPassword( this.passwordEncoder.encode(userPassword) );
-		this.joinService.insertUser(userDto);
-		return "../auth.login";
-	}
+//		this.joinService.insertUser(userDto);
+//		return "../auth.login";
+//	}
 }

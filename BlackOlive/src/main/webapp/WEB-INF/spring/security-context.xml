@@ -22,7 +22,7 @@
 	<security:form-login
 			login-page="/auth/login"
 			authentication-success-handler-ref="loginSuccessHandler"
-			authentication-failure-forward-url="/auth/login?error=true"
+			authentication-failure-url="/auth/login?error=true"
 			default-target-url="/mypage/main"
 	/>
 	
