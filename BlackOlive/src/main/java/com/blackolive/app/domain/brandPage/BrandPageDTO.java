@@ -1,8 +1,8 @@
-package com.blackolive.app.controller.brandPage;
+package com.blackolive.app.domain.brandPage;
 
 import java.util.Date;
 
-public class BrandDTO {
+public class BrandPageDTO {
 	
 	 private String brandId; 
 	    private String brandName;
@@ -30,8 +30,9 @@ public class BrandDTO {
 	   private int stock;
 		private int displLike;
 		private int ordercnt;
-		private Date proReg;
-		private int  pro_stock;
+		private int  productStock;
+		private int minprice;
+		
 
 
 }

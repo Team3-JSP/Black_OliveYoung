@@ -3,14 +3,14 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.blackolive.app.mapper.mainPage.BrandPageMapper">
+<mapper namespace="com.blackolive.app.mapper.BrandPageMapper">
 
-  <resultMap type="BrandDTO" id="BrandDTOMap">
+  <resultMap type="BrandPageDTO" id="BrandPageDTOMap">
        <result property="brandId" column="brand_id"/>
     <result property="brandName" column="brand_name"/>
     <result property="brandLike" column="brand_like"/>
-    <result property="brandSummary" column="brand_summ"/>
-    <result property="brandExplaination" column="brand_expl"/>
+    <result property="brandSummary" column="brand_summary"/>
+    <result property="brandExplaination" column="brand_explanation"/>
     <result property="brandImgSrc" column="brand_img_src"/>
 
     <result property="productDisplayId" column="ProductDisplayid"/>
@@ -31,21 +31,21 @@
     <result property="pdc" column="pdc"/>
     <result property="pmp" column="pmp"/>
     <result property="stock" column="stock"/> -->
-    <result property="displLike" column="displLike"/>
+    <result property="displLike" column="display_Like"/>
     <result property="ordercnt" column="ordercnt"/>
-    <result property="productReg" column="productReg"/>
+    <result property="productReg" column="product_Reg"/>
     <result property="productStock" column="product_stock"/>
   </resultMap>
    <!-- 상단 브랜드 이미지,설명 등을 가져오기 -->
-	<select id="getBrands" parameterType="String" resultType="BrandDTO">
-		SELECT b.brand_id, 
+	<select id="getBrands" parameterType="String" resultType="BrandPageDTO">
+		SELECT b.brandId, 
             B.brandName, B.brandLike, B.brandSummary, B.brandExplaination, BI.brandImgSrc 
-            FROM brand B JOIN BrandImg BI ON B.brandId = BI.brandId
+            FROM brand B JOIN brandImg BI ON B.brandId = BI.brandId
             WHERE B.brandId = #{ brandId } 	
 	</select>
 	
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기    -->
-	<select id="getSortBrands" resultType="BrandDTO">
+	<select id="getSortBrands" resultType="BrandPageDTO">
   SELECT *
   FROM productcontainer
   WHERE brandId = #{brandId}
@@ -85,7 +85,7 @@
 </select>
 	
 	<!-- 베스트상품 4개(술라이드바용)  -->
-	<select id="getsellProduct" resultType="BrandDTO">
+	<select id="getsellProduct" resultType="BrandPageDTO">
 	  <![CDATA[
 	SELECT ROWNUM, t.* 
             FROM ( 
@@ -100,7 +100,7 @@
 	</select>
 	
 	<!-- 리뷰가져오기  -->
-  	<select id="getReviews" resultType="BrandDTO">
+  	<select id="getReviews" resultType="BrandPageDTO">
 	SELECT r.reviewId, pdi.productDisplaySrc, r.reviewLike, r.reviewGrade, r.reviewContent, pd.productDisplayId 
      FROM ProductDisplay pd 
       JOIN productDisplay_IMG pdi ON pd.productDisplayId = pdi.productDisplayId 

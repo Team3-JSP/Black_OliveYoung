@@ -1,4 +1,6 @@
-package com.blackolive.app.controller.brandPage;
+package com.blackolive.app.domain.brandPage;
+
+import com.blackolive.app.controller.brandPage.Criteria;
 
 import lombok.Getter;
 import lombok.ToString;
