@@ -516,6 +516,7 @@
 </script>
 
 <script>
+
 //즐겨찾기 버튼 눌렀을 때 
 function favBtnClick(myBtn) {
 	if(${empty userId}) {
@@ -551,6 +552,7 @@ function favBtnClick(myBtn) {
 			storeId : storeId
 			, clickCheck : clickCheck
 			, userId : userId
+			, '${_csrf.parameterName }' : '${_csrf.token }'
 		}
 		, success : function(data) {
 			console.log(data)
