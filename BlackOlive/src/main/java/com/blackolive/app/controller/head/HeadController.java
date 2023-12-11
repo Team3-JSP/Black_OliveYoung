@@ -45,4 +45,6 @@ public class HeadController {
 	//request.setAttribute("thirdTotalCategory", thirdTotalCategory);
 		
 	} //getCategory
+	
+	
 } // class

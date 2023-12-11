@@ -715,7 +715,7 @@
 					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
 						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
 						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/membership.do"
+					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
 						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
 					</a></li>
 					<li style=""><a onclick=""
