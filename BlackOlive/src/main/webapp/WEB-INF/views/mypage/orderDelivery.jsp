@@ -4,21 +4,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 
-	<div id="Container">
 
-		<div id="Contents">
-
-			
-
-			<div class="mypage-ix">
-
-
-				<!-- 마이페이지 SUB 메뉴 -->
-				
 				<div class="mypage-conts">
-				<script src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/mypage.header.js?dumm=202311090001"></script>
-
-
+				
 	<div class="title-area2">
 		<h2 class="tit">주문/배송 조회</h2>
 	</div>
@@ -91,15 +79,15 @@
 								<ul class="mypage-flag-apply">
 	
 	
-									<li class="order-date">${ ol.uodDate }</li>
+									<li class="order-date">${ ol.orderDate }</li>
 	
-									<li class="color1s">${ ol.uodOrderId }</li>
+									<li class="color1s">${ ol.orderId }</li>
 	
 									<li><a href="#" class="btnDetail"
 										data-oper-dt="2023.11.03" data-origin-bizpl-cd=""
 										data-pos-no="" data-receipt-no="" data-deal-sp=""
 										data-frst-receipt-no=""
-										onclick="javascript:redirectDetail('${ol.uodOrderId}')">상세보기</a>
+										onclick="javascript:redirectDetail('${ol.orderId}')">상세보기</a>
 									</li>
 										
 	
@@ -113,22 +101,22 @@
 	
 	
 									<a class="thum"
-										href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.uodDispId}&displNum=${ol.uodcmid}${ol.uodcsid}">
+										href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.productDisplayId}&displNum=${ol.categoryMidId}${ol.categorySmallID}">
 										<img
-										src="${ ol.uodDisplsrc }"
-										alt="${ ol.uodDisplN }"
+										src="${ ol.productDisplaySrc }"
+										alt="${ ol.productDisplayName }"
 										onerror="common.errorImg(this);">
 									</a>
 									<div class="textus">
 										<a class=""
-											href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.uodDispId}&displNum=${ol.uodcmid}${ol.uodcsid}">
-											<span class="tit">${ ol.uodBrand }</span> <span class="txt">${ ol.uodDisplN }</span>
+											href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.productDisplayId}&displNum=${ol.categoryMidId}${ol.categorySmallID}">
+											<span class="tit">${ ol.brandName }</span> <span class="txt">${ ol.productDisplayName }</span>
 										</a> 
 										
-										<c:if test="${ ol.uodDisplN ne ol.uodProN }">
+										<c:if test="${ ol.productDisplayName ne ol.productName }">
 											<span class="color1sSize">
 												<i class="tit">옵션</i>
-												${ ol.uodProN }
+												${ ol.productName }
 											</span>
 										</c:if>
 	
@@ -147,16 +135,16 @@
 	
 								</div>
 							</td>
-							<td class="">${ ol.uodamount }</td>
+							<td class="">${ ol.productCnt }</td>
 							<td class="colorOrange">
-								<!--  오프라인구매용 금액 --> <strong>${ ol.uodorderPrice }</strong> 원
+								<!--  오프라인구매용 금액 --> <strong>${ ol.totalPrice }</strong> 원
 	
 							</td>
 	
 							<td>
-								<strong>${ ol.uodState }</strong> 
-								<c:if test="${ fn:contains(ol.uodState, '환불') }">
-									<span class="color1sSize">처리일시<br>${ ol.uodRFdate }
+								<strong>${ ol.orderStatus }</strong> 
+								<c:if test="${ fn:contains(ol.orderStatus, '환불') }">
+									<span class="color1sSize">처리일시<br>${ ol.refundDate }
 									</span>
 										<button type="button" class="BtnDelete"
 											data-ord-no="<%-- 주문번호 --%>" data-ord-goods-seq="1"
@@ -185,11 +173,7 @@
 				
 				
 				
-			</div>
 
-		</div>
-
-	</div>
 <script>
 	function redirectDetail(orderId) {
 		var url = '<%= contextPath %>/olive/orderDeliveryDetail.do' + '?orderId=' + encodeURIComponent(orderId);
