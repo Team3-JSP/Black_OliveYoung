@@ -18,20 +18,20 @@
 		</div>
 		<div class="layer_pop_wrap" id="service_survey" style=""></div>
 
-		<a href="${pageContext.request.contextPath}/olive/orderDelivery.do" class="order_view"
+		<a href="${pageContext.request.contextPath}/mypage/orderDelivery" class="order_view"
 			data-attr="마이페이지^주문배송조회_요약건수">
 			<ul class="mypage-step">
 			
-				<c:set value="${ deliveryStatusMap }" var="delivery" /> 
-					<li><em> <%-- 주문접수 --%> ${ delivery.orderState1 }
+				<c:set value="${ deliveryStatusVO }" var="delivery" /> 
+					<li><em> <%-- 주문접수 --%> ${ delivery.deliveryStatus1 }
 					</em> <span>주문접수</span></li>
-					<li><em> <%-- 결제완료 --%> ${ delivery.orderState2 }
+					<li><em> <%-- 결제완료 --%> ${ delivery.deliveryStatus2 }
 					</em> <span>결제완료</span></li>
-					<li><em> <%-- 배송준비중 --%> ${ delivery.orderState3 }
+					<li><em> <%-- 배송준비중 --%> ${ delivery.deliveryStatus3 }
 					</em> <span>배송준비중</span></li>
-					<li><em> <%-- 배송중 --%> ${ delivery.orderState4 }
+					<li><em> <%-- 배송중 --%> ${ delivery.deliveryStatus4 }
 					</em> <span>배송중</span></li>
-					<li><em> <%-- 배송완료 --%> ${ delivery.orderState5 }
+					<li><em> <%-- 배송완료 --%> ${ delivery.deliveryStatus5 }
 					</em> <span>배송완료</span></li>
 				
 			</ul>

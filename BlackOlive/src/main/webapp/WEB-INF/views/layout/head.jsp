@@ -289,7 +289,7 @@
 									<sec:authentication property="principal.member.userName"/></strong> <a
 								href="javascript:logout()"  data-attr="공통^헤더^로그아웃">로그아웃</a></li>
 							<li class="mypage"><a onclick=""
-								href="<%=contextPath%>/olive/mypageMain.do"
+								href="<%=contextPath %>/mypage/main"
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
 						</sec:authorize>

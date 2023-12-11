@@ -5,9 +5,9 @@
 		<ul>
 			<li><h2>마이 쇼핑</h2>
 				<ul>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 주문배송페이지 --%>"
+					<li class="subMenu"><a href="${pageContext.request.contextPath}/mypage/orderdelivery"
 						mymenuid="0101"
-						data-ref-linkurl="${pageContext.request.contextPath}/olive/orderDelivery.do"
+						data-ref-linkurl="${pageContext.request.contextPath}/mypage/orderdelivery"
 						data-attr="마이페이지^메뉴^주문/배송 조회" data-tracking-name="주문배송조회 클릭"
 						data-tracking-properties="t_page=마이페이지&amp;t_click=주문배송조회">주문/배송
 							조회</a></li>
@@ -82,7 +82,7 @@
 						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getGdasList.do"
 						data-attr="마이페이지^메뉴^리뷰"
 						data-tracking-properties="t_page=마이페이지&amp;t_click=리뷰">리뷰 (<span
-							class="num_review" id="_gdasPossibleTotCnt">${ revc }</span>)<img
+							class="num_review" id="_gdasPossibleTotCnt">${ sideVO }</span>)<img
 							src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon_lnb_new2.png"
 							class="new" id="_newGdasPossible" style="display: none;"
 							alt="신규 리뷰 작성"></a></li>

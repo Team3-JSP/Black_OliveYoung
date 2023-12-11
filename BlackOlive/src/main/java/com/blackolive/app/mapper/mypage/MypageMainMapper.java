@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.MypageHeaderVO;
 
 
@@ -17,5 +18,5 @@ public interface MypageMainMapper {
 	public int getSide(String userid) throws ClassNotFoundException, SQLException;
 	
 	//마이페이지 주문배송 개수 가져오기
-	public List<Integer> getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException;
+	public DeliveryStatusVO getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException;
 }
