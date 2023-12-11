@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.basket.BasketMapper">
+
+
+
+	<!-- List<BasketDTO> basket(String quickyn, String userId); -->
+	
+	<select id="basket" parameterType="String" resultType="basketDTO">
+		 <choose>
+        <when test='quickyn == "Y"'>
+            SELECT * FROM basketviewtoday where user_id = #{userId}
+        </when>
+        <otherwise>
+            SELECT * FROM basketview where user_id = #{userId}
+        </otherwise>
+    </choose>
+	</select>
+<!-- int update(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productCnt")int productCnt,@Param("productId")String productId); -->
+	<update id="update">
+		UPDATE
+		<choose>
+		<when test='quickyn == "Y"'>
+			today_pickup_basket
+		</when>
+		<otherwise>
+			basket
+		</otherwise>
+		</choose>
+		 SET product_cnt = #{productCnt} WHERE user_id = #{userId} AND product_id = #{productId}
+	</update>
+	
+	<!-- int delete(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productId")String productId); -->
+	<delete id="delete">
+		DELETE from 
+		<choose>
+		<when test='quickyn == "Y"'>
+			today_pickup_basket
+		</when>
+		<otherwise>
+			basket
+		</otherwise>
+		</choose>
+		 WHERE user_id = #{userId} AND product_id = #{productId} 
+	</delete>
+	
+	<select id="basketCnt" resultType="integer">
+		select count(*) from today_pickup_basket where user_id = #{userId}
+		union
+		select count(*) from basket where user_id = #{userId}
+	</select>
+	
+</mapper>
