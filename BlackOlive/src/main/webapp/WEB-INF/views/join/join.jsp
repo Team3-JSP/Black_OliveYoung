@@ -13,7 +13,7 @@
 				<div class="location_wrap">
 					<div class="location">
 						<a href="#" class="home"><span class="haze">홈</span></a>
-						<a href="joinCheck.jsp" class="now"><span>회원가입</span></a>
+						<a href="join/joinCheck" class="now"><span>회원가입</span></a>
 					</div>
 				</div>
 
@@ -68,7 +68,7 @@
 															이름</label>
 													</th>
 													<td><span class="input_txt">
-													<input type="text" name ="u_name"	readonly="" value="${userName}" class="text readonly member_name"
+													<input type="text" name ="userName"	readonly="" value="${userName}" class="text readonly member_name"
 															id="input_member_name"></span>
 													<!-- 에러시 .error 클래스 추가 --></td>
 												</tr>
@@ -395,6 +395,11 @@
 											</dd>
 										</dl>
 									</div>
+							<%-- <input type="hidden" id="popupDataName" name="userName" value ="${userName }" />
+							<input type="hidden" id="popupDataBirth" name="userBirth" value ="${userBirth}"/>
+							<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender}"/>
+							<input type="hidden" id="popupDataTel" name="userTel" value ="${userTel}"/>
+							<input type="hidden" id="popupDataTel" name="userId" value ="${userId}"/> --%>
 								</form>
 							</div>
 						</div>
@@ -405,34 +410,41 @@
 		<!--//contents-->
 <script>
 //아이디 중복체크
-	/* $(function () {
+	 
+	 $(function () {
 		$("#btnIdCheck").on("click", function () {
 			let userId = $("#mbr_id").val();
+			if(userId==""){
+				alert("아이디를 입력해주세요.");
+				 $("#mbr_id").focus();
+				return false;
+			}
+			//console.log(`>userId = \${userId}`);
 			$.ajax({
-				url: `/selectUserId`
-				, dataType: "json"
+				url: "/selectUserId"
+				, dataType: "text"
 				, type:"POST"
 				, data: {userId:userId}
 				, cache: false
-				
-				, success: function (data, textStatus, jqXHR) {
-					alert(data);
-					if (data == "Y") {
+				, success: function (data) {
+				//	alert(data);
+					if (data ==="Y" ) {
 						alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						$("#alert_mbr_id").text("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
-						
-					} else if ( data == "N" ){
+						 $("#mbr_id").trigger("focus");
+					} else {
+						alert("사용가능한 아이디입니다.");
 						$("#alert_mbr_id").text("사용가능한 아이디입니다.");
 						$("#pwd").trigger("focus");
 					
-					}//if	
+					}
 				}
 				, error: function (xhr, errorType) {
 					alert(errorType);
 				}
 			});
 		});
-	}); */
+	}); 
 
 $(function () {
      $('#mbr_id').keydown(function(event) {
@@ -464,6 +476,7 @@ var length = inputVal.length;
    }
 });
 
+	
 	//비밀번호 체크
 	function chkPwd() {
 		var userpwd = $("#pwd").val();
@@ -514,9 +527,9 @@ var length = inputVal.length;
 	const result2 = str.substr(2, 2);
 	const result3 = str.substr(4, 2);
 	var birthYear;
-	if ( gender === "1," || gender === "2,"){
+	if ( gender === "1" || gender === "2"){
 		birthYear= 1900+ Number(result1) ;
-	} else if ( gender === "3," || gender === "4," ){
+	} else if ( gender === "3" || gender === "4" ){
 		birthYear= 2000+ Number(result1) ; 
 	}
 	
@@ -534,6 +547,7 @@ var length = inputVal.length;
 	var selDDvalue = result3;
 
 	sel.find("option[value='" + selDDvalue + "']").prop("selected", true);
+	
 </script>
 
 <script>
@@ -563,13 +577,44 @@ var length = inputVal.length;
 	//회원가입취소
 	$("#btncancel").on("click", function () {
 		alert("회원가입을 취소하시겠습니까?");
-		location.href = "<%=contextPath%>/olive/joinStart.do";
+		location.href = `${pageContext.request.contextPath}/join/joinCheck`;
 	});
 	//회원가입
 	$("#btnok").on("click", function() {
-		if (chkPwd()) {
-			alert("회원가입이 완료되었습니다.")
-			$("#formJoin").submit();
+		if ( chkPwd() ) {
+			if($("#mbr_id").val()==""){
+				alert("아이디를 입력해주세요.");
+				 $("#mbr_id").focus();
+				return false;
+			}
+			if($("#pwd").val()==""){
+				alert("비밀번호를 입력해주세요.");
+				$("#pwd").focus();
+				return false;
+			}
+			if($("#email_addr1").val()==""){
+				alert("이메일을 입력해주세요.");
+				$("#email_addr1").focus();
+				return false;
+			}
+			if($("#email_addr2").val()==""){
+				alert("도메인을 입력해주세요.");
+				$("#email_addr2").focus();
+				return false;
+			}
+		alert("회원가입이 완료되었습니다.");
+		$("#formJoin").attr("action","/join/joinOk").submit();
 		}
 	});
+
+/* 	$("#popupDataName").val("${userName}");
+	$("#popupDataBirth").val("${userBirth}");
+	$("#popupDataGender").val("${userGender}");
+	$("#popupDataTel").val("${userTel}");
+	 */
+	console.log($("#popupDataName").val());
+	console.log($("#popupDataBirth").val());
+	console.log($("#popupDataGender").val());
+	console.log($("#popupDataTel").val());
+	
 </script>

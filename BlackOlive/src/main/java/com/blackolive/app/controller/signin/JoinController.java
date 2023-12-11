@@ -1,6 +1,7 @@
 package com.blackolive.app.controller.signin;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -88,29 +89,30 @@ public class JoinController {
 		return "join.agreement";
 	}
 	// 회원가입-약관동의
-	@PostMapping("/join")
+	@GetMapping("/join")
 	public String agreement(@RequestParam("userName") String userName
 			, @RequestParam("userTel") String userTel
 			, @RequestParam("userBirth") String userBirth
 			, @RequestParam("userGender") String userGender
-			, Model model) throws SQLException, ClassNotFoundException{
-		log.info("agreement_POST..." + userName + userTel + userBirth+ userGender);
+			, Model model ) throws SQLException, ClassNotFoundException{
+		log.info("agreement_POST..."+ userName + userTel + userBirth+ userGender);
 		model.addAttribute("userName", userName);
 		model.addAttribute("userTel", userTel);
 		model.addAttribute("userBirth", userBirth);
 		model.addAttribute("userGender", userGender);
 		return "join.join";
 	}
-//	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
-//	
-//	// 회원가입
-//	@PostMapping("/join")
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	// 회원가입
+//	@PostMapping("/joinOk")
 //	public String join(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
-//		String userPassword = userDto.getUserPassword();
-//		userDto.setUserPassword( this.passwordEncoder.encode(userPassword) );
+//		log.info("join_POST..." + userDto);
+//	//	String userPassword = userDto.getUserPassword();
+////		System.out.println(userPassword);
 //		this.joinService.insertUser(userDto);
-//		return "../auth.login";
+//		return "redirect:../auth.login";
 //	}
 }

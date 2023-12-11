@@ -35,7 +35,7 @@
 		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
-
+		<mapper resource="com/blackolive/app/mapper/signin/JoinMapper.xml"/>
 		
 	</mappers>
 	

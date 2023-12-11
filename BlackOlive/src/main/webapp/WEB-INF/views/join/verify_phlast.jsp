@@ -231,14 +231,14 @@
 					<div class="certi_btn_area">
 						<ul class="btn_area2 bt2">
 							<li><button type="button" id="btnCancel" class="btn_r btn_type6" >취소</button></li>
-							<li><button type="submit" id="btnSubmit"  class="btn_r btn_type btn_type3">확인</button></li>
+							<li><button type="button" id="btnSubmit"  class="btn_r btn_type btn_type3">확인</button></li>
 						</ul>
 					</div>
 				</div>
-				<input type="hidden" id="popupDataName" name="userName" />
-				<input type="hidden" id="popupDataBirth" name="userBirth" />
-				<input type="hidden" id="popupDataGender" name="userGender" />
-				<input type="hidden" id="popupDataTel" name="userTel" />
+				<input type="hidden" id="popupDataName" name="username" />
+				<input type="hidden" id="popupDataBirth" name="userbirth" />
+				<input type="hidden" id="popupDataGender" name="usergender" />
+				<input type="hidden" id="popupDataTel" name="usertel" />
 			</form>
 			<div class="passCertiInfo">
 				<ul>
@@ -315,9 +315,34 @@ $(function () {
      		$("#btnSubmit").click();	
      	}
    	});
-
+  	
 	
 	$("#btnSubmit").on("click", function () {
+		if($("#userName").val()==""){
+			alert("이름을 입력해주세요.");
+			 $("#userName").focus();
+			return false;
+		}
+		if($("#Birth").val()==""){
+			alert("주민번호 앞 6자리를 입력해주세요.");
+			 $("#Birth").focus();
+			return false;
+		}
+		if($("#Sex").val()==""){
+			alert("주민번호 뒷자리를 입력해주세요.");
+			 $("#Sex").focus();
+			return false;
+		}
+		if($("#userTel").val()==""){
+			alert("휴대폰번호를 입력해주세요.");
+			 $("#userTel").focus();
+			return false;
+		}
+		if($("#securityNum").val()==""){
+			alert("보안문자를 정확히 입력해주세요.");
+			 $("#securityNum").focus();
+			return false;
+		}
 		alert("인증이 완료되었습니다.");
 	//	parent.window.name="parentWindow";
 		close();

@@ -3991,7 +3991,7 @@ ol, ul, li {
 	$("#btn_prev").click(goCancel);
 	function goCancel() {
 		alert('약관동의 취소하시겠습니까?');
-		location.href = `${pageContext.request.contextPath}/login/login`;
+		location.href = `${pageContext.request.contextPath}/auth/login`;
 	}
 
 	$("#btn_agree").on("click", function () {

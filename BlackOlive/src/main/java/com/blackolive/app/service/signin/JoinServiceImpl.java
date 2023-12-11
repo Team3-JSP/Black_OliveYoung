@@ -31,16 +31,15 @@ public class JoinServiceImpl implements JoinService{
 	}
 
 	@Override
+	public int idCheck(String userId) throws ClassNotFoundException, SQLException {
+		int result = 0;
+		result =  this.joinMapper.idCheck(userId);
+		return result;
+	}
+
+	@Override
 	public int insertUser(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
 		return this.joinMapper.join(userDto);
 	}
-
-//	@Override
-//	public int idCheck(String userId) throws ClassNotFoundException, SQLException {
-//		int result = 0;
-//		result =  this.joinMapper.idCheck(userId);
-//		return result;
-//	}
-
 
 }
