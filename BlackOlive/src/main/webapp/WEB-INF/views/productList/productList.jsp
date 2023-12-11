@@ -406,7 +406,7 @@ function changePerPageAndClass(value) {
 
 							<li class="flag">
 								<div class="prd_info">
-									<a href="<%=contextPath%>/olive/productDetail.do?goodsNo=${pml.productDisplayId}" class="prd_thumb goodsList"
+									<a href="/store/goods?goodsNo=${pml.productDisplayId}" class="prd_thumb goodsList"
 										name="${pml.productDisplayId}"> <img src="${pml.productDisplaySrc}" alt="사진"
 										class="completed-seq-lazyload" />
 										<c:if test="${pml.productStock eq 0 }">

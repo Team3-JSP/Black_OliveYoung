@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.ExampleDTO;
@@ -18,5 +19,7 @@ public interface HeadMapper {
     List<CategoryMidDTO> getHeadCategoryMid(int categoryTotalId);
 	
 	public ExampleDTO getExample() throws SQLException;
+	
+	AllCategoryDTO getTotalCategory(String productDisplayId);
 	
 } // interface
