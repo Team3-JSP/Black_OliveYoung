@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+<%
+// 브랜드 ID 파라미터 갖고오기
+String s = "";
+if(request.getParameter("brandId") != null){
+	String brandIds[] = request.getParameterValues("brandId");	
+	
+	for(int i = 0 ; i < brandIds.length ; i++ ){
+		s += "&brandId=" + brandIds[i];
+	} // for
+	
+} //if
 
+%>
 <script src="/resources/js/productList.js"></script>
 
 <script>
@@ -11,8 +23,7 @@ $(function () {
 		$('.cate_brand_box').addClass("more_view")
 	}
 	
-	
-	console.log(window.location.href);
+
 	$(".loc_history>li").mouseover(function () {
 		$(this).addClass("active");
 		$("history_cate_box").css("display","block");
@@ -42,9 +53,9 @@ $(function () {
 	//
 
 	 // midId와 일치하는 id를 가진 li 요소에 'on' 클래스 추가
-	$( '.loc_history li a#' + '').addClass('on');
-	$('#Contents > div.page_location > ul > li:nth-child(2) > div > ul > li a#' + '').addClass('on'); 
-	$('#Contents > div.page_location > ul > li:nth-child(3) > div > ul > li a#' + '').addClass('on');
+	$( '.loc_history li a').addClass('on');
+	$('#Contents > div.page_location > ul > li:nth-child(2) > div > ul > li a').addClass('on'); 
+	$('#Contents > div.page_location > ul > li:nth-child(3) > div > ul > li a').addClass('on');
 	 
 	// 정렬 리스트 class on 추가
 	$(".cate_align_box .align_sort ul > li").removeClass("on");
@@ -52,7 +63,7 @@ $(function () {
 	
 	//
 	$("#Contents > ul.cate_list_box li").removeClass("on");
-	$('#Contents > ul.cate_list_box li#' + '').addClass('on') ; 
+	$('#Contents > ul.cate_list_box li').addClass('on') ; 
 	/* if ( == ("0000")) {
 		$('#Contents > ul.cate_list_box li.first').addClass('on') ; 
 	} */
@@ -76,10 +87,18 @@ $(function () {
         });
     }
 
+   /* document.querySelector("#Container > div.pageing > a:nth-child(2)") */
+    $('#Container > div.pageing > a').on('click', function (event) {
+    	
+    	console.log(window.location.href);
+    	var url = window.location.href;
+    	
+	}) // 버튼 클릭 
+	
     $('input[name="brandId"]').on('change', function() {
     	
-    	var url = "/Black_OY/view/product/pmidlistproduct.do?displNum="+' '+"&sort=${param.sort}&currentpage=1";
-    	console.log(url);
+    	 var url = "/store/display?dispCapno=${param.dispCapno}"+''+"&sort=${param.sort}&currentpage=1<%=s%>"; 
+    	<%-- var url = window.location.href+''+"<%=s%>"; --%>
         var brandID = $(this).val();
 		var plusButtonFlag = "&plusButtonFlag=Y";
 		const brandBox = $('.cate_brand_box');
@@ -90,8 +109,10 @@ $(function () {
                 var separator = url.indexOf('?') !== -1 ? '&' : '?';
                 if (brandBox.hasClass('more_view')) {
                 	window.location.href = url + separator + 'brandId=' + brandID + plusButtonFlag;
+
 				}else{
 					window.location.href = url + separator + 'brandId=' + brandID;
+
 				}
                 
             }
@@ -154,7 +175,8 @@ function changePerPageAndClass(value) {
 	$(function(){
 	// 브랜드 선택 초기화
 	$("#onlBrndReSet").on("click",function(){
-		var url = "/Black_OY/view/product/pmidlistproduct.do?displNum="+''+"&sort=${param.sort}&currentpage=1";
+		var url = new URL( window.location.href);
+		url.searchParams.delete('brandId');
 		window.location.href = url;
 	})
 	})
@@ -170,7 +192,7 @@ function changePerPageAndClass(value) {
 								<c:if test="${not empty categoryLargeList}">
 									<c:forEach items="${categoryLargeList}" var="tcd">
 										<li><a id="${tcd.categoryLargeId}"
-											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${tcd.categoryLargeId}">${tcd.categoryLargeName}</a></li>
+											href="/store/display?dispCapno=${tcd.categoryLargeId}">${tcd.categoryLargeName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
@@ -181,7 +203,7 @@ function changePerPageAndClass(value) {
 								<c:if test="${not empty categoryMidList}">
 									<c:forEach items="${categoryMidList}" var="mcd">
 										<li><a id="${mcd.categoryMidId}"
-											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${mcd.categoryMidId}&sort=1">${mcd.categoryMidName}</a></li>
+											href="/store/display?dispCapno=${mcd.categoryMidId}">${mcd.categoryMidName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
@@ -195,7 +217,7 @@ function changePerPageAndClass(value) {
 								<ul>
 									<c:forEach items="${ pLowcateList}" var="pll">
 										<li><a id="${pll.sId}"
-											href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=${mnameiddto.catLId}${mnameiddto.catMId}${pll.sId}&sort=1">${pll.plowcate}</a></li>
+											href="/store/display?dispCapno=${mnameiddto.catLId}${mnameiddto.catMId}${pll.sId}&sort=1">${pll.plowcate}</a></li>
 									</c:forEach>
 								</ul>
 							</div></li>
@@ -214,13 +236,13 @@ function changePerPageAndClass(value) {
 
 			<ul class="cate_list_box">
 				<li class="first on"><a
-					href="pmidlistproduct.do?displNum=&sort=1"
+					href="/store/display?dispCapno="
 					class="on" data-attr="카테고리상세^카테고리리스트^전체">전체</a></li>
 				<c:set var="counter" value="0" />
 				<c:if test="${not empty categorySmallList}">
 					<c:forEach items="${categorySmallList}" var="pl">
 						<li id="${pl.categorySmallId}"><a
-							href="pmidlistproduct.do?displNum=${pl.categorySmallId}&sort=1">${pl.categorySmallName}</a></li>
+							href="/store/display?dispCapno=${pl.categorySmallId}">${pl.categorySmallName}</a></li>
 						<c:set var="counter" value="${counter + 1}" />
 					</c:forEach>
 				</c:if>
@@ -330,21 +352,21 @@ function changePerPageAndClass(value) {
 				<div class="align_sort">
 					<ul>
 						<li class="on"><a 
-							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=1&currentpage=1"
+							href="/store/display?dispCapno=${param.dispCapno}&sort=1&currentpage=1"
 							data-prdsoting="01">인기순</a></li>
 						<li><a
-							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=2&currentpage=1"
+							href="/store/display?dispCapno=${param.dispCapno}&sort=2&currentpage=1"
 							data-prdsoting="02">신상품순</a></li>
 						<li><a
-							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=3&currentpage=1"
+							href="/store/display?dispCapno=${param.dispCapno}&sort=3&currentpage=1"
 							data-prdsoting="03">판매순</a></li>
 
 						<li><a
-							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=4&currentpage=1"
+							href="/store/display?dispCapno=${param.dispCapno}&sort=4&currentpage=1"
 							data-prdsoting="05">낮은 가격순</a></li>
 
 						<li><a
-							href="<%=contextPath %>/view/product/pmidlistproduct.do?displNum=&sort=5&currentpage=1"
+							href="/store/display?dispCapno=${param.dispCapno}&sort=5&currentpage=1"
 							data-prdsoting="09">할인율순</a></li>
 					</ul>
 				</div>
@@ -441,7 +463,7 @@ function changePerPageAndClass(value) {
 
 		<div class="pageing">
 			<c:if test="${pageDTO.prev }">
-				<a class="prev" href="#" data-page-no="1">이전 10
+				<a class="prev" href="#" data-page-no="${pageDTO.start-1}">이전 10
 				페이지</a>
 			</c:if>
 			<c:forEach var="i" begin="${pageDTO.start }" end="${pageDTO.end }" step="1">
@@ -452,16 +474,44 @@ function changePerPageAndClass(value) {
 					</c:when>
 					<c:otherwise>
 						<a
-							href="#">${i }</a>
+							href="#" data-page-no="${i}">${i }</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:if test="${pageDTO.next }">
-				<a class="next" href="#" data-page-no="">다음 10 페이지</a>
+				<a class="next" href="#" data-page-no="${pageDTO.end+1}">다음 10 페이지</a>
 			</c:if>
 			<!-- <strong title="현재 페이지">1</strong> -->
 		</div>
 	</div>
 
+<script>
+$('#Container > div.pageing > a').on('click', function (event) {
+    event.preventDefault();
 
+    // 현재 URL 가져오기
+    var url = window.location.href;
+
+    // 클릭한 페이지의 data-page-no 속성 값 가져오기
+    var newPage = $(this).data('page-no');
+
+    // 'currentPage' 파라미터 업데이트
+    url = addOrUpdateParameter(url, 'currentPage', newPage);
+
+    // 새로운 URL로 리다이렉트 또는 다른 작업 수행
+    console.log("Redirecting to:", url);
+    window.location.href = url;
+});
+function addOrUpdateParameter(url, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = url.indexOf("?") !== -1 ? "&" : "?";
+    if (url.match(re)) {
+        return url.replace(re, '$1' + key + "=" + value + '$2');
+    } else {
+        return url + separator + key + "=" + value;
+    }
+}
+</script>
  <div id="displItem"></div>
+ 
+ 
