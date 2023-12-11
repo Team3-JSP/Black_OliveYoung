@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 
 <%
@@ -17,16 +18,15 @@ if(quickyn == null || quickyn.equals("")){
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/Black_OY/js/head.js"></script>
-<link rel="stylesheet" href="/Black_OY/css/style.css">
+
 <title>블랙올리브영 온라인몰</title>
 
 <script>
 //등급 색깔 
 $(function(){
-let grade_id = "${logOn.grade_id}";
-let grade = grade_id.split(" ")[0];
-
+let grade_id = "<sec:authentication property="principal.member.gradeName"/>";
+let grade = grade_id.split("&")[0];
+console.log(grade)
 let gradeColor = ""
 switch (grade) {
 case 'BABY': 
@@ -70,8 +70,8 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 
 			<div class="membership_box">
 				<p class="tx_grade_info">
-					<strong>${sessionScope.logOn.u_name}</strong>님의 멤버십 등급은 <span
-						class="grade">${sessionScope.logOn.grade_id} </span>입니다
+					<strong><sec:authentication property="principal.member.userName"/></strong>님의 멤버십 등급은 <span
+						class="grade"><sec:authentication property="principal.member.gradeName"/> </span>입니다
 				</p>
 				<ul class="membership_info_list">
 
@@ -82,21 +82,17 @@ $("#Contents > div.membership_box").addClass(gradeColor);
 						href="https://www.oliveyoung.co.kr/store/mypage/getCJOnePointInfo.do"><strong><span
 								class="tx_num">CJ ONE</span> 포인트</strong> <span class="own_point">
 
-
-
-
-
-								<span class="tx_num">0</span>P
+								<span class="tx_num">${headerVO.userpoint }</span>P
 
 
 						</span></a></li>
 
 					<li><a
 						href="https://www.oliveyoung.co.kr/store/mypage/getCouponList.do"><strong>할인쿠폰</strong>
-							<span class="own_point"><span class="tx_num">1</span>개</span></a></li>
+							<span class="own_point"><span class="tx_num">${headerVO.usercoupon }</span>개</span></a></li>
 					<li><a
 						href="https://www.oliveyoung.co.kr/store/mypage/getDepositList.do"><strong>예치금</strong>
-							<span class="own_point"><span class="tx_num">0</span>원</span></a></li>
+							<span class="own_point"><span class="tx_num">${headerVO.userdeposit }</span>원</span></a></li>
 
 
 

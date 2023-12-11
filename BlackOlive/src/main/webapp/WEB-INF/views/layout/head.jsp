@@ -12,6 +12,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%--<%@ include file="/WEB-INF/inc/session_auth.jspf"%> --%>
 <%
@@ -276,23 +277,23 @@
 		<div id="Header">
 			<div class="top_util">
 				<ul class="menu_list" id="menu_list_header">
-					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
+					
+						<sec:authorize access="isAnonymous()">
 							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
-							<li class="login"><a href="<%=contextPath%>/olive/LogOn.do"
+							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
-						</c:when>
-						<c:otherwise>
-
-							<li class="logout"><strong>${sessionScope.logOn.grade_id}&nbsp;
-									${sessionScope.logOn.u_name}</strong> <a
-								href="<%=contextPath%>/olive/Logout.do" data-attr="공통^헤더^로그아웃">로그아웃</a></li>
+						</sec:authorize>
+						
+						<sec:authorize access="isAuthenticated()">
+							<li class="logout"><strong><sec:authentication property="principal.member.gradeName"/>&nbsp;
+									<sec:authentication property="principal.member.userName"/></strong> <a
+								href="javascript:logout()"  data-attr="공통^헤더^로그아웃">로그아웃</a></li>
 							<li class="mypage"><a onclick=""
 								href="<%=contextPath%>/olive/mypageMain.do"
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
-						</c:otherwise>
-					</c:choose>
+						</sec:authorize>
+
 
 					<c:choose>
 						<c:when test="${empty sessionScope.logOn }">
@@ -301,7 +302,7 @@
 							</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt">
 										(${sessionScope.basketlistcnt[0] + sessionScope.basketlistcnt[1]})
 								</span>
@@ -1220,4 +1221,22 @@ $(function(){
 		event.preventDefault();
 	})
 })
+
+function logout(){
+     let f = document.createElement('form');
+
+    let obj;
+    obj = document.createElement('input');
+    obj.setAttribute('type', 'hidden');
+    obj.setAttribute('name', '${_csrf.parameterName }');
+    obj.setAttribute('value', '${_csrf.token }');
+    
+    f.appendChild(obj);
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/auth/logout');
+    document.body.appendChild(f);
+    f.submit();
+
+}
+
 </script>
