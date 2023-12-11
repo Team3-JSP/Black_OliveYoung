@@ -10,7 +10,7 @@
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
 	
-			<typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" />
+			<!-- <typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" /> -->
 			<typeAlias type="com.blackolive.app.domain.head.CategoryLargeDTO" alias="categoryLarge" />
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
 			<typeAlias type="com.blackolive.app.domain.head.CategorySmallDTO" alias="categorySmall" />
