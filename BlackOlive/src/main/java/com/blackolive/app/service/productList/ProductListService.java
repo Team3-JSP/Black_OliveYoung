@@ -8,6 +8,8 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.BrandDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryInfoDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryNameDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 
 public interface ProductListService {
@@ -32,5 +34,11 @@ public interface ProductListService {
 	
 	// 상품 리스트 갖고오기
 	public List<ProductContainer> getProductListService(int group, String id, String sort, String[] brandId, int currentPage, int perPage);
+	
+	// 현재 선택한 카테고리의 정보(상위정보도) 갖고오는 작업
+	public CurrentCategoryInfoDTO getCurrentCategoryInfoSerivce(String midId);
+	
+	// 현재 선택한 카테고리의 이름을 갖고오는 작업
+	public CurrentCategoryNameDTO getCurrentCategoryNameService (int group, String id);
 
 } // interface

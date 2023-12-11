@@ -146,19 +146,19 @@
                 </where>
 
                 <choose>
-                    <when test="sort == '1'">
+                    <when test='sort == "1"'>
                         ORDER BY product_display_like DESC
                     </when>
-                    <when test="sort == '2'">
+                    <when test='sort == "2"'>
                         ORDER BY product_display_regdate DESC
                     </when>
-                    <when test="sort == '3'">
+                    <when test='sort == "3"'>
                         ORDER BY ordercnt DESC
                     </when>
-                    <when test="sort == '4'">
+                    <when test='sort == "4"'>
                         ORDER BY afterprice ASC
                     </when>
-                    <when test="sort == '5'">
+                    <when test='sort == "5"'>
                         ORDER BY (minprice - afterprice) / minprice * 100 DESC
                     </when>
                 </choose>
@@ -166,6 +166,37 @@
         ) b
         WHERE b.no BETWEEN #{begin} AND #{end}
     </select>
+    
+<!--     	// 선택한 카테고리 이름과 현재 id 갖고오는 작업
+	public CurrentCategoryInfoDTO getCurrentCategoryInfo (@Param("midId") String midId); -->
+	
+	<select id="getCurrentCategoryInfo" resultType="CurrentCategoryInfoDTO">
+	SELECT category_mid_id, category_mid_name, cl.category_large_id, cl.category_large_name 
+				 FROM category_mid cm 
+				JOIN category_large cl ON cm.category_large_id = cl.category_large_id 
+				WHERE category_mid_id = #{midId}
+	
+	</select>
+	
+	<!-- // 현재 선택한 카테고리 이름을 갖고오는 작업
+	public CurrentCategoryName getCurrentCategoryName (@Param("group") int group, @Param("id")String id); -->
+	
+	<select id="getCurrentCategoryName" resultType="CurrentCategoryNameDTO">
+		<choose>
+			<when test="group == 1">
+				SELECT category_large_name as name FROM category_large WHERE category_large_id = #{id}
+			</when>
+			
+			<when test="group == 2">
+				SELECT category_mid_name as name FROM category_mid WHERE category_mid_id = #{id}
+			</when>
+			
+			<when test="group ==3">
+				SELECT category_small_name as name FROM category_small WHERE category_small_id = #{id}
+			</when>
+		</choose>
+	
+	</select>
 	
 
 </mapper>
