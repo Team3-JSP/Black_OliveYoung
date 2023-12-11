@@ -1,3 +1,4 @@
+
 # Created by https://www.toptal.com/developers/gitignore/api/maven,java,eclipse,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=maven,java,eclipse,gradle
 
@@ -145,6 +146,10 @@ Servers/
 
 # JDT-specific (Eclipse Java Development Tools)      
 .classpath
+
+.settings/
+
+.springBeans
 
 
 

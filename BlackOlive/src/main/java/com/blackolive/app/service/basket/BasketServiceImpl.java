@@ -1,6 +1,5 @@
 package com.blackolive.app.service.basket;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.List;
 
