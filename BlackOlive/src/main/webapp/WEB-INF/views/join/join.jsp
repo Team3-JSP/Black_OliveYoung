@@ -5,18 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../resources/cdn-main/css/CJbase.css"/>
-<link rel="stylesheet" href="../resources/cdn-main/CJparticipate.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src = "https://www.cjone.com/cjmweb/js/modules/cjoneCore.js"></script>
-</head>
-<body>
-
 		<!--contents-->
 		<div id="contentsWrap">
 			<div id="contents">
@@ -415,168 +403,36 @@
 			</div>
 		</div>
 		<!--//contents-->
-
-		<!-- footer -->
-		<div id="footer">
-			<script type="text/javascript">
-				// footer 이벤트 선택 함수(1=이용약관,2=이전이용약관, 3=ARS 본인인증,4=법적고지, 5=이메일무단수집거부, 6=사이트맵, 그이외 개인정보취급)
-				function goFooterMenu(type) {
-					var pageUrl = "";
-					if ("1" == type) {
-						pageUrl = "https://www.cjone.com/cjmweb/terms.do?type="
-								+ type;
-						location.href = pageUrl;
-					} else if ("2" == type) {
-						pageUrl = "https://www.cjone.com/cjmweb/previous-terms.do?type="
-								+ type;
-						location.href = pageUrl;
-					} else if ("3" == type) {
-						pageUrl = "/cjmweb/layer/verify-account.do?type="
-								+ type;
-						cjone.openModal(pageUrl);
-					} else if ("4" == type) {
-						pageUrl = "/cjmweb/layer/legal-notices.do?type=" + type;
-						cjone.openModal(pageUrl);
-					} else if ("5" == type) {
-						pageUrl = "/cjmweb/layer/email-security.do?type="
-								+ type;
-						cjone.openModal(pageUrl);
-					} else if ("6" == type) {
-						pageUrl = "https://www.cjone.com/cjmweb/sitemap.do?type="
-								+ type;
-						location.href = pageUrl;
-					} else if ("7" == type) {
-						pageUrl = "/cjmweb/layer/isms-p.do?type=" + type;
-						cjone.openModal(pageUrl);
-					}
-					// 등록일 format(yyyymmdd)
-					else {
-						if ("" == type) {
-							pageUrl = "https://www.cjone.com/cjmweb/privacy.do?privacyDate="
-									+ type + "&recent_yn=Y";
-
-							location.href = pageUrl;
-						} else {
-							pageUrl = "https://www.cjone.com/cjmweb/privacy.do?privacyDate="
-									+ type + "&recent_yn=N";
-							location.href = pageUrl;
-						}
-					}
-				}
-			</script>
-			
-
-			<div class="footer_wrap">
-
-				<div class="site_info">
-					<span class="ceo_info">대표이사 유인상</span>
-					<address>주소 04323 서울시 용산구 한강대로 366 트윈시티 10층</address>
-					<!--20191021 CJ ONE APP 사업자 정보 주소 변경-->
-					<span class="customer_info">CJ ONE 고객센터 1577-8888</span> <span
-						class="license_num">사업자 등록번호 104-81-36565</span>
-				</div>
-				<!--20191112 CJONE APP 사업자 정보 노출 추가-->
-				<div class="site_info pd0">
-					<span class="ceo_info">호스팅사업자 CJ올리브네트웍스</span> <span
-						class="license_num">통신판매업신고번호 2017-서울용산-0451</span>
-				</div>
-				<!--//20191112 CJONE APP 사업자 정보 노출 추가-->
-				<p class="copyright">
-					<span class="img"><img
-						src="https://www.cjone.com/cjmweb/images/common/logo_cjolivenetworks_footer.png"
-						alt="CJ 올리브넥트웍스"></span> Copyright (c)2016 CJ OLIVENETWORKS. All Rights Reserved</p>
-				<div class="fixedTop hide" data-control="goTop">
-					<a href="#headerWrap" title="페이지 처음으로 이동"><span class="haze">TOP</span></a>
-				</div>
-			</div>
-			<!--// CJ ONE APP 사업자 정보 노출 전체 영역 -->
-			<!-- 레이어 팝업(confirm) 내용 -->
-			<div id="div_confirm" style="display: none;">
-				<div class="ui_modal"
-					style="position: fixed; background-color: rgb(255, 255, 255); outline: none; background-clip: padding-box; top: 50%; left: 50%; margin-left: -200px; margin-top: -160px; width: 400px; z-index: 9101;"
-					tabindex="0">
-
-					<div id="layerWrap" class="custom">
-						<h1 id="h_confirm_title">알림</h1>
-
-						<div class="inner" tabindex="0">
-							<p id="p_confirm_text"></p>
-						</div>
-
-
-						<div class="btn_center">
-							<a href="javascript:closeLayerConfirm();" id="a_confirm_y"
-								class="btn"><span id="span_confirm_y">확인</span></a>
-							<button id="a_confirm_n" type="button" class="btn cancel">
-								<span id="span_confirm_n">취소</span>
-							</button>
-						</div>
-
-						<button id="btn_confirm_close" type="button" class="close">닫기</button>
-					</div>
-				</div>
-				<div class="ui_modal_overlay"
-					style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9100;"></div>
-			</div>
-			<!-- //레이어 팝업(confirm) 내용 -->
-			<!-- 레이어 팝업(alert) 내용 -->
-			<div id="div_alert" style="display: none;">
-				<div class="ui_modal"
-					style="position: fixed; background-color: rgb(255, 255, 255); outline: none; background-clip: padding-box; top: 50%; left: 50%; margin-left: -200px; margin-top: -160px; width: 400px; z-index: 9101;"
-					tabindex="0">
-
-					<div id="layerWrap" class="custom">
-
-						<div class="inner" tabindex="0">
-							<p id="p_alert_text"></p>
-						</div>
-
-						<div class="btn_center">
-							<a href="javascript:closeLayerAlert();" id="a_alert"
-								class="btn close"><span id="span_alert">확인</span></a>
-						</div>
-					</div>
-
-				</div>
-				<div class="ui_modal_overlay"
-					style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9100;"></div>
-			</div>
-			<!-- //레이어 팝업(alert) 내용 -->
-		</div>
-		<!-- //footer -->
-	</div>
-</body>
-
 <script>
 //아이디 중복체크
-	$(function () {
+	/* $(function () {
 		$("#btnIdCheck").on("click", function () {
-			let user_id = $("#mbr_id").val();
+			let userId = $("#mbr_id").val();
 			$.ajax({
-				url: `/idCheck/\${userId}`
+				url: `/selectUserId`
 				, dataType: "json"
 				, type:"POST"
 				, data: {userId:userId}
 				, cache: false
 				
 				, success: function (data, textStatus, jqXHR) {
-					//alert(data);
+					alert(data);
 					if (data == "Y") {
 						alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						$("#alert_mbr_id").text("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						
-					} else{
+					} else if ( data == "N" ){
 						$("#alert_mbr_id").text("사용가능한 아이디입니다.");
 						$("#pwd").trigger("focus");
 					
 					}//if	
 				}
-				, error: function (error) {
-					   alert(error);
+				, error: function (xhr, errorType) {
+					alert(errorType);
 				}
 			});
 		});
-	});
+	}); */
 
 $(function () {
      $('#mbr_id').keydown(function(event) {
@@ -657,15 +513,15 @@ var length = inputVal.length;
 	const result1 = str.substr(0, 2);
 	const result2 = str.substr(2, 2);
 	const result3 = str.substr(4, 2);
-	var nowYear;
-	if ( gender == 1 || gender == 2){
-		nowYear= 1900+ Number(result1) ; 
-	} else ( gender == 3 || gender == 4 ){
-		nowYear= 2000+ Number(result1) ; 
+	var birthYear;
+	if ( gender === "1," || gender === "2,"){
+		birthYear= 1900+ Number(result1) ;
+	} else if ( gender === "3," || gender === "4," ){
+		birthYear= 2000+ Number(result1) ; 
 	}
 	
 	sel = $("#birth_yy");
-	var selYYvalue = nowYear;
+	var selYYvalue = birthYear;
 
 	sel.find("option[value='" + selYYvalue + "']").prop("selected", true);
 
@@ -717,5 +573,3 @@ var length = inputVal.length;
 		}
 	});
 </script>
-</body>
-</html>

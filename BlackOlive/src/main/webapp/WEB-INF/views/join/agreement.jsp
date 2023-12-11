@@ -2,44 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%@ page import="com.blackolive.app.domain.signin.OliveUserDTO"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="../css/CJbase.css" />
-<link rel="stylesheet" href="../css/CJparticipate.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-</head>
-<body>
-	<!--skip navigation-->
-	<p class="skipNavi">
-		<a href="#contentsWrap">본문으로 바로가기</a>
-	</p>
-	<!--//skip navigation-->
-	<div id="bodyWrap">
-
-		<!--header-->
-
-		<!--header-->
-		<div id="part_headerWrap">
-			<div class="part_header_wrap">
-				<h1 class="cj_logo">
-					<span class="logo">CJ ONE</span> TRUE LIFESTYLE MEMBERSHIP
-				</h1>
-				<div id="coop_header_wrap">
-					<p class="part_logo">
-						건강한 아름다움을 제안하는 글로벌 라이프스타일 플랫폼<img
-							src="https://www.cjone.com/cjmweb/upfile/20191007_1837101.png"
-							alt="올리브영">
-					</p>
-				</div>
-			</div>
-		</div>
-		<!--//header-->
-
 		<!--contents-->
 		<div id="contentsWrap">
 
@@ -3994,151 +3956,16 @@ ol, ul, li {
 
 					</div>
 					<!--//contents-->
-
-					<!-- footer -->
-					<div id="footer">
-
-						<!-- script type="text/javascript">if(typeof _satellite !== "undefined" && _satellite) {_satellite.pageBottom();}</script -->
-						<script type="text/javascript">
-// footer 이벤트 선택 함수(1=이용약관,2=이전이용약관, 3=ARS 본인인증,4=법적고지, 5=이메일무단수집거부, 6=사이트맵, 그이외 개인정보취급)
-function goFooterMenu(type){
-	var pageUrl="";
-	if("1"==type){
-		pageUrl="https://www.cjone.com/cjmweb/terms.do?type="+type;
-		location.href=pageUrl;
-	}
-	else if("2"==type){
-		pageUrl="https://www.cjone.com/cjmweb/previous-terms.do?type="+type;
-		location.href=pageUrl;
-	}
-	else if("3"==type){
-		pageUrl="/cjmweb/layer/verify-account.do?type="+type;	
-		cjone.openModal(pageUrl);
-	}
-	else if("4"==type){
-		pageUrl="/cjmweb/layer/legal-notices.do?type="+type;	
-		cjone.openModal(pageUrl);
-	}
-	else if("5"==type){
-		pageUrl="/cjmweb/layer/email-security.do?type="+type;	
-		cjone.openModal(pageUrl);
-	}
-	else if("6"==type){
-		pageUrl="https://www.cjone.com/cjmweb/sitemap.do?type="+type;
-		location.href=pageUrl;
-	}
-	else if("7"==type){
-		pageUrl="/cjmweb/layer/isms-p.do?type="+type;	
-		cjone.openModal(pageUrl);
-	}
-	// 등록일 format(yyyymmdd)
-	else{
-		if(""==type){
-			pageUrl="https://www.cjone.com/cjmweb/privacy.do?privacyDate="+type+"&recent_yn=Y";
-
-			location.href=pageUrl;
-		}
-		else{
-			pageUrl="https://www.cjone.com/cjmweb/privacy.do?privacyDate="+type+"&recent_yn=N";
-			location.href=pageUrl;
-		}
-	}
-}
-</script>
-
-						<div class="footer_wrap">
-							<div class="site_info">
-								<span class="ceo_info">대표이사 유인상</span>
-								<address>주소 04323 서울시 용산구 한강대로 366 트윈시티 10층</address>
-								<!--20191021 CJ ONE APP 사업자 정보 주소 변경-->
-								<span class="customer_info">CJ ONE 고객센터 1577-8888</span> <span
-									class="license_num">사업자 등록번호 104-81-36565</span>
-							</div>
-							<!--20191112 CJONE APP 사업자 정보 노출 추가-->
-							<div class="site_info pd0">
-								<span class="ceo_info">호스팅사업자 CJ올리브네트웍스</span> <span
-									class="license_num">통신판매업신고번호 2017-서울용산-0451</span>
-							</div>
-							<!--//20191112 CJONE APP 사업자 정보 노출 추가-->
-							<p class="copyright">
-								<span class="img"><img
-									src="https://www.cjone.com/cjmweb/images/common/logo_cjolivenetworks_footer.png"
-									alt="CJ 올리브넥트웍스"></span> Copyright (c)2016 CJ OLIVENETWORKS. All
-								Rights Reserved
-							</p>
-
-							<div class="fixedTop hide" data-control="goTop"
-								style="bottom: 50px;">
-								<a href="#headerWrap" title="페이지 처음으로 이동"><span class="haze">TOP</span></a>
-							</div>
-
-						</div>
-
-					</div>
-					<!-- //footer -->
 				</div>
+				<input type="hidden" id="popupDataName" name="userName" value ="${userName }" />
+				<input type="hidden" id="popupDataBirth" name="userBirth" value ="${userBirth }"/>
+				<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender }"/>
+				<input type="hidden" id="popupDataTel" name="userTel" value ="${userTel }"/>
 			</form>
 			<!--script 영역-->
 
 
-			<script>
-
-
-	//통합 이용약관 체크
-	function cjoneAgrCheck(){
-		var chkagr = true;
-		$('input[name=effchar1]').each(function(idx){
-			if ( $(this).val() == 'Y' && !$('input[id=svcuse_agr_typ_cd_'+$(this).attr('id')+'_agree]').is(':checked') ) {
-				alert($(this).attr('title') + "(필수) 에 동의하셔야 합니다.");
-				$('input[id=svcuse_agr_typ_cd_'+$(this).attr('id')+'_agree]').focus();
-				chkagr = false;
-				return chkagr;
-	        } else if ( $(this).val() == 'N' && !$('input[name=svcuse_agr_typ_cd_'+$(this).attr('id')+']').is(':checked') ) {
-	            alert($(this).attr('title') + "(선택) 동의여부를 선택해주세요.");
-	            $('input[id=svcuse_agr_typ_cd_'+$(this).attr('id')+'_agree]').focus();
-	            chkagr = false;
-	            return chkagr;
-			}
-		});
-		return chkagr;
-	}
-	
-	// 참여사 이용약관 체크
-	function coopAgrCheck() {
-		var chkagr = true;
-		$('input[name=essen_agr]').each(function(idx){
-			if ( $(this).val() == 'Y' && !$('input[id=agr_typ_onln_'+$(this).attr('id')+'_y]').is(':checked') ) {
-				alert($(this).attr('title') + "(필수) 에 동의하셔야 합니다.");
-				$('input[id=agr_typ_onln_'+$(this).attr('id')+'_y]').focus();
-				chkagr = false;
-				return chkagr;
-			} else if ( $(this).val() == 'N' && !$('input[name=agr_typ_onln_'+$(this).attr('id')+']').is(':checked') ) {
-		           alert($(this).attr('title') + "(선택) 동의여부를 선택해주세요.");
-		           $('input[id=agr_typ_onln_'+$(this).attr('id')+'_y]').focus();
-		           chkagr = false;
-		           return chkagr;
-			}
-		});
-		return chkagr;
-	}
-	
-    // 옴니서비스 이용약관 체크
-    function omniAgrCheck() {
-        var chkagr = true;
-        $.each($('input[id^="omniagreeYY"]') , function(){
-            if ( !$(this).prop('checked') ) {
-                alert($(this).attr('title') + ' (필수) 에 동의하셔야 합니다.');
-                $(this).focus();
-                chkagr = false;
-                return chkagr;
-            }
-        });
-        return chkagr;
-    }
-
-</script>
 		</div>
-	</div>
 	<script>
 	$(function () {
 		var agreeButtons = $(".radio_agreement .radio_btn");
@@ -4160,12 +3987,11 @@ function goFooterMenu(type){
 	});
 });
 </script>
-	<script>
-		$("#btn_prev").click(goCancel);
-		function goCancel() {
-			alert('약관동의 취소하시겠습니까?');
-			location.href = "
-	<%=contextPath%>/olive/main.do";
+<script>
+	$("#btn_prev").click(goCancel);
+	function goCancel() {
+		alert('약관동의 취소하시겠습니까?');
+		location.href = `${pageContext.request.contextPath}/login/login`;
 	}
 
 	$("#btn_agree").on("click", function () {

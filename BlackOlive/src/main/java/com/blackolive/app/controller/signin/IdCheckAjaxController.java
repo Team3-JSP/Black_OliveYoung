@@ -1,12 +1,6 @@
 package com.blackolive.app.controller.signin;
 
-import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackolive.app.service.signin.JoinService;
@@ -22,10 +16,11 @@ public class IdCheckAjaxController {
 	
 //	@PostMapping("/selectUserId")
 //	public String selectUserId(@RequestBody String userId) throws ClassNotFoundException, SQLException{
-//		log.info("> /selectUserId .. POST-Ajax");
-//		String result = "N";
+//		log.info("> /selectUserId .. POST-Ajax" + userId);
+//		String result = "N" ;
 //		int idCheckResult = this.joinService.idCheck(userId);
-//		if (idCheckResult ==1) result = "Y";
-//		return result;
+//		if (idCheckResult == 1) result ="Y";
+//		return result ;
 //	}
+
 }

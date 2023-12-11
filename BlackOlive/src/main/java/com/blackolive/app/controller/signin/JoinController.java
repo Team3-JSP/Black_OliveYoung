@@ -2,6 +2,8 @@ package com.blackolive.app.controller.signin;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,33 +72,35 @@ public class JoinController {
 		return "join.verify_phlast";
 	}
 	// 회원가입 휴대폰인증 완료
-	@PostMapping("/verify_phlast")
+	@PostMapping("/agreement")
 	public String verifyOk( @RequestParam("userName") String userName
 							, @RequestParam("userTel") String userTel
 							, @RequestParam("userBirth") String userBirth
 							, @RequestParam("userGender") String userGender
 							, Model model) throws SQLException, ClassNotFoundException{
-		log.info("verifyOk_POST...");
+		log.info("verifyOk_POST..." + userName + userTel + userBirth+ userGender);
+
 		model.addAttribute("userName", userName);
 		model.addAttribute("userTel", userTel);
 		model.addAttribute("userBirth", userBirth);
 		model.addAttribute("userGender", userGender);
+		
 		return "join.agreement";
 	}
 	// 회원가입-약관동의
-//	@PostMapping("/agreement")
-//	public String agreement(@RequestParam("userName") String userName
-//			, @RequestParam("userTel") String userTel
-//			, @RequestParam("userBirth") String userBirth
-//			, @RequestParam("userGender") String userGender
-//			, Model model) throws SQLException, ClassNotFoundException{
-//		log.info("agreement_POST...");
-//		model.addAttribute("userName", userName);
-//		model.addAttribute("userTel", userTel);
-//		model.addAttribute("userBirth", userBirth);
-//		model.addAttribute("userGender", userGender);
-//		return "join.join";
-//	}
+	@PostMapping("/join")
+	public String agreement(@RequestParam("userName") String userName
+			, @RequestParam("userTel") String userTel
+			, @RequestParam("userBirth") String userBirth
+			, @RequestParam("userGender") String userGender
+			, Model model) throws SQLException, ClassNotFoundException{
+		log.info("agreement_POST..." + userName + userTel + userBirth+ userGender);
+		model.addAttribute("userName", userName);
+		model.addAttribute("userTel", userTel);
+		model.addAttribute("userBirth", userBirth);
+		model.addAttribute("userGender", userGender);
+		return "join.join";
+	}
 //	
 //	@Autowired
 //	private PasswordEncoder passwordEncoder;
