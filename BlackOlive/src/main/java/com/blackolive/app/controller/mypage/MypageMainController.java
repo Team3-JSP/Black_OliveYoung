@@ -95,27 +95,27 @@ public class MypageMainController {
 		
 		String orderType = null;
 		//구매 기간만 설정시	
-		if (startdate != null && !startdate.isEmpty() && enddate != null && !enddate.isEmpty() && searchType.equals("") ) {
-			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservicewithdate(principal.getName(), startdate, enddate);
+		if ( startdate == null  ) {
 			
+			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservice(principal.getName());
 			model.addAttribute("orderList", orderList);
 	
-		//구매 기간 + 온라인 설정시	
+		//구매 기간 설정시	
+		} else if (searchType.equals("")) {
+			
+			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservicewithdate(principal.getName(), startdate, enddate);
+			model.addAttribute("orderList", orderList);
+			
+		//구매 기간 + 매장 설정시	
 		} else if (searchType.equals("10")) {
 			orderType = "온라인";
 			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservicewithcondition(principal.getName(), startdate, enddate, orderType);	
 			model.addAttribute("orderList", orderList);
 			
-		//구매 기간 + 매장 설정시	
-		} else if (searchType.equals("20")) {
-			orderType = "매장";
-			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservicewithcondition(principal.getName(), startdate, enddate, orderType);	
-			model.addAttribute("orderList", orderList);
-			
 			//검색 조건 없이 목록 호출	
-		} else {
-			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservice(principal.getName());
-				
+		} else {			
+			orderType = "매장";
+			List<OrderDeliveryVO> orderList = this.orderDeliveryService.orderlistservicewithcondition(principal.getName(), startdate, enddate, orderType);					
 			model.addAttribute("orderList", orderList);
 		}
 
