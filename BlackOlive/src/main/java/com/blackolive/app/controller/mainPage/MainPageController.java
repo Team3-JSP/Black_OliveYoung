@@ -31,4 +31,14 @@ public class MainPageController {
 		return "mainPage.mainPage";
 	} // example
 	
+	@GetMapping("/store/getMembership")
+	public String getMembership() {
+		return "mainPage.membership";
+	}
+	
+	@GetMapping("/store/getCoupon")
+	public String getCoupon() {
+		return "mainPage.coupon";
+	}
+	
 } // class

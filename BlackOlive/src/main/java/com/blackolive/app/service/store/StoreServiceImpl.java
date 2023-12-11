@@ -36,8 +36,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String city, String district) {
-		return this.storeMapper.selectStoreList(city, district);
+	public List<StoreDTO> getStoreService(String tcs, String pss, String city, String district) {
+		return this.storeMapper.selectStoreList(tcs, pss, city, district);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -62,12 +62,12 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String keyword) {
-		return this.storeMapper.selectStoreKeyword(keyword);
+	public List<StoreDTO> getStoreService(String tcs, String pss, String keyword) {
+		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword);
 	}
 
-	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword) {
-		return this.storeMapper.selectStoreCondition(tcs, pss, keyword);
-	}
+//	@Override
+//	public List<StoreDTO> getStoreService(String tcs, String pss, String keyword) {
+//		return this.storeMapper.selectStoreCondition(tcs, pss, keyword);
+//	}
 }

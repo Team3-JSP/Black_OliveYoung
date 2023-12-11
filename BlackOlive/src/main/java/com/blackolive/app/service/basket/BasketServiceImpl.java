@@ -1,9 +1,5 @@
 package com.blackolive.app.service.basket;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'develop' of https://github.com/Team3-JSP/Black_OliveYoung.git
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
