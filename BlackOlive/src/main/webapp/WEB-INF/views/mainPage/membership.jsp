@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 <body>
 	<div id="Wrapper">
 		<div id="Container" class="renew-mem-lounge">
+			<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
 			<!-- #Contents -->
 			<div class="title-coupon">
 				<h1>
@@ -57,7 +59,7 @@
 					
 					
 					// 등급 배경색 설정
-					let grade = '${principal.member_gradeId}';
+					let grade = $("#gradeName").val();
 					$("#Contents .rating-info-area").addClass(`\${grade.split(" ")[0].toLowerCase()}`);
 					
 					$(".table-box").addClass(`\${grade.split(" ")[0].toLowerCase()}`);
@@ -78,16 +80,15 @@
 				<!-- //올리브영멤버십 START -->
 				<div id="Contents">
 
-				<c:choose>
-					<c:when test="${not empty logOn }">
-						<div class="rating-info-area" style="">
+				<sec:authorize access="isAuthenticated()">
+					<div class="rating-info-area" style="">
 							<div class="user-rating">
 								<span class="baddge-img"></span>
 								<div class="user-rate-area">
 									<p class="user-name-text">
-										<em class="user-name">${logOn.u_name }</em>님의 등급
+										<em class="user-name"><sec:authentication property="principal.member.userName"/></em>님의 등급
 									</p>
-									<strong class="user-rate-text">${logOn.grade_id }</strong>
+									<strong class="user-rate-text"><sec:authentication property="principal.member.gradeName"/></strong>
 									<p class="user-rate-date">
 										2023.07.04 - 2023.12.31
 									</p>
@@ -173,9 +174,9 @@
 								</ul>
 							</div>
 						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="login-area">
+				</sec:authorize>
+				<sec:authorize access="isAnonymous()">
+					<div class="login-area">
 							<p class="login-info-text">로그인 후 고객님의 등급과 특별한 혜택을 확인해보세요</p>
 							<div class="login-button-area">
 								<button type="button" class="button-login"
@@ -210,11 +211,7 @@
 								</li>
 							</ul>
 						</div>
-						
-					</c:otherwise>
-				</c:choose>
-					
-
+				</sec:authorize>
 					
 					<!-- 로그인 후 -->
 					<div class="rating-info-area " style="display: none;">

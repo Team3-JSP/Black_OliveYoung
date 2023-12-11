@@ -40,7 +40,7 @@ public class StoreServiceImpl implements StoreService {
 		return this.storeMapper.selectStoreList(tcs, pss, city, district);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
+	//@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int udpStoreFavorService(String store_id, String user_id, int clickCheck) {
 		int rowCount = 0;
@@ -52,6 +52,7 @@ public class StoreServiceImpl implements StoreService {
 		} else {
 			rowCount = this.storeMapper.deleteInterestShop(user_id, store_id);
 		}
+		System.out.println("store_id = " + store_id + ", user_id = " + user_id);
 		
 		return rowCount;
 	}
