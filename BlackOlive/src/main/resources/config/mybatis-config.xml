@@ -10,7 +10,9 @@
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
 	
+
 			<!-- <typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" /> -->
+
 			<typeAlias type="com.blackolive.app.domain.head.CategoryLargeDTO" alias="categoryLarge" />
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
 			<typeAlias type="com.blackolive.app.domain.head.CategorySmallDTO" alias="categorySmall" />
@@ -20,6 +22,10 @@
 			
 			<typeAlias type="com.blackolive.app.domain.productList.BrandDTO" alias="BrandDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.ProductContainer" alias="ProductContainer" />
+			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryInfoDTO" alias="CurrentCategoryInfoDTO" />
+			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryNameDTO" alias="CurrentCategoryNameDTO" />
+			
+			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
 			
 	</typeAliases>
 	

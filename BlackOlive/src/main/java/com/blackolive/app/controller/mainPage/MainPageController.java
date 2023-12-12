@@ -22,13 +22,20 @@ public class MainPageController {
 	
 	@GetMapping(value ="/")
 	public String example() throws SQLException {
-		
-//		ExampleDTO1 dto1 = this.mainPageMapper.getExample();
-		
-		ExampleDTO dto2 = this.headServiceImpl.getExample();
-		System.out.println(dto2);
+
+
 		
 		return "mainPage.mainPage";
 	} // example
+	
+	@GetMapping("/store/getMembership")
+	public String getMembership() {
+		return "mainPage.membership";
+	}
+	
+	@GetMapping("/store/getCoupon")
+	public String getCoupon() {
+		return "mainPage.coupon";
+	}
 	
 } // class

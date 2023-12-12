@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 // 브랜드 ID 파라미터 갖고오기
 String s = "";
@@ -12,6 +13,27 @@ if(request.getParameter("brandId") != null){
 	} // for
 	
 } //if
+
+// 현재 파라미터값 갖고오기
+String id = request.getParameter("dispCapno");
+
+String largeId = "0000";
+String midId = "0000";
+String smallId = "0000";
+
+if (id.length() == 4) { // displ 자리가 4자리 일때
+	largeId = id.substring(0, 4);
+	request.setAttribute("largeId", largeId);
+} else if (id.length() == 8) { // displ 자리가 8자리 일때
+	largeId = id.substring(0, 4);
+	midId = id.substring(4, 8);
+	request.setAttribute("midId", midId);
+} else if (id.length() == 12) { // displ 자리가 12자리 일때
+	largeId = id.substring(0, 4); // 대분류
+	midId = id.substring(4, 8); // 중
+	smallId = id.substring(8, 12); //소
+	request.setAttribute("smallId", smallId);
+}
 
 %>
 <script src="/resources/js/productList.js"></script>
@@ -52,18 +74,44 @@ $(function () {
      }
 	//
 
-	 // midId와 일치하는 id를 가진 li 요소에 'on' 클래스 추가
-	$( '.loc_history li a').addClass('on');
-	$('#Contents > div.page_location > ul > li:nth-child(2) > div > ul > li a').addClass('on'); 
-	$('#Contents > div.page_location > ul > li:nth-child(3) > div > ul > li a').addClass('on');
-	 
-	// 정렬 리스트 class on 추가
-	$(".cate_align_box .align_sort ul > li").removeClass("on");
-	/* $(".cate_align_box .align_sort ul > li").eq( ${param.sort} == null ? 1 : ${param.sort}-1).addClass("on"); */
 	
+	 // midId와 일치하는 id를 가진 li 요소에 'on' 클래스 추가
+	$( '.loc_history li a#' + '<%=largeId%>').addClass('on');
+	$('#Contents > div.page_location > ul > li:nth-child(2) > div > ul > li a#' + '<%=midId%>').addClass('on'); 
+	$('#Contents > div.page_location > ul > li:nth-child(3) > div > ul > li a#' + '<%=smallId%>').addClass('on');
+	 
+	// sort 버튼 li태그 클래스 추가 삭제
+	if (urlParams.has('sort')) {
+
+		$(".cate_align_box .align_sort ul > li").removeClass("on");
+		$(".cate_align_box .align_sort ul > li").eq(${param.sort != null ? param.sort - 1 : 0}).addClass("on"); 
+	} //  if
+
+	
+    // 클릭 이벤트 핸들러 등록
+    $(".cate_align_box .align_sort ul > li a").click(function (event) {
+        event.preventDefault();
+
+        // data-prdsoting 속성을 통해 설정한 sort 값을 가져옴
+        var selectedSorting = $(this).data("prdsoting");
+
+        // moveSort 함수 호출하여 URL 업데이트
+        moveSort(selectedSorting);
+
+        // 현재 선택된 링크에 'on' 클래스를 추가하고 다른 링크에서는 제거
+        $(".cate_align_box .align_sort ul > li a").removeClass("on");
+        $(this).addClass("on");
+    });
+    
+	const moveSort = function moveSorting(sortNum) {
+	    	const URLSearch = new URLSearchParams(location.search);
+	    	URLSearch.set('sort', String(sortNum));
+	    	 const newParam = URLSearch.toString();
+	    	  window.open(location.pathname + '?' + newParam, '_self');
+	};
 	//
 	$("#Contents > ul.cate_list_box li").removeClass("on");
-	$('#Contents > ul.cate_list_box li').addClass('on') ; 
+	$('#Contents > ul.cate_list_box li#' + '<%=request.getParameter("dispCapno")%>').addClass('on') ; 
 	/* if ( == ("0000")) {
 		$('#Contents > ul.cate_list_box li.first').addClass('on') ; 
 	} */
@@ -173,20 +221,59 @@ function changePerPageAndClass(value) {
 	  }
 	}
 	$(function(){
-	// 브랜드 선택 초기화
-	$("#onlBrndReSet").on("click",function(){
-		var url = new URL( window.location.href);
-		url.searchParams.delete('brandId');
-		window.location.href = url;
-	})
-	})
+	// 브랜드 선택 초기화 버튼
+		$("#onlBrndReSet").on("click",function(){
+			var url = new URL( window.location.href);
+			url.searchParams.delete('brandId');
+			window.location.href = url;
+		});// onlBrndReSet func close
+	
+		$('.btn_zzim.jeem').on("click", function() {
+			
+			let productDisplayId = $(this).data("goodsno");
+			toggleLikeItemStatus(productDisplayId);
+			
+		}) // .btn_zzim.jeem func close
+		
+		function toggleLikeItemStatus(productDisplayId) {
+			
+			$.ajax({
+				url: "/productLikeToggle",
+				method:"GET",
+				cache:false,
+				dataType : 'text',
+				data:{
+					productDisplayId:productDisplayId
+					},
+				success: function (result) {
+					if (result === "true" ) {
+						console.log('success : toggleLikeStatus:');
+						$(".layerAlim.zzimOn.wishPrd").show();
+						$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
+						
+		                $(".btn_zzim.jeem").addClass("on");
+		            } else {
+		            	console.log('false : toggleLikeStatus: ' + result);
+		            	$(".layerAlim.zzimOff.wishPrd").show();
+		            	$(".layerAlim.zzimOff.wishPrd").fadeOut(2000);
+		                $(".btn_zzim.jeem").removeClass("on");
+		            } //if
+				}, error : function (xhr, data, textStatus) {
+		                alert("로그인 후 이용가능 합니다.");
+		                window.location.href = "/auth/login";
+		           
+		        } // success , error
+			}) // ajax
+			} // toggleLikeItemStatus
+	
+	}) // ready func close
 </script>
 <div id="Container">
 		<div id="Contents">
 			<div class="page_location">
-				<a href="<%=contextPath%>/olive/main.do" class="loc_home">홈</a>
+				<a href="/" class="loc_home">홈</a>
 				<ul class="loc_history">
-					<li><a href="#" class="cate_y"> 수정중</a>
+					<li><a href="#" class="cate_y"> ${currentcategoryInfo.categoryLargeName}</a>
 						<div class="history_cate_box" style="width: 242px">
 							<ul>
 								<c:if test="${not empty categoryLargeList}">
@@ -197,52 +284,49 @@ function changePerPageAndClass(value) {
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y">수정중</a>
+					<li><a href="#" class="cate_y">${currentcategoryInfo.categoryMidName}</a>
 						<div class="history_cate_box" style="width: 122px">
 							<ul>
 								<c:if test="${not empty categoryMidList}">
 									<c:forEach items="${categoryMidList}" var="mcd">
 										<li><a id="${mcd.categoryMidId}"
-											href="/store/display?dispCapno=${mcd.categoryMidId}">${mcd.categoryMidName}</a></li>
+											href="/store/display?dispCapno=${currentcategoryInfo.categoryLargeId}${mcd.categoryMidId}">${mcd.categoryMidName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<%-- <%
-					
-					%>
-					<c:if test="${not empty pLowcateList}">
-						<li class=""><a href="#" class="cate_y">${pcurnamedto.name}</a>
+					<c:if test="${fn:length(param.dispCapno) eq 12}">
+					<c:if test="${not empty categorySmallList}">
+						<li class=""><a href="#" class="cate_y">${currentCategoryNameDTO.name}</a>
 							<div class="history_cate_box" style="width: 122px;">
 								<ul>
-									<c:forEach items="${ pLowcateList}" var="pll">
-										<li><a id="${pll.sId}"
-											href="/store/display?dispCapno=${mnameiddto.catLId}${mnameiddto.catMId}${pll.sId}&sort=1">${pll.plowcate}</a></li>
+									<c:forEach items="${ categorySmallList}" var="pll">
+										<li><a id="${pll.categorySmallId}"
+											href="/store/display?dispCapno=${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}${pll.categorySmallId}&sort=1">${pll.categorySmallName}</a></li>
 									</c:forEach>
 								</ul>
 							</div></li>
 					</c:if>
-
-					<%
-		
-					%> --%>
+					</c:if>
+					
 
 				</ul>
 			</div>
 
 			<div class="titBox">
-				<h1>현재 카테고리 이름</h1>
+				<h1>${currentCategoryNameDTO.name}</h1>
 			</div>
 
 			<ul class="cate_list_box">
-				<li class="first on"><a
-					href="/store/display?dispCapno="
-					class="on" data-attr="카테고리상세^카테고리리스트^전체">전체</a></li>
+				<li class="first" id="${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}"><a
+					href="/store/display?dispCapno=${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}"
+					data-attr="카테고리상세^카테고리리스트^전체">전체</a></li>
 				<c:set var="counter" value="0" />
 				<c:if test="${not empty categorySmallList}">
 					<c:forEach items="${categorySmallList}" var="pl">
-						<li id="${pl.categorySmallId}"><a
-							href="/store/display?dispCapno=${pl.categorySmallId}">${pl.categorySmallName}</a></li>
+						<li id="${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}${pl.categorySmallId}"><a
+							class="${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}${pl.categorySmallId}"
+							href="/store/display?dispCapno=${currentcategoryInfo.categoryLargeId}${currentcategoryInfo.categoryMidId}${pl.categorySmallId}">${pl.categorySmallName}</a></li>
 						<c:set var="counter" value="${counter + 1}" />
 					</c:forEach>
 				</c:if>
@@ -279,9 +363,7 @@ function changePerPageAndClass(value) {
 				</div>
 			</div>
 
-			<%
-			
-			%>
+
 			<!-- 2020.12.01 기획전 개선 -->
 			<div class="plan_slider_wrap02">
 				<div
@@ -345,36 +427,31 @@ function changePerPageAndClass(value) {
 			<!-- //2020.12.01 기획전 개선 -->
 			
 			<p class="cate_info_tx">
-				현재 카테고리 <span> ${totalRecords}</span> 개의 상품이 등록되어 있습니다.
+				${currentCategoryNameDTO.name}<span> ${totalRecords}</span> 개의 상품이 등록되어 있습니다.
 			</p>
 
 			<div class="cate_align_box">
 				<div class="align_sort">
 					<ul>
 						<li class="on"><a 
-							href="/store/display?dispCapno=${param.dispCapno}&sort=1&currentpage=1"
-							data-prdsoting="01">인기순</a></li>
+							href="#"
+							data-prdsoting="1">인기순</a></li>
 						<li><a
-							href="/store/display?dispCapno=${param.dispCapno}&sort=2&currentpage=1"
-							data-prdsoting="02">신상품순</a></li>
+							href="#"
+							data-prdsoting="2">신상품순</a></li>
 						<li><a
-							href="/store/display?dispCapno=${param.dispCapno}&sort=3&currentpage=1"
-							data-prdsoting="03">판매순</a></li>
+							href="#"
+							data-prdsoting="3">판매순</a></li>
 
 						<li><a
-							href="/store/display?dispCapno=${param.dispCapno}&sort=4&currentpage=1"
-							data-prdsoting="05">낮은 가격순</a></li>
+							href="#"
+							data-prdsoting="4">낮은 가격순</a></li>
 
 						<li><a
-							href="/store/display?dispCapno=${param.dispCapno}&sort=5&currentpage=1"
-							data-prdsoting="09">할인율순</a></li>
+							href="#"
+							data-prdsoting="5">할인율순</a></li>
 					</ul>
 				</div>
-
-				<script>
-				
-					
-				</script>
 
 				<div class="count_sort tx_num">
 					<span class="tx_view">VIEW</span>
@@ -418,7 +495,8 @@ function changePerPageAndClass(value) {
 											<p class="tx_name">${pml.productDisplayName}</p>
 										</a>
 									</div>
-									<button class="btn_zzim jeem" data-ref-goodsno="A000000185252">
+									
+									<button class="btn_zzim jeem<c:if test='${pml.productLikeState eq 1}'> on </c:if>" data-goodsno="${pml.productDisplayId}">
 										<span>찜하기전</span>
 									</button>
 									<p class="prd_price">
