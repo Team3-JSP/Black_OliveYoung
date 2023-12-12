@@ -24,7 +24,7 @@ public interface StoreMapper {
 	
 	int deleteInterestShop(String user_id, String store_id);  // 관심 매장 삭제
 
-	List<StoreDTO> selectInterestShop(String userId); // 로그인 시 관심매장 리스트
+	List<StoreDTO> selectInterestShop(@Param("tcs") String tcs, @Param("pss") String pss, @Param("userId") String userId); // 로그인 시 관심매장 리스트
 
 	List<StoreDTO> selectStoreKeyword(@Param("tcs") String tcs, @Param("pss") String pss, @Param("keyword") String keyword); // 키워드로 매장 검색
 

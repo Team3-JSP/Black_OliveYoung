@@ -13,7 +13,9 @@
 <body>
 	<div id="Wrapper">
 		<div id="Container" class="renew-mem-lounge">
-			<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
+			<sec:authorize access="isAuthenticated()">
+				<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
+			</sec:authorize>
 			<!-- #Contents -->
 			<div class="title-coupon">
 				<h1>

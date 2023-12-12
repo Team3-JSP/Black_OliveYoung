@@ -1,5 +1,6 @@
 package com.blackolive.app.controller.store;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -48,14 +49,14 @@ public class StoreAjaxController {
 	*/
 	
 	@PostMapping("/setStoreFavorite")
-	public ResponseEntity<String> setFavorite(String storeId, String userId, Integer clickCheck) throws Exception {
-		return this.storeService.udpStoreFavorService(storeId, userId, clickCheck) == 1
+	public ResponseEntity<String> setFavorite(String storeId, Integer clickCheck, Principal principal) throws Exception {
+		return this.storeService.udpStoreFavorService(storeId, principal.getName(), clickCheck) == 1
 				? new ResponseEntity<String>("success", HttpStatus.OK) 
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping("/getInterestShopList")
-	public ResponseEntity<List<StoreDTO>> getInterestShop(String userId) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(userId), HttpStatus.OK);
+	public ResponseEntity<List<StoreDTO>> getInterestShop(String[] tcs, String[] pss, Principal principal) {
+		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(String.join(",", tcs), String.join(",", pss), principal.getName()), HttpStatus.OK);
 	}
 }

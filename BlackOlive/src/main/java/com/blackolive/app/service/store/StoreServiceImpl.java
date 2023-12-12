@@ -52,14 +52,13 @@ public class StoreServiceImpl implements StoreService {
 		} else {
 			rowCount = this.storeMapper.deleteInterestShop(user_id, store_id);
 		}
-		System.out.println("store_id = " + store_id + ", user_id = " + user_id);
 		
 		return rowCount;
 	}
 
 	@Override
-	public List<StoreDTO> getInterestShopService(String userId) {
-		return this.storeMapper.selectInterestShop(userId);
+	public List<StoreDTO> getInterestShopService(String tcs, String pss, String userId) {
+		return this.storeMapper.selectInterestShop(tcs, pss, userId);
 	}
 
 	@Override

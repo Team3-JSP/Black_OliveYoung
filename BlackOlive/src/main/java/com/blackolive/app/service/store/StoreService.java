@@ -18,7 +18,7 @@ public interface StoreService {
 	
 	int udpStoreFavorService(String store_id, String user_id, int clickCheck);
 
-	List<StoreDTO> getInterestShopService(String userId);
+	List<StoreDTO> getInterestShopService(String tcs, String pss, String userId);
 
 	List<StoreDTO> getStoreService(String tcs, String pss, String keyword); // 오버로딩
 

@@ -6,7 +6,10 @@ import java.util.Map;
 
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
+import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.ExampleDTO;
+import com.blackolive.app.domain.head.GiftCardDTO;
+import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.head.TotalListDTO;
 
 public interface HeadMapper {
@@ -18,5 +21,15 @@ public interface HeadMapper {
     List<CategoryMidDTO> getHeadCategoryMid(int categoryTotalId);
 	
 	public ExampleDTO getExample() throws SQLException;
+
+	List<EventDTO> selectAllEvent(String click) throws SQLException;
+
+	EventDTO selectOneEvent(String eventId) throws SQLException;
+
+	List<GiftCardDTO> selectAllGiftCard() throws SQLException;
+
+	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException;
+
+	List<MsgCardDTO> selectAllMsgCard() throws SQLException;
 	
 } // interface

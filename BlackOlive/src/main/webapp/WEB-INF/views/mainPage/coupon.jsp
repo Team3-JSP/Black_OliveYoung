@@ -87,7 +87,9 @@
 	</script>
 
 <div id="Container">
-	<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
+	<sec:authorize access="isAuthenticated()">
+		<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
+	</sec:authorize>
 		<!-- #Contents -->
 		<div class="title-coupon">
 			<h1>올리브 멤버스 라운지<span>쇼핑하는 재미! 올리브영만의 더 특별한 혜택</span></h1>
