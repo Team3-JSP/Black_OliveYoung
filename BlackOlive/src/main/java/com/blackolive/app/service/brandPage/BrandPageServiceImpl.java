@@ -14,10 +14,10 @@ public class BrandPageServiceImpl implements BrandPageService  {
 
 	@Autowired
 	private BrandPageMapper brandpageMapper;
-	
+
 	@Override
 	public BrandPageDTO getBrands(String brandId) throws ClassNotFoundException, SQLException {
-		 return brandpageMapper.getBrands(brandId);
+		return brandpageMapper.getBrands(brandId);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class BrandPageServiceImpl implements BrandPageService  {
 	@Override
 	public List<BrandPageDTO> getsellProduct(String brandId, String categoryId)
 			throws ClassNotFoundException, SQLException {
-		 return brandpageMapper.getsellProduct(brandId, categoryId);
+		return brandpageMapper.getsellProduct(brandId, categoryId);
 	}
 
 	@Override

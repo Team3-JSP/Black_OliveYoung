@@ -19,36 +19,40 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/brandPage/*")
 @Log4j
 public class BrandPageController {
-		@Autowired
-	   private BrandPageService brandPageService;
+	@Autowired
+	private BrandPageService brandPageService;
 
-		/*
-		 * @Autowired public BrandPageController(BrandPageService brandPageService) {
-		 * this.brandPageService = brandPageService; }
-		 */
-	    // 브랜드 페이지로 이동
-	    @GetMapping("/{brandId}")
-	    public String brandPage(@PathVariable("brandId") String brandId, Model model) {
-	        try {
-	            // 브랜드 정보 가져오기
-	            BrandPageDTO brand = this.brandPageService.getBrands(brandId);
-	            model.addAttribute("brand", brand);
+	/*
+	 * @Autowired public BrandPageController(BrandPageService brandPageService) {
+	 * this.brandPageService = brandPageService; }
+	 */
+	// 브랜드 페이지로 이동
+	@GetMapping("/{brandId}")
+	public String brandPage(@PathVariable("brandId") String brandId,Model model) {
+		 log.info("brandId : " + brandId );
+		 
+		BrandPageDTO brand = null; 
+		 
+		try {
+			// 브랜드 정보 가져오기
+			brand = this.brandPageService.getBrands(brandId);
+			model.addAttribute("brand", brand);
+   
+			// 기본으로 보여줄 상품 목록 (인기순, 전체)
+			List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01");
+			model.addAttribute("brandList", brandList);
 
-	            // 기본으로 보여줄 상품 목록 (인기순, 전체)
-	            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01");
-	            model.addAttribute("brandList", brandList);
+			// 베스트 상품 목록 가져오기 (슬라이드용)
+			List<BrandPageDTO> bestProducts = brandPageService.getsellProduct(brandId, "cate_01");
+			model.addAttribute("bestProducts", bestProducts);
 
-	            // 베스트 상품 목록 가져오기 (슬라이드용)
-	            List<BrandPageDTO> bestProducts = brandPageService.getsellProduct(brandId, "cate_01");
-	            model.addAttribute("bestProducts", bestProducts);
-
-	            return "brandPage/brandPage"; // 해당 뷰로 이동
-	        } catch (ClassNotFoundException | SQLException e) {
-	            e.printStackTrace();
-	            return "error"; // 에러 페이지로 이동
-	        }
-	    }
+			return "brandPage.brandPage"; // 해당 뷰로 이동
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return "error"; // 에러 페이지로 이동
+		}
 	}
+}    
 /*
  * @GetMapping() public BrandDTO getsort
  */

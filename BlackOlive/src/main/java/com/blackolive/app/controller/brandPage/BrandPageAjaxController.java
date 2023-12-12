@@ -24,29 +24,29 @@ public class BrandPageAjaxController {
 	@RestController
 	public class BrandAjaxController {
 
-	    private final BrandPageService brandPageService;
+		private final BrandPageService brandPageService;
 
-	    @Autowired
-	    public BrandAjaxController(BrandPageService brandPageService) {
-	        this.brandPageService = brandPageService;
-	    }
+		@Autowired
+		public BrandAjaxController(BrandPageService brandPageService) {
+			this.brandPageService = brandPageService;
+		}
 
-	    @GetMapping("/getSortBrands")
-	    public ResponseEntity<List<BrandPageDTO>> getSortBrands(
-	    		@RequestParam String brandId,
-	            @RequestParam String sort,
-	            @RequestParam String dispcatno) {
+		@GetMapping("/getSortBrands")
+		public ResponseEntity<List<BrandPageDTO>> getSortBrands(
+				@RequestParam String brandId,
+				@RequestParam String sort,
+				@RequestParam String dispcatno) {
 
-	    	 try {
-	             List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno);
-	             return new ResponseEntity<List<BrandPageDTO>>(brandList, HttpStatus.OK);
-	         } catch (Exception e) {
-	             e.printStackTrace();
-	             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	         }
-	     }
-	 }
+			try {
+				List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno);
+				return new ResponseEntity<>(brandList, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	}
 }
-	
-	 
+
+
 

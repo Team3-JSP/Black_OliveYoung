@@ -13,6 +13,7 @@
 		<put-attribute name="mypagecontent" value="/WEB-INF/views/mypage/{1}.jsp"/>
 		<put-attribute name="title" value="블랙 올리브영"/>
 		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
+		<put-attribute name="css" value="/resources/cdn-main/brand.css"/>
 	</definition>
 
 	<definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">

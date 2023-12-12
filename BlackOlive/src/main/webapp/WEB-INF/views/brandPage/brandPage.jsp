@@ -1,28 +1,10 @@
-//BRAND.JSP
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://static.oliveyoung.co.kr/pc-static-root/js/common/publish/slick.min.js"></script>
+<link rel="stylesheet" href="/resources/cdn-main/brand.css">
 
-<script src="/Black_OY/js/head.js"></script>
-<link rel="stylesheet" href="/Black_OY/css/style.css">
-<link rel="stylesheet" href="/Black_OY/css/brand.css">
-<style>
-.close:hover, .close:focus {
-    color: black;
-    cursor: pointer;
-}
-</style>
+
 <title>블랙올리브영 온라인몰</title>
-</head>
-<body>
 
 
 <script>
@@ -126,12 +108,13 @@ $(function() {
 				</ul>
 			</div>
 			<div class="brand">
-				<h2 class="title-detail-brand">${ brand.brand_name }</h2>
+				<h2 class="title-detail-brand">${ brand.brandName }</h2>
+                     
 				<div class="brand_like">
 					<a href="javascript:void(0);" data-ref-onlbrndnm="구달"
 						data-ref-onlbrndcd="A001436" id="icobrand">
 						<p class="brand">
-							<span class="icon"><span class="fw400">${ brand.brand_like }</span>명이
+							<span class="icon"><span class="fw400">${ brand.brandLike }</span>명이
 								구달을 좋아합니다.</span>
 						</p>
 					</a>
@@ -145,11 +128,11 @@ $(function() {
 								data-original="https://image.oliveyoung.co.kr/uploads/images/display/90000020137/263/8950018296969934705.jpg"
 								alt="구달 이미지 배너입니다."
 								data-ref-link-url="https://www.oliveyoung.co.kr/store/"
-								class="completed-seq-lazyload" src="${ brand.brand_img_src }">
+								class="completed-seq-lazyload" src="${ brand.brandImgSrc }">
 						</div>
 						<div class="info">
-							<h4 class="vtit">${ brand.brand_summ }</h4>
-							<p class="txt">${ brand.brand_expl }</p>
+							<h4 class="vtit">${ brand.brandSummary }</h4>
+							<p class="txt">${ brand.brandExplaination }</p>
 						</div>
 					</div>
 				</div>
@@ -1387,7 +1370,7 @@ $(function() {
 						
 						
 						
-						
+						 <!-- 리뷰  -->
 						<c:forEach items="${ relist }" var="review" varStatus="status">
 							<div class="tabCont reviewPanel" role="tabpanel" id="tab-panel3"
 								aria-lebelledby="tabitem3">
@@ -2312,7 +2295,7 @@ $(function() {
 		<!--/ㅁ 2017-02-23 수정 : TOP 바로가기 버튼 추가 -->
 
 	</div>
-</body>
+
 <script>
 /*
 $('#tablist').slick({ 
@@ -2346,4 +2329,3 @@ $('#tablist').slick({
 </script>
 
 
-</html>

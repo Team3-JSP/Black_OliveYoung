@@ -2,125 +2,106 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
-<mapper namespace="com.blackolive.app.mapper.BrandPageMapper">
 
-  <resultMap type="BrandPageDTO" id="BrandPageDTOMap">
-       <result property="brandId" column="brand_id"/>
-    <result property="brandName" column="brand_name"/>
-    <result property="brandLike" column="brand_like"/>
-    <result property="brandSummary" column="brand_summary"/>
-    <result property="brandExplaination" column="brand_explanation"/>
-    <result property="brandImgSrc" column="brand_img_src"/>
+<mapper
+	namespace="com.blackolive.app.mapper.brandPage.BrandPageMapper">
 
-    <result property="productDisplayId" column="ProductDisplayid"/>
-    <result property="productPrice" column="pro_price"/>
-    <result property="productDisplayName" column="ProductDisplayname"/>
-    <result property="productDisplaySrc" column="ProductDisplaysrc"/>
-    <result property="productDisplayLike" column="ProductDisplaylsplay_like"/>
-    <result property="reviewId" column="review_id"/>
-    <result property="reviewLike" column="review_like"/>
-    <result property="reviewContent" column="review_content"/>
-    <result property="reviewGrade" column="review_grade"/>
-    <result property="productReg" column="product_reg"/>
-    <result property="categoryLargeId" column="category_large_id"/>
-    <result property="categoryLargeName" column="category_large_name"/>
-    <result property="afterPrice" column="afterprice"/>
-    <result property="productId" column="product_id"/>
-   <!--  <result property="prc" column="prc"/>
-    <result property="pdc" column="pdc"/>
-    <result property="pmp" column="pmp"/>
-    <result property="stock" column="stock"/> -->
-    <result property="displLike" column="display_Like"/>
-    <result property="ordercnt" column="ordercnt"/>
-    <result property="productReg" column="product_Reg"/>
-    <result property="productStock" column="product_stock"/>
-  </resultMap>
-   <!-- 상단 브랜드 이미지,설명 등을 가져오기 -->
-	<select id="getBrands" parameterType="String" resultType="BrandPageDTO">
-		SELECT b.brandId, 
-            B.brandName, B.brandLike, B.brandSummary, B.brandExplaination, BI.brandImgSrc 
-            FROM brand B JOIN brandImg BI ON B.brandId = BI.brandId
-            WHERE B.brandId = #{ brandId } 	
-	</select>
-	
-	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기    -->
+	<!-- 상단 브랜드 이미지,설명 등을 가져오기 -->
+	<select id="getBrands" parameterType="String"
+		resultType="BrandPageDTO">
+		SELECT b.brand_Id,
+		B.brand_Name, B.brand_Like,
+		B.brand_Summary, B.brand_Explaination, BI.brand_Img_Src
+		FROM BRAND B
+		JOIN BRAND_IMG BI ON B.brand_Id = BI.brand_Id
+		WHERE B.brand_Id = #{brandId }
+	</select> 
+
+	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기 -->
 	<select id="getSortBrands" resultType="BrandPageDTO">
-  SELECT *
-  FROM productcontainer
-  WHERE brandId = #{brandId}
-    <choose>
-      <when test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
-        AND (categoryLargeId IN ('0001', '0002', '0004'))
-      </when>
-      <when test="dispcatno.equals('cate_02')">
-        AND categoryLargeId = '0001'
-      </when>
-      <when test="dispcatno.equals('cate_03')">
-        AND categoryLargeId = '0002'
-      </when>
-      <when test="dispcatno.equals('cate_04')">
-        AND categoryLargeId = '0004'
-      </when>
-    </choose>
-  <if test="sort != null">
-    <choose>
-      <when test="sort.equals('p')">
-        ORDER BY productDisplayLike DESC
-      </when>
-      <when test="sort.equals('n')">
-        ORDER BY productReg DESC
-      </when>
-      <when test="sort.equals('s')">
-        ORDER BY ordercnt DESC
-      </when>
-      <when test="sort.equals('l')">
-        ORDER BY ProductPrice ASC
-      </when>
-      <when test="sort.equals('d')">
-        ORDER BY (minprice - afterprice) / minprice * 100 DESC
-      </when>
-    </choose>
-  </if> 
-</select>
-	
-	<!-- 베스트상품 4개(술라이드바용)  -->
+		SELECT *
+		FROM productcontainer
+		WHERE brand_Id = #{brandId}
+		<choose>
+			<when
+				test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
+				AND (category_Large_Id IN ('0001', '0002', '0004'))
+			</when>
+			<when test="dispcatno.equals('cate_02')">
+				AND category_Large_Id = '0001'
+			</when>
+			<when test="dispcatno.equals('cate_03')">
+				AND category_Large_Id = '0002'
+			</when>
+			<when test="dispcatno.equals('cate_04')">
+				AND category_Large_Id = '0004'
+			</when>
+		</choose>
+		<if test="sort != null">
+			<choose>
+				<when test="sort.equals('p')">
+					ORDER BY product_Display_Like DESC
+				</when>
+				<when test="sort.equals('n')">
+					ORDER BY product_Reg DESC
+				</when>
+				<when test="sort.equals('s')">
+					ORDER BY ordercnt DESC
+				</when>
+				<when test="sort.equals('l')">
+					ORDER BY ProductPrice ASC
+				</when>
+				<when test="sort.equals('d')">
+					ORDER BY (minprice - afterprice) / minprice * 100
+					DESC
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 베스트상품 4개(술라이드바용) -->
 	<select id="getsellProduct" resultType="BrandPageDTO">
 	  <![CDATA[
-	SELECT ROWNUM, t.* 
+	  SELECT ROWNUM, t.* 
             FROM ( 
-                SELECT PD.productDisplayName, PDI.productDisplaySrc, PD.productDisplayLike, P.ProductPrice  
-                FROM ProductDisplay PD JOIN PRODUCT P ON PD.productDisplayId = P.productDisplayId  
-                                        JOIN productDisplayImg PDI ON PD.productDisplayId = PDI.ProductDisplayID  
-               WHERE PD.BRANDID = ?  
-                ORDER BY PD.ProductDisplayLike DESC 
+                SELECT PD.product_Display_Name, PDI.product_Display_Src, PD.product_Display_Like, P.Product_Price  
+                FROM Product_Display PD JOIN PRODUCT P ON PD.product_Display_Id = P.product_Display_Id  
+                                        JOIN product_Display_Img PDI ON PD.product_Display_Id = PDI.Product_Display_ID  
+               WHERE PD.BRAND_ID = #{brandId}  
+                ORDER BY PD.Product_Display_Like DESC 
              ) t 
              WHERE ROWNUM < 5
-               ]]>     
+               ]]>
 	</select>
-	
-	<!-- 리뷰가져오기  -->
-  	<select id="getReviews" resultType="BrandPageDTO">
-	SELECT r.reviewId, pdi.productDisplaySrc, r.reviewLike, r.reviewGrade, r.reviewContent, pd.productDisplayId 
-     FROM ProductDisplay pd 
-      JOIN productDisplay_IMG pdi ON pd.productDisplayId = pdi.productDisplayId 
-       JOIN review r ON pd.productDisplayId = r.productDisplayId 
-         WHERE pd.productDisplayId = #{ productDisplayId }
+
+	<!-- 리뷰가져오기 -->
+	<select id="getReviews" resultType="BrandPageDTO">
+		SELECT r.review_Id,
+		pdi.product_Display_Src, r.review_Like, r.review_Grade,
+		r.review_Content, pd.product_Display_Id
+		FROM Product_Display pd
+		JOIN
+		product_Display_IMG pdi ON pd.product_Display_Id =
+		pdi.product_Display_Id
+		JOIN review r ON pd.product_Display_Id =
+		r.product_Display_Id
+		WHERE pd.product_Display_Id = #{ productDisplayId
+		}
 	</select>
-	
-	<!-- 상품   -->
-	
-	
-	<!-- 리뷰 클릭시  상세보기   -->
-	<!-- 프로필 가져오기  -->
+
+	<!-- 상품 -->
+
+
+	<!-- 리뷰 클릭시 상세보기 -->
+	<!-- 프로필 가져오기 -->
 	<select id="getReviewProfile">
-	 SELECT *
-	 FROM USERPROFILE
+		SELECT *
+		FROM USERPROFILE
 	</select>
-	<!-- 리뷰 상세내역 가져오기  -->
-     <select id="getReviewContent">
-     
-     </select>
+	<!-- 리뷰 상세내역 가져오기 -->
+	<select id="getReviewContent">
+
+	</select>
 </mapper>
 
   
