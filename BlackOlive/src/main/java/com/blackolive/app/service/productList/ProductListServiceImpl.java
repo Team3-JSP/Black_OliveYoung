@@ -90,19 +90,47 @@ public class ProductListServiceImpl implements ProductListService{
 		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end, userId);
 	}
 
-	// ===============  현재 카테고리 정보 갖고오기 ============
+	// ===============  현재 카테고리 정보(현재 카테고리, 상위 카테고리) 갖고오기 ============
 	@Override
 	public CurrentCategoryInfoDTO getCurrentCategoryInfoSerivce(String midId) {
 		log.info("ProductListServiceImpl getCurrentCategoryInfoSerivce call...");
 		return this.listMapper.getCurrentCategoryInfo(midId);
 	} // getCurrentCategoryInfoSerivce
 
+	// ===============  현재 카테고리 이름 갖고오기 ============
 	@Override
 	public CurrentCategoryNameDTO getCurrentCategoryNameService(int group, String id) {
 		log.info("ProductListServiceImpl getCurrentCategoryNameService call...");
 		System.out.println(">>>>>>>>>>>"+this.listMapper.getCurrentCategoryName(group, id).getName());
 		return this.listMapper.getCurrentCategoryName(group, id);
-	}
+	} // getCurrentCategoryNameService
+
+	// =============== 상품 좋아요 인써트 ============
+	@Override
+	public boolean addProductLikeSerivce(String userId, String productDisplayId) {
+		log.info("ProductListServiceImpl addProductLikeSerivce call...");
+		
+		return this.listMapper.addProductLike(userId, productDisplayId);
+	} // addProductLikeSerivce
+
+	// ===============  상품 좋아요 삭제 ============
+	@Override
+	public boolean removeProductLikeSerivce(String userId, String productDisplayId) {
+		log.info("ProductListServiceImpl removeProductLikeSerivce call...");
+		
+		return this.listMapper.removeProductLike(userId, productDisplayId);
+	} // removeProductLikeSerivce
+
+	// ===============  상품이 좋아요 있는지 없는지 확인 ============
+	@Override
+	public boolean isProductLikedSerivce(String userId, String productDisplayId) {
+		log.info("ProductListServiceImpl isProductLikedSerivce call...");
+		boolean isLiked = false;
+		if ( this.listMapper.isProductLiked(userId, productDisplayId).equals("1") ) {
+			isLiked = true;
+		}
+		return isLiked;
+	} // isProductLikedSerivce
 
 	
 	

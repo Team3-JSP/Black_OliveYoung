@@ -205,8 +205,29 @@
 				SELECT category_small_name as name FROM category_small WHERE category_small_id = #{id}
 			</when>
 		</choose>
-	
 	</select>
+	
+	<!-- // 좋아요 버튼을 누르면 데이터에 추가하는 작업
+	public boolean addProductLike( @Param("userId") String userId,  @Param("productDisplayId")String productDisplayId) throws Exception; -->
+	<insert id="addProductLike" parameterType="java.util.Map">
+        INSERT INTO product_like
+        VALUES ( 'prl_' || product_like_seq.NEXTVAL, #{userId}, #{productDisplayId} )
+    </insert>
+
+	<!-- // 좋아요 버튼을 한번 더 누르면 데이터에 삭제하는 작업
+	public boolean removeProductLike( @Param("userId") String userId, @Param("productDisplayId")String productDisplayId) throws Exception; -->
+	<delete id="removeProductLike">
+		DELETE FROM product_like
+		WHERE user_id = #{userId} and product_display_id = #{productDisplayId}
+	</delete>
+
+	<!-- // 좋아요 상태 확인
+	public boolean isProductLiked( @Param("userId") String userId,  @Param("productDisplayId")String productDisplayId) throws Exception; -->
+	<select id="isProductLiked" resultType="String" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM product_like
+        WHERE user_id = #{userId} and product_display_id = #{productDisplayId}
+    </select>
 	
 
 </mapper>
