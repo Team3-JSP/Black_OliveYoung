@@ -37,8 +37,8 @@ public class ProductListAjaxController {
 		// 로그인 됐는지 안됐는지
 		if (authentication != null && authentication.isAuthenticated() ) {
 				String userId = authentication.getName();
-				
-			return ResponseEntity.ok(this.productService.getProductService(productDisplayId));
+				List<ProductDetailDTO> result = this.productService.getProductService(productDisplayId);
+			return ResponseEntity.ok(result);
 		} else {
 		
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

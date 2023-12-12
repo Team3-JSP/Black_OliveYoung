@@ -94,8 +94,85 @@ $(function(){
 				cache: false,
 				
 				success:function( response ) {
+				var content = "";
 		              $("#displItem").empty();
-		              $("#displItem").append( response );
+		              
+							content += `<div class="layer_pop_wrap w490" id="basketOption" style="z-index: 999; display: block;">
+	<div class="layer_cont2">
+		<h2 class="layer_title2">옵션선택</h2>
+	
+
+		<div class="prd_option_box cate_list_basket">
+
+	
+			<a href="javascript:open();" onclick="" class="sel_option" id="mainCartSelect">옵션을 선택해주세요</a>
+
+			<ul class="sel_option_list selectItem new">`
+			
+				for (var i = 0; i < response.length; i++) {
+				content +=`
+				<li class=" okQuick">
+				<!-- 혜택 아이콘 li 분기 끝 -->
+				
+				<!--[END 오늘드림 옵션상품 개선:jwkim]-->
+					<a href="javascript:;" onclick="test(this);" data-ref-goodsno="${response[i].productId }" data-ref-itemno="001" promkndcd="" buycnt="" promno="" getitemautoaddyn="" getitemgoodsno="" getitemitemno="">
+			
+						<div class="set">
+						<!-- 오늘드림 아이콘 추가 시작 -->
+						
+								<span class="option_value">
+									${response[i].productName }
+									<span class="option_price">
+										<span class="tx_num">${response[i].afterPrice }원</span>
+									</span>
+								</span>
+									
+								<!-- 
+									<span class="icon">
+										<span class="icon_flag delivery">오늘드림</span>
+									</span> -->						
+						<!-- 오늘드림 아이콘 추가 끝 -->
+						</div>
+					</a>
+				</li>`
+			}
+				content += `</ul>
+	
+
+		</div>
+		
+		<div class="area2sButton">
+			<button class="btnGray closepopup" onclick="close(this);" ><span>취소</span></button>
+			<button class="btnGreen" id="goodsSelCart" ><span>장바구니</span></button>			
+		</div>
+		
+		<button class="layer_close type2 closepopup" onclick="close();">창 닫기</button>
+	</div>
+	
+	<input type="hidden" name="cartGoodsNo" id="cartGoodsNo" value="">
+	<input type="hidden" name="cartItemNo" id="cartItemNo" value="">
+	<input type="hidden" name="paramGoodsNo" id="paramGoodsNo" value="A000000184129">
+	<input type="hidden" name="paramItemNo" id="paramItemNo" value="001">
+	<input type="hidden" name="dupYn" id="dupYn" value="Y">
+	<input type="hidden" name="goodsSctCd" id="goodsSctCd" value="">
+	<input type="hidden" name="promKndCd" id="promKndCd" value="">
+	<input type="hidden" name="promNo" id="promNo" value="">
+	<input type="hidden" name="buyCnt" id="buyCnt" value="">
+	<input type="hidden" name="getItemAutoAddYn" id="getItemAutoAddYn" value="">
+	<input type="hidden" name="getItemGoodsNo" id="getItemGoodsNo" value="">
+	<input type="hidden" name="getItemItemNo" id="getItemItemNo" value="">
+	<input type="hidden" name="pkgGoodsYn" id="pkgGoodsYn" value="N">
+	<!-- 오늘드림 전문관 리스트에서 오늘드림 장바구니에 넣기위해 값 추가 -->
+	<input type="hidden" name="quickYn" id="quickYn" value="">
+	<!-- 레코벨 상품 장바구니 담기 구분을 위해 추가 -->
+	<input type="hidden" name="regCartRecoBellGoodsInCartYn" id="regCartRecoBellGoodsInCartYn" value="">
+	<input type="hidden" name="ordQty" id="ordQty" value="0">
+	<input type="hidden" name="recoRcCode" id="recoRcCode" value="">
+	<input type="hidden" name="ordPsbMinQty" id="ordPsbMinQty" value="1"> <!-- 최수구매가능수량 -->
+	
+</div>`
+		
+		              $("#displItem").html( content );
 		              
 		          }
 		        , error		: function(xhr, textStatus, error) {
@@ -127,3 +204,91 @@ $(document).ready(function() {
         $(this).addClass('on').siblings().removeClass('on');
     });
 });
+
+$(document).ready(function() {
+$("#mainCartSelect").click(function(){
+		$(".prd_option_box.cate_list_basket").addClass("open");
+		
+	})
+	
+	$('#displItem').on('click', '.closepopup', function() {
+    $(".modal-backdrop").remove();
+		$("#displItem").empty();
+});
+	
+	$(".okQuick a").click(function(event){
+		event.preventDefault();
+		 var optionValue = $(this).find(".option_value").html();
+		 var productid = $(this).attr("data-ref-goodsno");
+		 $("#paramGoodsNo").attr("value", productid);
+	      $("#mainCartSelect").html(optionValue);
+	      $(".prd_option_box.cate_list_basket").removeClass("open");
+	})
+	
+	$(".closepopup").click(function(){
+		 $(".modal-backdrop").remove();
+		 $("#basketOption").css("display","none");
+		$(".sel_option_list.selectItem.new").empty();
+		$(".prd_option_box.cate_list_basket").removeClass("open");
+	})
+	
+	$("#goodsSelCart").click(function(){
+		
+		let productID = $("input#paramGoodsNo").attr("value");
+		alert(productID);
+		
+		let data = {
+				productID: productID
+			}
+		
+		$.ajax({
+			
+			url: "/olive/itemadd.do",
+			data:data,
+			cache: false,
+			success:function( response ) {
+				$("#basketOption").css("display","none");
+				$(".layer_pop_wrap.w490.test").css("display","block");
+	          }
+	        , error		: function() {
+	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+	        }
+		})
+		
+	})
+	
+	
+	$(".btnGray.basket").click(function(){
+		window.location.href = "<%=contextPath%>/olive/basket.do";
+	})
+	});
+	
+	
+	$(".okQuick a").on("click",function(event){
+		event.preventDefault();
+		 var optionValue = $(this).find(".option_value").html();
+		 var productid = $(this).attr("data-ref-goodsno");
+		 $("#paramGoodsNo").attr("value", productid);
+	      $("#mainCartSelect").html(optionValue);
+	      $(".prd_option_box.cate_list_basket").removeClass("open");
+	})
+	
+	function test(obj){
+	var optionValue = $(obj).find(".set").html();
+		 var productid = $(obj).attr("data-ref-goodsno");
+		 $("#paramGoodsNo").attr("value", productid);
+	      $("#mainCartSelect").html(optionValue);
+	      $(".prd_option_box.cate_list_basket").removeClass("open");
+	}
+	
+	function open(obj){	
+		$(".prd_option_box.cate_list_basket").addClass("open");
+	}
+	
+	function close(obj){
+	alert("123")
+		$(".modal-backdrop").remove();
+		$("#displItem").empty();
+	}
+	
+	
