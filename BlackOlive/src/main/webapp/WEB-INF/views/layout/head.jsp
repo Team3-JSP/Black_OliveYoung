@@ -74,6 +74,9 @@
 					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
 		}
 		
+		
+		
+		
 	})
 </script>
 	<!-- 3200210 큐레이션 개선 관련 건-레코벨 데이터 송부 
@@ -296,9 +299,9 @@
 
 
 					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
+						<c:when test="${empty sessionScope.principal }">
 							<li class="cart"><a href="<%=contextPath%>/basket"
-								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
+								data-attr="공통^헤더^장바구니">장바구니1 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
 						<c:otherwise>
