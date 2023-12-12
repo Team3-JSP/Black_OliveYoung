@@ -33,7 +33,7 @@ public interface ProductListService {
 	public List<BrandDTO> getBrandList(int group, String id);
 	
 	// 상품 리스트 갖고오기
-	public List<ProductContainer> getProductListService(int group, String id, String sort, String[] brandId, int currentPage, int perPage);
+	public List<ProductContainer> getProductListService(int group, String id, String sort, String[] brandId, int currentPage, int perPage, String userId);
 	
 	// 현재 선택한 카테고리의 정보(상위정보도) 갖고오는 작업
 	public CurrentCategoryInfoDTO getCurrentCategoryInfoSerivce(String midId);

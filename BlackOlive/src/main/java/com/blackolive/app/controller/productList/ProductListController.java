@@ -1,5 +1,6 @@
 package com.blackolive.app.controller.productList;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,17 @@ public class ProductListController {
 			, @RequestParam(value="brandId", defaultValue = "") String[] brandId
 			, @RequestParam(value="currentPage", defaultValue = "1") int currentPage
 			, @RequestParam(value="perPage", defaultValue = "24") int perPage
-			, Model model) {
+			, Model model
+			, Principal principal) {
 
 		log.info("ProductListController call.. ");
-
+		String userId ="0";
+		if (principal != null) {
+			userId = principal.getName();
+		} // if
 		// 페이지 객체 처리
-		PageDTO pageDTO = null; 
-
+		PageDTO pageDTO = null;
+		
 		if ( dispCapno.length() == 4 ) {
 
 			log.info("ProductListController length 4 call.. ");
@@ -88,7 +93,7 @@ public class ProductListController {
 			model.addAttribute("brandList", brandList);
 
 			// 상품 리스트 갖고오는 작업
-			List<ProductContainer> productList = this.productListService.getProductListService(2, midId, sort, brandId, currentPage, perPage);
+			List<ProductContainer> productList = this.productListService.getProductListService(2, midId, sort, brandId, currentPage, perPage, userId);
 			model.addAttribute("productList", productList);
 
 			// 선택한 카테고리의 이름과 아이디를 갖고오는 작업
@@ -133,7 +138,7 @@ public class ProductListController {
 			model.addAttribute("brandList", brandList);
 
 			// 상품 리스트 갖고오는 작업
-			List<ProductContainer> productList = this.productListService.getProductListService(group, smallId, sort, brandId, currentPage, perPage);
+			List<ProductContainer> productList = this.productListService.getProductListService(group, smallId, sort, brandId, currentPage, perPage,userId);
 			model.addAttribute("productList", productList);
 
 			// 선택한 카테고리의 이름과 아이디를 갖고오는 작업

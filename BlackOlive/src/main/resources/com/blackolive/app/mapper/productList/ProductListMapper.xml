@@ -113,6 +113,7 @@
 				</when>
 			</choose>
 		</where>
+		ORDER BY b.brand_name ASC
 	</select>
 	
 	<!-- // 선택한 카테고리의 상품 리스트 갖고오는 작업 + 선택브랜드만 갖고오는 작업 예정
@@ -122,8 +123,16 @@
         FROM (
             SELECT ROWNUM no, t.*
             FROM (
-                SELECT *
-                FROM productcontainer
+                SELECT productcontainer.*
+                ,CASE 
+        		WHEN pl.PRODUCT_DISPLAY_ID IS NOT NULL THEN 1
+        		ELSE 0
+    			END AS productLikeState
+               	 FROM productcontainer 
+					LEFT JOIN product_like pl ON productcontainer.PRODUCT_DISPLAY_ID = pl.PRODUCT_DISPLAY_ID 
+					 <if test="userId != null">
+						 AND pl.user_id = #{userId}
+                    </if>
                 <where>
                     <choose>
                         <when test="group == 1">
@@ -143,6 +152,7 @@
                             #{brandId}
                         </foreach>
                     </if>
+                   
                 </where>
 
                 <choose>

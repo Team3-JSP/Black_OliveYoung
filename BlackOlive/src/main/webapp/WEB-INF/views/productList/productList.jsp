@@ -221,13 +221,52 @@ function changePerPageAndClass(value) {
 	  }
 	}
 	$(function(){
-	// 브랜드 선택 초기화
-	$("#onlBrndReSet").on("click",function(){
-		var url = new URL( window.location.href);
-		url.searchParams.delete('brandId');
-		window.location.href = url;
-	})
-	})
+	// 브랜드 선택 초기화 버튼
+		$("#onlBrndReSet").on("click",function(){
+			var url = new URL( window.location.href);
+			url.searchParams.delete('brandId');
+			window.location.href = url;
+		});// onlBrndReSet func close
+	
+		$('.btn_zzim.jeem').on("click", function() {
+			
+			let productDisplayId = $(this).data("goodsno");
+			toggleLikeItemStatus(productDisplayId);
+			
+		}) // .btn_zzim.jeem func close
+		
+		function toggleLikeItemStatus(productDisplayId) {
+			
+			$.ajax({
+				url: "/productLikeToggle",
+				method:"GET",
+				cache:false,
+				dataType : 'text',
+				data:{
+					productDisplayId:productDisplayId
+					},
+				success: function (result) {
+					if (result === "true" ) {
+						console.log('success : toggleLikeStatus:');
+						$(".layerAlim.zzimOn.wishPrd").show();
+						$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
+						
+		                $(".btn_zzim.jeem").addClass("on");
+		            } else {
+		            	console.log('false : toggleLikeStatus: ' + result);
+		            	$(".layerAlim.zzimOff.wishPrd").show();
+		            	$(".layerAlim.zzimOff.wishPrd").fadeOut(2000);
+		                $(".btn_zzim.jeem").removeClass("on");
+		            } //if
+				}, error : function (xhr, data, textStatus) {
+		                alert("로그인 후 이용가능 합니다.");
+		                window.location.href = "/auth/login";
+		           
+		        } // success , error
+			}) // ajax
+			} // toggleLikeItemStatus
+	
+	}) // ready func close
 </script>
 <div id="Container">
 		<div id="Contents">
@@ -456,7 +495,8 @@ function changePerPageAndClass(value) {
 											<p class="tx_name">${pml.productDisplayName}</p>
 										</a>
 									</div>
-									<button class="btn_zzim jeem" data-ref-goodsno="A000000185252">
+									
+									<button class="btn_zzim jeem<c:if test='${pml.productLikeState eq 1}'> on </c:if>" data-goodsno="${pml.productDisplayId}">
 										<span>찜하기전</span>
 									</button>
 									<p class="prd_price">

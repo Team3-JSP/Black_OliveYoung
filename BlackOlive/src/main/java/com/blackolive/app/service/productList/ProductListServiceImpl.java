@@ -76,15 +76,18 @@ public class ProductListServiceImpl implements ProductListService{
  // ===============  상품 리스트 갖고오기 ============
 	@Override
 	public List<ProductContainer> getProductListService(int group, String id, String sort, String[] brandId,
-			int currentPage, int perPage) {
+			int currentPage, int perPage, String userId) {
 		log.info("ProductListServiceImpl getProductListService call...");
 		
 		int begin = (currentPage -1) * perPage + 1;
 		int end = begin + perPage -1 ;
+		if (userId == null) {
+			userId ="0";
+		}//if
 		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+sort);
 		
-		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end);
+		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end, userId);
 	}
 
 	// ===============  현재 카테고리 정보 갖고오기 ============
