@@ -229,13 +229,14 @@ function changePerPageAndClass(value) {
 		});// onlBrndReSet func close
 	
 		$('.btn_zzim.jeem').on("click", function() {
-			
+			let productLikeBtn = $(this);
 			let productDisplayId = $(this).data("goodsno");
-			toggleLikeItemStatus(productDisplayId);
+			
+			toggleLikeItemStatus(productLikeBtn, productDisplayId);
 			
 		}) // .btn_zzim.jeem func close
 		
-		function toggleLikeItemStatus(productDisplayId) {
+		function toggleLikeItemStatus(productLikeBtn, productDisplayId) {
 			
 			$.ajax({
 				url: "/productLikeToggle",
@@ -251,17 +252,20 @@ function changePerPageAndClass(value) {
 						$(".layerAlim.zzimOn.wishPrd").show();
 						$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
 						
-		                $(".btn_zzim.jeem").addClass("on");
+						 $(productLikeBtn).addClass("on");
 		            } else {
 		            	console.log('false : toggleLikeStatus: ' + result);
 		            	$(".layerAlim.zzimOff.wishPrd").show();
 		            	$(".layerAlim.zzimOff.wishPrd").fadeOut(2000);
-		                $(".btn_zzim.jeem").removeClass("on");
+		                $(productLikeBtn).removeClass("on");
 		            } //if
 				}, error : function (xhr, data, textStatus) {
-		                alert("로그인 후 이용가능 합니다.");
-		                window.location.href = "/auth/login";
-		           
+					if (xhr.status == 401) {
+		                   alert("로그인 후 이용가능 합니다.");
+		                         window.location.href = "/auth/login";   
+		               }else{
+		                    alert("서버 에러") 
+		               }
 		        } // success , error
 			}) // ajax
 			} // toggleLikeItemStatus
@@ -483,7 +487,7 @@ function changePerPageAndClass(value) {
 
 							<li class="flag">
 								<div class="prd_info">
-									<a href="<%=contextPath%>/olive/productDetail.do?goodsNo=${pml.productDisplayId}" class="prd_thumb goodsList"
+									<a href="/store/goods?productDisplayId=${pml.productDisplayId}" class="prd_thumb goodsList"
 										name="${pml.productDisplayId}"> <img src="${pml.productDisplaySrc}" alt="사진"
 										class="completed-seq-lazyload" />
 										<c:if test="${pml.productStock eq 0 }">
@@ -592,4 +596,18 @@ function addOrUpdateParameter(url, key, value) {
 </script>
  <div id="displItem"></div>
  
+ <!-- 좋아요 버튼 눌렀을 때 나오는 팝업(등록)  -->
+ <div class="layerAlim zzimOn wishPrd" style="display: none;">
+		<span class="icon"></span>
+		<p class="one">
+			<strong>좋아요</strong>
+		</p>
+	</div>
+ <!-- 좋아요 버튼 눌렀을 때 나오는 팝업(삭졔) -->
+	<div class="layerAlim zzimOff wishPrd" style="display: none;">
+		<span class="icon"></span>
+		<p class="one">
+			<strong>좋아요</strong>
+		</p>
+	</div>
  
