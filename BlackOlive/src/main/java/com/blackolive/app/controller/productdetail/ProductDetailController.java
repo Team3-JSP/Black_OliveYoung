@@ -1,4 +1,4 @@
-package com.blackolive.app.controller.product;
+package com.blackolive.app.controller.productdetail;
 
 import java.util.List;
 
@@ -12,18 +12,18 @@ import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
-import com.blackolive.app.domain.product.ProductDTO;
-import com.blackolive.app.service.product.ProductService;
+import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.service.productList.ProductListService;
+import com.blackolive.app.service.productdetail.ProductDetailService;
 
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/store/goods")
-public class ProductController {
+public class ProductDetailController {
 	
-	private ProductService productService;
+	private ProductDetailService productService;
 	private ProductListService productListService;
 	
 	@GetMapping()
@@ -45,7 +45,7 @@ public class ProductController {
 		model.addAttribute("cSList",categorySmallList);
 		
 		//=======================  해당 상품의 모든 상위칸에 있는 정보 ===========================	
-		List<ProductDTO> productList = this.productService.getProductService(productDisplayId);
+		List<ProductDetailDTO> productList = this.productService.getProductService(productDisplayId);
 		model.addAttribute("pLists",productList);
 		
 		//=======================  해당 상품의 프로모션 ===========================

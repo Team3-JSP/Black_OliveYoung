@@ -80,34 +80,31 @@ $(function(){
 			
 			addModalBackdrop();
 			
-			let displID = $(this).attr("id");
+			let productDisplayId = $(this).attr("id");
 			let url = window.location.href
 			let data = {
-					displID: displID,
-					url: url
+					productDisplayId: productDisplayId,
 				}
 			
 			$.ajax({
 				
 				
-				url: "/olive/itemlist.do",
+				url: "/itemlist.json",
 				data:data,
 				cache: false,
-				beforeSend: function(xmlHttpRequest) {
-			        xmlHttpRequest.setRequestHeader("AJAX", "true");
-			    },
+				
 				success:function( response ) {
 		              $("#displItem").empty();
 		              $("#displItem").append( response );
 		              
 		          }
 		        , error		: function(xhr, textStatus, error) {
-		        	if (xhr.status == 500) {
-		                alert("Login Session Expired");
-		                window.location.href = "/Black_OY/view/logon/logon.jsp";
-		            }else {
-		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
-		            }
+		        	if (xhr.status == 401) {
+						 alert("로그인 후 이용가능 합니다.");
+			                window.location.href = "/auth/login";	
+					}else{
+		              alert("서버 에러") 
+					}
 		        }
 			})
 		});

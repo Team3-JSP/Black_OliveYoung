@@ -241,13 +241,13 @@ function changePerPageAndClass(value) {
 				url: "/productLikeToggle",
 				method:"GET",
 				cache:false,
-				dataType : 'text',
+				
 				data:{
 					productDisplayId:productDisplayId
 					},
 				success: function (result) {
 					if (result === "true" ) {
-						console.log('success : toggleLikeStatus:');
+						console.log('success : toggleLikeStatus:'+result);
 						$(".layerAlim.zzimOn.wishPrd").show();
 						$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
 						
@@ -259,9 +259,12 @@ function changePerPageAndClass(value) {
 		                $(".btn_zzim.jeem").removeClass("on");
 		            } //if
 				}, error : function (xhr, data, textStatus) {
-		                alert("로그인 후 이용가능 합니다.");
-		                window.location.href = "/auth/login";
-		           
+					if (xhr.status == 401) {
+						 alert("로그인 후 이용가능 합니다.");
+			                window.location.href = "/auth/login";	
+					}else{
+		              alert("서버 에러") 
+					}
 		        } // success , error
 			}) // ajax
 			} // toggleLikeItemStatus

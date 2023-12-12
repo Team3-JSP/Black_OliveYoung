@@ -1,4 +1,4 @@
-package com.blackolive.app.domain.product;
+package com.blackolive.app.domain.productdetail;
 
 import java.sql.Date;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class ProductDetailDTO {
 
 	private String productDisplaySrc;
     private String brandName;

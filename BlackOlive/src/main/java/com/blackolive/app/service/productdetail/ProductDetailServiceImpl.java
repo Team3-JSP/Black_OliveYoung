@@ -1,22 +1,22 @@
-package com.blackolive.app.service.product;
+package com.blackolive.app.service.productdetail;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
-import com.blackolive.app.domain.product.ProductDTO;
+import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
-import com.blackolive.app.mapper.product.ProductMapper;
+import com.blackolive.app.mapper.productdetail.ProductDetailMapper;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductDetailServiceImpl implements ProductDetailService{
 
 	private HeadMapper headMapper;
-	private ProductMapper productMapper;
+	private ProductDetailMapper productMapper;
 	
 	@Override
 	public AllCategoryDTO getTotalCategoryService(String productDisplayId) {
@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductDTO> getProductService(String productDisplayId) {
+	public List<ProductDetailDTO> getProductService(String productDisplayId) {
 		
 		return this.productMapper.getProduct(productDisplayId);
 	}
