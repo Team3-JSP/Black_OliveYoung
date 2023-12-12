@@ -19,11 +19,15 @@
 			<typeAlias type="com.blackolive.app.domain.basket.BasketDTO" alias="basketDTO" />
 			
 			
-			
+			<!-- productList -->
 			<typeAlias type="com.blackolive.app.domain.productList.BrandDTO" alias="BrandDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.ProductContainer" alias="ProductContainer" />
 			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryInfoDTO" alias="CurrentCategoryInfoDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryNameDTO" alias="CurrentCategoryNameDTO" />
+			
+			<!-- productDetail -->
+			<typeAlias type="com.blackolive.app.domain.productdetail.ProductPromotionDTO" alias="ProductPromotionDTO" />
+			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailIMGDTO" alias="ProductDetailIMGDTO" />
 			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
 			
@@ -41,6 +45,7 @@
 		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
 
 		
 	</mappers>
