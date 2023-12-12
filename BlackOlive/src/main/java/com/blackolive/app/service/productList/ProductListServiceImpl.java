@@ -9,6 +9,8 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.BrandDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryInfoDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryNameDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.mapper.productList.ProductListMapper;
 
@@ -74,13 +76,32 @@ public class ProductListServiceImpl implements ProductListService{
  // ===============  상품 리스트 갖고오기 ============
 	@Override
 	public List<ProductContainer> getProductListService(int group, String id, String sort, String[] brandId,
-			int currentPage, int perPage) {
+			int currentPage, int perPage, String userId) {
 		log.info("ProductListServiceImpl getProductListService call...");
 		
 		int begin = (currentPage -1) * perPage + 1;
 		int end = begin + perPage -1 ;
+		if (userId == null) {
+			userId ="0";
+		}//if
 		
-		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+sort);
+		
+		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end, userId);
+	}
+
+	// ===============  현재 카테고리 정보 갖고오기 ============
+	@Override
+	public CurrentCategoryInfoDTO getCurrentCategoryInfoSerivce(String midId) {
+		log.info("ProductListServiceImpl getCurrentCategoryInfoSerivce call...");
+		return this.listMapper.getCurrentCategoryInfo(midId);
+	} // getCurrentCategoryInfoSerivce
+
+	@Override
+	public CurrentCategoryNameDTO getCurrentCategoryNameService(int group, String id) {
+		log.info("ProductListServiceImpl getCurrentCategoryNameService call...");
+		System.out.println(">>>>>>>>>>>"+this.listMapper.getCurrentCategoryName(group, id).getName());
+		return this.listMapper.getCurrentCategoryName(group, id);
 	}
 
 	

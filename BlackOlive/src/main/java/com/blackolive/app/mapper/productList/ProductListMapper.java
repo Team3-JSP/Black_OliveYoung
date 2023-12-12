@@ -9,6 +9,8 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.BrandDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryInfoDTO;
+import com.blackolive.app.domain.productList.CurrentCategoryNameDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 
 @Repository
@@ -28,7 +30,7 @@ public interface ProductListMapper {
 	// 총 레코드 수 갖고오는 작업
 	public int getTotalRecords( @Param("group") int group, @Param("id")String id, @Param("brandId")String brandId[]);
 	
-	// 선택한 카테고리 이름과 현재 id 갖고오는 작업
+	// 총 페이지 수 갖고오는 작업
 	public int getTotalPages( @Param("group")int group, @Param("perPage")int perPage, @Param("id")String id, @Param("brandId")String brandId[]);
 	
 	// 선택한 카테고리를 팔고 있는 브랜드를 갖고오는 작업
@@ -43,8 +45,14 @@ public interface ProductListMapper {
 			@Param("currentPage") int currentPage,
 			@Param("perPage") int perPage,
 			@Param("begin") int begin,
-			@Param("end") int end
+			@Param("end") int end,
+			@Param("userId") String userId
 			);
 	
+	// 선택한 카테고리 이름과 현재 id 갖고오는 작업
+	public CurrentCategoryInfoDTO getCurrentCategoryInfo (@Param("midId") String midId);
+	
+	// 현재 선택한 카테고리 이름을 갖고오는 작업
+	public CurrentCategoryNameDTO getCurrentCategoryName (@Param("group") int group, @Param("id")String id);
 	
 } // interface

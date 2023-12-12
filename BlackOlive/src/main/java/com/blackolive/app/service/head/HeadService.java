@@ -13,7 +13,7 @@ public interface HeadService {
 
 	public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategorySerivce(int categoryTotalId) throws SQLException, ClassNotFoundException;
 	
-	public ExampleDTO getExample()throws SQLException;
+	
 	
 	
 } // interface

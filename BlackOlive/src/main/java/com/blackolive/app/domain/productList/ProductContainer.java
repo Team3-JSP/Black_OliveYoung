@@ -30,5 +30,6 @@ public class ProductContainer {
 	private int productStock;
 	private int productDisplayLike;
 	private Date productDisplayRegdate;
+	private int productLikeState;
 	
 }
