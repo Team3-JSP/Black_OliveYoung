@@ -7,8 +7,8 @@
 			<!--title-->
 			<div class="location_wrap">
 				<div class="location">
-					<a href="https://www.cjone.com/cjmweb/main.do" class="home"><span class="haze">홈</span></a>
-					<a href="https://www.cjone.com/cjmweb/join.do" class="now"><span>회원가입</span></a>
+					<a href="uath/login" class="home"><span class="haze">홈</span></a>
+					<a href="/joinCheck" class="now"><span>회원가입</span></a>
 				</div>
 			</div>
 

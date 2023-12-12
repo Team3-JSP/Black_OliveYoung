@@ -5,11 +5,8 @@
 
 <tiles-definitions>
 	
-	<definition name="empty" template="/WEB-INF/views/layout_cj/empty.jsp">
-		<put-attribute name="emptyContent" value=""/>
-	</definition>
-	<definition name="empty.*" extends="empty">
-		<put-attribute name="emptyContent" value= "/WEB-INF/views/join/{1}.jsp"/>
+	<definition name="*.*.part" template="/WEB-INF/views/layout_cj/empty.jsp">
+		<put-attribute name="emptyContent" value="/WEB-INF/views/{1}/{2}.jsp"/>
 	</definition>
 	
 	<definition name="join.*" template="/WEB-INF/views/layout_cj/layout_cj.jsp">

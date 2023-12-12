@@ -1,6 +1,6 @@
 package com.blackolive.app.domain.signin;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class OliveUserDTO {
 	private String userName;
 	private String userPassword;
 	private String userTel;
-	private Date userBirth;
+	private LocalDate userBirth;
 	private  int userGender;
 	private String userEmail;
 	private String gradeId;

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
-<%@ page import="com.blackolive.app.domain.signin.OliveUserDTO"%>
 		<!--contents-->
 		<div id="contentsWrap">
 
-			<form id="form1" name="form1" method="post" action="/join/join">
+			<form id="form1" name="form1" method="post" action="">
 
 				<div id="contents">
 					<!--title-->
@@ -3957,7 +3956,7 @@ ol, ul, li {
 					</div>
 					<!--//contents-->
 				</div>
-				<input type="hidden" id="popupDataName" name="userName" value ="${userName }" />
+				<input type="hidden" id="popupDataName" name="userName" value ="${userName}" />
 				<input type="hidden" id="popupDataBirth" name="userBirth" value ="${userBirth }"/>
 				<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender }"/>
 				<input type="hidden" id="popupDataTel" name="userTel" value ="${userTel }"/>
@@ -3967,7 +3966,7 @@ ol, ul, li {
 
 		</div>
 	<script>
-	$(function () {
+ 	$(function () {
 		var agreeButtons = $(".radio_agreement .radio_btn");
 		agreeButtons.each(function() {
 		    $(this).on("click", function(event) {
@@ -3976,16 +3975,24 @@ ol, ul, li {
 		            $(this).removeClass("on").removeAttr("on");
 		        } else {
 		            $(this).addClass("on").attr("on", "true");
+		          //  $(this).removeClass("on").removeAttr("on");
 		        }
 		    });
 		});
-	
+
 	$("#checkedAll").on("click", function (event) {
 		event.preventDefault();
 		$(".radio_btn:even").removeClass("on");
 		$(".radio_btn:odd").addClass("on");
 	});
+
 });
+ 	
+ 	function btnCheck() {
+ 		if ($(".radio_btn:odd .on").length === 0) {
+ 		    alert("동의해주세요");
+ 		}
+	}
 </script>
 <script>
 	$("#btn_prev").click(goCancel);
@@ -3995,7 +4002,7 @@ ol, ul, li {
 	}
 
 	$("#btn_agree").on("click", function () {
-		$("#form1").submit();
+		$("#form1").attr("action","/join/join").submit();
 	});
 </script>
 

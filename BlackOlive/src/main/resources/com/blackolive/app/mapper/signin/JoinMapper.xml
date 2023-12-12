@@ -5,7 +5,7 @@
 
 <mapper namespace="com.blackolive.app.mapper.signin.JoinMapper">
   <!-- 회원가입여부 체크 -->
-	 <select id="joinCheck" resultType="com.blackolive.app.domain.signin.OliveUserDTO">
+	 <select id="joinCheck" resultType="OliveUserDTO">
 	 SELECT *
 	 FROM( 
 	   SELECT user_id
@@ -19,15 +19,15 @@
 	 
 	 <!-- 	 회원가입 -->
  	 <insert id="join">
-	INSERT INTO olive_user (user_id, user_name, user_pwd, user_tel, user_birth, user_email)
-	VALUES (#{user_id}, #{user_name},#{user_pwd}, #{user_tel}, #{user_birth}, #{user_email} )
+	INSERT INTO olive_user (user_id, user_name, user_password, user_tel, user_birth, user_gender, user_email)
+	VALUES (#{userId}, #{userName}, #{userPassword}, #{userTel}, #{userBirth}, #{userGender}, #{userEmail} )
 	 </insert> 
 	 
 	 <!--  id 중복체크 -->
  	 <select id="idCheck" resultType="int">
 	 select count(*) cnt 
      from olive_user 
-     WHERE user_id = #{user_id}
+     WHERE user_id = #{userId}
 	 </select>
 
 </mapper>

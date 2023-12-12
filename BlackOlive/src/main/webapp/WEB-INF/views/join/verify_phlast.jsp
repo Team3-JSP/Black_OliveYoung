@@ -310,7 +310,7 @@ function formSubmit() {
 }
 
 $(function () {
-  	$('#No').keydown(function(event) {
+  	$('#securityNum').keydown(function(event) {
     	if ( event.which == 13 ){
      		$("#btnSubmit").click();	
      	}

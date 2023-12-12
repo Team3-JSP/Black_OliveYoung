@@ -397,9 +397,9 @@
 									</div>
 							<%-- <input type="hidden" id="popupDataName" name="userName" value ="${userName }" />
 							<input type="hidden" id="popupDataBirth" name="userBirth" value ="${userBirth}"/>
-							<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender}"/>
 							<input type="hidden" id="popupDataTel" name="userTel" value ="${userTel}"/>
 							<input type="hidden" id="popupDataTel" name="userId" value ="${userId}"/> --%>
+							<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender}"/>
 								</form>
 							</div>
 						</div>
@@ -607,14 +607,25 @@ var length = inputVal.length;
 		}
 	});
 
-/* 	$("#popupDataName").val("${userName}");
+ 	$("#userName").val("${userName}");
 	$("#popupDataBirth").val("${userBirth}");
-	$("#popupDataGender").val("${userGender}");
+	/* $("#popupDataGender").val("${userGender}"); */
 	$("#popupDataTel").val("${userTel}");
-	 */
-	console.log($("#popupDataName").val());
-	console.log($("#popupDataBirth").val());
+	 
+	 var email = $("#email_addr1").val()+"@"+$("#email_addr2").val() ; 
+	console.log(email);
+	console.log($("#userName").val());
 	console.log($("#popupDataGender").val());
 	console.log($("#popupDataTel").val());
 	
+</script>
+<script>
+/* var gender = "${userGender}";
+
+if ( gender == "1" || gender == "3" ) {	
+	gender = "1";
+}else if ( gender == "2" || gender == "4") {
+	gender = "2";
+}
+console.log(gender); */
 </script>
