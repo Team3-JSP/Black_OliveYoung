@@ -242,13 +242,13 @@ function changePerPageAndClass(value) {
 				url: "/productLikeToggle",
 				method:"GET",
 				cache:false,
-				dataType : 'text',
+				
 				data:{
 					productDisplayId:productDisplayId
 					},
 				success: function (result) {
 					if (result === "true" ) {
-						console.log('success : toggleLikeStatus:');
+						console.log('success : toggleLikeStatus:'+result);
 						$(".layerAlim.zzimOn.wishPrd").show();
 						$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
 						
@@ -265,7 +265,7 @@ function changePerPageAndClass(value) {
 		                         window.location.href = "/auth/login";   
 		               }else{
 		                    alert("서버 에러") 
-		               }
+
 		        } // success , error
 			}) // ajax
 			} // toggleLikeItemStatus

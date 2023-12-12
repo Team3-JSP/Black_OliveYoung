@@ -23,17 +23,18 @@ public class ProductLikeAjaxController {
 	private ProductListService productListService;
 
 	@GetMapping("/productLikeToggle")
+
 	public ResponseEntity<String> LikeToggle(
 			Authentication authentication,
 			@RequestParam String productDisplayId
 			) {
-		
-		
+
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>ProductLikeAjaxController");
 		log.info("ProductLikeAjaxController /productLikeToggle call..");
 		
 		// 로그인 됐는지 안됐는지
 		if (authentication != null && authentication.isAuthenticated() ) {
+
 			log.info("ProductLikeAjaxController authentication..");
 			
 			// userId 갖고오기
@@ -57,6 +58,7 @@ public class ProductLikeAjaxController {
 		
 		// 로그인이 안되어 있을 시 
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 안되어 있습니다.");
+
 	} // LikeToggle	
 	
 } 
