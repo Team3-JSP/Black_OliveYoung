@@ -13,6 +13,7 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
+import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
 
@@ -23,14 +24,14 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/store/goods")
 public class ProductDetailController {
 	
-	private ProductDetailService productService;
+	private ProductDetailService productDetailService;
 	private ProductListService productListService;
 	
 	@GetMapping()
-	public String getProductInfo(@RequestParam("goodsNo")String productDisplayId,
+	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
-		AllCategoryDTO allCategoryDTO = this.productService.getTotalCategoryService(productDisplayId);
+		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
 		int cateHId = allCategoryDTO.getCategortTotalId();
 		String CategoryLargeId = allCategoryDTO.getCategoryLargeId();
 		String CategoryMidId = allCategoryDTO.getCategoryMidId();
@@ -45,12 +46,15 @@ public class ProductDetailController {
 		model.addAttribute("cSList",categorySmallList);
 		
 		//=======================  해당 상품의 모든 상위칸에 있는 정보 ===========================	
-		List<ProductDetailDTO> productList = this.productService.getProductService(productDisplayId);
+		List<ProductDetailDTO> productList = this.productDetailService.getProductService(productDisplayId);
 		model.addAttribute("pLists",productList);
 		
 		//=======================  해당 상품의 프로모션 ===========================
+		ProductPromotionDTO productPromotion = this.productDetailService.getProductPromotionService(productDisplayId);
+		model.addAttribute("productPromotion",productPromotion);
 		
 		//======================= 해당 상품의 이미지 갖고오기 ===========================
+		
 		
 		//======================= 해당 상품의 설명 이미지 갖고오기 ===========================
 		
@@ -67,7 +71,7 @@ public class ProductDetailController {
 		// ===================== 상품 추천
 		
 		// 쿠키 값확인
-		return "product.product";
+		return "productDetail.productDetail";
 	}
 
 }

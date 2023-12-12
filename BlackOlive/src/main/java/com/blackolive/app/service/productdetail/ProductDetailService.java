@@ -4,11 +4,18 @@ import java.util.List;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
+import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
+import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
 
 public interface ProductDetailService {
 	
 	AllCategoryDTO getTotalCategoryService(String productDisplayId);
 	
 	List<ProductDetailDTO> getProductService(String productDisplayId);
-
+	
+	// 해당 상품의 프로모션 갖고오기 getProductPromotion
+	ProductPromotionDTO getProductPromotionService(String productDisplayId);
+	
+	// 해당 상품의 표시 이미지 갖고오기 getProductDisplayImg
+	List<ProductDetailIMGDTO> getProductDisplayImgService(String productDisplayId);
 }

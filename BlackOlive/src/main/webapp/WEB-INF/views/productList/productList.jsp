@@ -189,6 +189,7 @@ function changePerPage(value) { // perPage 수정
 
 	  // 'perPage' 파라미터 값 변경
 	  url.searchParams.set('perPage', value);
+	  url.searchParams.set('currentPage', 1);
 
 	  // 새 URL을 만들고 브라우저의 주소창을 업데이트
 	  window.location.href = url;
@@ -265,7 +266,7 @@ function changePerPageAndClass(value) {
 		                         window.location.href = "/auth/login";   
 		               }else{
 		                    alert("서버 에러") 
-
+		               }
 		        } // success , error
 			}) // ajax
 			} // toggleLikeItemStatus
