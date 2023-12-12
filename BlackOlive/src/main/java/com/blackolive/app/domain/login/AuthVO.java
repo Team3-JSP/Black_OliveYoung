@@ -1,5 +1,5 @@
-package com.blackolive.app.domain.login;
 
+package com.blackolive.app.domain.login;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

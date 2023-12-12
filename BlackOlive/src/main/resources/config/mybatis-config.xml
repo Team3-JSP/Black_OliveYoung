@@ -9,7 +9,7 @@
 	
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
-	
+
 	<!-- 		<typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" /> -->
 			<typeAlias type="com.blackolive.app.domain.head.CategoryLargeDTO" alias="categoryLarge" />
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
@@ -32,7 +32,7 @@
 		ex) com/blackolive/app/mapper/각자폴더/각자파일네임.xml
 		 -->
 		<mapper resource="com/blackolive/app/mapper/head/HeadMapper.xml"/>
-
+		
 		<mapper resource="com/blackolive/app/mapper/store/StoreMapper.xml"/>
 		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
 		

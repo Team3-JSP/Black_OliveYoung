@@ -29,7 +29,7 @@
    <!-- p91 MyBatis 관련된 부분 -->
    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
      <property name="dataSource" ref="dataSource"></property>
-     <property name="configLocation"  value="classpath:config/mybatis-config.xml"/>
+     <property name="configLocation"  value="classpath:/config/mybatis-config.xml"/>
    </bean>
       
    <!-- ========== mapper 스캔 ========= -->

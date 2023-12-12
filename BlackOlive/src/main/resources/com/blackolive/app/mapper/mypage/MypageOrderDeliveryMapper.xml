@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.mypage.MypageOrderDeliveryMapper">
+
+
+	<!-- public List<OrderDeliveryVO> getOrderList(String userid) throws ClassNotFoundException, SQLException; -->
+	<select id="getOrderList" resultType="com.blackolive.app.domain.mypage.OrderDeliveryVO">
+		SELECT 
+        order_id as orderId, 
+        order_date as orderDate, 
+        product_display_src as productDisplaySrc, 
+        categorySmallId ,  
+        categoryMidId, 
+        brand_name as brandName, 
+        product_display_name as productDisplayName, 
+        product_display_id as productDisplayId,
+        product_name as productName, 
+        product_cnt as productCnt,
+        order_status as orderStatus, 
+        total_price as totalPrice, 
+        refund_date as refundDate, 
+        refund_status as refundStatus 
+				FROM ( 
+				   SELECT 
+                        o.order_id, 
+                        order_date, 
+                        product_display_src, 
+                        cs.category_small_id categorySmallId, 
+                        cm.category_mid_id categoryMidId, 
+                        brand_name, 
+                        product_display_name, 
+                        pd.product_display_id, 
+                        product_name, 
+                        product_cnt, 
+                        order_status,
+                        total_price, 
+                        refund_date, 
+                        refund_status, 
+				        ROW_NUMBER() OVER (PARTITION BY p.product_name ORDER BY o.order_id) AS rn 
+                    FROM olive_order o 
+                        LEFT JOIN order_product op ON o.order_id = op.order_id 
+                        LEFT JOIN product p ON op.product_id = p.product_id 
+                        LEFT JOIN ( 
+                            SELECT pd.product_display_id, product_display_name, brand_name, product_display_src 
+                            FROM product_display pd 
+                            LEFT JOIN product_display_img img ON pd.product_display_id = img.product_display_id 
+                            LEFT JOIN brand b ON pd.brand_id = b.brand_id 
+                            ) pd ON p.product_display_id = pd.product_display_id 
+                        LEFT JOIN refund r ON o.order_id = r.order_id 
+                        LEFT JOIN payment pm ON o.order_id = pm.order_id 
+                        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id 
+                        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id 
+                    WHERE user_id = #{ userid }
+				 ) subquery 
+				WHERE rn = 1 
+	</select>
+	
+	
+	<!-- public List<OrderDeliveryVO> getOrderListwithDate(String userid, String startdate,	String enddate) throws ClassNotFoundException, SQLException; -->
+	<select id="getOrderListwithDate" resultType="com.blackolive.app.domain.mypage.OrderDeliveryVO">
+		SELECT 
+        order_id as orderId, 
+        order_date as orderDate, 
+        product_display_src as productDisplaySrc, 
+        categorySmallId ,  
+        categoryMidId, 
+        brand_name as brandName, 
+        product_display_name as productDisplayName, 
+        product_display_id as productDisplayId,
+        product_name as productName, 
+        product_cnt as productCnt,
+        order_status as orderStatus, 
+        total_price as totalPrice, 
+        refund_date as refundDate, 
+        refund_status as refundStatus 
+				FROM ( 
+				   SELECT 
+                        o.order_id, 
+                        order_date, 
+                        product_display_src, 
+                        cs.category_small_id categorySmallId, 
+                        cm.category_mid_id categoryMidId, 
+                        brand_name, 
+                        product_display_name, 
+                        pd.product_display_id, 
+                        product_name, 
+                        product_cnt, 
+                        order_status,
+                        total_price, 
+                        refund_date, 
+                        refund_status, 
+				        ROW_NUMBER() OVER (PARTITION BY p.product_name ORDER BY o.order_id) AS rn 
+                    FROM olive_order o 
+                        LEFT JOIN order_product op ON o.order_id = op.order_id 
+                        LEFT JOIN product p ON op.product_id = p.product_id 
+                        LEFT JOIN ( 
+                            SELECT pd.product_display_id, product_display_name, brand_name, product_display_src 
+                            FROM product_display pd 
+                            LEFT JOIN product_display_img img ON pd.product_display_id = img.product_display_id 
+                            LEFT JOIN brand b ON pd.brand_id = b.brand_id 
+                            ) pd ON p.product_display_id = pd.product_display_id 
+                        LEFT JOIN refund r ON o.order_id = r.order_id 
+                        LEFT JOIN payment pm ON o.order_id = pm.order_id 
+                        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id 
+                        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id 
+                    WHERE user_id = #{ userid }
+                        and order_date between to_date( #{ startdate } ,'YYYY-MM-DD' ) and to_date( #{ enddate } , 'YYYY-MM-DD')
+				 ) subquery 
+				WHERE rn = 1
+	</select>
+	
+	<!-- public List<OrderDeliveryVO> getOrderListwithCondition(String userid, String startdate, String enddate, String searchType) throws ClassNotFoundException, SQLException; -->
+	<select id="getOrderListwithCondition" resultType="com.blackolive.app.domain.mypage.OrderDeliveryVO">
+		SELECT 
+        order_id as orderId, 
+        order_date as orderDate, 
+        product_display_src as productDisplaySrc, 
+        categorySmallId ,  
+        categoryMidId, 
+        brand_name as brandName, 
+        product_display_name as productDisplayName, 
+        product_display_id as productDisplayId,
+        product_name as productName, 
+        product_cnt as productCnt,
+        order_status as orderStatus, 
+        total_price as totalPrice, 
+        refund_date as refundDate, 
+        refund_status as refundStatus 
+				FROM ( 
+				   SELECT 
+                        o.order_id, 
+                        order_date, 
+                        product_display_src, 
+                        cs.category_small_id categorySmallId, 
+                        cm.category_mid_id categoryMidId, 
+                        brand_name, 
+                        product_display_name, 
+                        pd.product_display_id, 
+                        product_name, 
+                        product_cnt, 
+                        order_status,
+                        total_price, 
+                        refund_date, 
+                        refund_status, 
+				        ROW_NUMBER() OVER (PARTITION BY p.product_name ORDER BY o.order_id) AS rn 
+                    FROM olive_order o 
+                        LEFT JOIN order_product op ON o.order_id = op.order_id 
+                        LEFT JOIN product p ON op.product_id = p.product_id 
+                        LEFT JOIN ( 
+                            SELECT pd.product_display_id, product_display_name, brand_name, product_display_src 
+                            FROM product_display pd 
+                            LEFT JOIN product_display_img img ON pd.product_display_id = img.product_display_id 
+                            LEFT JOIN brand b ON pd.brand_id = b.brand_id 
+                            ) pd ON p.product_display_id = pd.product_display_id 
+                        LEFT JOIN refund r ON o.order_id = r.order_id 
+                        LEFT JOIN payment pm ON o.order_id = pm.order_id 
+                        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id 
+                        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id 
+                    WHERE user_id = #{ userid }
+                        and order_date between to_date( #{ startdate } ,'YYYY-MM-DD' ) and to_date( #{ enddate } , 'YYYY-MM-DD')
+                        and order_type = #{ searchType }
+				 ) subquery 
+				WHERE rn = 1
+	</select>
+	
+	
+</mapper>
