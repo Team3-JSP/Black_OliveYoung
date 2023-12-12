@@ -27,11 +27,8 @@ public class MainPageController {
 	
 	@GetMapping(value ="/")
 	public String example() throws SQLException {
-		
-//		ExampleDTO1 dto1 = this.mainPageMapper.getExample();
-		
-		ExampleDTO dto2 = this.headServiceImpl.getExample();
-		System.out.println(dto2);
+
+
 		
 		return "mainPage.mainPage";
 	} // example

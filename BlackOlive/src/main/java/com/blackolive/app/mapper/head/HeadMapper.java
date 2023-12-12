@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.EventDTO;
@@ -31,5 +32,7 @@ public interface HeadMapper {
 	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException;
 
 	List<MsgCardDTO> selectAllMsgCard() throws SQLException;
+	
+	AllCategoryDTO getTotalCategory(String productDisplayId);
 	
 } // interface

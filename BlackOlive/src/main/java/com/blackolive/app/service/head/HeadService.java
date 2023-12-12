@@ -16,7 +16,7 @@ public interface HeadService {
 
 	public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategorySerivce(int categoryTotalId) throws SQLException, ClassNotFoundException;
 	
-	public ExampleDTO getExample()throws SQLException;
+	
 	
 	public List<EventDTO> getEventList(String click) throws SQLException;
 	

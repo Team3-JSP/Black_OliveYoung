@@ -47,7 +47,7 @@
 				type : 'post'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
+				, url : '/olive/attShopAjax.do'
 				, dataType : 'json'
 				, data : { user_id : '${logOn.user_id}' }
 				, success : function(data) {
@@ -73,6 +73,9 @@
 			$(".store .alim_box").html('<p class="store_desc"><span>로그인</span>하시면 자주가는 매장을<br>관심 매장으로 설정 할 수 있습니다.</p>'
 					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
 		}
+		
+		
+		
 		
 	})
 </script>
@@ -296,9 +299,9 @@
 
 
 					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
+						<c:when test="${empty sessionScope.principal }">
 							<li class="cart"><a href="<%=contextPath%>/basket"
-								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
+								data-attr="공통^헤더^장바구니">장바구니1 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
 						<c:otherwise>

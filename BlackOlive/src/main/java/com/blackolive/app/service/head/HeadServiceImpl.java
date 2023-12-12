@@ -40,7 +40,6 @@ public class HeadServiceImpl implements HeadService{
 			
 		List<CategoryLargeDTO> largeList = headMapper.getHeadCategory(categoryTotalId);
         List<CategoryMidDTO> midList = headMapper.getHeadCategoryMid(categoryTotalId);
-        System.out.println(">>>>>midLst입니다 " + midList);
         
         Map<CategoryLargeDTO, List<CategoryMidDTO>> resultMap = new LinkedHashMap<>();
 
@@ -59,15 +58,6 @@ public class HeadServiceImpl implements HeadService{
         return resultMap;
 	} // getHeadCategorySerivce
 
-	@Override
-	public ExampleDTO getExample() throws SQLException {
-		ExampleDTO dto = this.headMapper.getExample();
-		
-		System.out.println(dto);
-		System.out.println("=================================================================");
-		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> "+headMapper);
-		return dto;
-	}
 
 	@Override
 	public List<EventDTO> getEventList(String click) throws SQLException {
