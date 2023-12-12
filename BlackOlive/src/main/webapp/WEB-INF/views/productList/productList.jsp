@@ -592,7 +592,32 @@ function addOrUpdateParameter(url, key, value) {
         return url + separator + key + "=" + value;
     }
 }
+
 </script>
+<style>
+	#basketOption{
+	position: fixed;
+top: 50%;
+left: 65%;
+-webkit-transform: translate(-50%, -50%);
+-moz-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+-o-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+
+	}
+	span.option_value {
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    white-space: nowrap;
+}
+span.option_price {
+    position: absolute;
+    right: 50px;
+}
+</style>
  <div id="displItem"></div>
  
  
