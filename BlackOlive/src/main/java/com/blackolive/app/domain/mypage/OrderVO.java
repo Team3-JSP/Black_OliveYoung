@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDeliveryVO {
+public class OrderVO {
 	
 	private String orderId;				//주문id
 	private Date orderDate;				//주문일자

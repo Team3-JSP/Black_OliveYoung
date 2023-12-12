@@ -15,18 +15,17 @@
 
 
 	<ul class="mypage-step">
-		<c:forEach items="${ userOrder }" var="order">
-			<li><em> <%-- 주문접수 --%> ${ order.uorderState1 }
+		<c:set value="${ deliveryStatusVO }" var="delivery" /> 
+			<li><em> <%-- 주문접수 --%> ${ delivery.deliveryStatus1 }
 			</em> <span>주문접수</span></li>
-			<li><em> <%-- 결제완료 --%> ${ order.uorderState2 }
+			<li><em> <%-- 결제완료 --%> ${ delivery.deliveryStatus2 }
 			</em> <span>결제완료</span></li>
-			<li><em> <%-- 배송준비중 --%> ${ order.uorderState3 }
+			<li><em> <%-- 배송준비중 --%> ${ delivery.deliveryStatus3 }
 			</em> <span>배송준비중</span></li>
-			<li><em> <%-- 배송중 --%> ${ order.uorderState4 }
+			<li><em> <%-- 배송중 --%> ${ delivery.deliveryStatus4 }
 			</em> <span>배송중</span></li>
-			<li><em> <%-- 배송완료 --%> ${ order.uorderState5 }
+			<li><em> <%-- 배송완료 --%> ${ delivery.deliveryStatus5 }
 			</em> <span>배송완료</span></li>
-		</c:forEach>
 	</ul>
 	
 	
@@ -235,7 +234,7 @@
 
 <script>
 	function redirectDetail(orderId) {
-		var url = '<%= contextPath %>/mypage/orderdelivery' + '?orderId=' + encodeURIComponent(orderId);
+		var url = '<%= contextPath %>/mypage/orderdeliverydetail' + '?orderId=' + encodeURIComponent(orderId);
 		location.href = url;
 	}
 </script>
