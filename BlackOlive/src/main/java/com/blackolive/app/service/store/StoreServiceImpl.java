@@ -2,10 +2,9 @@ package com.blackolive.app.service.store;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
@@ -36,11 +35,11 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String city, String district) {
-		return this.storeMapper.selectStoreList(city, district);
+	public List<StoreDTO> getStoreService(String tcs, String pss, String city, String district) {
+		return this.storeMapper.selectStoreList(tcs, pss, city, district);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
+	//@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int udpStoreFavorService(String store_id, String user_id, int clickCheck) {
 		int rowCount = 0;
@@ -57,17 +56,22 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getInterestShopService(String userId) {
-		return this.storeMapper.selectInterestShop(userId);
+	public List<StoreDTO> getInterestShopService(String tcs, String pss, String userId) {
+		return this.storeMapper.selectInterestShop(tcs, pss, userId);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String keyword) {
-		return this.storeMapper.selectStoreKeyword(keyword);
+	public List<StoreDTO> getStoreService(String tcs, String pss, String keyword) {
+		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pcs, String keyword) {
-		return this.storeMapper.selectStoreCondition(tcs, pcs, keyword);
+	public List<ProductContainer> getProductNameList(String keyword) {
+		return this.storeMapper.selectProductName(keyword);
 	}
+
+//	@Override
+//	public List<StoreDTO> getStoreService(String tcs, String pss, String keyword) {
+//		return this.storeMapper.selectStoreCondition(tcs, pss, keyword);
+//	}
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.review.ReviewMapper">
+
+<resultMap type="com.blackolive.app.domain.review.ReviewDTO" id="reviewMap">
+       <id property="reviewId" column="review_id"/>
+		<result property="reviewId" column="review_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="productDisplayId" column="product_display_id"/>
+		<result property="reviewLike" column="review_like"/>
+		<result property="reviewContent" column="review_content"/>
+		<result property="reviewGrade" column="review_grade"/>
+		<result property="reviewRegdate" column="review_regdate"/>
+		<result property="reviewPoll1" column="review_poll_1"/>
+		<result property="reviewPoll2" column="review_poll_2"/>
+		<result property="reviewPoll3" column="review_poll_3"/>
+		<result property="productId" column="product_id"/>
+		<result property="nickname" column="nickname"/>
+		<result property="profileImg" column="profile_img"/>
+		<result property="skintoneName" column="skintone_name"/>
+		<result property="skintypeName" column="skintype_name"/>
+		<collection property="skinTrouble" resultMap="skinTroubleMap">
+		</collection>
+	</resultMap>
+	<resultMap type="com.blackolive.app.domain.review.SkintbDTO" id="skinTroubleMap">
+		<result property="userId2" column="user_id_2"/>
+		<result property="skintroubleName" column="skintrouble_name"/>
+	</resultMap>
+
+
+ <!-- 리뷰 목록 -->
+	<!-- List<ReviewDTO> reviewList( String productDisplayId, String gdasSort, String productId, int currentPage, int numberPerPage); -->
+	<select id="reviewList"  resultMap="reviewMap">
+		SELECT * From ( select ROWNUM no, t.* from ( select * from review r left join userprofile up on r.user_id = up.user_id left join profile_SKINTONE ps on up.skintone_id = ps.skintone_id left join Profile_SKINTYPE pf on up.skintype_id = pf.skintype_id
+               left join userprofile_skintrouble us on us.user_id = r.user_id 
+               left join profile_skintrouble pt on us.skintrouble_id = pt.skintrouble_id
+               where product_display_id = #{productDisplayId}
+					order by review_like DESC			
+				 )t )b where b.no  BETWEEN 1 AND 10
+	</select>
+	<!-- 
+if (!(proid.equals("ALL"))) {
+					sql+= " where product_display_id = ? AND product_id = ?  ";
+				}else {
+					sql += " where product_display_id = ? ";
+				}
+		
+				if (type.equals("02")) {
+					sql += " order by review_regdate DESC ";
+				}else {
+					sql += " order by review_like DESC ";
+				}
+				 -->
+<!-- 
+	//리뷰 이미지
+	List<ReviewImgDTO> reviewimg( String reviewId);
+	// 리뷰 단일
+	ReviewDTO review( String reviewId);
+	// 상품 점수
+	ReviewScoreDTO reviewScore( String productDisplayId, String productId);
+	//페이징 처리
+	// 전체 페이지 구하기
+	int getTotalReviewPages(String productDisplayId, String productId, int numberPerPage)  throws SQLException;
+		// 
+	int getTotalReviewRecords(String productDisplayId, String productId)  throws SQLException;
+	 -->
+</mapper>
