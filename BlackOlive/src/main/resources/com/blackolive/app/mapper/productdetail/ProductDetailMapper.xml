@@ -55,7 +55,21 @@
 				WHERE pd.PRODUCT_DISPLAY_ID = #{productDisplayId}
 	</select>
 	
+	<!-- // 해당 상품의 구매정보 갖고오기
+	public List<ProductBuyinfoDTO> getProductBuyInfo (@Param("productDisplayId") String productDisplayId); -->
 	
+	<select id="getProductBuyInfo" resultType="ProductBuyinfoDTO">
+		SELECT bt.buyinfo_title, bc.buyinfo_content FROM buyinfo_content bc
+		JOIN buyinfo_title bt ON bc.buyinfo_title_id = bt.buyinfo_title_id
+		WHERE product_display_id = #{productDisplayId};
+	</select>
+	
+<!-- 	// 해당 상품의 QnA 갖고오기
+	public List<QnADTO> getProductQna (@Param("productDisplayId") String productDisplayId); -->
+	<select id="getProductQna" resultType="QnADTO">
+		SELECT qna_id, user_id, qna_question, qna_answer, qna_date, qna_status FROM qna
+		WHERE product_display_id =#{productDisplayId};
+	</select>
 	
 	
 
