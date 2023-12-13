@@ -18,6 +18,7 @@
             SELECT * FROM basketview where user_id = #{userId}
         </otherwise>
     </choose>
+    	order by basket_id
 	</select>
 <!-- int update(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productCnt")int productCnt,@Param("productId")String productId); -->
 	<update id="update">
@@ -30,7 +31,15 @@
 			basket
 		</otherwise>
 		</choose>
-		 SET product_cnt = #{productCnt} WHERE user_id = #{userId} AND product_id = #{productId}
+		 <set>
+        <if test='productCnt != 0'>
+            product_cnt = #{productCnt},
+        </if>
+        <if test='productCnt == 0'>
+            product_cnt = product_cnt + 1,
+        </if>
+    	</set>
+     WHERE user_id = #{userId} AND product_id = #{productId}
 	</update>
 	
 	<!-- int delete(@Param("quickyn") String quickyn, @Param("userId")String userId,@Param("productId")String productId); -->
@@ -53,4 +62,35 @@
 		select count(*) from basket where user_id = #{userId}
 	</select>
 	
+	<!-- 장바구니 중복 체크 -->
+	<select id="check" resultType="int">
+		SELECT 
+    CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END 
+FROM 
+    <choose>
+		<when test='quickyn == "Y"'>
+			today_pickup_basket
+		</when>
+		<otherwise>
+			basket
+		</otherwise>
+		</choose>
+WHERE 
+    user_id = #{userId} AND product_id = #{productId}
+	</select>
+	
+	<!-- 장바구니 추가 -->
+	<insert id="add">
+		INSERT INTO 
+		<choose>
+		<when test='quickyn == "Y"'>
+			today_pickup_basket
+		</when>
+		<otherwise>
+			basket
+		</otherwise>
+		</choose>
+		(basket_id, user_id, product_id, product_cnt) 
+				VALUES ('nb_' || TO_CHAR(basket_seq.NEXTVAL, 'FM00000000'), #{userId}, #{productId}, #{productCnt})
+	</insert>
 </mapper>

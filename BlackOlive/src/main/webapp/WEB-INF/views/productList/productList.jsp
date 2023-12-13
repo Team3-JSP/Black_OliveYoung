@@ -91,7 +91,7 @@ $(function () {
     // 클릭 이벤트 핸들러 등록
     $(".cate_align_box .align_sort ul > li a").click(function (event) {
         event.preventDefault();
-
+	
         // data-prdsoting 속성을 통해 설정한 sort 값을 가져옴
         var selectedSorting = $(this).data("prdsoting");
 
@@ -104,10 +104,11 @@ $(function () {
     });
     
 	const moveSort = function moveSorting(sortNum) {
+		
 	    	const URLSearch = new URLSearchParams(location.search);
 	    	URLSearch.set('sort', String(sortNum));
-	    	 const newParam = URLSearch.toString();
-	    	  window.open(location.pathname + '?' + newParam, '_self');
+	    	const newParam = URLSearch.toString();
+	    	window.location.href = location.pathname + '?' + newParam;
 	};
 	//
 	$("#Contents > ul.cate_list_box li").removeClass("on");
@@ -189,6 +190,7 @@ function changePerPage(value) { // perPage 수정
 
 	  // 'perPage' 파라미터 값 변경
 	  url.searchParams.set('perPage', value);
+	  url.searchParams.set('currentPage', 1);
 
 	  // 새 URL을 만들고 브라우저의 주소창을 업데이트
 	  window.location.href = url;
@@ -265,7 +267,7 @@ function changePerPageAndClass(value) {
 		                         window.location.href = "/auth/login";   
 		               }else{
 		                    alert("서버 에러") 
-
+		               }
 		        } // success , error
 			}) // ajax
 			} // toggleLikeItemStatus
@@ -593,7 +595,32 @@ function addOrUpdateParameter(url, key, value) {
         return url + separator + key + "=" + value;
     }
 }
+
 </script>
+<style>
+	#basketOption{
+	position: fixed;
+top: 50%;
+left: 65%;
+-webkit-transform: translate(-50%, -50%);
+-moz-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+-o-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+
+	}
+	span.option_value {
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    white-space: nowrap;
+}
+span.option_price {
+    position: absolute;
+    right: 50px;
+}
+</style>
  <div id="displItem"></div>
  
  <!-- 좋아요 버튼 눌렀을 때 나오는 팝업(등록)  -->
@@ -611,3 +638,24 @@ function addOrUpdateParameter(url, key, value) {
 		</p>
 	</div>
  
+<!-- 장바구니 추가 모달창 -->
+<div class="layer_pop_wrap w490 test" id="basketOption" style="z-index: 999; display: none;" data-quick-yn="N">
+
+
+	<div class="layer_cont2">
+		<h2 class="layer_title2">선택완료</h2>
+		<div class="basket_add_txt">장바구니에 추가되었습니다.</div>
+		
+		
+			
+				<div class="area2sButton">
+					<button class="btnGreen closepopup"><span>쇼핑 계속하기</span></button>
+					<button class="btnGray basket"><span>장바구니 확인</span></button>						
+				</div>
+				<button class="layer_close type2 closepopup">창 닫기</button>
+			
+			
+		
+	</div>	
+	
+</div>

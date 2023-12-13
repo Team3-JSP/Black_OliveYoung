@@ -36,7 +36,7 @@ public class ProductListServiceImpl implements ProductListService{
 	public List<CategorySmallDTO> getCategorySmallService(String midId) {
 		log.info("ProductListServiceImpl getCategorySmallService call...");
 		int cateMidId = Integer.parseInt(midId);
-		System.out.println(cateMidId);
+
 		return this.listMapper.getCategorySmall(cateMidId);
 	} // getCategorySmallService
 
@@ -45,7 +45,6 @@ public class ProductListServiceImpl implements ProductListService{
 	public List<CategoryMidDTO> getCategoryMidService(String largeId) {
 		log.info("ProductListServiceImpl getCategoryMidService call...");
 		int cateLargeId = Integer.parseInt(largeId);
-		System.out.println(cateLargeId);
 		
 		return this.listMapper.getCategoryMid(cateLargeId);
 	} // getCategoryMidService
@@ -85,8 +84,6 @@ public class ProductListServiceImpl implements ProductListService{
 			userId ="0";
 		}//if
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+sort);
-		
 		return this.listMapper.getProductList(group, id, sort, brandId, currentPage, perPage, begin, end, userId);
 	}
 
@@ -94,6 +91,7 @@ public class ProductListServiceImpl implements ProductListService{
 	@Override
 	public CurrentCategoryInfoDTO getCurrentCategoryInfoSerivce(String midId) {
 		log.info("ProductListServiceImpl getCurrentCategoryInfoSerivce call...");
+		
 		return this.listMapper.getCurrentCategoryInfo(midId);
 	} // getCurrentCategoryInfoSerivce
 
@@ -101,7 +99,7 @@ public class ProductListServiceImpl implements ProductListService{
 	@Override
 	public CurrentCategoryNameDTO getCurrentCategoryNameService(int group, String id) {
 		log.info("ProductListServiceImpl getCurrentCategoryNameService call...");
-		System.out.println(">>>>>>>>>>>"+this.listMapper.getCurrentCategoryName(group, id).getName());
+		
 		return this.listMapper.getCurrentCategoryName(group, id);
 	} // getCurrentCategoryNameService
 

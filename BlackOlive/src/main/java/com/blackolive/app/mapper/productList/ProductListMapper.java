@@ -13,7 +13,6 @@ import com.blackolive.app.domain.productList.CurrentCategoryInfoDTO;
 import com.blackolive.app.domain.productList.CurrentCategoryNameDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 
-@Repository
 public interface ProductListMapper {
 
 	// 중분류 카테고리를 선택할 시 상위 카테고리 갖고오기

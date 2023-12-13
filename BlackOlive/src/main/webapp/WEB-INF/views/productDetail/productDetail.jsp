@@ -10,11 +10,11 @@
 			<div class="page_location">
 				<a href="#" class="loc_home">홈</a>
 				<ul class="loc_history">
-					<li><a href="#" class="cate_y" id="midCatNm">${allCateDTO.catLName}</a>
+					<li><a href="#" class="cate_y" id="midCatNm">${allCategoryDTO.catLName}</a>
 						<div class="history_cate_box" style="width: 242px;">
 							<ul>
-								<c:if test="${not empty cLList }">
-									<c:forEach items="${cLList}" var="cll">
+								<c:if test="${not empty categoryLargeList }">
+									<c:forEach items="${categoryLargeList}" var="cll">
 										<li id="${cll.cLId}"><a
 											href="/view/product/pmidlistproduct.do?displNum=${cll.cLId}"
 											class="goods_category1" data-deleteSession>${cll.cLName}</a></li>
@@ -22,25 +22,25 @@
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y" id="smlCatNm">${allCateDTO.catMName}</a>
+					<li><a href="#" class="cate_y" id="smlCatNm">${allCategoryDTO.catMName}</a>
 						<div class="history_cate_box" style="width: 122px;">
 							<ul>
-								<c:if test="${not empty cMList}">
-									<c:forEach items="${cMList}" var="cml">
+								<c:if test="${not empty categoryMidList}">
+									<c:forEach items="${categoryMidList}" var="cml">
 										<li id="${cml.cmId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCateDTO.catLId}${cml.cmId}&sort=1"
+											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${cml.cmId}&sort=1"
 											class="goods_category2" data-deleteSession>${cml.cmName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y" id="dtlCatNm">${allCateDTO.catSName}</a>
+					<li><a href="#" class="cate_y" id="dtlCatNm">${allCategoryDTO.catSName}</a>
 						<div class="history_cate_box" style="width: 122px;">
 							<ul>
-								<c:if test="${not empty cSList}">
-									<c:forEach items="${cSList}" var="csl">
+								<c:if test="${not empty categorySmallList}">
+									<c:forEach items="${categorySmallList}" var="csl">
 										<li id="${csl.csId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCateDTO.catLId}${allCateDTO.catSId}${csl.csId}&sort=1"
+											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${allCategoryDTO.catMId}${csl.csId}&sort=1"
 											class="goods_category3" data-deleteSession>${csl.csName}</a></li>
 									</c:forEach>
 								</c:if>
@@ -54,7 +54,7 @@
 			<div class="prd_detail_box renew">
 				<div class="left_area">
 					<div class="prd_img">
-						<img id="mainImg" src="${proDImg[0].proDImgSrc }" alt="상품명 이미지"
+						<img id="mainImg" src="${productDisplayImgs[0].proDImgSrc }" alt="상품명 이미지"
 							onerror=""> <input type="hidden" id="mainImgSize"
 							value="550">
 
@@ -65,8 +65,8 @@
 					</div>
 					<ul class="prd_thumb_list" id="prd_thumb_list">
 						<input type="hidden" id="snsImgUrl" value="">
-						<c:if test="${not empty proDImg }">
-							<c:forEach items="${proDImg}" var="pdi">
+						<c:if test="${not empty productDisplayImgs}">
+							<c:forEach items="${productDisplayImgs}" var="pdi">
 								<li class="sel"><a href="#"><img
 										src="${pdi.proDImgSrc}" alt="썸네일 이미지"></a></li>
 							</c:forEach>
@@ -98,19 +98,19 @@
 				<div class="right_area">
 					<div class="prd_info">
 						<p class="prd_brand">
-							<a href=".do?brandId=${pLists[0].brandId}" id="moveBrandShop"
-								class="pd_arrow_link">${pLists[0].brandName}</a>
+							<a href=".do?brandId=${productList[0].brandId}" id="moveBrandShop"
+								class="pd_arrow_link">${productList[0].brandName}</a>
 						</p>
-						<p class="prd_name">${pLists[0].displName }</p>
+						<p class="prd_name">${productList[0].displName }</p>
 						<!-- 202005 상품개선 : 추가 -->
 						<div class="price">
 							<span class="price-1"> <strike><fmt:formatNumber
-										value="${pLists[0].lowPrice}" pattern="#,###" /> </strike> <span>원</span>
+										value="${productList[0].lowPrice}" pattern="#,###" /> </strike> <span>원</span>
 							</span> <span class="price-2"> <strong><fmt:formatNumber
-										value="${pLists[0].afterPrice}" pattern="#,###" /></strong> <span>원</span>
+										value="${productList[0].afterPrice}" pattern="#,###" /></strong> <span>원</span>
 							</span>
 							<c:if
-								test="${not empty productPromo.promoDId or not empty productPromo.promoCId}">
+								test="${not empty productPromotion.promoDId or not empty productPromotion.promoCId}">
 								<button type="button" id="btnSaleOpen" class="btn_more">혜택
 									정보</button>
 							</c:if>
@@ -121,24 +121,24 @@
 									<div class="list">
 										<div class="flex-item">
 											<span class="label">판매가</span> <span class="price"><fmt:formatNumber
-													value="${pLists[0].lowPrice}" pattern="#,###" /><em>원</em></span>
+													value="${productList[0].lowPrice}" pattern="#,###" /><em>원</em></span>
 										</div>
-										<c:if test="${not empty productPromo.promoDId}">
+										<c:if test="${not empty productPromotion.promoDId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">세일 (${productPromo.promoDS} ~
-														${productPromo.promoDE })</span> <span class="price"><fmt:formatNumber
-															value="${productPromo.promoDdis}" pattern="#,###" /><em>원</em></span>
+													<span class="label">세일 (${productPromotion.promoDS} ~
+														${productPromotion.promoDE })</span> <span class="price"><fmt:formatNumber
+															value="${productPromotion.promoDdis}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
-										<c:if test="${not empty productPromo.promoCId}">
+										<c:if test="${not empty productPromotion.promoCId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">${productPromo.promoCName }
-														(${productPromo.promoCS}~ ${productPromo.promoCE})</span> <span
+													<span class="label">${productPromotion.promoCName }
+														(${productPromotion.promoCS}~ ${productPromotion.promoCE})</span> <span
 														class="price">-<fmt:formatNumber
-															value="${productPromo.cpdis}" pattern="#,###" /><em>원</em></span>
+															value="${productPromotion.cpdis}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
@@ -147,7 +147,7 @@
 										<div class="flex-item">
 											<span class="label"><b>최적가</b></span> <span
 												class="price total"><fmt:formatNumber
-													value="${pLists[0].afterPrice}" pattern="#,###" /><em>원</em></span>
+													value="${productList[0].afterPrice}" pattern="#,###" /><em>원</em></span>
 										</div>
 									</div>
 								</div>
@@ -156,17 +156,17 @@
 							</div>
 						</div>
 						<p class="prd_flag" id="icon_area">
-							<c:if test="${pLists[0].prd eq 1}">
+							<c:if test="${productList[0].prd eq 1}">
 								<span class="icon_flag sale">세일</span>
 							</c:if>
-							<c:if test="${pLists[0].prc eq 1}">
+							<c:if test="${productList[0].prc eq 1}">
 								<span class="icon_flag coupon">쿠폰</span>
 							</c:if>
 							<!-- 기간계 상품, 브랜드 증정품만 아이콘 노출 -->
-							<c:if test="${pLists[0].prp eq 1}">
+							<c:if test="${productList[0].prp eq 1}">
 								<span class="icon_flag gift" id="free_gift">증정</span>
 							</c:if>
-							<c:if test="${pLists[0].stock eq 1}">
+							<c:if test="${productList[0].stock eq 1}">
 								<span class="icon_flag delivery" id="quick_yn">오늘드림</span>
 							</c:if>
 
@@ -256,13 +256,13 @@
 							</div>
 						</div>
 
-						<c:if test="${pLists.size() >= 2}">
+						<c:if test="${productList.size() >= 2}">
 							<div class="prd_option_box optionType1 type2" id="buy_option_box">
 								<a href="javascript:;" class="sel_option" id="buyOpt"> 상품을
 									선택해주세요 </a>
 								<ul class="sel_option_list new" id="option_list">
 									<!-- 혜택 아이콘 li 분기 시작 -->
-									<c:forEach items="${pLists}" var="pll">
+									<c:forEach items="${productList}" var="pll">
 										<li
 											class="type1 <c:if test="${pll.proStock eq 0 }">soldout</c:if>">
 
@@ -288,7 +288,7 @@
 														<span class="option_value">(품절) ${pll.proName}</span>
 														<div class="btn_restock">
 															<button
-																onclick="common.openStockAlimPop('A000000192957','001');"
+																onclick=""
 																class="restock_alarm">
 																<span
 																	data-attr="상품상세^재입고알림^[한정기획] 에스티 로더 갈색병 30ml 기획 (2023 홀리데이 에디션) "
@@ -321,7 +321,7 @@
 							</div>
 
 							<div class="option_add_area pkg_goods_n">
-								<c:forEach items="${pLists}" var="pli">
+								<c:forEach items="${productList}" var="pli">
 									<div class="prd_cnt_box ${pli.proId} no_prom" id="${pli.proId}"
 										promno="" infnselimpsyn="N" style="display: none">
 										<input type="hidden" id="itemInv_${pli.proId}"
@@ -363,13 +363,13 @@
 							</div>
 
 						</c:if>
-						<c:if test="${pLists.size() eq 1}">
-							<c:forEach items="${pLists }" var="list">
+						<c:if test="${productList.size() eq 1}">
+							<c:forEach items="${productList }" var="list">
 								<input type="hidden" id="pro_id" value="${list.proId}" />
 							</c:forEach>
 							<div class="option_add_area">
 								<div
-									class="prd_cnt_box <c:if test="${pLists[0].proStock eq 0 }">disabled</c:if>">
+									class="prd_cnt_box <c:if test="${productList[0].proStock eq 0 }">disabled</c:if>">
 
 									<div class="tit_area">
 										<span>구매수량</span>
@@ -392,10 +392,10 @@
 								id="totalCnt" value="1" name="totalCnt"> <input
 								type="hidden" id="totalPrc" value="17000" name="totalPrc">
 							<span class="tx_cont"> <span class="tx_num"
-								id="totalPrcTxt"> <c:if test="${pLists.size() eq 1 }">
+								id="totalPrcTxt"> <c:if test="${productList.size() eq 1 }">
 										<%-- <fmt:formatNumber value="${pLists[0].afterPrice}" pattern="#,###" /> --%>
-								${pLists[0].afterPrice}
-								</c:if> <c:if test="${pLists.size() ne 1 }">0
+								${productList[0].afterPrice}
+								</c:if> <c:if test="${productList.size() ne 1 }">0
 								</c:if>
 							</span>원
 							</span>
@@ -464,9 +464,9 @@
 						<!-- 20191213 e -->
 
 						<div class="prd_btn_area new-style type1">
-							<c:if test="${pLists.size() eq 1}">
+							<c:if test="${productList.size() eq 1}">
 								<c:choose>
-									<c:when test="${pLists[0].proStock eq 0 }">
+									<c:when test="${productList[0].proStock eq 0 }">
 										<button class="btnSoldout recoPopBtn temprecobell">
 											일시품절
 											<div class="moreBtn">
@@ -474,19 +474,16 @@
 											</div>
 										</button>
 										<button class="goods_buy btnReStock" style="display: block;"
-											onclick="javascript:;" data-attr="상품상세^재입고알림신청^가히 멀티밤 리필_클릭"
-											data-trk="/Cat100000100010009_Small">재입고 알림신청</button>
+											onclick="javascript:;">재입고 알림신청</button>
 									</c:when>
 									<c:otherwise>
-										<button class="btnBasket  goods_cart" id="btnBasket"
-											data-attr="상품상세^주문유형^장바구니">장바구니</button>
-										<button class="btnBuy goods_buy" id="cartBtn"
-											data-attr="상품상세^주문유형^바로구매">바로구매</button>
+										<button class="btnBasket  goods_cart" id="btnBasket">장바구니</button>
+										<button class="btnBuy goods_buy" id="cartBtn">바로구매</button>
 										<button class="btnGift goods_gift">선물하기</button>
 									</c:otherwise>
 								</c:choose>
 							</c:if>
-							<c:if test="${pLists.size() > 1}">
+							<c:if test="${productList.size() > 1}">
 								<button class="btnBasket  goods_cart" id="btnBasket"
 									data-attr="상품상세^주문유형^장바구니">장바구니</button>
 								<!-- <button class="btnBuy goods_buy" id="cartBtn" onClick="javascript:goods.detail.bindBtnBuy();">구매하기</button> -->
@@ -522,7 +519,7 @@
 								<!-- 수량(일반)E -->
 
 								<!-- 수량(개당)S -->
-								<span class="txt">전 회원 ${detailBrandDTO.brandName } 상품 구매
+								<span class="txt">전 회원 ${productBrandInfo.brandName } 상품 구매
 									상품 1개당, <span class="num">증정품 1개</span> 선착순 증정
 								</span>
 
@@ -600,15 +597,15 @@
 					<div class="brand_like">
 						<p class="inner">
 							<a
-								href="/brand/product.do?brand_id=${detailBrandDTO.brandId }"
+								href="/brand/product.do?brand_id=${productBrandInfo.brandId }"
 								id="moveBrandShop_like" class="link arr goods_brand"> <!-- 								<span class="img" style="background-image:url('/pc-static-root/image/product/img_brand_default.png')"></span> -->
 								<span class="logo"
-								style="background-image:url('${detailBrandDTO.brandLogoSrc}')"></span>
-								<em>${detailBrandDTO.brandName } 브랜드관</em>
+								style="background-image:url('${productBrandInfo.brandLogoSrc}')"></span>
+								<em>${productBrandInfo.brandName } 브랜드관</em>
 							</a>
 							<button type="button" id="brnd_wish" data-ref-onlbrndcd="A003585"
 								class="icon goods_brandlike "
-								data-attr="상품상세^브랜드관좋아요^${detailBrandDTO.brandName }">좋아요
+								data-attr="상품상세^브랜드관좋아요^${productBrandInfo.brandName }">좋아요
 								해제됨</button>
 						</p>
 					</div>
@@ -647,14 +644,11 @@
 									<span class="thumb_flag best">베스트</span><img
 										src="${morelist.PRO_DISPL_SRC }" alt="이미지 준비중">
 									<div class="my">
-										<button type="button" class="myCart cartBtnRecoBell"
-											data-ref-goodsno="A000000188968" name=""
-											data-ref-dispcatno="90000010001" data-ref-itemno="001"
-											data-rccode="pc_detail_01_a" tabindex="0">
+										<button type="button" class="myCart cartBtnRecoBell" tabindex="0">
 											<span>장바구니</span>
 										</button>
 										<button type="button" class="mySee btn_zzim"
-											data-ref-goodsno="A000000188968" tabindex="0">
+											 tabindex="0">
 											<span>찜하기전</span>
 										</button>
 									</div>
@@ -719,7 +713,7 @@
 					class="goods_reputation" data-attr="상품상세^상품상세_SortingTab^리뷰">리뷰<span>(${reviewcnt })</span></a></li>
 				<li id="qnaInfo"><a href="javascript:;" class="goods_qna"
 					data-attr="상품상세^상품상세_SortingTab^Q&amp;A">Q&amp;A<span><c:if
-								test="${not empty qnaList}">(${qnaList.size()})</c:if> </span></a></li>
+								test="${not empty productQnA}">(${productQnA.size()})</c:if> </span></a></li>
 			</ul>
 			<div class="tabConts prd_detail_cont show">
 				<div class="detail_area">
@@ -751,11 +745,11 @@
 					<!-- 협력사, 온라인브랜드, 상품 카테고리 노출 -->
 					<div class="contEditor">
 
-						<c:if test="${empty exImg}">
-                        ${noexImg}
+						<c:if test="${empty productExplainImgs}">
+                        상품 설명 준비입니다.
                         </c:if>
-						<c:if test="${not empty exImg}">
-							<c:forEach items="${exImg}" var="exi">
+						<c:if test="${not empty productExplainImgs}">
+							<c:forEach items="${productExplainImgs}" var="exi">
 								<img alt="" src="${exi.exImgSrc }">
 							</c:forEach>
 						</c:if>
