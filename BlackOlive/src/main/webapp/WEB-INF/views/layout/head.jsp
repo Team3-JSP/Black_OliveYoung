@@ -12,6 +12,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%--<%@ include file="/WEB-INF/inc/session_auth.jspf"%> --%>
 <%
@@ -46,7 +47,7 @@
 				type : 'post'
 				, async : false
 				, cache: false
-				, url : '/olive/attShopAjax.do'
+				, url : '/Black_OY/olive/attShopAjax.do'
 				, dataType : 'json'
 				, data : { user_id : '${logOn.user_id}' }
 				, success : function(data) {
@@ -279,23 +280,23 @@
 		<div id="Header">
 			<div class="top_util">
 				<ul class="menu_list" id="menu_list_header">
-					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
-							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
+					
+						<sec:authorize access="isAnonymous()">
+							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
-						</c:when>
-						<c:otherwise>
-
-							<li class="logout"><strong>${sessionScope.logOn.grade_id}&nbsp;
-									${sessionScope.logOn.u_name}</strong> <a
-								href="<%=contextPath%>/olive/Logout.do" data-attr="공통^헤더^로그아웃">로그아웃</a></li>
+						</sec:authorize>
+						
+						<sec:authorize access="isAuthenticated()">
+							<li class="logout"><strong><sec:authentication property="principal.member.gradeName"/>&nbsp;
+									<sec:authentication property="principal.member.userName"/></strong> <a
+								href="javascript:logout()"  data-attr="공통^헤더^로그아웃">로그아웃</a></li>
 							<li class="mypage"><a onclick=""
 								href="<%=contextPath%>/olive/mypageMain.do"
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
-						</c:otherwise>
-					</c:choose>
+						</sec:authorize>
+
 
 					<c:choose>
 						<c:when test="${empty sessionScope.principal }">
@@ -304,7 +305,7 @@
 							</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt">
 										(${sessionScope.basketlistcnt[0] + sessionScope.basketlistcnt[1]})
 								</span>
@@ -702,7 +703,7 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href="<c:url value='/store/getRanking' />"
+					<li style=""><a onclick="" href="<%=contextPath%>/olive/ranking.do"
 						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
 					</a></li>
 					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
@@ -714,14 +715,14 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href='<c:url value="/store/getGiftCard"/>'"
+					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
 						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
 						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
 					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
 						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
 					</a></li>
 					<li style=""><a onclick=""
-						href='<c:url value="/store/getEvent"/>'
+						href="<%=contextPath%>/olive/event.do"
 						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
 					</a></li>
 				</ul>
@@ -1223,4 +1224,22 @@ $(function(){
 		event.preventDefault();
 	})
 })
+
+function logout(){
+     let f = document.createElement('form');
+
+    let obj;
+    obj = document.createElement('input');
+    obj.setAttribute('type', 'hidden');
+    obj.setAttribute('name', '${_csrf.parameterName }');
+    obj.setAttribute('value', '${_csrf.token }');
+    
+    f.appendChild(obj);
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/auth/logout');
+    document.body.appendChild(f);
+    f.submit();
+
+}
+
 </script>
