@@ -58,6 +58,7 @@
 	
 					<!-- //이용안내 -->
 				</div>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<!-- //inner -->
 			</form>
 		</div>

@@ -38,7 +38,5 @@
 				GROUP BY
 				    user_id, user_password,user_name,grade_name, enabled, AUTHORITY
 	</select>
-	
 
-	
 </mapper>
