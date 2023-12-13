@@ -138,18 +138,18 @@
 				<div class="title-area">
 					<h2 class="tit">상품Q&amp;A내역</h2>
 					<a class="btnMore" id="goodsQnaListMore"
-						href="${pageContext.request.contextPath}/olive/productQnA.do">더보기</a>
+						href="${pageContext.request.contextPath}/mypage/productQnA">더보기</a>
 				</div>
 
 				<div class="list-customer">
 					<ul>
 						<c:choose>
-							<c:when test="${ not empty userQnA }">
-								<c:forEach items="${ userQnA }" var="qa">
+							<c:when test="${ not empty qnaVO }">
+								<c:forEach items="${ qnaVO }" var="qa">
 									<li>
 										<p class="stit">
-											<strong style="background:#ff7f00">${ qa.qnaState }</strong>
-											<a href="<%-- QnA페이지 - 해당QnA페이지로 이동 --%>">${ qa.qnaQus }</a>
+											<strong style="background:#ff7f00">${ qa.qnaStatus }</strong>
+											<a href="<%-- QnA페이지 - 해당QnA페이지로 이동 --%>">${ qa.qnaQuestion }</a>
 											<span class="data">${ qa.qnaDate }</span>
 											
 										</p>	

@@ -18,6 +18,7 @@ public class ProductQnAVO {
 	private String qnaQuestion;				//qna질문
 	private String qnaAnswer;				//qna답변
 	private Date qnaDate;					//qna작성일
+	private String qnaStatus;
 	private String categorySmallId;			//상품소분류
 	private String categoryMidId;			//상품중분류
 	private String productId;				//상품id

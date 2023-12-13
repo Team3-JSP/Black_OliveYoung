@@ -73,19 +73,19 @@
 		<tbody class="qna">
 	
 
-			<c:forEach items="${ prodQnA }" var="qna">
+			<c:forEach items="${ qnaVO }" var="qna">
 			
 			<tr data-gdas-seq="23597682" data-goods-no="A000000006564" data-param="" data-prgs-stat-cd="20">
 				<td colspan="3">
 					<div class="question">
 						<div class="area oneDv">
 							<a class="thum goodsList" href="javascript:;">
-								<img src="${ qna.qnaImg }" alt="${ qna.qnaDisplN }" onerror="common.errorImg(this);">
+								<img src="${ qna.productDisplaySrc }" alt="${ qna.productDisplayName }" onerror="common.errorImg(this);">
 							</a>
 							<div class="textus">
 								<a class="goodsList" href="javascript:;">
-									<span class="tit">${ qna.qnaBrand }</span>
-									<span class="txt">${ qna.qnaDisplN }</span>
+									<span class="tit">${ qna.brandName }</span>
+									<span class="txt">${ qna.productDisplayName }</span>
 								</a>
 							</div>
 						</div>
@@ -97,7 +97,7 @@
 									<dd>${ qna.qnaDate }</dd>
 								</dl>
 								<a class="" href="#">
-									<span class="txt">${ qna.qnaQus }</span>
+									<span class="txt">${ qna.qnaQuestion }</span>
 								</a>
 							</div>
 						</div>
@@ -106,7 +106,7 @@
 
 	
 	
-											<strong class="comp">${ qna.qnaState }</strong>
+											<strong class="comp">${ qna.qnaStatus }</strong>
 	
 
 						</div>
@@ -115,7 +115,7 @@
 						<li class="question">
 							<strong>문의</strong>
 							<p>
-								${ qna.qnaQus }
+								${ qna.qnaQuestion }
 							</p>
 							<div class="btn">
 
@@ -123,11 +123,11 @@
 							</div>
 						</li>
 						<c:choose>
-							<c:when test="${ not empty qna.qnaAns }">
+							<c:when test="${ not empty qna.qnaAnswer }">
 								<li class="answer">
-									<strong>답변<span class="ids">운영자</span><span class="day">2023.11.14</span></strong>
+									<strong>답변<span class="ids">운영자</span><span class="day">${ qna.qnaDate }</span></strong>
 									<p>
-										안녕하세요. 우르오스 담당자입니다. <br>저희 상품에 관심을 가져주셔서 감사합니다.<br><br>해당 상품에 라임전초오일 성분이 포함되어있어 사용하시기 전 매장에서 테스터 진행해보시고<br><br>이상 유무 확인 후 사용하시길 권장드립니다.<br><br>오늘도 좋은 하루 보내시길 바랍니다 :)<br>감사합니다.
+										${ qna.qnaAnswer }
 									</p>
 								</li>
 							</c:when>

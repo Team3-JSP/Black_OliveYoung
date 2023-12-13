@@ -74,12 +74,81 @@
 	
 	<!-- public List<ProductQnAVO> getproductQnA(String userid) throws ClassNotFoundException, SQLException; -->
 	<select id="getproductQnA" resultType="java.util.List">
-		
+		SELECT product_display_name AS productDisplayName,
+		        product_display_src AS productDisplaySrc,
+		        brand_name AS brandName, 
+		        product_id AS productId,
+		        product_name AS productName, 
+		        categorySmallId , 
+		        categoryMidId ,
+		        qna_question AS qnaQuestion, 
+		        qna_answer AS qnaAnswer,
+		        qna_date AS qnaDate,
+		        qna_status AS qnaStatus
+		FROM (
+		    SELECT
+		        product_display_name,
+		        product_display_src,
+		        brand_name, 
+		        product_id,
+		        product_name, 
+		        cs.category_small_id AS categorySmallId, 
+		        cm.category_mid_id AS categoryMidId,
+		        qna_question, 
+		        qna_answer,
+		        qna_date,
+		        qna_status,
+		        ROW_NUMBER() OVER (PARTITION BY product_display_name ORDER BY product_name) AS rn 
+		    FROM qna q
+		        LEFT JOIN product_display pd ON q.product_display_id = pd.product_display_id
+		        LEFT JOIN product_display_img img ON q.product_display_id = img.product_display_id 
+		        LEFT JOIN brand b ON pd.brand_id = b.brand_id
+		        RIGHT JOIN product p ON q.product_display_id = p.product_display_id
+		        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id   
+		        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+		    WHERE user_id = #{ userid }  
+		    ) subquery
+		WHERE rn = 1
 	</select>
 	
 	<!-- public List<ProductQnAVO> getproductQnAwithDate(String userid, String startdate, String enddate) throws ClassNotFoundException, SQLException; -->
 	<select id="getproductQnAwithDate" resultType="java.util.List">
-		
+		SELECT product_display_name AS productDisplayName,
+		        product_display_src AS productDisplaySrc,
+		        brand_name AS brandName, 
+		        product_id AS productId,
+		        product_name AS productName, 
+		        categorySmallId , 
+		        categoryMidId ,
+		        qna_question AS qnaQuestion, 
+		        qna_answer AS qnaAnswer,
+		        qna_date AS qnaDate,
+		        qna_status AS qnaStatus
+		FROM (
+		    SELECT
+		        product_display_name,
+		        product_display_src,
+		        brand_name, 
+		        product_id,
+		        product_name, 
+		        cs.category_small_id AS categorySmallId, 
+		        cm.category_mid_id AS categoryMidId,
+		        qna_question, 
+		        qna_answer,
+		        qna_date,
+		        qna_status,
+		        ROW_NUMBER() OVER (PARTITION BY product_display_name ORDER BY product_name) AS rn 
+		    FROM qna q
+		        LEFT JOIN product_display pd ON q.product_display_id = pd.product_display_id
+		        LEFT JOIN product_display_img img ON q.product_display_id = img.product_display_id 
+		        LEFT JOIN brand b ON pd.brand_id = b.brand_id
+		        RIGHT JOIN product p ON q.product_display_id = p.product_display_id
+		        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id   
+		        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+		    WHERE user_id = #{ userid }
+		    	 AND qna_date between to_date( #{ startdate } ,'YYYY-MM-DD' ) and to_date( #{enddate} , 'YYYY-MM-DD')
+		    ) subquery
+		WHERE rn = 1	
 	</select>
 	
 	
