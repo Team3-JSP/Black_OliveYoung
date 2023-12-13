@@ -282,6 +282,9 @@
 				<ul class="menu_list" id="menu_list_header">
 					
 						<sec:authorize access="isAnonymous()">
+
+							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
+
 							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
@@ -292,7 +295,7 @@
 									<sec:authentication property="principal.member.userName"/></strong> <a
 								href="javascript:logout()"  data-attr="공통^헤더^로그아웃">로그아웃</a></li>
 							<li class="mypage"><a onclick=""
-								href="<%=contextPath%>/olive/mypageMain.do"
+								href="<%=contextPath%>/mypage/main"
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
 						</sec:authorize>
