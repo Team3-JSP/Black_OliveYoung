@@ -12,7 +12,6 @@
 	<security:http use-expressions="true" >
 	
 	<!-- 접근 권한 설정 -->
-
 	<security:intercept-url pattern="/mypage/**" access="isAuthenticated()"/>
 	<security:intercept-url pattern="/basket/**" access="isAuthenticated()"/>	
 	<security:intercept-url pattern="/**" access="permitAll" />
