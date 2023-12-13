@@ -41,7 +41,7 @@ public class ProductDetailController {
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
-		int cateHId = allCategoryDTO.getCategortTotalId();
+		int cateHId = allCategoryDTO.getCategoryTotalId();
 		String CategoryLargeId = allCategoryDTO.getCategoryLargeId();
 		String CategoryMidId = allCategoryDTO.getCategoryMidId();
 		

@@ -134,7 +134,7 @@ public class MypageMainController {
 
 		return "mypage.orderdelivery";
 	}
-	
+
 	//주문 상세보기 
 	@GetMapping("/orderdeliverydetail")
 	public String orderdeliverydetailcontroller(
@@ -278,6 +278,5 @@ public class MypageMainController {
 		
 		return "mypage.productQnA";
 	}
-	
 	
 }
