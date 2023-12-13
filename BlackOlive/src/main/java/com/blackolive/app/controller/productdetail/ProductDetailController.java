@@ -12,7 +12,10 @@ import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
+import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
+import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
+import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
@@ -54,17 +57,22 @@ public class ProductDetailController {
 		model.addAttribute("productPromotion",productPromotion);
 		
 		//======================= 해당 상품의 이미지 갖고오기 ===========================
-		
+		List<ProductDetailIMGDTO> productDisplayImgs = this.productDetailService.getProductDisplayImgService(productDisplayId);
+		model.addAttribute("productDisplayImgs", productDisplayImgs);
 		
 		//======================= 해당 상품의 설명 이미지 갖고오기 ===========================
+		List<ProductDetailExplainIMGDTO> productExplainImgs = this.productDetailService.getProductDisplayExplainImgService(productDisplayId);
+		model.addAttribute("productExplainImgs", productExplainImgs);
 		
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
 		
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
+		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
+		model.addAttribute("productBrandInfo", productBrandInfo);
 		
-		// ======================= 해당 상품 상세 정보 갖고오기 ===========================
+		// ======================= 해당 상품 상세 설명 정보 갖고오기 ===========================
 		
-		// ======================= 해당 브랜드 QnA 갖고오기 ===========================	
+		// ======================= 해당 QnA 갖고오기 ===========================	
 		
 		// ======================= (데이터 수집) 사용자가 조회했던 중분류 카테고리 저장 ========
 		

@@ -1,5 +1,6 @@
 package com.blackolive.app.domain.productdetail;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -15,11 +16,13 @@ public class ProductDetailDTO {
     private String brandName;
     private String brandId;
     private String productDisplayName;
-    private int minPrice;
+    private BigDecimal minPrice;
+//    private int minPrice;
     private String categoryLargeId;
     private String categoryMidId;
     private String categorySmallId;
-    private int afterPrice;
+    private BigDecimal afterPrice;
+//    private int afterPrice;
     private String productDisplayId;
     private String productId;
     private String couponflag;
