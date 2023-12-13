@@ -1,17 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="/WEB-INF/inc/include.jspf" %>
-<%
-	/* boolean logonCheck = false;
-	LogOnDTO dto = (LogOnDTO)request.getSession().getAttribute("logOn");
-	
-	String user_id = "";
-	if(dto != null) {
-		user_id = dto.getUser_id();
-	}
-	logonCheck = (dto != null); */
-%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,11 +9,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <title>블랙올리브영 온라인몰</title>
+<style>
+	.way_view:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 0;
+    bottom: -12px;
+    width: 24px;
+    height: 12px;
+    margin-left: -12px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/store/ico_storeP_06.png) no-repeat;
+}
+</style>
 </head>
 <body>
-
-<div id="todayDeliveryPopup"><!-- 배송지 등록 레이어 팝업 --><div class="layer_pop_wrap w850" id="tddlvr_regDelivery" style="z-index:999;"> <div class="layer_cont2">  <h2 class="layer_title">배송지 등록</h2>  <div class="layer_scroll_box">   <!-- 배송지/환불계좌 등록 -->   <table class="board-write-2s">    <caption>배송지/환불계좌 등록</caption>    <colgroup>     <col style="width:25%;">     <col style="width:75%;">    </colgroup>    <tbody>     <tr>      <th scope="row"><label for="AddressChoice">배송지명</label></th>      <td class="star">       <input type="text" id="tddlvr_AddressName" title="배송지를 입력하세요" placeholder="최대 10자" data-required="true" style="width:200px;" maxlength="10">       <input type="checkbox" id="tddlvr_baseAddressCheckBox">       <label for="BasiceAddress">기본 배송지 설정</label>      </td>     </tr>     <tr>      <th scope="row"><label for="Recipient">받는 분</label></th>      <td class="star"><input type="text" id="tddlvr_Recipient" title="받는분을 입력하세요" placeholder="최대 10자" data-required="true" style="width:200px;" maxlength="10"></td>     </tr>     <tr>      <th scope="row"><label for="tddlvr_PhoneNumber1">연락처 1</label></th>      <td class="star">       <select id="tddlvr_PhoneNumber1" title="통신사를 선택하세요" data-required="true" style="width:90px;">        <option>010</option>        <option>011</option>       </select>       <span class="desc">-</span>       <input id="tddlvr_PhoneNumber2" type="text" maxlength="4" title="휴대전화 번호 가운데 4자리를 입력하세요" data-required="true" style="width:90px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">       <span class="desc">-</span>       <input id="tddlvr_PhoneNumber3" type="text" maxlength="4" title="휴대전화 번호 마지막 4자리를 입력하세요" data-required="true" style="width:90px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">      </td>     </tr>     <tr>      <th scope="row"><label for="tddlvr_SecondPhoneNumber1">연락처 2</label></th>      <td style="padding-left:36px;">       <select id="tddlvr_SecondPhoneNumber1" title="통신사를 선택하세요" style="width:90px;">        <option>010</option>        <option>011</option>       </select>       <span class="desc">-</span>       <input id="tddlvr_SecondPhoneNumber2" type="text" maxlength="4" title="휴대전화 번호 가운데 4자리를 입력하세요" style="width:90px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">       <span class="desc">-</span>       <input id="tddlvr_SecondPhoneNumber3" type="text" maxlength="4" title="휴대전화 번호 마지막 4자리를 입력하세요" style="width:90px;" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">      </td>     </tr>     <tr class="addr">      <th scope="row"><label for="">주소</label></th>      <td class="star">       <input id="tddlvr_postCode" type="text" title="주소를 입력하세요." disabled="disabled" data-required="true" style="width:90px;">       <button id="tddlvr_postButton" type="button" class="btnPost">우편번호</button>       <!-- 2016-12-28 삭제 <div class="interval"><input type="text" disabled="disabled" title="주소를 입력하세요" style="width:500px;"></div> -->       <!-- 신규 삽입 -->       <p id="tddlvr_roadDetails" class="road">        도로명 : <br>        <span class="data">지&nbsp; &nbsp;번 : </span>       </p>       <!-- //신규 삽입 -->       <input id="tddlvr_detailAddress" type="text" title="상세주소를 입력하세요." placeholder="상세주소를 입력하세요." data-required="true" style="width:500px;" maxlength="30">      </td>     </tr>    </tbody>   </table>   <!-- //배송지/환불계좌 등록 -->   <!-- 배송 요청사항 -->   <div id="tddlvr_pickupHide5" style="overflow:hidden">    <div class="title_wrap">     <h2 class="sub-title2">배송 요청사항</h2>    </div>    <table class="tbl_inp_form important">     <caption></caption>     <colgroup><col style="width:170px"><col style="width:*"></colgroup>     <tbody>     <tr type="exist">      <th scope="row">공동현관 출입방법</th>      <td class="imp_data">       <span class="chk_area mgzero"><input type="radio" id="tddlvr_btn_door_manner_temp1" name="tddlvr_o2oVisitTypeSp" disabled="" data-required="true" value="1"><label for="tddlvr_btn_door_manner_temp1">비밀번호</label></span>       <span class="chk_area"><input type="radio" id="tddlvr_btn_door_manner_temp2" name="tddlvr_o2oVisitTypeSp" disabled="" value="2"><label for="tddlvr_btn_door_manner_temp2">경비실 호출</label></span>       <span class="chk_area"><input type="radio" id="tddlvr_btn_door_manner_temp3" name="tddlvr_o2oVisitTypeSp" disabled="" value="3"><label for="tddlvr_btn_door_manner_temp3">자유출입가능</label></span>       <span class="chk_area"><input type="radio" id="tddlvr_btn_door_manner_temp4" name="tddlvr_o2oVisitTypeSp" disabled="" value="4"><label for="tddlvr_btn_door_manner_temp4">기타사항</label></span>      </td>     </tr>     <tr id="quickAreaValuesRow" type="exist">      <th id="tddlvr_radioDescripter" scope="row">공동현관 비밀번호</th>      <td class="imp_data">       <input type="text" id="tddlvr_quickAreaDesc" name="tddlvr_o2oVisitTypeDesc" value="" class="inpH28" title="공동현관 출입방법 상세내용을 입력하세요." disabled="" data-required="true" maxlength="20" style="width: 500px">      </td>     </tr>     </tbody>    </table>    </div>   <!--// 배송 요청사항-->   <div class="usage-guide">    <p class="ptit">개인정보수집·이용 안내</p>    <ul>     <li>개인정보 수집 목적 : 상품구매 시 배송처리</li>     <li>개인정보 수집 항목 : 배송지명 , 수령인정보 (받는분 , 연락처 , 주소, 공동현관 출입방법: 비밀번호)</li>     <li>보유 및 이용기간 : <b>정보 삭제 또는 회원 탈퇴 시까지</b></li>     <li>확인 버튼을 누르지 않을 경우 배송지 정보가 저장되지 않습니다.</li>    </ul>   </div>   <p class="txt_ct mgT20"><input type="checkbox" id="dlvSaveAgreeCheck">위 개인정보 수집·이용을 확인하고 배송지를 등록합니다.</p>   <div class="area1sButton mgT20">    <a id="registDeliveryAddressButton" href="#none" class="btnGreen">등록</a>    <a id="cancelDeliveryAddressButton" href="#none" class="btnGray">취소</a>   </div>  </div>  <button class="layer_close type2" onclick="todayDeliveryService.popup.regDelivery.close()">창 닫기</button> </div></div></div>
-
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication var="userName" property="principal.member.userName" />
+</sec:authorize>
 
 <div id="Wrapper">
 	<div id="skip_navi"><a href="#Container">본문바로가기</a></div>
@@ -151,19 +154,22 @@
 						<!-- 지역검색 영역 E  -->
 						
 						<!-- 관심매장 영역 S  -->
-						<div class="tab_area" id="searchFavorDiv" style="display: none;">
-							<h4 class="hide">관심매장</h4>
-							<div class="store_favInner" id="favorStoreInfo" style="display: none;">
+						<sec:authorize access="isAnonymous()">
+							<div class="no_store" id="noLoginInfo" style="">
+								<dl class="no_login">
+									<dt>로그인하시면 자주가는 매장을<br>관심 매장으로 설정 할수 있습니다.</dt>
+									<dd><a href="<c:url value='/auth/login'/>">로그인</a></dd>
+								</dl>
+							</div>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<div class="tab_area" id="searchFavorDiv" style="display: none;">
+								<h4 class="hide">관심매장</h4>
+								<div class="store_favInner" id="favorStoreInfo" style="display: none;">
 							</div>
 							<!-- :: 관심매장이 없는 경우 :: -->
 							<div class="no_store" id="noFavorStoreInfo" style="display: none">
 								<dl class="no_list"></dl>
-							</div>
-							<div class="no_store" id="noLoginInfo" style="">
-								<dl class="no_login">
-									<dt>로그인하시면 자주가는 매장을<br>관심 매장으로 설정 할수 있습니다.</dt>
-									<dd><a href="javascript:common.loginChk();">로그인</a></dd>
-								</dl>
 							</div>
 							<div class="no_store" id="noSearchFavorInfo" style="display: none">
 								<dl class="no_list">
@@ -172,8 +178,10 @@
 							</div>
 							<div class="sroll_store scrbar mCustomScrollbar _mCS_4 mCS_no_scrollbar" style="max-height:100%; overflow: auto;"><div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
 								<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
-							</div><div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
-						</div>
+							</div>
+							<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+							</div>
+						</sec:authorize>
 						<!-- 관심매장 영역 E  -->					
 						<!-- 판매매장 찾기 영역 S  -->
 						<div class="tab_area" id="searchItemDiv" style="display:none">
@@ -181,7 +189,7 @@
 							<div class="store_rebox">
 								<div class="store_sch">
 									<div class="store_schInner">
-										<input type="text" name="searchItem" id="searchItem" value="" onkeyup="javascript:store.main.searchStoreList2(event);" title="상품명을 입력해주세요" placeholder="상품명을 입력해주세요">
+										<input type="text" name="searchItem" id="searchItem" value="" title="상품명을 입력해주세요" placeholder="상품명을 입력해주세요">
 										<!-- 상품번호(goodsNo) -->
 										<input type="hidden" name="searchItemNo" id="searchItemNo" value="">
 										<!-- 옵션번호(itemNo) -->
@@ -522,18 +530,13 @@
 <script>
 //즐겨찾기 버튼 눌렀을 때 
 function favBtnClick(myBtn) {
-	// 로그인 수정
-	let logonCheck = true; <%-- <%= logonCheck%> --%>
-	if(!logonCheck) {
+	if(${empty userName}) {
 		let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
 		if(check) {
-			location.href = '/Black_OY/olive/LogOn.do';
+			location.href = '/auth/login';
 		}
 		return;
-		// return;
 	} 
-	// 로그인 수정
-	let userId = 'user1'; <%-- "<%= user_id %>"; --%>
 	let clickCheck = 0;
 	
 	if($(myBtn).hasClass("active")) {
@@ -551,21 +554,30 @@ function favBtnClick(myBtn) {
 	
 	$.ajax({
 		type : 'post'
-		, async : false
+		, async : true
 		, cache: false
 		, url : '/store/setStoreFavorite'
 		, dataType : 'json'
 		, data : {
 			storeId : storeId
 			, clickCheck : clickCheck
-			, userId : userId
+			, '${_csrf.parameterName }' : '${_csrf.token }'
 		}
 		, success : function(data) {
+			console.log(data)
 			console.log("즐겨찾기 업데이트 완료~~")
         }
-		, error : function (data, textStatus) {
+		, 
+		error: function(xhr, textStatus, errorThrown) {
+	        console.log('Error Status Code: ' + xhr.status);
+	        console.log('Error Message: ' + xhr.statusText);
+	        console.log('Text Status: ' + textStatus);
+	        console.log('Error Thrown: ' + errorThrown);
+
+	    }
+		/* error : function (data, textStatus) {
             console.log('error');
-        }
+        } */
 	});
 } 
 
@@ -574,6 +586,11 @@ let latLngs;
 let latLng;
 let markers = [];
 let contents = [];
+let overlays = [];
+
+function closeOverlay(index) {
+	overlays[index].setMap(null);
+}
 
 
 $(function() {
@@ -632,13 +649,31 @@ $(function() {
 	$("#searchWord").on("keyup", function(event) {
 		if(event.which == 13) {
 			let keyword = $(this).val();
+			
+			let tc = $("#tc_list button.on").next();
+			let ps = $("#ps_list button.on").next();
+			let tcs = [];
+			let pss = [];
+			
+			for(let i=0; i<tc.length; i++) {
+				tcs.push($(tc[i]).val());
+			}
+			
+			for(let i=0; i<ps.length; i++) {
+				pss.push($(ps[i]).val());
+			}
+			
 			$.ajax({
 				type : 'get'
-				, async : false
+				, async : true
 				, cache: false
 				, url : '/store/getStoreKeyword'
 				, dataType : 'json'
-				, data : { keyword : keyword }
+				, data : { 
+					keyword : keyword
+					, tcs : tcs.toString()
+					, pss : pss.toString()
+				}
 				, success : function(data) {
 					$("#wordStoreList").empty();
 					if(data == "") {
@@ -705,13 +740,31 @@ $(function() {
 	// 돋보기를 눌렀을 때
 	$(".btn_sch").on("click", function() {
 		let keyword = $("#searchWord").val();
+		
+		let tc = $("#tc_list button.on").next();
+		let ps = $("#ps_list button.on").next();
+		let tcs = [];
+		let pss = [];
+		
+		for(let i=0; i<tc.length; i++) {
+			tcs.push($(tc[i]).val());
+		}
+		
+		for(let i=0; i<ps.length; i++) {
+			pss.push($(ps[i]).val());
+		}
+		
 		$.ajax({
 			type : 'get'
-			, async : false
+			, async : true
 			, cache: false
 			, url : '/store/getStoreKeyword'
 			, dataType : 'json'
-			, data : { keyword : keyword }
+			, data : { 
+				keyword : keyword
+				, tcs : tcs.toString()
+				, pss : pss.toString()
+			}
 			, success : function(data) {
 				$("#wordStoreList").empty();
 				if(data == "") {
@@ -786,7 +839,7 @@ $(function() {
 		}
 		$.ajax({
 			type : 'get'
-			, async : false
+			, async : true
 			, cache: false
 			, url : '/store/getDistrict/' + city_id
 			, dataType : 'json'
@@ -820,15 +873,30 @@ $(function() {
 		let city = $("#mainAreaList > option:selected").val() === "none" ? "" : $("#mainAreaList > option:selected").text();
 		let district = $("#subAreaList > option:selected").val() === "none" ? "" : $("#subAreaList > option:selected").text();
 		
+		let tc = $("#tc_list button.on").next();
+		let ps = $("#ps_list button.on").next();
+		let tcs = [];
+		let pss = [];
+		
+		for(let i=0; i<tc.length; i++) {
+			tcs.push($(tc[i]).val());
+		}
+		
+		for(let i=0; i<ps.length; i++) {
+			pss.push($(ps[i]).val());
+		}
+		
 		$.ajax({
             type : 'get'
-			, async : false
+			, async : true
 			, cache: false
 			, url : '/store/getStoreList'
 			, dataType : 'json'
 			, data : {
 				city : city
 				, district : district
+				, tcs : tcs.toString()
+				, pss : pss.toString()
 			}
 			, success : function(data) {
 				// console.log(data);
@@ -848,8 +916,19 @@ $(function() {
 				for ( var j = 0; j < markers.length; j++ ) {
 					markers[j].setMap(null);
 				}   
+				
+				for ( var j = 0; j < overlays.length; j++ ) {
+					overlays[j].setMap(null);
+				}
 				markers = [];
 				contents = [];
+				overlays = [];
+				
+				var imageSrc = '/resources/images/store/point_way_gray.png' // 마커이미지의 주소입니다    
+			    				, imageSize = new kakao.maps.Size(23, 34) // 마커이미지의 크기입니다
+			    				, imageOption = {offset: new kakao.maps.Point(10, 35)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			    				
+			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				
 				for(let i=0; i<data.length; i++) {
 					
@@ -898,7 +977,7 @@ $(function() {
 						favBtnClick(this);
 					});
 					
-					var content = '<div class="way_view">' 
+					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:66px">' 
 						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
 						+ '  <p class="addr" style="white-space:nonrmal">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
@@ -910,8 +989,8 @@ $(function() {
 						+ '  </div>'
 						+ '</div>'
 						+ '<a class="store_btn">상세정보보기</a>'
-						+ '<button class="star active></button>'
-						+ '<button class="wayClose" ></button>';
+						+ '<button class="star active" onclick="favBtnClick(this)"/> '
+						+ `<button class="wayClose" onclick="closeOverlay(\${i})"/> `;
 					
 					contents.push(content);
 						
@@ -933,28 +1012,36 @@ $(function() {
 				
 				for (var i = 0; i < latLngs.length; i++) {
 					var marker = new kakao.maps.Marker({
-				        map: map, // 마커를 표시할 지도
-				        position: latLngs[i].latlng, // 마커를 표시할 위치
-				        title : latLngs[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        map: map // 마커를 표시할 지도
+				        , position: latLngs[i].latlng // 마커를 표시할 위치
+				        , title : latLngs[i].titl // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        , image : markerImage
+				        //, clickable : true
 				    });
 					markers.push(marker);
 					
 					var overlay = new kakao.maps.CustomOverlay({
 				        content: contents[i],
-				        map: map,
+				        //map: map,
 				        position: marker.getPosition()       
 				    });
+					overlays.push(overlay);
 					
-					kakao.maps.event.addListener(marker, 'click', function() {
-				        overlay.setMap(map);
-				    });
+					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {
+				        return function () {
+				        	for (var j = 0; j < overlays.length; j++) {
+								overlays[j].setMap(null);
+							}
+				            overlay.setMap(map);
+				        };
+				    })(marker, overlay));
 				}
 				
 				var moveLatLon = latLngs[0].latlng;
 			    
 			    // 지도 중심을 이동 시킵니다
 			    map.setCenter(moveLatLon);
-			    
+			    map.setLevel(3);
 				
 				
                 
@@ -972,173 +1059,158 @@ $(function() {
 	})
 	
 	
-	
 	/* 관심매장 탭  */
 	
 	// 관심매장 탭을 눌렀을 때
 	$("#searchFavorTab").on("click", function() {
-		// 로그인 수정
-		<%-- if(!<%=logonCheck%>) { --%>
-		if(!true) {
-			$("#favorStoreList").hide();
-	        $("#favorStoreInfo").hide();
-	        $("#noFavorStoreInfo").hide();
-	        $("#noLoginInfo").show();
-		} else {
-			// 로그인 수정
-			let userId = user1; <%-- "<%= user_id %>"; --%>
-			let stores; // JSON객체로 받을 거
-			let attShopCnt; // 회원의 관심매장 수
-			
+		if(${not empty userName} ) {
 			$("#favorStoreList").hide();
 	        $("#favorStoreInfo").hide();
 	        $("#noFavorStoreInfo").hide();
 	        $("#noLoginInfo").hide();
 	        
+	        let tc = $("#tc_list button.on").next();
+			let ps = $("#ps_list button.on").next();
+			let tcs = [];
+			let pss = [];
+			
+			for(let i=0; i<tc.length; i++) {
+				tcs.push($(tc[i]).val());
+			}
+			
+			for(let i=0; i<ps.length; i++) {
+				pss.push($(ps[i]).val());
+			}
+	        
 	        $.ajax({
 				type : 'post'
-				, async : false
+				, async : true
 				, cache: false
 				, url : '/store/getInterestShopList'
-				, dataType : 'text'
+				, dataType : 'json'
 				, data : {
-					userId : userId
+					tcs : tcs.toString()
+					, pss : pss.toString()
+					, '${_csrf.parameterName }' : '${_csrf.token }'
 				}
 				, success : function(data) {
-					// console.log(data)
-					if(data == "") {
-						stores = "";
-					} else {
-						stores = JSON.parse(data);
-					}
+					console.log(data)
 					
+					if(data.length < 1) {
+			        	$("#noFavorStoreInfo .no_list").empty();
+			        	let dt = $("<dt>").html("${userName} 님이<br>등록하신 관심매장이 없습니다.");
+			        	let dd = $("<dd>").html("자주 가는 매장을 관심매장으로 등록하면 매장소식을 <br>빠르게 받아 보실 수 있습니다.");
+			        	$("#noFavorStoreInfo > dl").append(dt).append(dd);
+			        	$("#noFavorStoreInfo").show();
+			        } else {
+			        	$("#favorStoreInfo").empty();
+			        	let p = $("<p>").html(`<b>${userName}</b>님이 <br>등록하신`
+			        			+ `<span>관심매장은 총 <b>\${data.length}</b>개</span>입니다`);
+			        	let div = $("<div>").addClass("urNotice")
+			        		.html("<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>")
+			        	
+			        	$("#favorStoreInfo").append(p).append(div);
+			        	$("#favorStoreInfo").show();
+			        
+						$("#favorStoreList").empty();
+						
+						for(let i=0; i<data.length; i++) {
+							let li = $("<li>").addClass(data[i].storeId);
+							let div = $("<div>").addClass("li_Pc_reInner");
+							let h4 = $("<h4>").addClass("tit")
+							let a = $("<a>").text(data[i].storeName);
+							let p = $("<p>").addClass("addr").text(data[i].storeAddress);
+							let area = $("<div>").addClass("area");
+							let call = $("<div>").addClass("call").text(data[i].storeTel);
+							
+							let date = new Date();
+							let hour = date.getHours() + "";
+							let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
+							let weekday = data[i].weekday;
+							let weekdays = weekday.split(" - ");
+							let time;
+							if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
+								time = $("<div>").addClass(["time", "on"]).text("영업중");
+							} else {
+								time = $("<div>").addClass("time").text("영업 준비중");
+							}
+							
+							
+							let fv_reShop_in = $("<div>")
+												.addClass("fv_reShop_in")
+												.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
+							// 즐겨찾기 눌렀을 때
+							// 로그인 했는지 체크 후
+							// db에도 +1 하기
+							// ~명이 관심매장으로 등록했습니다. 업데이트
+							let button = $("<button>").addClass(["star", "on"]).on("click", function() {
+								let logonCheck = ${not empty userName};
+								if(!logonCheck) {
+									let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+									if(check) {
+										location.href = '/auth/login';
+									}
+									return;
+									// return;
+								} 
+								let clickCheck = 0;
+								
+								if($(this).hasClass("active")) {
+									$(this).removeClass("active").addClass("on");
+									clickCheck = 1;
+								} else {
+									$(this).removeClass("on").addClass("active");
+									clickCheck = -1;
+								}
+								
+								let cnt = $(this).prev().children("span").html();
+								$(this).prev().children("span").html(Number(cnt) + clickCheck);
+								$("#favorStoreInfo > p > span > b").html(function(index, currentHtml) {
+									return Number(currentHtml) + clickCheck;
+								});
+								
+								let store_id = $(this).parent().parent().attr("class");
+								
+								$.ajax({
+									type : 'get'
+									, async : true
+									, cache: false
+									, url : '/store/setStoreFavorite'
+									, dataType : 'json'
+									, data : {
+										store_id : store_id
+										, clickCheck : clickCheck
+									}
+									, success : function(data) {
+										console.log("즐겨찾기 업데이트 완료~~")
+						            }
+									, error : function (data, textStatus) {
+						                console.log('error');
+						            }
+								});
+							});
+		
+							$(area).append(call);
+							$(area).append(time);
+							
+							$(h4).append(a);
+							$(div).append(h4);
+							$(div).append(p);
+							$(div).append(area);
+							$(div).append(fv_reShop_in);
+							$(div).append(button);
+							
+							$(li).append(div);
+							$("#favorStoreList").append(li);
+							$("#favorStoreList").show();
+						}
+			        }
 	            }
 				, error : function (data, textStatus) {
 	                console.log('error');
 	            }
 			});
-	        
-	        if(stores == "") {
-		        attShopCnt = 0;
-	        } else {
-		        attShopCnt = stores.stores.length;
-	        }
-	        
-	        if(attShopCnt < 1) {
-	        	$("#noFavorStoreInfo .no_list").empty();
-	        	let dt = $("<dt>").html("${logOn.u_name} 님이<br>등록하신 관심매장이 없습니다.");
-	        	let dd = $("<dd>").html("자주 가는 매장을 관심매장으로 등록하면 매장소식을 <br>빠르게 받아 보실 수 있습니다.");
-	        	$("#noFavorStoreInfo > dl").append(dt).append(dd);
-	        	$("#noFavorStoreInfo").show();
-	        } else {
-	        	$("#favorStoreInfo").empty();
-	        	let p = $("<p>").html(`<b>${logOn.u_name}</b>님이 <br>등록하신`
-	        			+ `<span>관심매장은 총 <b>\${attShopCnt}</b>개</span>입니다`);
-	        	let div = $("<div>").addClass("urNotice")
-	        		.html("<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>")
-	        	
-	        	$("#favorStoreInfo").append(p).append(div);
-	        	$("#favorStoreInfo").show();
-	        
-				$("#favorStoreList").empty();
-				
-				for(let i=0; i<stores.stores.length; i++) {
-					let li = $("<li>").addClass(stores.stores[i].store_id);
-					let div = $("<div>").addClass("li_Pc_reInner");
-					let h4 = $("<h4>").addClass("tit")
-					let a = $("<a>").text(stores.stores[i].store_name);
-					let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
-					let area = $("<div>").addClass("area");
-					let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
-					
-					let date = new Date();
-					let hour = date.getHours() + "";
-					let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-					let weekday = stores.stores[i].weekday;
-					let weekdays = weekday.split(" - ");
-					let time;
-					if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-						time = $("<div>").addClass(["time", "on"]).text("영업중");
-					} else {
-						time = $("<div>").addClass("time").text("영업 준비중");
-					}
-					
-					
-					let fv_reShop_in = $("<div>")
-										.addClass("fv_reShop_in")
-										.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
-					// 즐겨찾기 눌렀을 때
-					// 로그인 했는지 체크 후
-					// db에도 +1 하기
-					// ~명이 관심매장으로 등록했습니다. 업데이트
-					let button = $("<button>").addClass(["star", "on"]).on("click", function() {
-						// 로그인 수정
-						let logonCheck = true; <%-- <%= logonCheck%> --%>
-						if(!logonCheck) {
-							let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
-							if(check) {
-								location.href = '/Black_OY/olive/LogOn.do';
-							}
-							return;
-							// return;
-						} 
-						// 로그인 수정
-						let user_id = 'user1';<%-- "<%= user_id %>"; --%>
-						let clickCheck = 0;
-						
-						if($(this).hasClass("active")) {
-							$(this).removeClass("active").addClass("on");
-							clickCheck = 1;
-						} else {
-							$(this).removeClass("on").addClass("active");
-							clickCheck = -1;
-						}
-						
-						let cnt = $(this).prev().children("span").html();
-						$(this).prev().children("span").html(Number(cnt) + clickCheck);
-						$("#favorStoreInfo > p > span > b").html(function(index, currentHtml) {
-							return Number(currentHtml) + clickCheck;
-						});
-						
-						let store_id = $(this).parent().parent().attr("class");
-						
-						$.ajax({
-							type : 'get'
-							, async : false
-							, cache: false
-							, url : '/Black_OY/store/updStoreFav.do'
-							, dataType : 'text'
-							, data : {
-								store_id : store_id
-								, clickCheck : clickCheck
-								, user_id : user_id
-							}
-							, success : function(data) {
-								console.log("즐겨찾기 업데이트 완료~~")
-				            }
-							, error : function (data, textStatus) {
-				                console.log('error');
-				            }
-						});
-					});
-
-					$(area).append(call);
-					$(area).append(time);
-					
-					$(h4).append(a);
-					$(div).append(h4);
-					$(div).append(p);
-					$(div).append(area);
-					$(div).append(fv_reShop_in);
-					$(div).append(button);
-					
-					$(li).append(div);
-					$("#favorStoreList").append(li);
-					$("#favorStoreList").show();
-				}
-	        }
-		}
-		
+		}   	
 	})
 	
 	// 로그인이 안 되어 있을 시 로그인 버튼을 눌렀을 때
@@ -1150,13 +1222,15 @@ $(function() {
 	// 적용하기 버튼을 눌렀을 때
 	$(".btnSmall.choice_btn").on("click", function() {
 		let keyword = $("#searchWord").val();
-		let tcs = [];
-		let pss = [];
 		let tc = $("#tc_list button.on").next();
 		let ps = $("#ps_list button.on").next();
+		let tcs = [];
+		let pss = [];
+		
 		for(let i=0; i<tc.length; i++) {
 			tcs.push($(tc[i]).val());
 		}
+		
 		for(let i=0; i<ps.length; i++) {
 			pss.push($(ps[i]).val());
 		}
@@ -1165,39 +1239,39 @@ $(function() {
 		if(tabName == "직접검색") {
 			$.ajax({
 	            type : 'get'
-				, async : false
+				, async : true
 				, cache: false
-				, url : '/store/getStoreCondition'
+				, url : '/store/getStoreKeyword'
 				, dataType : 'json'
 				, data : {
-					tcs : tcs
-					, pss : pss
+					tcs : tcs.toString()
+					, pss : pss.toString()
 					, keyword : keyword
 				}
 				, success : function(data) {
 					$("#wordStoreList").empty();
 					
 					if(data == "") {
+						$(".choice_opSt").slideDown();
 						$("#noSearchWordInfo").show();
 						$("#searchWordDiv .reShop_result > dt > span").text("0");
 						return;
 					}
 					$("#noSearchWordInfo").hide();
-					let stores = JSON.parse(data);
-					$("#searchWordDiv .reShop_result > dt > span").text(stores.stores.length)
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
+					$("#searchWordDiv .reShop_result > dt > span").text(data.length)
+					for(let i=0; i<data.length; i++) {
+						let li = $("<li>").addClass(data[i].storeId);
 						let div = $("<div>").addClass("li_Pc_reInner");
 						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
+						let a = $("<a>").text(data[i].storeName);
+						let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
+						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
 						let date = new Date();
 						let hour = date.getHours() + "";
 						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
+						let weekday = data[i].weekday;
 						let weekdays = weekday.split(" - ");
 						let time;
 						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
@@ -1209,7 +1283,7 @@ $(function() {
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+											.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
 						// 즐겨찾기 눌렀을 때
 						// 로그인 했는지 체크 후
 						// db에도 +1 하기
@@ -1232,7 +1306,7 @@ $(function() {
 						$("#wordStoreList").append(li);
 					} 
 					
-					$(".choice_opSt").hide();
+					$(".choice_opSt").slideDown();
 	                console.log(data);
 	            }
 				, error : function (data, textStatus) {
@@ -1244,10 +1318,9 @@ $(function() {
 			let district = $("#subAreaList > option:selected").val() === "none" ? "" : $("#subAreaList > option:selected").text();
 			$.ajax({
 	            type : 'get'
-				, async : false
 				, cache: false
-				, url : '/Black_OY/store/getStoreList.do'
-				, dataType : 'text'
+				, url : '/store/getStoreList'
+				, dataType : 'json'
 				, data : {
 					city : city 
 					, district : district
@@ -1263,21 +1336,20 @@ $(function() {
 						return;
 					}
 					$("#noSearchAreaInfo").hide();
-					let stores = JSON.parse(data);
-					$("#searchAreaDiv .reShop_result > dt > span").text(stores.stores.length)
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
+					$("#searchAreaDiv .reShop_result > dt > span").text(data.length)
+					for(let i=0; i<data.length; i++) {
+						let li = $("<li>").addClass(data[i].storeId);
 						let div = $("<div>").addClass("li_Pc_reInner");
 						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
+						let a = $("<a>").text(data[i].storeName);
+						let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
+						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
 						let date = new Date();
 						let hour = date.getHours() + "";
 						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
+						let weekday = data[i].weekday;
 						let weekdays = weekday.split(" - ");
 						let time;
 						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
@@ -1289,7 +1361,7 @@ $(function() {
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+											.html(`<span>\${data[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
 						// 즐겨찾기 눌렀을 때
 						// 로그인 했는지 체크 후
 						// db에도 +1 하기
@@ -1319,19 +1391,12 @@ $(function() {
 	            }
 	        });
 		} else if(tabName == "관심매장") {
-			// 로그인 수정
-			<%-- if(!<%=logonCheck%>) { --%>
-			if(!true) {
+			if(${empty userName}) {
 				$("#favorStoreList").hide();
 		        $("#favorStoreInfo").hide();
 		        $("#noFavorStoreInfo").hide();
 		        $("#noLoginInfo").show();
 			} else {
-				// 로그인 수정
-				let user_id = 'user1';<%-- "<%= user_id %>"; --%>
-				let stores; // JSON객체로 받을 거
-				let attShopCnt; // 회원의 관심매장 수
-				
 				$("#favorStoreList").hide();
 		        $("#favorStoreInfo").hide();
 		        $("#noFavorStoreInfo").hide();
@@ -1339,23 +1404,131 @@ $(function() {
 		        
 		        $.ajax({
 					type : 'post'
-					, async : false
+					, async : true
 					, cache: false
-					, url : '/Black_OY/store/getAttShopList.do'
-					, dataType : 'text'
+					, url : '/store/getInterestShopList'
+					, dataType : 'json'
 					, data : {
-						user_id : user_id
-						, tcs : tcs.toString()
+						tcs : tcs.toString()
 						, pss : pss.toString()
-						
+						, '${_csrf.parameterName }' : '${_csrf.token }'
 					}
 					, success : function(data) {
-						// console.log(data)
-						if(data == "") {
-							stores = "";
-						} else {
-							stores = JSON.parse(data);
-						}
+						console.log(data)
+						if(data.length < 1) {
+				        	$("#noFavorStoreInfo .no_list").empty();
+				        	let dt = $("<dt>").html("${userName} 님이<br>등록하신 관심매장이 없습니다.");
+				        	let dd = $("<dd>").html("자주 가는 매장을 관심매장으로 등록하면 매장소식을 <br>빠르게 받아 보실 수 있습니다.");
+				        	$("#noFavorStoreInfo > dl").append(dt).append(dd);
+				        	$("#noFavorStoreInfo").show();
+				        	if(stores == "") {
+				        		$("#noFavorStoreInfo").hide();
+				        		$("#noSearchFavorInfo").show();
+				        	}
+				        } else {
+				        	$("#noSearchFavorInfo").hide();
+				        	$("#favorStoreInfo").empty();
+				        	let p = $("<p>").html(`<b>${userName}</b>님이 <br>등록하신`
+				        			+ `<span>관심매장은 총 <b>\${data.length}</b>개</span>입니다`);
+				        	let div = $("<div>").addClass("urNotice")
+				        		.html("<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>")
+				        	
+				        	$("#favorStoreInfo").append(p).append(div);
+				        	$("#favorStoreInfo").show();
+				        
+							$("#favorStoreList").empty();
+							
+							for(let i=0; i<data.length; i++) {
+								let li = $("<li>").addClass(data[i].storeId);
+								let div = $("<div>").addClass("li_Pc_reInner");
+								let h4 = $("<h4>").addClass("tit")
+								let a = $("<a>").text(data[i].storeName);
+								let p = $("<p>").addClass("addr").text(data[i].storeAddress);
+								let area = $("<div>").addClass("area");
+								let call = $("<div>").addClass("call").text(data[i].storeTel);
+								
+								let date = new Date();
+								let hour = date.getHours() + "";
+								let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
+								let weekday = data[i].weekday;
+								let weekdays = weekday.split(" - ");
+								let time;
+								if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
+									time = $("<div>").addClass(["time", "on"]).text("영업중");
+								} else {
+									time = $("<div>").addClass("time").text("영업 준비중");
+								}
+								
+								
+								let fv_reShop_in = $("<div>")
+													.addClass("fv_reShop_in")
+													.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
+								// 즐겨찾기 눌렀을 때
+								// 로그인 했는지 체크 후
+								// db에도 +1 하기
+								// ~명이 관심매장으로 등록했습니다. 업데이트
+								let button = $("<button>").addClass(["star", "on"]).on("click", function() {
+									let logonCheck = true;<%-- <%= logonCheck%> --%>
+									if(!logonCheck) {
+										let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+										if(check) {
+											location.href = '/auth/login';
+										}
+										return;
+										// return;
+									} 
+									let clickCheck = 0;
+									
+									if($(this).hasClass("active")) {
+										$(this).removeClass("active").addClass("on");
+										clickCheck = 1;
+									} else {
+										$(this).removeClass("on").addClass("active");
+										clickCheck = -1;
+									}
+									
+									let cnt = $(this).prev().children("span").html();
+									$(this).prev().children("span").html(Number(cnt) + clickCheck);
+									$("#favorStoreInfo > p > span > b").html(function(index, currentHtml) {
+										return Number(currentHtml) + clickCheck;
+									});
+									
+									let store_id = $(this).parent().parent().attr("class");
+									
+									$.ajax({
+										type : 'post'
+										, cache: false
+										, url : '/store/setStoreFavorite'
+										, dataType : 'text'
+										, data : {
+											store_id : store_id
+											, clickCheck : clickCheck
+											, '${_csrf.parameterName }' : '${_csrf.token }'
+										}
+										, success : function(data) {
+											console.log("즐겨찾기 업데이트 완료~~")
+							            }
+										, error : function (data, textStatus) {
+							                console.log('error');
+							            }
+									});
+								});
+		
+								$(area).append(call);
+								$(area).append(time);
+								
+								$(h4).append(a);
+								$(div).append(h4);
+								$(div).append(p);
+								$(div).append(area);
+								$(div).append(fv_reShop_in);
+								$(div).append(button);
+								
+								$(li).append(div);
+								$("#favorStoreList").append(li);
+							} // for
+							$("#favorStoreList").show();
+				        }
 						
 		            }
 					, error : function (data, textStatus) {
@@ -1363,128 +1536,7 @@ $(function() {
 		            }
 				});
 		        
-		        if(stores == "") {
-			        attShopCnt = 0;
-		        } else {
-			        attShopCnt = stores.stores.length;
-		        }
 		        
-		        if(attShopCnt < 1) {
-		        	$("#noFavorStoreInfo .no_list").empty();
-		        	let dt = $("<dt>").html("${logOn.u_name} 님이<br>등록하신 관심매장이 없습니다.");
-		        	let dd = $("<dd>").html("자주 가는 매장을 관심매장으로 등록하면 매장소식을 <br>빠르게 받아 보실 수 있습니다.");
-		        	$("#noFavorStoreInfo > dl").append(dt).append(dd);
-		        	$("#noFavorStoreInfo").show();
-		        	if(stores == "") {
-		        		$("#noFavorStoreInfo").hide();
-		        		$("#noSearchFavorInfo").show();
-		        	}
-		        } else {
-		        	$("#noSearchFavorInfo").hide();
-		        	$("#favorStoreInfo").empty();
-		        	let p = $("<p>").html(`<b>${logOn.u_name}</b>님이 <br>등록하신`
-		        			+ `<span>관심매장은 총 <b>\${attShopCnt}</b>개</span>입니다`);
-		        	let div = $("<div>").addClass("urNotice")
-		        		.html("<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>")
-		        	
-		        	$("#favorStoreInfo").append(p).append(div);
-		        	$("#favorStoreInfo").show();
-		        
-					$("#favorStoreList").empty();
-					
-					for(let i=0; i<stores.stores.length; i++) {
-						let li = $("<li>").addClass(stores.stores[i].store_id);
-						let div = $("<div>").addClass("li_Pc_reInner");
-						let h4 = $("<h4>").addClass("tit")
-						let a = $("<a>").text(stores.stores[i].store_name);
-						let p = $("<p>").addClass("addr").text(stores.stores[i].store_addr);
-						let area = $("<div>").addClass("area");
-						let call = $("<div>").addClass("call").text(stores.stores[i].store_tel);
-						
-						let date = new Date();
-						let hour = date.getHours() + "";
-						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = stores.stores[i].weekday;
-						let weekdays = weekday.split(" - ");
-						let time;
-						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-							time = $("<div>").addClass(["time", "on"]).text("영업중");
-						} else {
-							time = $("<div>").addClass("time").text("영업 준비중");
-						}
-						
-						
-						let fv_reShop_in = $("<div>")
-											.addClass("fv_reShop_in")
-											.html(`<span>\${stores.stores[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
-						// 즐겨찾기 눌렀을 때
-						// 로그인 했는지 체크 후
-						// db에도 +1 하기
-						// ~명이 관심매장으로 등록했습니다. 업데이트
-						let button = $("<button>").addClass(["star", "on"]).on("click", function() {
-							let logonCheck = true;<%-- <%= logonCheck%> --%>
-							if(!logonCheck) {
-								let check = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
-								if(check) {
-									location.href = '/Black_OY/olive/LogOn.do';
-								}
-								return;
-								// return;
-							} 
-							let user_id = 'user1';<%-- "<%= user_id %>"; --%>
-							let clickCheck = 0;
-							
-							if($(this).hasClass("active")) {
-								$(this).removeClass("active").addClass("on");
-								clickCheck = 1;
-							} else {
-								$(this).removeClass("on").addClass("active");
-								clickCheck = -1;
-							}
-							
-							let cnt = $(this).prev().children("span").html();
-							$(this).prev().children("span").html(Number(cnt) + clickCheck);
-							$("#favorStoreInfo > p > span > b").html(function(index, currentHtml) {
-								return Number(currentHtml) + clickCheck;
-							});
-							
-							let store_id = $(this).parent().parent().attr("class");
-							
-							$.ajax({
-								type : 'get'
-								, async : false
-								, cache: false
-								, url : '/Black_OY/store/updStoreFav.do'
-								, dataType : 'text'
-								, data : {
-									store_id : store_id
-									, clickCheck : clickCheck
-									, user_id : user_id
-								}
-								, success : function(data) {
-									console.log("즐겨찾기 업데이트 완료~~")
-					            }
-								, error : function (data, textStatus) {
-					                console.log('error');
-					            }
-							});
-						});
-
-						$(area).append(call);
-						$(area).append(time);
-						
-						$(h4).append(a);
-						$(div).append(h4);
-						$(div).append(p);
-						$(div).append(area);
-						$(div).append(fv_reShop_in);
-						$(div).append(button);
-						
-						$(li).append(div);
-						$("#favorStoreList").append(li);
-					}
-					$("#favorStoreList").show();
-		        }
 			}
 				$(".choice_opSt").hide();
 		} else if(tabName == "판매매장 찾기") {
@@ -1492,6 +1544,49 @@ $(function() {
 		}
 			
 	})
+	
+	$("#searchItem").on("input", function() {
+		let store_schInner = $("#searchItemDiv > div > div.store_sch > div.store_schInner");
+		if($(this).val().length >= 2) {
+			let keyword = $(this).val();
+			$.ajax({
+				type : 'get'
+				, cache: false
+				, url : '/store/getProductName/' + keyword
+				, dataType : 'json'
+				, success : function(data) {
+					// console.log(data);
+					
+					if(data.length > 0 ) {
+						$(store_schInner).addClass("on");
+						let div = $("<div>").addClass("auto_reSch");
+						let ul = $("<ul>").addClass("ul_auto_reSch scrbar");
+						let li;
+						$(data).each(function(i) {
+							li = $("<li>").html(`<a href="javascript:;" id="\${this.productId}" data-productId="\${this.productId}">`
+									+ this.productDisplayName.replace(keyword, '<span>'+keyword+'</span>')
+									+ `</a>`);
+							$(ul).append(li);
+						});
+						$(div).append(ul);
+						$(store_schInner).append(div);
+					} else {
+						$(store_schInner).removeClass("on");
+						$(store_schInner).find(".auto_reSch").remove();
+					}
+	            }
+				, error : function (data, textStatus) {
+	                console.log('error');
+	            }
+			});
+		} else {
+			$(store_schInner).find(".auto_reSch").remove();
+		}
+	});
+	
+	function () {
+		
+	}
 	
 })
 

@@ -46,7 +46,7 @@
 				type : 'post'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
+				, url : '/olive/attShopAjax.do'
 				, dataType : 'json'
 				, data : { user_id : '${logOn.user_id}' }
 				, success : function(data) {
@@ -72,6 +72,9 @@
 			$(".store .alim_box").html('<p class="store_desc"><span>로그인</span>하시면 자주가는 매장을<br>관심 매장으로 설정 할 수 있습니다.</p>'
 					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
 		}
+		
+		
+		
 		
 	})
 </script>
@@ -278,8 +281,8 @@
 				<ul class="menu_list" id="menu_list_header">
 					<c:choose>
 						<c:when test="${empty sessionScope.logOn }">
-							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
-							<li class="login"><a href="<%=contextPath%>/olive/LogOn.do"
+							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
+							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
 						</c:when>
 						<c:otherwise>
@@ -295,9 +298,9 @@
 					</c:choose>
 
 					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
+						<c:when test="${empty sessionScope.principal }">
 							<li class="cart"><a href="<%=contextPath%>/basket"
-								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
+								data-attr="공통^헤더^장바구니">장바구니1 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
 						<c:otherwise>
@@ -699,7 +702,7 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/ranking.do"
+					<li style=""><a onclick="" href="<c:url value='/store/getRanking' />"
 						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
 					</a></li>
 					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
@@ -711,14 +714,14 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
+					<li style=""><a onclick="" href='<c:url value="/store/getGiftCard"/>'"
 						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
 						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/membership.do"
+					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
 						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
 					</a></li>
 					<li style=""><a onclick=""
-						href="<%=contextPath%>/olive/event.do"
+						href='<c:url value="/store/getEvent"/>'
 						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
 					</a></li>
 				</ul>

@@ -5,70 +5,92 @@
 		<ul>
 			<li><h2>마이 쇼핑</h2>
 				<ul>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 주문배송페이지 --%>"
-						mymenuid="0101"
-						data-ref-linkurl="${pageContext.request.contextPath}/olive/orderDelivery.do"
-						data-attr="마이페이지^메뉴^주문/배송 조회" data-tracking-name="주문배송조회 클릭"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=주문배송조회">주문/배송
-							조회</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 취소/반품/교환 내역 페이지 --%>"
-						mymenuid="0102"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getOrderCancelList.do"
-						data-attr="마이페이지^메뉴^취소/반품/교환 내역"
-						data-tracking-name="취소반품교환내역 클릭"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=취소반품교환내역">취소/반품/교환
-							내역</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 거래증빙서류 확인 --%>"
-						mymenuid="0103"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getDealList.do"
-						data-attr="마이페이지^메뉴^거래증빙서류 확인"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=거래증빙서류확인">거래증빙서류
-							확인</a></li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}/mypage/orderdelivery"
+							mymenuid="0101"
+							data-ref-linkurl="${pageContext.request.contextPath}/mypage/orderdelivery"
+							data-attr="마이페이지^메뉴^주문/배송 조회" data-tracking-name="주문배송조회 클릭"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=주문배송조회">주문/배송
+								조회</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 취소/반품/교환 내역 페이지 --%>"
+							mymenuid="0102"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getOrderCancelList.do"
+							data-attr="마이페이지^메뉴^취소/반품/교환 내역"
+							data-tracking-name="취소반품교환내역 클릭"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=취소반품교환내역">취소/반품/교환
+						내역</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 거래증빙서류 확인 --%>"
+							mymenuid="0103"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getDealList.do"
+							data-attr="마이페이지^메뉴^거래증빙서류 확인"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=거래증빙서류확인">거래증빙서류
+								확인</a>
+					</li>
 				</ul>
 				<ul class="line">
-					<li class="subMenu"><a href="${pageContext.request.contextPath}/olive/basket.do"
-						mymenuid="0201"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/cart/getCart.do"
-						data-attr="마이페이지^메뉴^장바구니"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=장바구니">장바구니</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}/olive/Like.do"
-						mymenuid="0202"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getWishList.do"
-						data-attr="마이페이지^메뉴^좋아요"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=좋아요">좋아요</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 재입고알림 페이지 --%>"
-						mymenuid="0203"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getReWhsgList.do"
-						data-attr="마이페이지^메뉴^재입고 알림" data-tracking-name="재입고알림 클릭"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=재입고알림">재입고
-							알림</a></li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 장바구니 페이지 --%>"
+							mymenuid="0201"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/cart/getCart.do"
+							data-attr="마이페이지^메뉴^장바구니"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=장바구니">장바구니</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}/mypage/productlike"
+							mymenuid="0202"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getWishList.do"
+							data-attr="마이페이지^메뉴^좋아요"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=좋아요">좋아요</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 재입고알림 페이지 --%>"
+							mymenuid="0203"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getReWhsgList.do"
+							data-attr="마이페이지^메뉴^재입고 알림" data-tracking-name="재입고알림 클릭"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=재입고알림">재입고
+								알림</a>
+					</li>
 				</ul>
 				<ul class="line">
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 기프트카드 페이지 --%>"
-						mymenuid="0300"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/myGiftCard/getMyGiftCard.do"
-						data-attr="마이페이지^메뉴^기프트카드" data-tracking-name="기프트카드 클릭"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=마이월렛_기프트카드">기프트카드</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- CJONE포인트 페이지 --%>"
-						mymenuid="0301"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getCJOnePointInfo.do"
-						data-attr="마이페이지^메뉴^CJ ONE 포인트"
-						data-tracking-name="CJONE포인트 클릭"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=CJONE포인트">CJ
-							ONE 포인트</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 쿠폰 페이지 --%>"
-						mymenuid="0302"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getCouponList.do"
-						data-attr="마이페이지^메뉴^쿠폰"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=쿠폰">쿠폰</a></li>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}<%-- 예치금 페이지 --%>"
-						mymenuid="0303"
-						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getDepositList.do"
-						data-attr="마이페이지^메뉴^예치금"
-						data-tracking-properties="t_page=마이페이지&amp;t_click=마이월렛_예치금">예치금</a></li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 기프트카드 페이지 --%>"
+							mymenuid="0300"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/myGiftCard/getMyGiftCard.do"
+							data-attr="마이페이지^메뉴^기프트카드" data-tracking-name="기프트카드 클릭"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=마이월렛_기프트카드">기프트카드</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- CJONE포인트 페이지 --%>"
+							mymenuid="0301"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getCJOnePointInfo.do"
+							data-attr="마이페이지^메뉴^CJ ONE 포인트"
+							data-tracking-name="CJONE포인트 클릭"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=CJONE포인트">
+							CJ ONE 포인트</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 쿠폰 페이지 --%>"
+							mymenuid="0302"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getCouponList.do"
+							data-attr="마이페이지^메뉴^쿠폰"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=쿠폰">쿠폰</a>
+					</li>
+					<li class="subMenu">
+						<a href="${pageContext.request.contextPath}<%-- 예치금 페이지 --%>"
+							mymenuid="0303"
+							data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getDepositList.do"
+							data-attr="마이페이지^메뉴^예치금"
+							data-tracking-properties="t_page=마이페이지&amp;t_click=마이월렛_예치금">예치금</a>
+					</li>
 
-				</ul></li>
-			<li><h2>마이 활동</h2>
+				</ul>
+				</li>
+			<li>
+			<h2>마이 활동</h2>
 				<ul>
 					<li class="subMenu"><a href="${pageContext.request.contextPath}/olive/pAskList.do"
 						mymenuid="0401"
@@ -82,7 +104,7 @@
 						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getGdasList.do"
 						data-attr="마이페이지^메뉴^리뷰"
 						data-tracking-properties="t_page=마이페이지&amp;t_click=리뷰">리뷰 (<span
-							class="num_review" id="_gdasPossibleTotCnt">${ revc }</span>)<img
+							class="num_review" id="_gdasPossibleTotCnt">${ sideVO }</span>)<img
 							src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon_lnb_new2.png"
 							class="new" id="_newGdasPossible" style="display: none;"
 							alt="신규 리뷰 작성"></a></li>
