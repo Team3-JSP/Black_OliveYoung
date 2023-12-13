@@ -3960,6 +3960,7 @@ ol, ul, li {
 				<input type="hidden" id="popupDataBirth" name="userBirth" value ="${userBirth }"/>
 				<input type="hidden" id="popupDataGender" name="userGender" value ="${userGender }"/>
 				<input type="hidden" id="popupDataTel" name="userTel" value ="${userTel }"/>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 			<!--script 영역-->
 
