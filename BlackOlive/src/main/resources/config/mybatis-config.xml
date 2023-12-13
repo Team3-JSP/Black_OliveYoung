@@ -9,19 +9,19 @@
 	
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
-	
-
-			<!-- <typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" /> -->
+	<!-- 		<typeAlias type="com.blackolive.app.domain.head.CategoryTotalDTO" alias="categoryTotal" /> -->
 
 			<typeAlias type="com.blackolive.app.domain.head.CategoryLargeDTO" alias="categoryLarge" />
 			<typeAlias type="com.blackolive.app.domain.head.CategoryMidDTO" alias="categoryMid" />
 			<typeAlias type="com.blackolive.app.domain.head.CategorySmallDTO" alias="categorySmall" />
 			<typeAlias type="com.blackolive.app.domain.basket.BasketDTO" alias="basketDTO" />
+			<typeAlias type="com.blackolive.app.domain.brandPage.BrandPageDTO" alias="BrandPageDTO" />
 			
 			
 			<!-- productList -->
 			<typeAlias type="com.blackolive.app.domain.productList.BrandDTO" alias="BrandDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.ProductContainer" alias="ProductContainer" />
+			<typeAlias type="com.blackolive.app.domain.signin.OliveUserDTO" alias="OliveUserDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryInfoDTO" alias="CurrentCategoryInfoDTO" />
 			<typeAlias type="com.blackolive.app.domain.productList.CurrentCategoryNameDTO" alias="CurrentCategoryNameDTO" />
 			
@@ -50,10 +50,12 @@
 		
 		<mapper resource="com/blackolive/app/mapper/store/StoreMapper.xml"/>
 		<mapper resource="com/blackolive/app/mapper/basket/BasketMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/brandPage/BrandPageMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
-		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
 
+		<mapper resource="com/blackolive/app/mapper/signin/JoinMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
 		
 	</mappers>
 	

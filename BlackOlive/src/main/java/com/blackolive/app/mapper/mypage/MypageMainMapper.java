@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.MypageHeaderVO;
+import com.blackolive.app.domain.mypage.ProductQnAVO;
 
 
 
@@ -17,5 +19,11 @@ public interface MypageMainMapper {
 	public int getSide(String userid) throws ClassNotFoundException, SQLException;
 	
 	//마이페이지 주문배송 개수 가져오기
-	public Map<String, String> getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException;
+	public DeliveryStatusVO getDeliveryStatus(String userid) throws ClassNotFoundException, SQLException;
+
+	//마이페이지 상품 QnA 목록 가져오기
+	public List<ProductQnAVO> getproductQnA(String userid) throws ClassNotFoundException, SQLException;
+	
+	//마이페이지 상품 QnA 날짜에 따른 목록 가져오기
+	public List<ProductQnAVO> getproductQnAwithDate(String userid, String startdate, String enddate) throws ClassNotFoundException, SQLException;
 }
