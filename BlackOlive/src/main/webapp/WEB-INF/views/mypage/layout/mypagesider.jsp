@@ -107,9 +107,8 @@
 				</ul></li>
 			<li><h2>마이 정보</h2>
 				<ul>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}/olive/usermodify.do"
-						mymenuid="0501"
-						data-ref-linkurl="${pageContext.request.contextPath}/olive/usermodify.do"
+					<li class="subMenu"><a href="${pageContext.request.contextPath}/mypage/usermodify"
+						mymenuid="0501" data-ref-linkurl="${pageContext.request.contextPath}/mypage/usermodify"
 						data-attr="마이페이지^메뉴^회원정보 수정"
 						data-tracking-properties="t_page=마이페이지&amp;t_click=회원정보수정">회원정보
 							수정</a></li>

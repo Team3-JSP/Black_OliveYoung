@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.MypageHeaderVO;
 import com.blackolive.app.domain.mypage.OrderDeliveryVO;
+import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.service.mypage.MypageLayoutService;
 import com.blackolive.app.service.mypage.MypageMainService;
 import com.blackolive.app.service.mypage.MypageMainServiceImpl;
@@ -26,6 +27,7 @@ import com.blackolive.app.service.mypage.MypageOrderDeliveryService;
 import lombok.extern.log4j.Log4j;
 
 @Controller
+@Log4j
 @RequestMapping("/mypage/*")
 public class MypageMainController {
 	
@@ -121,10 +123,6 @@ public class MypageMainController {
 
 		return "mypage.orderdelivery";
 	}
-	
-	
-	
-	
-	
-	
+
+
 }

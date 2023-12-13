@@ -38,6 +38,7 @@
 		
 		<mapper resource="com/blackolive/app/mapper/productList/ProductListMapper.xml"/>
 		<mapper resource="com/blackolive/app/mapper/signin/JoinMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/usermodify/UsermodifyMapper.xml"/>
 		
 	</mappers>
 	

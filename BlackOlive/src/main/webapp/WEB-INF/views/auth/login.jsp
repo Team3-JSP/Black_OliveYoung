@@ -12,6 +12,7 @@ $(document).ready(function() {
 	if (error == "true") {
 		alert("아이디 또는 패스워드가 일치하지 않습니다.");
 	};
+	
 });
 </script>
 <div id="Container" class="bgf6">
