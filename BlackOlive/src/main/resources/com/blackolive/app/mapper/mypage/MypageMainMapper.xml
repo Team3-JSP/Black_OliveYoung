@@ -72,7 +72,15 @@
 			AND order_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
 	</select>
 	
-
-
-
+	<!-- public List<ProductQnAVO> getproductQnA(String userid) throws ClassNotFoundException, SQLException; -->
+	<select id="getproductQnA" resultType="java.util.List">
+		
+	</select>
+	
+	<!-- public List<ProductQnAVO> getproductQnAwithDate(String userid, String startdate, String enddate) throws ClassNotFoundException, SQLException; -->
+	<select id="getproductQnAwithDate" resultType="java.util.List">
+		
+	</select>
+	
+	
 </mapper>
