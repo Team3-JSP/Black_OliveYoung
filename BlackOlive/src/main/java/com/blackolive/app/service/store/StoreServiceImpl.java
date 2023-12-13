@@ -2,10 +2,9 @@ package com.blackolive.app.service.store;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
@@ -64,6 +63,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<StoreDTO> getStoreService(String tcs, String pss, String keyword) {
 		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword);
+	}
+
+	@Override
+	public List<ProductContainer> getProductNameList(String keyword) {
+		return this.storeMapper.selectProductName(keyword);
 	}
 
 //	@Override

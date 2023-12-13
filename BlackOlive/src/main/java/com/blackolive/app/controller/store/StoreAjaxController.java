@@ -4,16 +4,14 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
 import com.blackolive.app.service.store.StoreService;
@@ -58,5 +56,10 @@ public class StoreAjaxController {
 	@PostMapping("/getInterestShopList")
 	public ResponseEntity<List<StoreDTO>> getInterestShop(String[] tcs, String[] pss, Principal principal) {
 		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(String.join(",", tcs), String.join(",", pss), principal.getName()), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProductName/{keyword}")
+	public ResponseEntity<List<ProductContainer>> getProductName(@PathVariable String keyword) {
+		return new ResponseEntity<List<ProductContainer>>(this.storeService.getProductNameList(keyword), HttpStatus.OK);
 	}
 }

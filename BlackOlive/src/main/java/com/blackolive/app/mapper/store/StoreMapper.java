@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
@@ -31,4 +32,6 @@ public interface StoreMapper {
 	// List<StoreDTO> selectStoreCondition(@Param("tcs") String tcs, @Param("pss") String pss, @Param("keyword") String keyword); // 매장 검색 옵션 + 키워드
 	
 	int selectStoreCnt(); // 검색 된 매장 전체 수
+
+	List<ProductContainer> selectProductName(String keyword); // 해당 키워드 상품 이름 리스트
 }
