@@ -10,38 +10,38 @@
 			<div class="page_location">
 				<a href="#" class="loc_home">홈</a>
 				<ul class="loc_history">
-					<li><a href="#" class="cate_y" id="midCatNm">${allCategoryDTO.catLName}</a>
+					<li><a href="#" class="cate_y" id="midCatNm">${allCategoryDTO.categoryLargeName}</a>
 						<div class="history_cate_box" style="width: 242px;">
 							<ul>
 								<c:if test="${not empty categoryLargeList }">
 									<c:forEach items="${categoryLargeList}" var="cll">
-										<li id="${cll.cLId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${cll.cLId}"
-											class="goods_category1" data-deleteSession>${cll.cLName}</a></li>
+										<li id="${cll.categoryLargeId}"><a
+											href="/view/product/pmidlistproduct.do?displNum=${cll.categoryLargeId}"
+											class="goods_category1" data-deleteSession>${cll.categoryLargeName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y" id="smlCatNm">${allCategoryDTO.catMName}</a>
+					<li><a href="#" class="cate_y" id="smlCatNm">${allCategoryDTO.categoryMidName}</a>
 						<div class="history_cate_box" style="width: 122px;">
 							<ul>
 								<c:if test="${not empty categoryMidList}">
 									<c:forEach items="${categoryMidList}" var="cml">
-										<li id="${cml.cmId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${cml.cmId}&sort=1"
-											class="goods_category2" data-deleteSession>${cml.cmName}</a></li>
+										<li id="${cml.categoryMidId}"><a
+											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.categoryLargeId}${cml.categoryMidId}&sort=1"
+											class="goods_category2" data-deleteSession>${cml.categoryMidName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
 						</div></li>
-					<li><a href="#" class="cate_y" id="dtlCatNm">${allCategoryDTO.catSName}</a>
+					<li><a href="#" class="cate_y" id="dtlCatNm">${allCategoryDTO.categorySmallName}</a>
 						<div class="history_cate_box" style="width: 122px;">
 							<ul>
 								<c:if test="${not empty categorySmallList}">
 									<c:forEach items="${categorySmallList}" var="csl">
-										<li id="${csl.csId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${allCategoryDTO.catMId}${csl.csId}&sort=1"
-											class="goods_category3" data-deleteSession>${csl.csName}</a></li>
+										<li id="${csl.categorySmallId}"><a
+											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${allCategoryDTO.categoryMidId}${csl.categorySmallId}&sort=1"
+											class="goods_category3" data-deleteSession>${csl.categorySmallName}</a></li>
 									</c:forEach>
 								</c:if>
 							</ul>
@@ -54,7 +54,7 @@
 			<div class="prd_detail_box renew">
 				<div class="left_area">
 					<div class="prd_img">
-						<img id="mainImg" src="${productDisplayImgs[0].proDImgSrc }" alt="상품명 이미지"
+						<img id="mainImg" src="${productDisplayImgs[0].productDisplaySrc}" alt="상품명 이미지"
 							onerror=""> <input type="hidden" id="mainImgSize"
 							value="550">
 
@@ -68,7 +68,7 @@
 						<c:if test="${not empty productDisplayImgs}">
 							<c:forEach items="${productDisplayImgs}" var="pdi">
 								<li class="sel"><a href="#"><img
-										src="${pdi.proDImgSrc}" alt="썸네일 이미지"></a></li>
+										src="${pdi.productDisplaySrc}" alt="썸네일 이미지"></a></li>
 							</c:forEach>
 
 						</c:if>
@@ -101,16 +101,16 @@
 							<a href=".do?brandId=${productList[0].brandId}" id="moveBrandShop"
 								class="pd_arrow_link">${productList[0].brandName}</a>
 						</p>
-						<p class="prd_name">${productList[0].displName }</p>
+						<p class="prd_name">${productList[0].productDisplayName }</p>
 						<!-- 202005 상품개선 : 추가 -->
 						<div class="price">
 							<span class="price-1"> <strike><fmt:formatNumber
-										value="${productList[0].lowPrice}" pattern="#,###" /> </strike> <span>원</span>
+										value="${productList[0].minPrice}" pattern="#,###" /> </strike> <span>원</span>
 							</span> <span class="price-2"> <strong><fmt:formatNumber
 										value="${productList[0].afterPrice}" pattern="#,###" /></strong> <span>원</span>
 							</span>
 							<c:if
-								test="${not empty productPromotion.promoDId or not empty productPromotion.promoCId}">
+								test="${not empty productPromotion.promotionDiscountId or not empty productPromotion.promotionCouponId}">
 								<button type="button" id="btnSaleOpen" class="btn_more">혜택
 									정보</button>
 							</c:if>
@@ -121,24 +121,24 @@
 									<div class="list">
 										<div class="flex-item">
 											<span class="label">판매가</span> <span class="price"><fmt:formatNumber
-													value="${productList[0].lowPrice}" pattern="#,###" /><em>원</em></span>
+													value="${productList[0].minPrice}" pattern="#,###" /><em>원</em></span>
 										</div>
-										<c:if test="${not empty productPromotion.promoDId}">
+										<c:if test="${not empty productPromotion.promotionDiscountId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">세일 (${productPromotion.promoDS} ~
-														${productPromotion.promoDE })</span> <span class="price"><fmt:formatNumber
-															value="${productPromotion.promoDdis}" pattern="#,###" /><em>원</em></span>
+													<span class="label">세일 (${productPromotion.promotionDiscountStartDay} ~
+														${productPromotion.promotionDiscountEndDay })</span> <span class="price"><fmt:formatNumber
+															value="${productPromotion.promotionDiscountPrice}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
-										<c:if test="${not empty productPromotion.promoCId}">
+										<c:if test="${not empty productPromotion.promotionCouponId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">${productPromotion.promoCName }
-														(${productPromotion.promoCS}~ ${productPromotion.promoCE})</span> <span
+													<span class="label">${productPromotion.promotionCouponName }
+														(${productPromotion.promotionCouponStartDay}~ ${productPromotion.promotionCouponEndDay})</span> <span
 														class="price">-<fmt:formatNumber
-															value="${productPromotion.cpdis}" pattern="#,###" /><em>원</em></span>
+															value="${productPromotion.promotionCouponDiscount}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
@@ -156,17 +156,17 @@
 							</div>
 						</div>
 						<p class="prd_flag" id="icon_area">
-							<c:if test="${productList[0].prd eq 1}">
+							<c:if test="${productList[0].discountflag eq 1}">
 								<span class="icon_flag sale">세일</span>
 							</c:if>
-							<c:if test="${productList[0].prc eq 1}">
+							<c:if test="${productList[0].couponflag eq 1}">
 								<span class="icon_flag coupon">쿠폰</span>
 							</c:if>
 							<!-- 기간계 상품, 브랜드 증정품만 아이콘 노출 -->
-							<c:if test="${productList[0].prp eq 1}">
+							<c:if test="${productList[0].presentflag eq 1}">
 								<span class="icon_flag gift" id="free_gift">증정</span>
 							</c:if>
-							<c:if test="${productList[0].stock eq 1}">
+							<c:if test="${productList[0].todayPickupflag eq 1}">
 								<span class="icon_flag delivery" id="quick_yn">오늘드림</span>
 							</c:if>
 
@@ -264,38 +264,38 @@
 									<!-- 혜택 아이콘 li 분기 시작 -->
 									<c:forEach items="${productList}" var="pll">
 										<li
-											class="type1 <c:if test="${pll.proStock eq 0 }">soldout</c:if>">
+											class="type1 <c:if test="${pll.productStock eq 0 }">soldout</c:if>">
 
 											<a style="cursor: pointer" href="#" id="LinkId${pll.proId}"
-											onclick="displayDiv('${pll.proId}'); Test2();"> <span
-												class="color"> <img alt="상품이미지" src="${pll.proImg}">
+											onclick="displayDiv('${pll.productId}'); Test2();"> <span
+												class="color"> <img alt="상품이미지" src="${pll.productDisplaySrc}">
 											</span>
 												<div class="set">
 													<c:if test="${pll.proStock ne 0 }">
-														<span class="option_value"> ${pll.proName} <span
+														<span class="option_value"> ${pll.productDisplayName} <span
 															class="option_price"> <span class="tx_num">
-																	<fmt:formatNumber value="${pll.pafterPrice}"
+																	<fmt:formatNumber value="${pll.afterPrice}"
 																		pattern="#,###" />원
 															</span>
 														</span>
 														</span>
-														<c:if test="${pll.stock eq 1}">
+														<c:if test="${pll.todayPickupflag eq 1}">
 															<span class="icon_flag delivery">오늘드림</span>
 														</c:if>
 													</c:if>
-													<c:if test="${pll.proStock eq 0 }">
+													<c:if test="${pll.productStock eq 0 }">
 
-														<span class="option_value">(품절) ${pll.proName}</span>
+														<span class="option_value">(품절) ${pll.productDisplayName}</span>
 														<div class="btn_restock">
 															<button
 																onclick=""
 																class="restock_alarm">
 																<span
-																	data-attr="상품상세^재입고알림^[한정기획] 에스티 로더 갈색병 30ml 기획 (2023 홀리데이 에디션) "
+																	data-attr=""
 																	data-trk="/">재입고알림</span>
 															</button>
 															<button
-																onclick="javascript:goods.detail.restockMorePop('887167665972');"
+																onclick=""
 																class="restock_more">
 																<span>추천상품보기</span>
 															</button>
@@ -322,34 +322,34 @@
 
 							<div class="option_add_area pkg_goods_n">
 								<c:forEach items="${productList}" var="pli">
-									<div class="prd_cnt_box ${pli.proId} no_prom" id="${pli.proId}"
+									<div class="prd_cnt_box ${pli.productId} no_prom" id="${pli.productId}"
 										promno="" infnselimpsyn="N" style="display: none">
-										<input type="hidden" id="itemInv_${pli.proId}"
-											value="${pli.proStock}"> <input type="hidden"
-											id="itemMinQty_${pli.proId}" value="1"> <input
-											type="hidden" id="itemMaxQty_${pli.proId}" value="10">
+										<input type="hidden" id="itemInv_${pli.productId}"
+											value="${pli.productStock}"> <input type="hidden"
+											id="itemMinQty_${pli.productId}" value="1"> <input
+											type="hidden" id="itemMaxQty_${pli.productId}" value="10">
 										<input type="hidden" name="itemNo" value="001"> <input
-											type="hidden" name="sGoodsNo" value="${pli.proId}"> <input
+											type="hidden" name="sGoodsNo" value="${pli.productId}"> <input
 											type="hidden" name="itemPrsntYn" value="N"> <input
 											type="hidden" id="quickYn_A000000188803001" value="N">
 										<input type="hidden" id="itemSalePrc_A000000188803001"
-											value="${pli.pafterPrice }">
+											value="${pli.afterPrice }">
 										<div class="tit_area">
-											<span>${pli.proName} <c:if test="${pli.stock eq 1 }">
+											<span>${pli.productDisplayName} <c:if test="${pli.todayPickupflag eq 1 }">
 													<span class="icon_flag delivery">오늘드림</span>
 												</c:if>
 											</span> <span class="option_cnt_box">
-												<button class="btnCalc minus" id="${pli.proId}">수량
-													1감소</button> <input type="text" id="input_${pli.proId}" name=""
+												<button class="btnCalc minus" id="${pli.productId}">수량
+													1감소</button> <input type="text" id="input_${pli.productId}" name=""
 												value="0" class="tx_num" title="구매수량"
-												data-price="${pli.pafterPrice}">
-												<button class="btnCalc plus" id="${pli.proId}">수량
+												data-price="${pli.afterPrice}">
+												<button class="btnCalc plus" id="${pli.productId}">수량
 													1증가</button>
 											</span>
 										</div>
 										<div class="cont_area">
 											<span class="option_price"> <span class="tx_num">
-													<fmt:formatNumber value="${pli.pafterPrice}"
+													<fmt:formatNumber value="${pli.afterPrice}"
 														pattern="#,###" />
 											</span>원
 											</span> <a href="#" class="btn_opt_del">선택한 옵션 삭제</a>
@@ -365,11 +365,11 @@
 						</c:if>
 						<c:if test="${productList.size() eq 1}">
 							<c:forEach items="${productList }" var="list">
-								<input type="hidden" id="pro_id" value="${list.proId}" />
+								<input type="hidden" id="pro_id" value="${list.productId}" />
 							</c:forEach>
 							<div class="option_add_area">
 								<div
-									class="prd_cnt_box <c:if test="${productList[0].proStock eq 0 }">disabled</c:if>">
+									class="prd_cnt_box <c:if test="${productList[0].productStock eq 0 }">disabled</c:if>">
 
 									<div class="tit_area">
 										<span>구매수량</span>
@@ -466,7 +466,7 @@
 						<div class="prd_btn_area new-style type1">
 							<c:if test="${productList.size() eq 1}">
 								<c:choose>
-									<c:when test="${productList[0].proStock eq 0 }">
+									<c:when test="${productList[0].productStock eq 0 }">
 										<button class="btnSoldout recoPopBtn temprecobell">
 											일시품절
 											<div class="moreBtn">
@@ -750,7 +750,7 @@
                         </c:if>
 						<c:if test="${not empty productExplainImgs}">
 							<c:forEach items="${productExplainImgs}" var="exi">
-								<img alt="" src="${exi.exImgSrc }">
+								<img alt="" src="${exi.productExplainationImgSrc }">
 							</c:forEach>
 						</c:if>
 					</div>
@@ -783,6 +783,8 @@
 				<div id="kcInfo"></div>
 				<!-- 상품정보 -->
 				<div id="artcInfo">
+					<c:if test="">
+					</c:if>
 					<dl class="detail_info_list">
 					</dl>
 					<dl class="detail_info_list">
