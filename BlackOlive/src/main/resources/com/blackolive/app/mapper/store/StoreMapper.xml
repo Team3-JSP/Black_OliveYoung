@@ -16,17 +16,35 @@
 		WHERE city_id = #{city_id}
 	</select>
 
-	<select id="selectAllStore" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectAllStore" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 	</select>
 	
-	<select id="selectStoreList" resultType="com.blackolive.app.domain.store.StoreDTO">
-		<![CDATA[
+	<select id="selectStoreList" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		WHERE store_address LIKE '%' || #{city} || ' ' || #{district} || '%'
-		]]>
+		<trim prefix="where" prefixOverrides="AND | OR">
+			<if test="city != '' or district != ''">
+				AND store_address LIKE '%' || #{city} || ' ' || #{district} || '%'
+			</if>
+			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
+				<if test="tcs != null and tcs != ''">
+					OR s.store_id IN ( 
+				        SELECT DISTINCT(store_id)
+				        FROM handling_store
+				        WHERE category_id IN (${tcs})
+					)
+				</if>
+				<if test="pss != null and pss != ''">
+					OR s.store_id IN (
+				        SELECT DISTINCT(store_id)
+				        FROM store_service
+				        WHERE olive_service_id IN (${pss})
+					)
+				</if>
+			</trim>
+		</trim>
 	</select>
 	
 	<update id="updateStoreFavorite">
@@ -45,31 +63,67 @@
 		WHERE user_id=#{param1} AND store_id=#{param2}
 	</delete>
 	
-	<select id="selectInterestShop">
+	<select id="selectInterestShop" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		JOIN interest_shop a ON s.store_id = a.store_id
-		WHERE user_id = #{userId};
+		JOIN interest_shop i ON s.store_id = i.store_id
+		WHERE user_id = #{userId}
+		<trim prefix="AND (" prefixOverrides="OR" suffix=")">
+			<if test="tcs != null and tcs != ''">
+				OR s.store_id IN ( 
+					SELECT DISTINCT(store_id)
+				    FROM handling_store
+				    WHERE category_id IN (${tcs})
+				)
+			</if>
+			<if test="pss != null and pss != ''">
+				OR s.store_id IN (
+					SELECT DISTINCT(store_id)
+				    FROM store_service
+				    WHERE olive_service_id IN (${pss})
+				)
+			</if>
+		</trim>
+		
 	</select>
 	
-	<select id="selectStoreKeyword" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<!-- <select id="selectStoreKeyword" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		WHERE store_address LIKE '%'||#{param1}||'%' OR store_name LIKE '%'||#{param1}||'%'
-	</select>
+	</select> -->
 
-	<select id="selectStoreCondition" resultType="com.blackolive.app.domain.store.StoreDTO">
+	<select id="selectStoreKeyword" resultType="StoreDTO">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		<!-- WHERE (s.store_id IN ( 
-		        SELECT DISTINCT(store_id)
-		        FROM handling_store
-		        WHERE category_id IN (1, 2)
-		) OR s.store_id IN (
-		        SELECT DISTINCT(store_id)
-		        FROM store_service
-		        WHERE olive_service_id IN (1, 2)
-		)) AND store_address LIKE '%가평%' OR store_name LIKE '%가평%'; -->
+		<trim prefix="where" prefixOverrides="AND | OR">
+			<if test="keyword != ''">
+				AND (store_address LIKE '%' || #{keyword}  ||'%' OR store_name LIKE '%' || #{keyword} || '%')
+			</if>
+			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
+				<if test="tcs != null and tcs != ''">
+					OR s.store_id IN ( 
+				        SELECT DISTINCT(store_id)
+				        FROM handling_store
+				        WHERE category_id IN (${tcs})
+					)
+				</if>
+				<if test="pss != null and pss != ''">
+					OR s.store_id IN (
+				        SELECT DISTINCT(store_id)
+				        FROM store_service
+				        WHERE olive_service_id IN (${pss})
+					)
+				</if>
+			</trim>
+		</trim>
+	</select>
+	
+	<select id="selectProductName" resultType="ProductContainer">
+		SELECT *
+		FROM productcontainer
+		WHERE product_display_name LIKE '%' || #{keyword} || '%'
+		ORDER BY LENGTH(product_display_name)
 	</select>
 
 </mapper>
