@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 						
 <form id="detail-form" name="detailForm">
-<c:forEach items="${ orderVO }" var="order">
+<%-- <c:forEach items="${ orderVO }" var="order"> --%>
 	
 	<div class="title-area linezero">
 		<h2 class="tit">상세정보</h2>
@@ -13,10 +14,14 @@
 
 	<ul class="infor-data mypage-flag-apply">
 		<li>
-			<span>주문일자&nbsp;&nbsp;:</span> <strong>${ order.uodDate }</strong>
+			<span>주문일자&nbsp;&nbsp;:</span> 
+			<strong>
+				<fmt:formatDate value="${ orderVO.orderDate }" pattern="yyyy.MM.dd" var="orderdate"/>
+				${ orderdate }
+			</strong>
 		</li>
 		<li>
-			<span>주문번호&nbsp;&nbsp;:</span> <strong>${ order.uodOrderId }</strong>
+			<span>주문번호&nbsp;&nbsp;:</span> <strong>${ orderVO.orderId }</strong>
 
 		</li>
 
@@ -52,32 +57,32 @@
 						<a class="thum"
 							href="<%-- 상품상세페이지 이동 --%>">
 							<img
-							src="${ order.uodDisplsrc }"
-							alt="${ order.uodDisplN }"
+							src="${ orderVO.productDisplaySrc }"
+							alt="${ orderVO.productDisplayName }"
 							onerror="common.errorImg(this);">
 						</a>
 						<div class="textus" style="width: 68%;">
 							<a class=""
 								href="<%-- 상품상세페이지 이동 --%>">
-								<span class="tit">${ order.uodBrand }</span> 
-								<span class="txt">${ order.uodDisplN }</span>
+								<span class="tit">${ orderVO.brandName }</span> 
+								<span class="txt">${ orderVO.productDisplayName }</span>
 							</a>
 
 						</div>
 
 					</div>
 				</td>
-				<td class="colorBlack"><strong>${ order.uodProPrice }</strong> 원</td>
-				<td>${ order.uodamount }</td>
-				<td class="colorOrange"><strong>${ order.uodorderPrice }</strong> 원</td>
+				<td class="colorBlack"><strong>${ orderVO.productPrice }</strong> 원</td>
+				<td>${ orderVO.productCnt }</td>
+				<td class="colorOrange"><strong>${ orderVO.totalPrice }</strong> 원</td>
 
-				<td class="bgnone"><strong>${ order.uodState }</strong> 
+				<td class="bgnone"><strong>${ orderVO.orderStatus }</strong> 
 				
-				<c:if test="${ fn:contains(order.uodState, '환불') }">
-				<span class="color1sSize">처리일시<br>${ order.uodRFdate }
+				<c:if test="${ fn:contains(orderVO.orderStatus, '환불') }">
+				<span class="color1sSize">처리일시<br>${ orderVO.refundDate }
 				</span>
 					<button type="button" class="BtnDelete"
-						data-ord-no="${ order.uodOrderId }" data-ord-goods-seq="1"
+						data-ord-no="${ orderVO.orderId }" data-ord-goods-seq="1"
 						data-cnsl-ord-proc-seq="0" data-ord-dtl-sct-cd="20"
 						data-chg-accp-sct-cd=""
 						onclick="<%-- 환불사유 자세히 보기 모달창 스크립트 --%>">자세히
@@ -91,7 +96,7 @@
 
 		</tbody>
 	</table>
-	</c:forEach>
+	<%-- </c:forEach> --%>
 	
 	
 	<div class="area-over mgT20">
@@ -102,9 +107,9 @@
 	</div>
 
 	<c:choose>
-		<c:when test="${ not empty deliveryList }">
+		<c:when test="${ not empty deliveryVO }">
 			
-			<c:forEach items="${ deliveryList }" var="odv">
+			<%-- <c:forEach items="${ deliveryVO }" var="delivery"> --%>
 	
 				<table class="board-write-2s view">
 					<caption>배송지 정보 보기</caption>
@@ -118,18 +123,26 @@
 
 						<tr>
 							<th scope="row">받는분</th>
-							<td colspan="3">${ odv.uodRecip }</td>
+							<td colspan="3">${ deliveryVO.deliveryRecipient }</td>
 						</tr>
 
 						<tr>
 							<th scope="row">연락처1</th>
-							<td colspan="3">${ odv.uodTel1 }<br/></td> 
+							<td colspan="3">${ deliveryVO.deliveryTel }<br/></td> 
 						</tr>
+						
+						<c:if test="${ not empty deliveryVO.deliveryTel2 }">						
+						<tr>
+							<th scope="row">연락처2</th>
+							<td colspan="3">${ deliveryVO.deliveryTel2 }<br/></td> 
+						</tr>
+						</c:if>
+						
 						
 						<tr class="addr">
 							<th scope="row">주소</th>
-							<td colspan="3">(${ odv.uodZip })<br>도로명 : ${ odv.uodRAddr } ${ odv.uodBAddr }<br> 
-							<span class="data">지&nbsp; &nbsp;번 : ${ odv.uodAddr } ${ odv.uodBAddr }</span>
+							<td colspan="3">(${ deliveryVO.deliveryZipcode })<br>도로명 : ${ deliveryVO.deliveryRoadAddr } ${ deliveryVO.deliveryDetailAddr }<br> 
+							<span class="data">지&nbsp; &nbsp;번 : ${ deliveryVO.deliveryAddr } ${ deliveryVO.deliveryDetailAddr }</span>
 							</td>
 						</tr>
 					</tbody>
@@ -149,16 +162,24 @@
 						<col style="width:30%;">
 					</colgroup>
 					<tbody>
-						<c:if test="${ not empty odv.uodMsg }">
+					<c:choose>
+						<c:when test="${ not empty deliveryVO.deliveryMsg }">
 							<tr>
 								<th scope="row">배송 메시지</th>
-								<td colspan="3">${ odv.uodMsg }</td>
+								<td colspan="3">${ deliveryVO.deliveryMsg }</td>
 							</tr>
-						</c:if>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<th scope="row">배송 메시지</th>
+								<td colspan="3">부재시 문앞에 놓아주세요.</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
 					</tbody>
 
 				</table>
-				</c:forEach>
+				<%-- </c:forEach> --%>
 						
 		</c:when>
 		<c:otherwise>
@@ -189,7 +210,7 @@
 
 
 	<h3 class="sub-title3">결제 정보</h3>
-	<c:forEach items="${ paymentList }" var="pl">
+	<%-- <c:forEach items="${ paymentVO }" var="payment"> --%>
 
 	<div class="price-conts">
 		<ul class="list ">
@@ -197,13 +218,13 @@
 				<dl>
 					<dt>주문금액</dt>
 					<dd>
-						${ pl.uodOrderPrice }<em>원</em>
+						${ paymentVO.orderPrice }<em>원</em>
 					</dd>
 				</dl>
 				<ul>
-					<li><span class="txt">총 상품금액</span> <span class="won">${ pl.uodProPrice }<em>원</em></span>
+					<li><span class="txt">총 상품금액</span> <span class="won">${ paymentVO.totalPrice }<em>원</em></span>
 					</li>
-					<li><span class="txt">총 배송비</span> <span class="won">${ pl.uodDeliPrice }<em>원</em></span>
+					<li><span class="txt">총 배송비</span> <span class="won">${ paymentVO.deliveryPrice }<em>원</em></span>
 					</li>
 
 				</ul>
@@ -214,7 +235,7 @@
 				<dl>
 					<dt>쿠폰할인금액</dt>
 					<dd>
-						${ pl.uodCouponPrice }<em>원</em>
+						${ paymentVO.couponDiscountPrice }<em>원</em>
 					</dd>
 				</dl>
 				<ul>
@@ -226,7 +247,7 @@
 				<dl>
 					<dt>포인트 및 기타결제</dt>
 					<dd>
-						${ pl.uodEtcPrice }<em>원</em>
+						${ paymentVO.pointPrice }<em>원</em>
 					</dd>
 				</dl>
 				<ul>
@@ -242,20 +263,20 @@
 
 		<div class="price-sum">
 			<div>
-				<strong>총 결제금액</strong><span>${ pl.uodPayPrice }<em>원</em></span>
+				<strong>총 결제금액</strong><span>${ paymentVO.orderPrice }<em>원</em></span>
 			</div>
 
 
 			<c:choose>
-				<c:when test="${ not empty pl.uodCardType }">
-					<span class="txt">${ pl.uodCardType } 
+				<c:when test="${ not empty paymentVO.cardType }">
+					<span class="txt">${ paymentVO.cardType } 
 					
 					<c:choose>
-						<c:when test="${ pl.uodInstType eq 0 }">
+						<c:when test="${ paymentVO.installmentType eq 0 }">
 						일시불
 						</c:when>
 						<c:otherwise>
-							${ pl.uodInstType }
+							${ paymentVO.installmentType }
 						</c:otherwise>
 					</c:choose>
 					
@@ -263,7 +284,7 @@
 					</span>
 				</c:when>
 				<c:otherwise>
-					${ pl.uodPayType }
+					${ paymentVO.paymentType }
 				</c:otherwise>
 			</c:choose>
 			
@@ -275,7 +296,7 @@
 	</div>
 
 
-	<c:if test="${ not empty pl.uodRFPrice }">
+	<c:if test="${ not empty paymentVO.refundPrice }">
 	<h3 class="sub-title3">환불내역</h3>
 	<div class="price-conts twoType">
 		<ul class="list lineBzero">
@@ -284,15 +305,15 @@
 					<dt>취소 금액</dt>
 
 					<dd>
-						${ pl.uodPayPrice }<em>원</em>
+						${ paymentVO.orderPrice }<em>원</em>
 					</dd>
 
 				</dl>
 				<ul>
-					<li><span class="txt">취소 상품금액</span> <span class="won">${ pl.uodProPrice }<em>원</em></span>
+					<li><span class="txt">취소 상품금액</span> <span class="won">${ paymentVO.totalPrice }<em>원</em></span>
 					</li>
 
-					<li><span class="txt">취소 배송비</span> <span class="won">${ pl.uodDeliPrice }<em>원</em></span>
+					<li><span class="txt">취소 배송비</span> <span class="won">${ paymentVO.deliveryPrice }<em>원</em></span>
 
 					</li>
 
@@ -304,7 +325,7 @@
 					<dt>포인트 및 기타결제 반환</dt>
 
 					<dd>
-						${ pl.uodEtcPrice }<em>원</em>
+						${ paymentVO.couponDiscountPrice }<em>원</em>
 					</dd>
 
 				</dl>
@@ -318,26 +339,26 @@
 			<div>
 				<button type="button" class="ButtonBasic"
 					onclick="<%-- 환불이력을 알려주는 모달창 스크립트 --%>">환불이력</button>
-				<strong>환불금액</strong><span>${ pl.uodRFPrice }<em>원</em></span>
+				<strong>환불금액</strong><span>${ paymentVO.refundPrice }<em>원</em></span>
 			</div>
 
 			<c:choose>
 			
-				<c:when test="${ not empty pl.uodCardType }">
-					<span class="txt">${ pl.uodCardType }
+				<c:when test="${ not empty paymentVO.cardType }">
+					<span class="txt">${ paymentVO.cardType }
 						<c:choose>
-							<c:when test="${ pl.uodInstType eq 0 }">
+							<c:when test="${ paymentVO.installmentType eq 0 }">
 							일시불
 							</c:when>
 							<c:otherwise>
-								${ pl.uodInstType }
+								${ paymentVO.installmentType }
 							</c:otherwise>
 						</c:choose>
 						 취소
 					</span>
 				</c:when>
 				<c:otherwise>
-					<span class="txt">${ pl.uodPayType } 취소</span>
+					<span class="txt">${ paymentVO.paymentType } 취소</span>
 				</c:otherwise>
 				
 			</c:choose>
@@ -347,15 +368,13 @@
 	</div>
 	
 	</c:if>
-		</c:forEach>
+		<%-- </c:forEach> --%>
 		
 
 	<div class="area1sButton mgT40">
-		<a href="<%=contextPath %>/olive/orderDelivery.do" class="btnGray">목록</a>
+		<a href="<%=contextPath %>/mypage/orderdelivery" class="btnGray">목록</a>
 	</div>
 	
-
-</form>
 <%-- 
 모달창
 				<div class="popup-contents2 w500">
@@ -379,7 +398,7 @@
 										<tbody>
 											<tr>
 												<th scope="row">사유</th>
-												<td>고객단순변심</td>
+												<td>${ paymentVO.refundReason }</td>
 											</tr>
 										</tbody>
 									</table>
@@ -394,4 +413,6 @@
 						<button type="button" class="ButtonClose" onclick="fnLayerSet('layer_pop_wrap', 'close');">팝업창 닫기</button>
 					</div>
 				</div>
---%>												
+--%>	
+</form>
+											

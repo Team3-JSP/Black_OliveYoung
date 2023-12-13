@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeliveryVO {
 	
+	private String deliveryId;
 	private String deliveryRecipient;	//받는사람
 	private String deliveryTel;			//연락처1
 	private String deliveryTel2;		//연락처2
@@ -16,7 +17,7 @@ public class DeliveryVO {
 	private String deliveryRoadAddr;	//도로명주소
 	private String deliveryAddr;		//지번주소
 	private String deliveryDetailAddr;	//상세주소
-	private String RequestContent;		//배송메세지
+	private String deliveryMsg;			//배송메세지
 	
 	
 }

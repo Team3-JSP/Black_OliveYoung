@@ -2,12 +2,8 @@ package com.blackolive.app.controller.mypage;
 
 import java.security.Principal;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +16,11 @@ import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.DeliveryVO;
 import com.blackolive.app.domain.mypage.MypageHeaderVO;
 import com.blackolive.app.domain.mypage.OrderVO;
+import com.blackolive.app.domain.mypage.PaymentVO;
 import com.blackolive.app.domain.mypage.ProductLikeVO;
 import com.blackolive.app.service.mypage.MypageLayoutService;
 import com.blackolive.app.service.mypage.MypageLikeService;
 import com.blackolive.app.service.mypage.MypageMainService;
-import com.blackolive.app.service.mypage.MypageMainServiceImpl;
 import com.blackolive.app.service.mypage.MypageOrderDeliveryService;
 
 import lombok.extern.log4j.Log4j;
@@ -137,13 +133,14 @@ public class MypageMainController {
 		return "mypage.orderdelivery";
 	}
 	
+	//주문 상세보기 
 	@GetMapping("/orderdeliverydetail")
 	public String orderdeliverydetailcontroller(
 				@RequestParam("orderId") String orderId,
 				Principal principal,
 				Model model
 			) throws ClassNotFoundException, SQLException {
-		log.info("> orderdeliverydetail GET");
+		log.info("> orderdeliverydetail GET,  orderId = " + orderId);
 		
 		//모듈 DB 데이터 가져오기
 		String userid = principal.getName();
@@ -162,7 +159,9 @@ public class MypageMainController {
 		DeliveryVO deliveryVO = this.orderDeliveryService.deliveryservice(orderId);
 		model.addAttribute("deliveryVO", deliveryVO);
 		
-		
+		//결제 상세정보
+		PaymentVO paymentVO = this.orderDeliveryService.paymentservice(orderId);
+		model.addAttribute("paymentVO", paymentVO);
 		
 		return "mypage.orderdeliverydetail";
 	}
