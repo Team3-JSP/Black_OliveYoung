@@ -17,8 +17,11 @@ import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
+import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.mapper.review.ReviewMapper;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
+import com.blackolive.app.service.review.ReviewService;
 
 import lombok.AllArgsConstructor;
 
@@ -29,6 +32,7 @@ public class ProductDetailController {
 	
 	private ProductDetailService productDetailService;
 	private ProductListService productListService;
+	private ReviewService reviewService;
 	
 	@GetMapping()
 	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
@@ -65,7 +69,8 @@ public class ProductDetailController {
 		model.addAttribute("productExplainImgs", productExplainImgs);
 		
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
-		
+		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, "02", "All", 1, 1);
+		model.addAttribute("reviewlist",reviewlist);
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
 		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
 		model.addAttribute("productBrandInfo", productBrandInfo);
