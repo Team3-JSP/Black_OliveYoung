@@ -18,6 +18,7 @@ import com.blackolive.app.domain.mypage.MypageHeaderVO;
 import com.blackolive.app.domain.mypage.OrderVO;
 import com.blackolive.app.domain.mypage.PaymentVO;
 import com.blackolive.app.domain.mypage.ProductLikeVO;
+import com.blackolive.app.domain.mypage.ProductQnAVO;
 import com.blackolive.app.service.mypage.MypageLayoutService;
 import com.blackolive.app.service.mypage.MypageLikeService;
 import com.blackolive.app.service.mypage.MypageMainService;
@@ -71,7 +72,8 @@ public class MypageMainController {
 		model.addAttribute("likeVO", likeVO);
 		
 		//1:1문의내역
-		//
+		
+		//상품 QnA 내역
 		
 		
 		
@@ -246,7 +248,37 @@ public class MypageMainController {
 		return "mypage.brandlike";
 	}
 
-	
+	//상품 QnA 목록 가져오기
+	@GetMapping("/productQnA")
+	public String productQnAcontroller(
+			@RequestParam(name = "startDate", required = false) String startdate,
+			@RequestParam(name = "endDate", required = false) String enddate,
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+		
+		//상품QnA 가져오기
+		if (startdate == null) {
+			//처음 페이지 
+			List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid) ; 
+			model.addAttribute("qnaVO", qnaVO);
+		} else {
+			//날짜에 따른 조회 
+			List<ProductQnAVO> qnaVO = this.mainService.productQnAwithDateservice(userid, startdate, enddate);
+			model.addAttribute("qnaVO", qnaVO);
+		}
+		
+		
+		return "mypage.productQnA";
+	}
 	
 	
 }
