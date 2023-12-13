@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:forEach items="${ brandlist }" var="dto" varStatus="status">
-
+<!-- 이부분 사용하지x  js 에 넣기  -->
 
 	<li data-goods-idx="1">
 		<div class="prod">
