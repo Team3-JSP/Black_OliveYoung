@@ -10,11 +10,13 @@ import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.BrandDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
+import com.blackolive.app.domain.productdetail.QnADTO;
 
 public interface ProductDetailMapper {
 	
@@ -32,5 +34,11 @@ public interface ProductDetailMapper {
 	
 	// 해당 상품의 브랜드 정보 갖고오기 getProductBrandInfo
 	public ProductDetailBrandDTO getProductBrandInfo(@Param("productDisplayId") String productDisplayId);
+	
+	// 해당 상품의 구매정보 갖고오기 getProductBuyInfo
+	public List<ProductBuyinfoDTO> getProductBuyInfo (@Param("productDisplayId") String productDisplayId);
+	
+	// 해당 상품의 QnA 갖고오기 getProductQna
+	public List<QnADTO> getProductQna (@Param("productDisplayId") String productDisplayId);
 	
 } // interface
