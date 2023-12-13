@@ -23,16 +23,18 @@ public interface HeadMapper {
 	
 	public ExampleDTO getExample() throws SQLException;
 
-	List<EventDTO> selectAllEvent(String click) throws SQLException;
+	List<EventDTO> selectAllEvent(String click) throws SQLException; // 이벤트 리스트
 
-	EventDTO selectOneEvent(String eventId) throws SQLException;
+	EventDTO selectOneEvent(String eventId) throws SQLException; // 이벤트 하나
 
-	List<GiftCardDTO> selectAllGiftCard() throws SQLException;
+	List<GiftCardDTO> selectAllGiftCard() throws SQLException; // 기프트카드 리스트
 
-	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException;
+	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException; // 기프트 카드 하나
 
-	List<MsgCardDTO> selectAllMsgCard() throws SQLException;
+	List<MsgCardDTO> selectAllMsgCard() throws SQLException; // 메시지 카드 리스트
 	
 	AllCategoryDTO getTotalCategory(String productDisplayId);
+
+	List<CategoryMidDTO> selectRankingCatMidName(); // 랭킹 카테고리 중분류 이름 리스트
 	
 } // interface

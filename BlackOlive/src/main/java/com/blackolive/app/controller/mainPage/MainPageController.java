@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
@@ -85,9 +86,10 @@ public class MainPageController {
 	
 	@GetMapping("/store/getRanking")
 	public String getRanking(
-			@RequestParam(value = "click", defaultValue = "판매 랭킹") String click) {
-		
-		
+			@RequestParam(value = "click", defaultValue = "판매 랭킹") String click, Model model) {
+		List<CategoryMidDTO> categoryMidList = this.headServiceImpl.getRankingCatMidName();
+		System.out.println("list" + categoryMidList);
+		model.addAttribute("categoryMidList", categoryMidList);
 		return "mainPage.ranking";
 	}
 } // class
