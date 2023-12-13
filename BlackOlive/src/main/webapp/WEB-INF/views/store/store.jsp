@@ -9,6 +9,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <title>블랙올리브영 온라인몰</title>
+<style>
+	.way_view:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 0;
+    bottom: -12px;
+    width: 24px;
+    height: 12px;
+    margin-left: -12px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/store/ico_storeP_06.png) no-repeat;
+}
+</style>
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
@@ -573,6 +586,11 @@ let latLngs;
 let latLng;
 let markers = [];
 let contents = [];
+let overlays = [];
+
+function closeOverlay(index) {
+	overlays[index].setMap(null);
+}
 
 
 $(function() {
@@ -898,8 +916,19 @@ $(function() {
 				for ( var j = 0; j < markers.length; j++ ) {
 					markers[j].setMap(null);
 				}   
+				
+				for ( var j = 0; j < overlays.length; j++ ) {
+					overlays[j].setMap(null);
+				}
 				markers = [];
 				contents = [];
+				overlays = [];
+				
+				var imageSrc = '/resources/images/store/point_way_gray.png' // 마커이미지의 주소입니다    
+			    				, imageSize = new kakao.maps.Size(23, 34) // 마커이미지의 크기입니다
+			    				, imageOption = {offset: new kakao.maps.Point(10, 55)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			    				
+			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				
 				for(let i=0; i<data.length; i++) {
 					
@@ -948,7 +977,7 @@ $(function() {
 						favBtnClick(this);
 					});
 					
-					var content = '<div class="way_view">' 
+					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:86px">' 
 						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
 						+ '  <p class="addr" style="white-space:nonrmal">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
@@ -960,8 +989,8 @@ $(function() {
 						+ '  </div>'
 						+ '</div>'
 						+ '<a class="store_btn">상세정보보기</a>'
-						+ '<button class="star active></button>'
-						+ '<button class="wayClose" ></button>';
+						+ '<button class="star active" onclick="favBtnClick(this)"/> '
+						+ `<button class="wayClose" onclick="closeOverlay(\${i})"/> `;
 					
 					contents.push(content);
 						
@@ -983,28 +1012,36 @@ $(function() {
 				
 				for (var i = 0; i < latLngs.length; i++) {
 					var marker = new kakao.maps.Marker({
-				        map: map, // 마커를 표시할 지도
-				        position: latLngs[i].latlng, // 마커를 표시할 위치
-				        title : latLngs[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        map: map // 마커를 표시할 지도
+				        , position: latLngs[i].latlng // 마커를 표시할 위치
+				        , title : latLngs[i].titl // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        , image : markerImage
+				        //, clickable : true
 				    });
 					markers.push(marker);
 					
 					var overlay = new kakao.maps.CustomOverlay({
 				        content: contents[i],
-				        map: map,
+				        //map: map,
 				        position: marker.getPosition()       
 				    });
+					overlays.push(overlay);
 					
-					kakao.maps.event.addListener(marker, 'click', function() {
-				        overlay.setMap(map);
-				    });
+					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {
+				        return function () {
+				        	for (var j = 0; j < overlays.length; j++) {
+								overlays[j].setMap(null);
+							}
+				            overlay.setMap(map);
+				        };
+				    })(marker, overlay));
 				}
 				
 				var moveLatLon = latLngs[0].latlng;
 			    
 			    // 지도 중심을 이동 시킵니다
 			    map.setCenter(moveLatLon);
-			    
+			    map.setLevel(3);
 				
 				
                 
