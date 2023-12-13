@@ -35,5 +35,28 @@
 		SELECT product_display_img, product_display_id, product_display_src FROM product_display_img
 		WHERE product_display_id = #{productDisplayId}
 	</select>
+	
+	<!-- // 해당 상품의 설명 이미지 갖고오기 getProductDisplayExplainImg
+	public List<ProductDetailExplainIMGDTO> getProductDisplayExplainImg (@Param("productDisplayId") String productDisplayId); -->
+	<select id="getProductDisplayExplainImg" resultType="ProductDetailExplainIMGDTO">
+		SELECT PRODUCT_EXPLAINATION_IMG_ID, PRODUCT_EXPLAINATION_IMG_SRC FROM product_explaination_img
+		WHERE PRODUCT_DISPLAY_ID = #{productDisplayId}
+		ORDER BY PRODUCT_EXPLAINATION_IMG_ID 
+	
+	</select>
+	
+<!-- 	// 해당 상품의 브랜드 정보 갖고오기 getProductBrandInfo
+	public ProductDetailBrandDTO getProductBrandInfo(@Param("productDisplayId") String productDisplayId); -->
+	<select id="getProductBrandInfo" resultType="ProductDetailBrandDTO">
+		SELECT b.brand_id, b.brand_name, bl.brand_logo_src 
+				FROM product_display pd 
+				JOIN brand b ON pd.brand_id = b.brand_id 
+				LEFT JOIN brand_logo bl ON b.brand_id = bl.brand_id 
+				WHERE pd.PRODUCT_DISPLAY_ID = #{productDisplayId}
+	</select>
+	
+	
+	
+	
 
 </mapper>

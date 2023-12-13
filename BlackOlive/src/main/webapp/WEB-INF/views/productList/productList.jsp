@@ -106,8 +106,9 @@ $(function () {
 	const moveSort = function moveSorting(sortNum) {
 	    	const URLSearch = new URLSearchParams(location.search);
 	    	URLSearch.set('sort', String(sortNum));
-	    	 const newParam = URLSearch.toString();
-	    	  window.open(location.pathname + '?' + newParam, '_self');
+	    	const newParam = URLSearch.toString();
+	    	window.location.href = location.pathname + '?' + newParam;
+	    	  
 	};
 	//
 	$("#Contents > ul.cate_list_box li").removeClass("on");

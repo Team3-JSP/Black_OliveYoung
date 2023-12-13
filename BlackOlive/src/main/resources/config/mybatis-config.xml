@@ -28,6 +28,8 @@
 			<!-- productDetail -->
 			<typeAlias type="com.blackolive.app.domain.productdetail.ProductPromotionDTO" alias="ProductPromotionDTO" />
 			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailIMGDTO" alias="ProductDetailIMGDTO" />
+			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO" alias="ProductDetailExplainIMGDTO" />
+			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailBrandDTO" alias="ProductDetailBrandDTO" />
 			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
 			
