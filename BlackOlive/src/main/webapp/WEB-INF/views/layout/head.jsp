@@ -47,7 +47,7 @@
 				type : 'post'
 				, async : false
 				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
+				, url : '/olive/attShopAjax.do'
 				, dataType : 'json'
 				, data : { user_id : '${logOn.user_id}' }
 				, success : function(data) {
@@ -703,7 +703,7 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/ranking.do"
+					<li style=""><a onclick="" href="<c:url value='/store/getRanking' />"
 						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
 					</a></li>
 					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
@@ -715,14 +715,14 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
+					<li style=""><a onclick="" href='<c:url value="/store/getGiftCard"/>'"
 						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
 						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
 					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
 						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
 					</a></li>
 					<li style=""><a onclick=""
-						href="<%=contextPath%>/olive/event.do"
+						href='<c:url value="/store/getEvent"/>'
 						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
 					</a></li>
 				</ul>

@@ -1,10 +1,13 @@
 package com.blackolive.app.controller.store;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,15 +48,15 @@ public class StoreAjaxController {
 	}
 	*/
 	
-	@PostMapping(value="/setStoreFavorite", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> setFavorite(String storeId, String userId, Integer clickCheck) {
-		return this.storeService.udpStoreFavorService(storeId, userId, clickCheck) == 1
+	@PostMapping("/setStoreFavorite")
+	public ResponseEntity<String> setFavorite(String storeId, Integer clickCheck, Principal principal) throws Exception {
+		return this.storeService.udpStoreFavorService(storeId, principal.getName(), clickCheck) == 1
 				? new ResponseEntity<String>("success", HttpStatus.OK) 
 				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping("/getInterestShopList")
-	public ResponseEntity<List<StoreDTO>> getInterestShop(String userId) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(userId), HttpStatus.OK);
+	public ResponseEntity<List<StoreDTO>> getInterestShop(String[] tcs, String[] pss, Principal principal) {
+		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(String.join(",", tcs), String.join(",", pss), principal.getName()), HttpStatus.OK);
 	}
 }

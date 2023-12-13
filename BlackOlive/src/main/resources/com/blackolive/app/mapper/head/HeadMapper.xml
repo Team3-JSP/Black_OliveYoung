@@ -43,6 +43,34 @@
 		where category_total_id = 1
 	</select>
 	
+	<select id="selectAllEvent" resultType="EventDTO">
+		SELECT *
+		FROM event
+		WHERE event_category=#{click} AND event_enddate >= SYSDATE
+	</select>
+	
+	<select id="selectOneEvent" resultType="EventDTO">
+		SELECT *
+		FROM event
+		WHERE event_id = #{eventId}
+	</select>
+	
+	<select id="selectAllGiftCard" resultType="GiftCardDTO">
+		SELECT *
+		FROM giftcard
+	</select>
+	
+	<select id="selectOneGiftCard" resultType="GiftCardDTO">
+		SELECT *
+		FROM giftcard
+		WHERE giftcard_id = #{giftCardId}
+	</select>
+	
+	<select id="selectAllMsgCard" resultType="MsgCardDTO">
+		SELECT *
+		FROM msg_card
+	</select>
+
 	<select id="getTotalCategory" resultType="com.blackolive.app.domain.head.AllCategoryDTO">
 		SELECT DISTINCT
                     ch.category_total_id

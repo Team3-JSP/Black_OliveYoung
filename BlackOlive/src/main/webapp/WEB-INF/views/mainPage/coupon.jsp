@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@
 			})
 			
 			// 등급 색깔 
-			let grade_id = '${principal.member.gradeId}';
+			let grade_id = $("#gradeName").val();
 			let grade = grade_id.split(" ")[0];
 			
 			let gradeColor = ""
@@ -86,6 +87,9 @@
 	</script>
 
 <div id="Container">
+	<sec:authorize access="isAuthenticated()">
+		<input id="gradeName" type="hidden" value='<sec:authentication property="principal.member.gradeName"/>'>
+	</sec:authorize>
 		<!-- #Contents -->
 		<div class="title-coupon">
 			<h1>올리브 멤버스 라운지<span>쇼핑하는 재미! 올리브영만의 더 특별한 혜택</span></h1>
@@ -96,48 +100,47 @@
 				<li><button type="button" onclick="javascript:location.href='<c:url value="/store/getMembership"/>'">올리브 멤버스</button></li>
 				<li class="on"><button type="button" id="couponButton" title="선택됨" onclick="javascript:location.href='<c:url value="/store/getCoupon"/>'">쿠폰/혜택</button></li>
 			</ul>
-			<c:choose>
-				<c:when test="${not empty principal.member }">
-					<div class="TabsConts on">	
-						<div class="mem_info_top">
-							<div class="thum">
-								<span class="bg"></span>		
-										<img src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg" alt="프로필 이미지">		
-							</div>
-							<p class="txt"><em>${logOn.u_name }</em>님의 등급은<strong> <span class="">${logOn.grade_id }</span></strong> 입니다</p>
+			<sec:authorize access="isAuthenticated()">
+				<div class="TabsConts on">	
+					<div class="mem_info_top">
+						<div class="thum">
+							<span class="bg"></span>		
+							<img src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg" alt="프로필 이미지">		
 						</div>
+						<p class="txt"><em><sec:authentication property="principal.member.userName"/></em>님의 등급은<strong> <span class=""><sec:authentication property="principal.member.gradeName"/></span></strong> 입니다</p>
+					</div>
+				</div>
+				<a class="couponEnroll-link" href="#" id="getCouponLPop" data-rel="layer" data-target="discountCoupon" data-attr="멤버십쿠폰^쿠폰혜택탭^쿠폰등록"><span>쿠폰 등록<em>발급 받으신 번호를 등록해주세요</em></span></a><!-- 2017-01-17 수정 : 레이어띄우는 부분 추가 -->
+					
+				<div class="coupon_tit_area">
+					<h2 class="coupon-title member">올리브 멤버스 쿠폰</h2>
+					<a href="javascript:;" class="coupon_info_link" data-rel="layer" data-target="couponNotice">쿠폰안내</a>
+				</div>		
+				<ul class="cpbox_list">
+					<li>
+						<div class="area today off"> 
+							<div class="info">
+								<span class="tit">[BABY] 오늘드림 무료배송 쿠폰</span>							
+								<span class="sale"><em>무료배송</em></span>
+								<span class="txt">10,000원 이상 적용가능</span>		
+								<span class="flag today"><strong>오늘드림</strong></span>		
+							</div>
+						</div>
+						<button type="button" class="btn_cpdw" data-attr="멤버십쿠폰^쿠폰혜택탭^멤버십쿠폰다운받기_[BABY] 오늘드림 무료배송 쿠폰"><span data-attr="멤버십쿠폰^쿠폰혜택탭^멤버십쿠폰다운받기_[BABY] 오늘드림 무료배송 쿠폰">쿠폰 발급완료</span></button>
+						<input type="hidden" name="cpnNo" value="yvKxrF30GRPS/ZNlZ+Hs7A==">
+					</li>
+				</ul>
+			</sec:authorize>
+			<sec:authorize access="isAnonymous()">
+				<div class="TabsConts on">
+					<div class="text-login">
+						로그인 하시고 <span>나만의 쿠폰</span>을 확인하세요
+						<a href='<c:url value="/auth/login"/>'>로그인</a>
 					</div>
 					<a class="couponEnroll-link" href="#" id="getCouponLPop" data-rel="layer" data-target="discountCoupon" data-attr="멤버십쿠폰^쿠폰혜택탭^쿠폰등록"><span>쿠폰 등록<em>발급 받으신 번호를 등록해주세요</em></span></a><!-- 2017-01-17 수정 : 레이어띄우는 부분 추가 -->
-					
-					<div class="coupon_tit_area">
-						<h2 class="coupon-title member">올리브 멤버스 쿠폰</h2>
-						<a href="javascript:;" class="coupon_info_link" data-rel="layer" data-target="couponNotice">쿠폰안내</a>
-					</div>		
-					<ul class="cpbox_list">
-						<li>
-							<div class="area today off"> 
-								<div class="info">
-									<span class="tit">[BABY] 오늘드림 무료배송 쿠폰</span>							
-											<span class="sale"><em>무료배송</em></span>
-										<span class="txt">10,000원 이상 적용가능</span>		
-											<span class="flag today"><strong>오늘드림</strong></span>		
-								</div>
-							</div>
-							<button type="button" class="btn_cpdw" data-attr="멤버십쿠폰^쿠폰혜택탭^멤버십쿠폰다운받기_[BABY] 오늘드림 무료배송 쿠폰"><span data-attr="멤버십쿠폰^쿠폰혜택탭^멤버십쿠폰다운받기_[BABY] 오늘드림 무료배송 쿠폰">쿠폰 발급완료</span></button>
-							<input type="hidden" name="cpnNo" value="yvKxrF30GRPS/ZNlZ+Hs7A==">
-						</li>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<div class="TabsConts on">
-						<div class="text-login">
-							로그인 하시고 <span>나만의 쿠폰</span>을 확인하세요
-							<a href='<c:url value="/auth/login"/>'>로그인</a>
-						</div>
-						<a class="couponEnroll-link" href="#" id="getCouponLPop" data-rel="layer" data-target="discountCoupon" data-attr="멤버십쿠폰^쿠폰혜택탭^쿠폰등록"><span>쿠폰 등록<em>발급 받으신 번호를 등록해주세요</em></span></a><!-- 2017-01-17 수정 : 레이어띄우는 부분 추가 -->
-					</div>
-				</c:otherwise>
-			</c:choose>
+				</div>
+			</sec:authorize>
+			
 			
 
 <!-- 카드 청구 할인 -->
