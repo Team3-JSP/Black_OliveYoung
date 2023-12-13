@@ -189,7 +189,7 @@
 							<div class="store_rebox">
 								<div class="store_sch">
 									<div class="store_schInner">
-										<input type="text" name="searchItem" id="searchItem" value="" onkeyup="javascript:store.main.searchStoreList2(event);" title="상품명을 입력해주세요" placeholder="상품명을 입력해주세요">
+										<input type="text" name="searchItem" id="searchItem" value="" title="상품명을 입력해주세요" placeholder="상품명을 입력해주세요">
 										<!-- 상품번호(goodsNo) -->
 										<input type="hidden" name="searchItemNo" id="searchItemNo" value="">
 										<!-- 옵션번호(itemNo) -->
@@ -926,7 +926,7 @@ $(function() {
 				
 				var imageSrc = '/resources/images/store/point_way_gray.png' // 마커이미지의 주소입니다    
 			    				, imageSize = new kakao.maps.Size(23, 34) // 마커이미지의 크기입니다
-			    				, imageOption = {offset: new kakao.maps.Point(10, 55)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			    				, imageOption = {offset: new kakao.maps.Point(10, 35)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 			    				
 			    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				
@@ -977,7 +977,7 @@ $(function() {
 						favBtnClick(this);
 					});
 					
-					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:86px">' 
+					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:66px">' 
 						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
 						+ '  <p class="addr" style="white-space:nonrmal">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
@@ -1318,7 +1318,6 @@ $(function() {
 			let district = $("#subAreaList > option:selected").val() === "none" ? "" : $("#subAreaList > option:selected").text();
 			$.ajax({
 	            type : 'get'
-				, async : true
 				, cache: false
 				, url : '/store/getStoreList'
 				, dataType : 'json'
@@ -1498,7 +1497,6 @@ $(function() {
 									
 									$.ajax({
 										type : 'post'
-										, async : true
 										, cache: false
 										, url : '/store/setStoreFavorite'
 										, dataType : 'text'
@@ -1546,6 +1544,49 @@ $(function() {
 		}
 			
 	})
+	
+	$("#searchItem").on("input", function() {
+		let store_schInner = $("#searchItemDiv > div > div.store_sch > div.store_schInner");
+		if($(this).val().length >= 2) {
+			let keyword = $(this).val();
+			$.ajax({
+				type : 'get'
+				, cache: false
+				, url : '/store/getProductName/' + keyword
+				, dataType : 'json'
+				, success : function(data) {
+					// console.log(data);
+					
+					if(data.length > 0 ) {
+						$(store_schInner).addClass("on");
+						let div = $("<div>").addClass("auto_reSch");
+						let ul = $("<ul>").addClass("ul_auto_reSch scrbar");
+						let li;
+						$(data).each(function(i) {
+							li = $("<li>").html(`<a href="javascript:;" id="\${this.productId}" data-productId="\${this.productId}">`
+									+ this.productDisplayName.replace(keyword, '<span>'+keyword+'</span>')
+									+ `</a>`);
+							$(ul).append(li);
+						});
+						$(div).append(ul);
+						$(store_schInner).append(div);
+					} else {
+						$(store_schInner).removeClass("on");
+						$(store_schInner).find(".auto_reSch").remove();
+					}
+	            }
+				, error : function (data, textStatus) {
+	                console.log('error');
+	            }
+			});
+		} else {
+			$(store_schInner).find(".auto_reSch").remove();
+		}
+	});
+	
+	function () {
+		
+	}
 	
 })
 
