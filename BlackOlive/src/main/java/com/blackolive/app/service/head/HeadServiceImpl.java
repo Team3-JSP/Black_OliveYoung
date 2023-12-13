@@ -84,4 +84,9 @@ public class HeadServiceImpl implements HeadService{
 		return this.headMapper.selectAllMsgCard();
 	}
 
+	@Override
+	public List<CategoryMidDTO> getRankingCatMidName() {
+		return this.headMapper.selectRankingCatMidName();
+	}
+
 } // class

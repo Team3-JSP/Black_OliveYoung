@@ -18,13 +18,15 @@ public interface HeadService {
 	
 	
 	
-	public List<EventDTO> getEventList(String click) throws SQLException;
+	public List<EventDTO> getEventList(String click) throws SQLException; //  이벤트 리스트
 	
-	public EventDTO getEventDetail(String eventId) throws SQLException;
+	public EventDTO getEventDetail(String eventId) throws SQLException; // 이벤트 하나
 	
-	public List<GiftCardDTO> getGiftCardList() throws SQLException;
+	public List<GiftCardDTO> getGiftCardList() throws SQLException; // 기프트카드 리스트
 	
-	public GiftCardDTO getGiftCardDetail(String giftCardId) throws SQLException;
+	public GiftCardDTO getGiftCardDetail(String giftCardId) throws SQLException; // 기프트 카드 하나
 	
-	public List<MsgCardDTO> getMsgcardList() throws SQLException;
+	public List<MsgCardDTO> getMsgcardList() throws SQLException; // 메세지 카드 리스트
+	
+	public List<CategoryMidDTO> getRankingCatMidName() throws SQLException; // 랭킹 카테고리 중분류 이름 리스트
 } // interface

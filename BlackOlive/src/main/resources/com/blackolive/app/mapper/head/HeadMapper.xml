@@ -86,4 +86,11 @@
 					where pd.product_display_id = #{product_display_id}
 	</select>
 	
+	<select id="selectRankingCatMidName" resultType="categoryMid">
+		SELECT c.category_mid_id, category_mid_name
+		FROM category_mid c JOIN order_product o ON c.category_mid_id = o.category_mid_id
+		GROUP BY c.category_mid_id, category_mid_name
+		HAVING sum(product_cnt) > 50
+	</select>
+	
 </mapper>

@@ -13,32 +13,6 @@
 
 <script>
 	$(function() {
-		$.ajax({
-			type : 'get'
-			, async : false
-			, cache: false
-			, url : '/Black_OY/olive/getCateMRankingAjax'
-			, dataType : 'json'
-			, data : {  }
-			, success : function(data) {
-				//console.log(data);
-				let ul = $(".common-menu ul");
-				for (var i = 0; i < data.cateM.length; i++) {
-					
-				let li = $("<li>");
-				let button = $("<button>").attr({
-					"type" : "button"
-					, "data-mid" : data.cateM[i].cateMID
-				}).text(data.cateM[i].cateMName);
-				li.append(button);
-				ul.append(li);
-				}
-            }
-			, error : function (data, textStatus) {
-				console.log('error');
-            }
-		}); 
-		
 		$(".btn_zzim.jeem").on("click", function() {
 			let likeCheck = 0;
 			$(this).toggleClass("on");
@@ -90,14 +64,14 @@
 		</div>
 
 		<div class="best-area">
-			<ul class="comm5sTabs tabN3" data-ref-selected="900000100100001">
-				<li data-ref-dispcatno="900000100100001" class="on">
+			<ul class="comm5sTabs tabN3">
+				<li class="on">
 					<button type="button" onclick="javascript:location.href='<c:url value="/store/getRanking?click=판매 랭킹"/>'">판매 랭킹</button>
 				</li>
-				<li data-ref-dispcatno="900000100100002">
+				<li">
 					<button type="button" onclick="javascript:location.href='<c:url value="/store/getRanking?click=리뷰 베스트"/>'">리뷰 베스트</button>
 				</li>
-				<li data-ref-dispcatno="900000100100004">
+				<li>
 					<button type="button" onclick="javascript:location.href='<c:url value="/store/getRanking?click=실시간 랭킹"/>'">실시간 랭킹</button>
 				</li>
 				
@@ -105,7 +79,12 @@
 
 		<div class="common-menu">
 				<ul>
-					<li class="on"><button type="button" data-mid="">전체</button></li>
+					<li class="on"><button type="button" data-categoryMidId="">전체</button></li>
+					<c:forEach items="${categoryMidList }" var="list">
+						<li>
+							<button type="button" data-categoryMidId="${list.categoryMidId }">${list.categoryMidName }</button>
+						</li>
+					</c:forEach>
 				</ul>
 			</div>
 				<div class="TabsConts on">
