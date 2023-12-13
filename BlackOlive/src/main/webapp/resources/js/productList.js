@@ -151,7 +151,7 @@ $(function(){
 	
 	<input type="hidden" name="cartGoodsNo" id="cartGoodsNo" value="">
 	<input type="hidden" name="cartItemNo" id="cartItemNo" value="">
-	<input type="hidden" name="paramGoodsNo" id="paramGoodsNo" value="A000000184129">
+	<input type="hidden" name="paramGoodsNo" id="paramGoodsNo" value="">
 	<input type="hidden" name="paramItemNo" id="paramItemNo" value="001">
 	<input type="hidden" name="dupYn" id="dupYn" value="Y">
 	<input type="hidden" name="goodsSctCd" id="goodsSctCd" value="">
@@ -226,15 +226,16 @@ $("#mainCartSelect").click(function(){
 	})
 	
 	$(".closepopup").click(function(){
-		 $(".modal-backdrop").remove();
-		 $("#basketOption").css("display","none");
-		$(".sel_option_list.selectItem.new").empty();
-		$(".prd_option_box.cate_list_basket").removeClass("open");
+		 $(".layer_pop_wrap.w490.test").hide()
 	})
 	
-	$("#goodsSelCart").click(function(){
+	$("#displItem").on("click","#goodsSelCart",function(){
 		
 		let productID = $("input#paramGoodsNo").attr("value");
+		if(productID == ""){
+		alert("상품을 선택하세요")
+		return
+		}
 		alert(productID);
 		
 		let data = {
@@ -243,10 +244,11 @@ $("#mainCartSelect").click(function(){
 		
 		$.ajax({
 			
-			url: "/olive/itemadd.do",
+			url: "/basket/itemadd",
 			data:data,
 			cache: false,
 			success:function( response ) {
+			console.log(response)
 				$("#basketOption").css("display","none");
 				$(".layer_pop_wrap.w490.test").css("display","block");
 	          }
@@ -259,7 +261,7 @@ $("#mainCartSelect").click(function(){
 	
 	
 	$(".btnGray.basket").click(function(){
-		window.location.href = "<%=contextPath%>/olive/basket.do";
+		window.location.href = "/basket";
 	})
 	});
 	
