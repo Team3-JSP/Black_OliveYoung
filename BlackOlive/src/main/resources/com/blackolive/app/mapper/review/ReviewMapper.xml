@@ -41,7 +41,19 @@
 					order by review_like DESC			
 				 )t )b where b.no  BETWEEN 1 AND 10
 	</select>
-
+	<!-- 
+if (!(proid.equals("ALL"))) {
+					sql+= " where product_display_id = ? AND product_id = ?  ";
+				}else {
+					sql += " where product_display_id = ? ";
+				}
+		
+				if (type.equals("02")) {
+					sql += " order by review_regdate DESC ";
+				}else {
+					sql += " order by review_like DESC ";
+				}
+				 -->
 <!-- 
 	//리뷰 이미지
 	List<ReviewImgDTO> reviewimg( String reviewId);

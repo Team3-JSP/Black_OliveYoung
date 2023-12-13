@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AllCategoryDTO {
 
-	private int categortTotalId;
+	private int categoryTotalId;
 	private String categoryLargeId;
 	private String categoryLargeName;
 	private String categoryMidId;
