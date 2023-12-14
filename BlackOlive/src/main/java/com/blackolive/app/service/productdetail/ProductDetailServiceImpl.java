@@ -11,7 +11,7 @@ import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
-import com.blackolive.app.domain.productdetail.QnADTO;
+import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
 import com.blackolive.app.mapper.productdetail.ProductDetailMapper;
 
@@ -42,7 +42,7 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 
 	// ============================ 현재 상품의 프로모션 갖고오기 ==============================
 	@Override
-	public ProductPromotionDTO getProductPromotionService(String productDisplayId) {
+	public List<ProductPromotionDTO> getProductPromotionService(String productDisplayId) {
 		log.info("ProductDetailServiceImpl getProductPromotionService call...");
 		
 		return this.productMapper.getProductPromotion(productDisplayId);
@@ -82,10 +82,18 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 	
 	// ============================ 해당 상품의 구매 정보 갖고오기 ==============================
 	@Override
-	public List<QnADTO> getProductQnaService(String productDisplayId) {
+	public List<QnAListDTO> getProductQnaService(String productDisplayId) {
 		log.info("ProductDetailServiceImpl getProductQnaService call...");
 		
 		return this.productMapper.getProductQna(productDisplayId);
+	} // getProductQnaService
+
+	// ============================ 해당 상품의 뷰 기록 저장 ==============================
+	@Override
+	public void insertProductViewSerivce(String largeId, String productDisplayId) {
+		log.info("ProductDetailServiceImpl insertProductViewSerivce call...");
+		
+		this.productMapper.insertProductView(largeId, productDisplayId);
 	} 
 	
 	

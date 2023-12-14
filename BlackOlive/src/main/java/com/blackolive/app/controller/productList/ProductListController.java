@@ -54,12 +54,25 @@ public class ProductListController {
 		PageDTO pageDTO = null;
 		
 		if ( dispCapno.length() == 4 ) {
+			int group = 1;
+			String largeId = dispCapno.substring(0, 4);
 
 			log.info("ProductListController length 4 call.. ");
+						
+			// 현재 카테고리 이름 갖고오는 작업
+			CurrentCategoryNameDTO currentCategoryNameDTO = this.productListService.getCurrentCategoryNameService(group, largeId);
+			model.addAttribute("currentCategoryNameDTO", currentCategoryNameDTO);
+			
+			// 같은 카테고리에 있는 중분류 카테고리를 갖고오는 작업
+			List<CategoryMidDTO> categoryMidList = this.productListService.getCategoryMidService(largeId);
+			model.addAttribute("categoryMidList", categoryMidList);
+			
+			// 대분류 카테고리에서 top view 20 개 갖고오는 작업
+			List<ProductContainer> productList = this.productListService.getTopviewProductService(largeId, userId);
+			model.addAttribute("productList",productList);
 
-			model.addAttribute("pageDTO", new PageDTO(currentPage, perPage, numberOfPageBlock, totalpage));
 
-			return "productList.productList";
+			return "productList.categorylargelist";
 		} else if( dispCapno.length() == 8 ) { // 중분류 카테고리로 들어왔을때
 			int group = 2;
 

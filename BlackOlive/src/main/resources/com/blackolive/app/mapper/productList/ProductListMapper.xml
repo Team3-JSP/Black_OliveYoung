@@ -228,6 +228,50 @@
         FROM product_like
         WHERE user_id = #{userId} and product_display_id = #{productDisplayId}
     </select>
+    
+<!--     // 그 카테고리에 많이 본 상품아이디 20개 갖고오는 작업 getTopviewProductId
+	public List<String> getTopviewProductId (@Param("largeId") String largeId); -->
+    
+    <select id="getTopviewProductId" resultType="String">
+    <![CDATA[
+		SELECT t.product_display_id
+		FROM (
+			SELECT product_display_id, COUNT(*)
+			FROM product_view
+			WHERE category_large_id = #{largeId}
+			GROUP BY product_display_id
+			ORDER BY COUNT(*) desc
+		)t
+		WHERE rownum <= 20
+		]]>
+	</select>
+	
+	<!-- // 상품 아이디를 가지고 상품 정보 객체 갖고오기
+	public List<ProductContainer> getTopviewProduct (@Param("productDisplayIds")List<String> productDisplayIds); -->
+	
+	<select id="getTopviewProduct" resultType="ProductContainer">
+
+				<![CDATA[
+			SELECT distinct productcontainer.*
+        	,CASE 
+        	WHEN pl.PRODUCT_DISPLAY_ID IS NOT NULL THEN 1
+        	ELSE 0
+    		END AS productLikeState
+          	FROM productcontainer 
+			LEFT JOIN product_like pl ON productcontainer.PRODUCT_DISPLAY_ID = pl.PRODUCT_DISPLAY_ID 
+				]]>
+					<where>
+					<if test="userId != null">
+						 pl.user_id = #{userId} AND
+                    </if>
+						productcontainer.PRODUCT_DISPLAY_ID IN
+						<foreach collection="productDisplayIds" item="productDisplayIds" open="(" close=")" separator=",">
+							#{productDisplayIds}
+						</foreach>
+					</where>
+				
+			
+	</select>
 	
 
 </mapper>
