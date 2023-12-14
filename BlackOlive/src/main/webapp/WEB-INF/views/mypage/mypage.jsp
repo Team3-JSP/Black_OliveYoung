@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 		<div class="title-area2">
@@ -145,12 +145,15 @@
 					<ul>
 						<c:choose>
 							<c:when test="${ not empty qnaVO }">
-								<c:forEach items="${ qnaVO }" var="qa">
+								<c:forEach items="${ qnaVO }" var="qna">
 									<li>
 										<p class="stit">
-											<strong style="background:#ff7f00">${ qa.qnaStatus }</strong>
-											<a href="<%-- QnA페이지 - 해당QnA페이지로 이동 --%>">${ qa.qnaQuestion }</a>
-											<span class="data">${ qa.qnaDate }</span>
+											<strong style="background:#ff7f00">${ qna.qnaStatus }</strong>
+											<a href="${pageContext.request.contextPath}/mypage/productQnA">${ qna.qnaQuestion }</a>
+											<span class="data">
+											<fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy.MM.dd" var="productQnADate"/>
+											${ productQnADate }
+											</span>
 											
 										</p>	
 									</li>

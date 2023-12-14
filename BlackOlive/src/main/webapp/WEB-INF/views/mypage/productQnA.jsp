@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 	<div class="title-area">
 		<h2 class="tit">상품 Q&amp;A</h2>
@@ -94,7 +96,10 @@
 							<div class="textus">
 								<dl class="data">
 									<dt>문의일자</dt>
-									<dd>${ qna.qnaDate }</dd>
+									<dd>
+									<fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy.MM.dd" var="productQnADate"/>
+									${ productQnADate }
+									</dd>
 								</dl>
 								<a class="" href="#">
 									<span class="txt">${ qna.qnaQuestion }</span>
@@ -103,12 +108,8 @@
 						</div>
 						
 						<div class="threeDv">
-
+							<strong class="comp">${ qna.qnaStatus }</strong>
 	
-	
-											<strong class="comp">${ qna.qnaStatus }</strong>
-	
-
 						</div>
 					</div>
 					<ul class="conts">
@@ -149,7 +150,25 @@
 	</table>
 	<!-- //내역 -->
 
+<script>
+	//<div class="threeDv">이거 클릭 시 
+	
+	$(document).ready(function(){
+    $("div.threeDv").click(function() {
+        // "ul.conts" 요소의 가시성을 토글
+        $("ul.conts").toggle();
 
+        // "tbody.qna tr td" 요소의 "open" 클래스를 관리
+        if ($("ul.conts").css("display") === "block") {
+            $("tbody.qna tr td").addClass("open");
+        } else {
+            $("tbody.qna tr td").removeClass("open");
+        }
+    });
+});
+
+	
+</script>
 			
 
 	<div class="pageing">

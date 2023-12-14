@@ -72,8 +72,21 @@
 			AND order_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
 	</select>
 	
+	<resultMap type="com.blackolive.app.domain.mypage.ProductQnAVO" id="productQnAMap">
+		<result property="productDisplayName" column="productDisplayName" />
+		<result property="productDisplaySrc" column="productDisplaySrc" />
+		<result property="brandName" column="brandName" />
+		<result property="productId" column="productId" />
+		<result property="productName" column="productName" />
+		<result property="categorySmallId" column="categorySmallId" />
+		<result property="categoryMidId" column="categoryMidId" />
+		<result property="qnaQuestion" column="qnaQuestion" />
+		<result property="qnaAnswer" column="qnaAnswer" />
+		<result property="qnaDate" column="qnaDate" />
+		<result property="qnaStatus" column="qnaStatus" />
+	</resultMap>
 	<!-- public List<ProductQnAVO> getproductQnA(String userid) throws ClassNotFoundException, SQLException; -->
-	<select id="getproductQnA" resultType="java.util.List">
+	<select id="getproductQnA" resultMap="productQnAMap">
 		SELECT product_display_name AS productDisplayName,
 		        product_display_src AS productDisplaySrc,
 		        brand_name AS brandName, 
@@ -107,12 +120,14 @@
 		        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id   
 		        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
 		    WHERE user_id = #{ userid }  
+		    AND qna_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
 		    ) subquery
 		WHERE rn = 1
 	</select>
 	
+	
 	<!-- public List<ProductQnAVO> getproductQnAwithDate(String userid, String startdate, String enddate) throws ClassNotFoundException, SQLException; -->
-	<select id="getproductQnAwithDate" resultType="java.util.List">
+	<select id="getproductQnAwithDate" resultMap="productQnAMap">
 		SELECT product_display_name AS productDisplayName,
 		        product_display_src AS productDisplaySrc,
 		        brand_name AS brandName, 

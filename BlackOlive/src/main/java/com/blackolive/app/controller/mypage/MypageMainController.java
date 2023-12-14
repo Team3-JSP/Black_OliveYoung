@@ -74,7 +74,8 @@ public class MypageMainController {
 		//1:1문의내역
 		
 		//상품 QnA 내역
-		
+		List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid);
+		model.addAttribute("qnaVO", qnaVO);
 		
 		
 		return "mypage.mypage";//변경
