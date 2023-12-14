@@ -26,10 +26,10 @@ public class UsermodifyServiceImpl implements UsermodifyService {
 	}
 	
 	//비밀번호 조회
-	@Override
-	public String pwdCheck(String userPassword) throws ClassNotFoundException, SQLException {
-		userPassword = this.usermodifyMapper.pwdCheck(userPassword);
-		return userPassword;
-	}
+//	@Override
+//	public String pwdCheck(String userPassword) throws ClassNotFoundException, SQLException {
+//		userPassword = this.usermodifyMapper.pwdCheck(userPassword);
+//		return userPassword;
+//	}
 
 }

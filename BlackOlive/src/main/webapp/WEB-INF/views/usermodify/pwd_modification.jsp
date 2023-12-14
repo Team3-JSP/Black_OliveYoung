@@ -5,12 +5,6 @@
 		<!-- contents -->
 		<div id="contentsWrap">
 			<form id="form1" name="form1" method="post" action="">
-				<input type="hidden" name="return_url" id="return_url" value="">
-				<input type="hidden" name="pwd" id="pwd" value=""> <input
-					type="hidden" name="coopco_cd" id="coopco_cd" value="7030">
-				<input type="hidden" name="brnd_cd" id="brnd_cd" value="3000">
-				<input type="hidden" name="coop_return_url" id="coop_return_url"
-					value="">
 				<div id="contents">
 					<div class="location_wrap">
 						<div class="location">
@@ -96,6 +90,7 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 		</div>
 		<!-- //contents -->
