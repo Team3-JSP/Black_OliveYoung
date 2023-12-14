@@ -86,11 +86,15 @@
 					where pd.product_display_id = #{product_display_id}
 	</select>
 	
-	<select id="selectRankingCatMidName" resultType="categoryMid">
-		SELECT c.category_mid_id, category_mid_name
-		FROM category_mid c JOIN order_product o ON c.category_mid_id = o.category_mid_id
-		GROUP BY c.category_mid_id, category_mid_name
-		HAVING sum(product_cnt) > 50
+	<select id="selectRankingCatLargeName" resultType="categoryLarge">
+		SELECT cl.category_large_id, category_large_name
+		FROM category_large cl 
+		<if test="type == '판매 랭킹'">
+			JOIN category_mid cm ON cl.category_large_id = cm.category_large_id
+			JOIN order_product o ON cm.category_mid_id = o.category_mid_id
+			GROUP BY cl.category_large_id, category_large_name
+			HAVING sum(product_cnt) > 50
+		</if>
 	</select>
 	
 	<select id="selectSaleRankingProduct" resultType="ProductContainer">
@@ -100,10 +104,11 @@
 		    SELECT product_id 
 		    FROM ( 
 		        SELECT product_id, sum(product_cnt) cnt 
-		        FROM order_product 
+		        FROM order_product o
+		        JOIN category_mid c ON o.category_mid_id = c.category_mid_id 
 		        <where>
-			        <if test="categoryMidId != null and categoryMidId != ''">
-						CATEGORY_MID_ID = #{categoryMidId}
+			        <if test="categoryLargeId != null and categoryLargeId != ''">
+						category_large_id = #{categoryLargeId}
 					</if>
 		        </where>
 		        GROUP BY product_id 

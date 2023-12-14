@@ -36,8 +36,8 @@ public interface HeadMapper {
 	
 	AllCategoryDTO getTotalCategory(String productDisplayId);
 
-	List<CategoryMidDTO> selectRankingCatMidName(); // 랭킹 카테고리 중분류 이름 리스트
+	List<CategoryLargeDTO> selectRankingCatLargeName(@Param("type") String type); // 랭킹 카테고리 중분류 이름 리스트
 
-	List<ProductContainer> selectSaleRankingProduct(@Param("categoryMidId") String categoryMidId); // 판매 랭킹 상품 리스트
+	List<ProductContainer> selectSaleRankingProduct(@Param("categoryLargeId") String categoryLargeId); // 판매 랭킹 상품 리스트
 	
 } // interface

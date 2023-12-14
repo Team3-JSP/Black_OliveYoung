@@ -13,6 +13,14 @@
 
 <script>
 	let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
+	function popupCenter(popup) {
+		var scrolled = window.scrollY;
+		var windowHeight = window.innerHeight;
+	
+		$(popup).css("top", (windowHeight / 2 + scrolled) + 'px');
+	}
+	
+	
 
 	$(function() {
 		$('.btn_zzim.jeem').on("click", function() {
@@ -59,7 +67,7 @@
 		// 중분류 이름 클릭했을 때 리다이렉트
 		$(".common-menu button").on("click", function() {
 			location.href = '<c:url value="/store/getRanking?"/>' 
-					+ 'categoryMidId=' + $(this).data('categorymidid') 
+					+ 'categoryLargeId=' + $(this).data('categorylargeid') 
 					+ '&type=' + $("#Container > div.best-area > ul > li.on > button").text()
 					+ '&click=' + $(this).text();
 		});
@@ -101,6 +109,7 @@
 		$(".btnMint_s").on("click", function() {
 			$("#layer_pop_wrap").show();
 			$("body").append(dimm);
+			popupCenter($("#layer_pop_wrap"));
 		});
 	});
 </script>
@@ -148,10 +157,12 @@
 
 				<div class="common-menu">
 				<ul>
-					<li><button type="button" data-categoryMidId="">전체</button></li>
-					<c:forEach items="${categoryMidList }" var="list">
+					<c:if test="${type eq '판매 랭킹'}">
+						<li><button type="button" data-categoryLargeId="">전체</button></li>
+					</c:if>
+					<c:forEach items="${categoryLargeList }" var="list">
 						<li>
-							<button type="button" data-categoryMidId="${list.categoryMidId }">${list.categoryMidName }</button>
+							<button type="button" data-categoryLargeId="${list.categoryLargeId }">${list.categoryLargeName }</button>
 						</li>
 					</c:forEach>
 				</ul>
@@ -250,7 +261,7 @@
 					<li>3. 고객님의 피부 컨디션을 공유한다면, 더욱 큰 도움이 될 수 있습니다.</li>
 				</ul>
 			</div>
-			<button class="layer_close type2" onclick="javascript:$('#layer_pop_wrap').hide(); $('body').remove('.dimm')">창 닫기</button>
+			<button class="layer_close type2" onclick="javascript:$('#layer_pop_wrap').hide(); $('.dimm').remove()">창 닫기</button>
 		</div>
 	</div>
 	
