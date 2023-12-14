@@ -318,9 +318,9 @@
 
 
 
-					<li class="order"><a onclick="" href="#"
+					<li class="order"><a onclick="" href="<%=contextPath%>/mypage/orderdelivery"
 						data-attr="공통^헤더^주문배송">주문배송</a></li>
-					<li class="customer"><a onclick="" href="#"
+					<li class="customer"><a onclick="" href="<%=contextPath%>/counselor/faq"
 						data-attr="공통^헤더^고객센터">고객센터</a></li>
 					<li class="store"><a onclick=""
 						href="<c:url value='/store/getStoreMain'/>"
