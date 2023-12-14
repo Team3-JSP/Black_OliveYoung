@@ -124,7 +124,7 @@ $(function(){
 									${response[i].productName }
 									<span class="option_price">
 										<span class="tx_num">${response[i].afterPrice }원</span>
-									</span>
+									</span>       
 								</span>
 									
 								<!-- 

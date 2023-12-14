@@ -63,86 +63,95 @@ $(function() {
 
     // 상품 목록을 로드하는 함수
     function loadProducts(dispcatno, sort,numOfItems) {
-        let brand_id = '<%=request.getParameter("brandId")%>';
+        let brandId = '<%=request.getParameter("brandId")%>';
 
         $.ajax({
             type: 'get',
             async: true, // 비동기 호출
             cache: false,
-            url: '/Black_OY/GetSortBrandAjax',
+            url: '/getSortBrands',
             data: {
-                brand_id: brand_id,
+                brandId: brandId,
                 dispcatno: dispcatno,
                 sort: sort,
                 numOfItems: numOfItems
             },
-            success: function(response) {
-                $(".prod-list.goodsProd").empty();
-                let htmlElement = $("#prod-list.goodsProd"); // 해당 div 요소를 선택
-                htmlElement.append("<li data-goods-idx="1">
-                		<div class="prod">
-    			<a
-    				href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
-    				name="BrandA001436_PROD" class="thumb goodsList"
-    				data-ref-goodsno="A000000162323" data-ref-dispcatno="9000002"
-    				data-ref-itemno="001"
-    				data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-    				onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
-    				<img src="${ dto.pro_displ_src }"
-    				alt="[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획" class="pic-thumb"
-    				onerror="common.errorImg(this);"> <span
-    				class="flag-badge best">베스트</span>
-    			</a>
-    			<div class="prod-info"
-    				onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
-    				<div class="prod-brand">
-    					<strong class="exclusive"></strong>
-    				</div>
-    				<a
-    					href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
-    					class="goodsList" data-ref-goodsno="A000000162323"
-    					data-ref-dispcatno="9000002" data-ref-itemno="001"
-    					data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획">
-    					<span class="prod-name double-line">${dto.pro_displ_name }</span>
-    				</a>
-    				<div class="price-info">
-    					<div class="discount">
-    						<span class="origin"><fmt:formatNumber
-    								value="${dto.pro_price }" groupingUsed="true" />원</span>
-    					</div>
-    					<div class="price">
-    						<strong class="total">30,960<span class="won">원</span></strong> <span
-    							class="oneday">오늘드림</span>
-    					</div>
-    					<div class="rating">
-    						<span class="point">4.7</span><span class="num">(999+)</span>
-    					</div>
-    					<div class="rating_type">
-    						<div class="rating_point star5">
-    							<span class="oyblind">별점 5점 만점에 4.7점</span>
-    						</div>
-    						<span>(999+)</span>
-    					</div>
-    				</div>
-    				<div class="flags">
-    					<span class="flag sale">세일</span><span class="flag coupon">쿠폰</span>
-    				</div>
-    			</div>
-    			<div class="prod-func">
-    				<button type="button" class="favorite"
-    					data-ref-goodsno="A000000162323">
-    					<span>찜하기</span>
-    				</button>
-    				<button type="button" class="cart"
-    					onclick="common.gf_regCart(this); return false;"
-    					data-goods-no="A000000162323" data-item-no="001">
-    					<span>장바구니</span>
-    				</button>
-    			</div>
-    		</div>
-    	</li>
-");
-               
+            success: function (response) {
+                $("#allGoodsList").empty();
+                let htmlElement = $("#allGoodsList");
+                
+             for (var i = 0; i < response.length; i++) {
+                    
+                   console.log('123');
+                    let newProduct = $('<div class="prod"></div>').html(`
+                    		<div class="prod">
+                			<a
+                				href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
+                				name="BrandA001436_PROD" class="thumb goodsList"
+                				data-ref-goodsno="A000000162323" data-ref-dispcatno="9000002"
+                				data-ref-itemno="001"
+                				data-attr="${ response[i].productName }"
+                				onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
+                				<img src="${ response[i].productDisplaySrc }"
+                				alt="[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획" class="pic-thumb"
+                				onerror="common.errorImg(this);"> <span
+                				class="flag-badge best">베스트</span>
+                			</a>
+                			<div class="prod-info"
+                				onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
+                				<div class="prod-brand">
+                					<strong class="exclusive"></strong>
+                				</div>
+                				<a
+                					href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
+                					class="goodsList" data-ref-goodsno="A000000162323"
+                					data-ref-dispcatno="9000002" data-ref-itemno="001"
+                					data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획">
+                					<span class="prod-name double-line">${response[i].productDisplayName }</span>
+                					
+                				</a>
+                				<div class="price-info">
+                					<div class="discount">
+                						<span class="origin"><fmt:formatNumber
+                								value="${ response[i].productPrice }" groupingUsed="true" />원</span>
+                					</div>
+                					<div class="price">
+                						<strong class="total">${response[i].productPrice }<span class="won">원</span></strong> <span
+                							class="oneday">오늘드림</span>
+                					</div>
+                					<div class="rating">
+                						<span class="point">4.7</span><span class="num">(999+)</span>
+                					</div>
+                					<div class="rating_type">
+                						<div class="rating_point star5">
+                							<span class="oyblind">별점 5점 만점에 4.7점</span>
+                						</div>
+                						<span>(999+)</span>
+                					</div>
+                				</div>
+                				<div class="flags">
+                					<span class="flag sale">세일</span><span class="flag coupon">쿠폰</span>
+                				</div> 
+                			</div>
+                			<div class="prod-func">
+                				<button type="button" class="favorite"
+                					data-ref-goodsno="A000000162323">
+                					<span>찜하기</span>
+                				</button>
+                				<button type="button" class="cart"
+                					onclick="common.gf_regCart(this); return false;"
+                					data-goods-no="A000000162323" data-item-no="001">
+                					<span>장바구니</span>
+                				</button>
+                			</div>
+                			
+		
+                		</div>
+                    `);
+                    
+                    // 새로운 상품 요소를 HTML 요소에 추가합니다.
+                    htmlElement.append(newProduct);
+              }
             },
             error: function(response, textStatus) {
                 console.log('error');
@@ -150,6 +159,36 @@ $(function() {
         });
     }
 });
+</script>
+<script>
+$(window).ready(function(){
+
+	//이미지 상세 보기
+	var _thum_list = $('.review-detail-thumb'),
+	_big_thum_list = $('.review-detail-thumb ul li'),
+	_thum_img = _thum_list.find('span');
+	_bimg = $('.review-detail-view__content .bimg');
+
+	_thum_img.on('mouseover', function(){
+		_src = $(this).find('img').attr('src');
+		_index = $(this).parent().index();
+		_big_src =  _big_thum_list.eq(_index).find('img').attr('src');
+		if(_big_src.indexOf("?RS=") > -1){
+		    var temp= _big_src.substring(0,_big_src.indexOf("?RS="));
+		    _big_src = temp;
+		}
+		_thum_top = _thum_list.position().top;
+		_thum_pos = $(this).position().top;
+		_top = _thum_top+_thum_pos-101;
+		_bimg.find('img').attr('src',_big_src);
+		_bimg.css('top', _top).show();
+	}).on('mouseout', function(){
+		_bimg.hide();
+	});
+
+
+});
+
 </script>
 
 

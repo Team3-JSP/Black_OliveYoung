@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +17,8 @@ import com.blackolive.app.service.brandPage.BrandPageService;
 
 import lombok.AllArgsConstructor;
 
-@RestController  //rest 요청을 처리하는 spingmvx 컨트롤러 
-@RequestMapping   //기본 uri 에 대한 매핑을 제공
+@Controller  //rest 요청을 처리하는 spingmvx 컨트롤러 
+@RequestMapping("/GetSortBrandAjax")   //기본 uri 에 대한 매핑을 제공
 @AllArgsConstructor  //모든 매개변수 생성자를 생성합
 public class BrandPageAjaxController {
 
@@ -33,7 +34,7 @@ public class BrandPageAjaxController {
 
 		@GetMapping("/getSortBrands")  // "/getSortBrands" URI에서 GET 요청을 처리
 		public ResponseEntity<List<BrandPageDTO>> getSortBrands(
-				@RequestParam String brandId,  //@RequestParam: 요청에서 매개변수를 메서드 매개변수에 바인딩
+				@RequestParam("brandId")String brandId,  //@RequestParam: 요청에서 매개변수를 메서드 매개변수에 바인딩
 				@RequestParam String sort,
 				@RequestParam String dispcatno) {
 
