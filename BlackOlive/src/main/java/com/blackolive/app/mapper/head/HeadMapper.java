@@ -2,7 +2,8 @@ package com.blackolive.app.mapper.head;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -11,7 +12,7 @@ import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
-import com.blackolive.app.domain.head.TotalListDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 
 public interface HeadMapper {
 
@@ -36,5 +37,7 @@ public interface HeadMapper {
 	AllCategoryDTO getTotalCategory(String productDisplayId);
 
 	List<CategoryMidDTO> selectRankingCatMidName(); // 랭킹 카테고리 중분류 이름 리스트
+
+	List<ProductContainer> selectSaleRankingProduct(@Param("categoryMidId") String categoryMidId); // 판매 랭킹 상품 리스트
 	
 } // interface

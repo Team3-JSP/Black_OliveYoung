@@ -16,6 +16,7 @@ import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.mapper.head.HeadMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -85,8 +86,13 @@ public class HeadServiceImpl implements HeadService{
 	}
 
 	@Override
-	public List<CategoryMidDTO> getRankingCatMidName() {
+	public List<CategoryMidDTO> getRankingCatMidName() throws SQLException {
 		return this.headMapper.selectRankingCatMidName();
+	}
+
+	@Override
+	public List<ProductContainer> getSaleRankingProduct(String categoryMidId) throws SQLException {
+		return this.headMapper.selectSaleRankingProduct(categoryMidId);
 	}
 
 } // class
