@@ -2256,7 +2256,7 @@ $(function() {
 		e.preventDefault();
 		
 		var currentPage = $(this).data('page-no');
-		alert(currentPage);
+
 		var productDisplayId = $("#goodsNo").val();
 		
 		qnaListAjax(currentPage, productDisplayId);
@@ -2268,9 +2268,6 @@ $(function() {
 		
 		var productDisplayId = $("#goodsNo").val();
 
-		alert('click' + productDisplayId);
-		
-		
 		qnaListAjax(1, productDisplayId);
 		
 	}); // goods_qna
