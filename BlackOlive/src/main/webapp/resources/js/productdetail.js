@@ -376,4 +376,32 @@ $(function(){
 	 $(".prd_option_box.box_select").click(function(){
 		 $(this).addClass("open")
 	 })
+	 
+	  $(".sel_option_list.scrbar  a.item").on("click",function(){
+		 let productId = $(this).find("input[name=gdasItemNo]").val()
+		 //let type = $("#gdasSort li.on > a").attr("data-value")
+		 let productDisplayId = $("#goodsNo").val();
+		 let txt = $(this).attr("title");
+		 let data = {
+			 productId: productId,
+			 productDisplayId: productDisplayId
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+					$(".prd_option_box.box_select > a").attr("id",productId)
+					$(".prd_option_box.box_select > a > span.txt").text(txt);
+					$(".prd_option_box.box_select").removeClass("open");
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
+			
+			
+	 })
 }) // function
