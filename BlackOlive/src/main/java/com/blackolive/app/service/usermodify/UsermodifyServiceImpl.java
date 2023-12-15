@@ -11,9 +11,11 @@ import com.blackolive.app.mapper.usermodify.UsermodifyMapper;
 
 @Service
 public class UsermodifyServiceImpl implements UsermodifyService {
+	
 	@Autowired
 	private UsermodifyMapper usermodifyMapper;
 	
+	//회원정보 반환
 	@Override
 	public OliveUserDTO getUser(String userId) throws ClassNotFoundException, SQLException {
 		return this.usermodifyMapper.getUser(userId);
@@ -21,15 +23,15 @@ public class UsermodifyServiceImpl implements UsermodifyService {
 	
 	// 비밀번호 변경
 	@Override
-	public OliveUserDTO pwdModify(String userPassword) throws ClassNotFoundException, SQLException {
-		return this.usermodifyMapper.pwdUpdate(userPassword);
+	public int pwdModify( String userPassword, String userId ) throws ClassNotFoundException, SQLException {
+		int result = this.usermodifyMapper.pwdUpdate(userPassword, userId);
+		return result > 0 ? 1 : 0;
 	}
-	
-	//비밀번호 조회
-//	@Override
-//	public String pwdCheck(String userPassword) throws ClassNotFoundException, SQLException {
-//		userPassword = this.usermodifyMapper.pwdCheck(userPassword);
-//		return userPassword;
-//	}
+	// 회원정보 수정
+	@Override
+	public int infoModify(OliveUserDTO userDto) throws ClassNotFoundException, SQLException {
+		int result = this.usermodifyMapper.infoUpdate(userDto);
+		return result > 0 ? 1 : 0;
+	}
 
 }

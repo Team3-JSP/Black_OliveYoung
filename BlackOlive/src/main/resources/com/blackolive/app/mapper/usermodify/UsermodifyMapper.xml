@@ -10,15 +10,18 @@
 		FROM olive_user
 		WHERE user_id = #{userId}
 	</select>
-	<!-- 비밀번호 조회 -->
-	<select id="pwdCheck" resultType="String">
-		SELECT user_password
-		FROM olive_user
-		WHERE user_id = #{userId}
-	</select>
+	
 	<!-- 비밀번호 변경 -->
 	<update id="pwdUpdate">
 		UPDATE olive_user SET user_password = #{userPassword}
 		WHERE user_id = #{userId} 
 	</update>
+	
+	<!-- 회원정보 수정 -->
+	<update id="infoUpdate">
+		UPDATE olive_user SET user_password = #{userPassword}, user_email = #{userEmail}
+										, user_name = #{userName}, user_Tel = #{userTel} 
+		WHERE user_id = #{userId} 
+	</update>
+	
 </mapper>

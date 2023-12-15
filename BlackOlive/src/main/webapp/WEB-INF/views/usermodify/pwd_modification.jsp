@@ -97,36 +97,88 @@
 
 <!-- script 영역 -->
 <script>
+
+$('#new_pwd_check').keydown(function(event) {
+	if (event.which == 13) {
+		$("#btnChange").click();
+	}
+});
+
 $("#btnCancel").on("click", function () {
 	alert('비밀번호 변경을 취소하시겠습니까?');
 	location.href = "<%=contextPath%>/mypage/usermodify";
 });
 
+	//비밀번호 체크 ajax
 
-	//비밀번호 체크
-	function chkPwd() {
-		
-		var befpwd = $("#bef_pwd").val();
-		var newpwd = $("#new_pwd").val();
-		var newckpwd = $("#new_pwd_check").val();
-		var userid = "${userDto.userId}";
-		var userpwd = "${userDto.userPassword}";
-		var pwdPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,12}$/;
-		var num = newpwd.search(/[0-9]/g);
-		var eng = newpwd.search(/[a-z]/ig);
-		var spe = newpwd.search(/[!"#$%&'()*+,-./:;<=>?@[]^_`{|}~]/gi);
+	$(function() {
+		$("#btnChange").on("click", function() {
+			var inputPwd = $("#bef_pwd").val();
+			if (inputPwd == "") {
+				alert("비밀번호를 입력해 주세요.");
+				$("#bef_pwd").focus();
+				return;
+			}
+			console.log(`>password = \${inputPwd}`);
+			$.ajax({
+				url : "/userPwdCheck" //passwordCheckAjaxController.java 
+				, method : "GET"
+				, data : {inputPwd : inputPwd}
+				, dataType : "json"
+				, success : function(data) {
+					if (data == 0) {
+						alert("기존 비밀번호가 일치하지 않습니다.");
+						$("#bef_pwd").focus();
+					} else {
+						$("#new_pwd").focus();
+					}
+				}
+				, error : function(errorType) {
+					alert(errorType);
+				}
+			});//ajax
+			//새 비밀번호 체크
+			var newPwd = $("#new_pwd").val();
+			if (newPwd == "") {
+				alert("새 비밀번호를 입력해 주세요.");
+				$("#new_pwd").focus();
+				return;
+			}
+			console.log(`>password = \${newPwd}`);
+			$.ajax({
+				url : "/userNewPwdCheck" //NewPasswordCheckAjaxController.java 
+				, method : "GET"
+				, data : {newPwd : newPwd}
+			    , dataType : "json"
+			    , success : function(data) {
+					if (data == 1) {
+						alert("현재 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.");
+					} else {
+						if( newPwdChk() ){
+							$("#form1").submit();
+						}
+					}
+				}
+			    , error : function(errorType) {
+					alert(errorType);
+				}
+			}); //ajax
+		}); //click
+	}); // ready
+
+
 	
-		if( userpwd != befpwd ){
-			alert(userid);
-			alert (userpwd);
-			alert("기존 비밀번호가 일치하지 않습니다.");
-			$("#bef_pwd").focus();
-			return false;
-		} else if(befpwd == newpwd) {
-			alert("현재 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.");
-			$("#new_pwd").focus();
-			return false;
-		} else if (newpwd.length<8 || newpwd.length>12) {
+	//새 비밀번호 체크
+	function newPwdChk() {
+		var newPwd = $("#new_pwd").val();
+		var newPwdChk = $("#new_pwd_check").val();
+		var userId = "${userId}";
+		var pwdPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,12}$/;
+		var num = newPwd.search(/[0-9]/g);
+		var eng = newPwd.search(/[a-z]/ig);
+		var spe = newPwd.search(/[!"#$%&'()*+,-./:;<=>?@[]^_`{|}~]/gi);
+
+		if (newPwd.length<8 || newPwd.length>12) {
 			alert("영문자, 숫자, 특수문자 모두 최소 1가지 이상 조합하여 8~12자리로 설정 가능합니다.");
 			$("#msg_pwd").removeClass("hide");
 			$("#new_pwd").focus();
@@ -137,17 +189,17 @@ $("#btnCancel").on("click", function () {
 			$("#msg_pwd").removeClass("hide");
 			$("#new_pwd").focus();
 			return false;
-		} else if (/(\w)\1\1\1/.test(newpwd)) {
+		} else if (/(\w)\1\1\1/.test(newPwd)) {
 			alert('같은 문자를 4번 이상 사용하실 수 없습니다.');
 			$("#msg_pwd").removeClass("hide");
 			$("#new_pwd").focus();
 			return false;
-		} else if (newpwd.search(userid) > -1) {
+		} else if (newPwd.search(userId) > -1) {
 			alert("비밀번호 설정 시 아이디와 4자리 이상 동일한 문자 또는 숫자를 사용할 수 없습니다.");
 			$("#msg_pwd").removeClass("hide");
 			$("#new_pwd").focus();
 			return false;
-		} else if ( newpwd !=newckpwd){
+		} else if (newPwd != newPwdChk) {
 			alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
 			$("#msg_pwd_check").removeClass("hide");
 			$("#new_pwd").focus();
@@ -155,37 +207,21 @@ $("#btnCancel").on("click", function () {
 		}
 		return true;
 	}
+	
 	// 패스워드 강도 체크  
-
-		$("#new_pwd").on("change", function () {
-			//alert("event");		
-		var inputVal = $("#new_pwd").val();	
+	$("#new_pwd").on("change", function() {
+		//alert("event");		
+		var inputVal = $("#new_pwd").val();
 		var length = inputVal.length;
-			if ( length >15) {
-				$("#msg_pwd").text("강도 : 강함");
-			} else if ( length >13) {
-				$("#msg_pwd").text("강도 : 적정");
-			}  else if (length >9) {
-				$("#msg_pwd").text('강도 : 약함'); 
-			}  else{
-		       	$("#msg_pwd").text("강도 : 매우약함");
-		   }
+		if (length > 15) {
+			$("#msg_pwd").text("강도 : 강함");
+		} else if (length > 13) {
+			$("#msg_pwd").text("강도 : 적정");
+		} else if (length > 9) {
+			$("#msg_pwd").text('강도 : 약함');
+		} else {
+			$("#msg_pwd").text("강도 : 매우약함");
+		}
 	});
-	
-		$(function () {
-		     $('#new_pwd_check').keydown(function(event) {
-		     	if ( event.which == 13 ){
-		     		$("#btnChange").click();	
-		     	}
-		     });	
-		});
-		
-		$("#btnChange").on("click", function () {
-			if (chkPwd() ) {
-				$("#form1").submit();
-			}
-		});
-
-	
 
 </script> 

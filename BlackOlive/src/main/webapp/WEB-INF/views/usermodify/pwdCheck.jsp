@@ -70,12 +70,11 @@
 			console.log(`>password = \${inputPwd}`);
 			$.ajax({
 				url:"/userPwdCheck"		//passwordCheckAjaxController.java 
-				, method:"POST"
+				, method:"GET"
 				, data: {inputPwd:inputPwd
 					, "${_csrf.parameterName}" :"${_csrf.token}"}
 				, dataType:"json"
 				, success: function (data) {
-					alert(data);
 					 if (data == 0 ){
 				         alert("비밀번호가 일치하지 않습니다.");
 				         $("#pwd").focus();

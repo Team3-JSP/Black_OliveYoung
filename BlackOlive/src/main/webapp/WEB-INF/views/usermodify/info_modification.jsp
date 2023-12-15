@@ -142,7 +142,7 @@
 															value=""> <input type="hidden" name="mob_no_2"
 															id="mob_no_2" value=""> <input type="hidden"
 															name="mob_no_3" id="mob_no_3" value="">
-															<a href="<%=contextPath%>/olive/nameUpdate.do" class="btn btn_sm">
+															<a href="<%=contextPath%>/usermodify/name_update" class="btn btn_sm">
 															<span class="arr">변경하기</span></a>
 													</div>
 													<p class="msg_desc">
@@ -2110,7 +2110,7 @@
         });
         	
         //CJ ONE + 제휴사 마케팅 전체 동의
-        $('[data-check-all]').checkboxAllChecker();
+  //      $('[data-check-all]').checkboxAllChecker();
         //정보제공 동의여부
         $('[data-control="accordion"]').accordion();
             
@@ -2133,7 +2133,7 @@
             }
         }
 	    	
-	    $("#lnChangeName").click(changeName);
+	  //  $("#lnChangeName").click(changeName);
 
 	    $("#birth_yy").change(function(){
 	    	date_change();
@@ -2408,7 +2408,7 @@ function chkPwd() {
 		}
 	$("#lnChangeName").on("click", function (event) {
 		event.preventDefault();
-		location.href = "<%=contextPath%>/olive/nameUpdate.do"; 
+		location.href = "/usermodify/name_update"; 
 	});
 
 	$("#btn_submit").on("click", function () {
