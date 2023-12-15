@@ -60,7 +60,8 @@ public class ReviewAjaxController {
 		model.addAttribute("productList",productList);
 		List<ProductDetailIMGDTO> productDisplayImgs = this.productDetailService.getProductDisplayImgService(productDisplayId);
 		model.addAttribute("productDisplayImgs", productDisplayImgs);
-		
+		System.out.println(gdasSort);
+		model.addAttribute("gdasSort",gdasSort);
 		return "/review/review";
 	}
 }
