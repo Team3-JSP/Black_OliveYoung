@@ -133,18 +133,6 @@
 					f.submit();
 				}
 			</script>
-			<form name="goTabForm" method="post" >
-				<input type="hidden" name="reqInfo"
-					value="FF3C0E7EC1A2A8EF675600B2C421F87785F62E8E44C8B86DCD70D56AB7C7F0A568BDC8D8651D1BBF243F7C764696F8CF672D10627188AFA294140A1631209084E19FEB81795467A64615AAFDAE5B740719746E4A8EADEC98F2990469F1BA5CA8B6E1B0D03AD07AF9F52B0CA872ABCBF4E628D11D66D145166B922D22131E93C20315D4201E97AC7BA481BC177C99049AD4EACBECF473EA47BAC2C46775A8221BD8F5A215DF3535587AE4B272AB34602F057F4DF54510BAD12A74A29E8EB0577A44F136697B0150ADD38180199A806E49D46B552D45888DA8096C427FCBCC0D471EB658B188627536661EDAE7D902034DCBF4B677A1701CD4BBC6AF819EAE0766">
-				<input type="hidden" name="returnURL"
-					value="30AE4190ABA49F31B0B08B570F0712C134735204AA80C3494155F0BEF3CA1D7E926E6DB3FA4346606FD3BACFD3BF0720F7EC14F53A6FFF982237CFACF3E4F1E1ED7BEC2A3C2A5A793B6BDEA4DB0CE62B">
-				<input type="hidden" name="reqInfo1"
-					value="E86A3C280320B80B2D3D6FDCD9E36FC3681CD330F86427C701AE21842D3A0DBE">
-				<input type="hidden" name="reqInfo2" value="KMC000001-"> <input
-					type="hidden" name="reqCommIdStated" value="SKT"> <input
-					type="hidden" name="reqCommIdStatedYn" value="N"> <input
-					type="hidden" name="reqCriOSYn" value="Y">
-			</form>
 			<h1>
 				<a href="#;"><img
 					src="https://img4.kmcert.com/kmcis/new_web/img/logo_pass.png"
@@ -160,7 +148,7 @@
 
 		<section id="ct" class="certify_user2 certifyWrap certifyWrap_02">
 			<form id="cplogn" name="cplogn" method="post"
-				action="<%=contextPath%>/olive/nameTelUpdate.do">
+				action="/usermodify/modify_phlast">
 				<div class="">
 					<fieldset>
 						<legend>휴대폰 본인확인 입력</legend>
@@ -198,7 +186,7 @@
 									<label for="mobileno">휴대폰번호</label>
 								</h3>
 								<div class="input input_del">
-									<input type="text" name="No" id="No" placeholder="숫자만 입력"
+									<input type="text" name="userTel" id="No" placeholder="숫자만 입력"
 										title="휴대폰번호" maxlength="11" value="">
 								</div>
 							</li>
@@ -253,22 +241,7 @@
 						</ul>
 					</div>
 				</div>
-				<input type="hidden" name="reqInfo"
-					value="FF3C0E7EC1A2A8EF675600B2C421F87785F62E8E44C8B86DCD70D56AB7C7F0A568BDC8D8651D1BBF243F7C764696F8CF672D10627188AFA294140A1631209084E19FEB81795467A64615AAFDAE5B740719746E4A8EADEC98F2990469F1BA5CA8B6E1B0D03AD07AF9F52B0CA872ABCBF4E628D11D66D145166B922D22131E93C20315D4201E97AC7BA481BC177C99049AD4EACBECF473EA47BAC2C46775A8221BD8F5A215DF3535587AE4B272AB34602F057F4DF54510BAD12A74A29E8EB0577A44F136697B0150ADD38180199A806E49D46B552D45888DA8096C427FCBCC0D471EB658B188627536661EDAE7D902034DCBF4B677A1701CD4BBC6AF819EAE0766">
-				<input type="hidden" name="reqInfo1"
-					value="E86A3C280320B80B2D3D6FDCD9E36FC3681CD330F86427C701AE21842D3A0DBE">
-				<input type="hidden" name="reqInfo2" value="KMC000001-"> <input
-					type="hidden" name="returnURL"
-					value="30AE4190ABA49F31B0B08B570F0712C134735204AA80C3494155F0BEF3CA1D7E926E6DB3FA4346606FD3BACFD3BF0720F7EC14F53A6FFF982237CFACF3E4F1E1ED7BEC2A3C2A5A793B6BDEA4DB0CE62B">
-				<input type="hidden" name="CommId" value="SKT"> <input
-					type="hidden" name="BirthY" value="2023"> <input
-					type="hidden" name="BirthM" value=""> <input type="hidden"
-					name="BirthD" value=""> <input type="hidden"
-					name="reqCommIdStated" value="SKT"> <input type="hidden"
-					name="reqCommIdStatedYn" value="N"> <input type="hidden"
-					name="reqCriOSYn" value="Y"> <input type="hidden"
-					name="reqSeq" value="936733842"> <input type="hidden"
-					name="icsgCode" value="ICSG01">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 			<div class="passCertiInfo">
 				<ul>
@@ -333,34 +306,60 @@
 		</div>
 		<!-- 키보드보안 6.5 REAL URL -->
 	</div>
-	<form name="KmcisTotFom" method="post"
-		action="https://www.kmcert.com/kmcis/web/kmcisTot.jsp">
-		<input type="hidden" name="reqInfo"
-			value="FF3C0E7EC1A2A8EF675600B2C421F87785F62E8E44C8B86DCD70D56AB7C7F0A568BDC8D8651D1BBF243F7C764696F8CF672D10627188AFA294140A1631209084E19FEB81795467A64615AAFDAE5B740719746E4A8EADEC98F2990469F1BA5CA8B6E1B0D03AD07AF9F52B0CA872ABCBF4E628D11D66D145166B922D22131E93C2968A34995BA5E1114B61E289B28A0F9B180081472E4CCFEE0CE7C311FDA24BBD0184B3CED5E95296057BF504ED130511E34B6C2AE9F66B608E71457635C2E190C007854E0C9D6C7B36CADFF70BC27D9760FA03080A33D3BBB8874F1EF08C52B2849081FF6A5FEFAC0D036C75BDEE04799396C3B9E4DA6FDB4C96A56EE45F24D8">
-		<input type="hidden" name="returnURL"
-			value="30AE4190ABA49F31B0B08B570F0712C134735204AA80C3494155F0BEF3CA1D7E926E6DB3FA4346606FD3BACFD3BF0720F7EC14F53A6FFF982237CFACF3E4F1E1ED7BEC2A3C2A5A793B6BDEA4DB0CE62B">
-		<input type="hidden" name="reqInfo1"
-			value="E86A3C280320B80B2D3D6FDCD9E36FC3681CD330F86427C701AE21842D3A0DBE">
-		<input type="hidden" name="reqInfo2" value="KMC000001-"> <input
-			type="hidden" name="reqCriOSYn" value="Y">
-	</form>
-
+<!-- script영역 -->
 <script>
-	$("#btnCancel").on("click", function () {
-		location.href = "<%=contextPath%>/olive/userInfo.do";
-	});
+
+
 $(function () {
-    $('#securityNum').keydown(function(event) {
-    	if ( event.which == 13 ){
-    		$("#btnSubmit").click();	
-    	}
-    });	
-}); 
+  	$('#securityNum').keydown(function(event) {
+    	console.log($('#userName').val());
+    	console.log($('#No').val());
+  		if ( event.which == 13 ){
+     		$("#btnSubmit").click();	
+     	}
+
+   	});
+  	
+	
 	$("#btnSubmit").on("click", function () {
+		if($("#userName").val()==""){
+			alert("이름을 입력해주세요.");
+			 $("#userName").focus();
+			return false;
+		}
+		if($("#Birth").val()==""){
+			alert("주민번호 앞 6자리를 입력해주세요.");
+			 $("#Birth").focus();
+			return false;
+		}
+		if($("#Sex").val()==""){
+			alert("주민번호 뒷자리를 입력해주세요.");
+			 $("#Sex").focus();
+			return false;
+		}
+		if($("#userTel").val()==""){
+			alert("휴대폰번호를 입력해주세요.");
+			 $("#userTel").focus();
+			return false;
+		}
+		if($("#securityNum").val()==""){
+			alert("보안문자를 정확히 입력해주세요.");
+			 $("#securityNum").focus();
+			return false;
+		}
+		alert("인증이 완료되었습니다.");
 		$("#cplogn").submit();
 		
+	    // 부모 창 함수 호출
+ 		 window.close();
+   		 window.opener.submitParentForm();
+	    // 자식 창 닫기
 	});
-
+	$("#btnCancel").on("click", function () {
+		alert("인증이 취소되었습니다.");
+		close();
+	});
+});
 </script>
 </body>
 </html>

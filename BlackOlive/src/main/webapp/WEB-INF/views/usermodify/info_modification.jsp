@@ -5,25 +5,7 @@
 
 		<!-- contents -->
 		<div id="contentsWrap">
-			<form name="mobChgForm" id="mobChgForm" method="post" action="">
-				<input type="hidden" name="enc_data" value=""> <input
-					type="hidden" name="enc_com" value=""> <input type="hidden"
-					name="hg_nm" value=""> <input type="hidden" name="phone_no"
-					value=""> <input type="hidden" name="mob_no_1" value="">
-				<input type="hidden" name="mob_no_2" value=""> <input
-					type="hidden" name="mob_no_3" value=""> <input
-					type="hidden" name="dup_mob_no_init_use" value="N"> <input
-					type="hidden" name="coopco_cd" value="7030"> <input
-					type="hidden" name="brnd_cd" value="3000"> <input
-					type="hidden" name="mcht_no" value="3000">
-			</form>
-			<form name="sform" id="sform" method="post" action="">
-				<input type="hidden" name="coopco_cd" id="coopco_cd" value="7030">
-				<input type="hidden" name="brnd_cd" id="brnd_cd" value="3000">
-				<input type="hidden" name="mcht_no" id="mcht_no" value="3000">
-				<input type="hidden" name="coop_return_url" id="coop_return_url"
-					value="https://www.oliveyoung.co.kr/store/mypage/getMktReceiptInfo.do?refresh=Y">
-			</form>
+
 			<form name="form1" id="form1" method="post" action="">
 					<input type="hidden" name = "newTel" value = "${newTel }"/>
 					<input type="hidden" name = "newName" value="${newName }"/>
@@ -160,7 +142,7 @@
 															value=""> <input type="hidden" name="mob_no_2"
 															id="mob_no_2" value=""> <input type="hidden"
 															name="mob_no_3" id="mob_no_3" value="">
-															<a href="<%=contextPath%>/olive/nameUpdate.do" class="btn btn_sm">
+															<a href="<%=contextPath%>/usermodify/name_update" class="btn btn_sm">
 															<span class="arr">변경하기</span></a>
 													</div>
 													<p class="msg_desc">
@@ -2101,36 +2083,11 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 		</div>
 		<!-- //contents -->
 
-		<form method="post" name="action_frm" id="action_frm" action="">
-			<input type="hidden" name="coopco_cd" id="ajax_coopco_cd" value="">
-			<input type="hidden" name="brnd_cd" id="ajax_brnd_cd" value="">
-			<input type="hidden" name="mcht_no" id="ajax_mcht_no" value="">
-			<input type="hidden" name="coop_return_url" id="ajax_coop_return_url"
-				value=""> <input type="hidden" name="return_func"
-				id="ajax_return_func" value=""> <input type="hidden"
-				name="sub_type" id="ajax_sub_type" value=""> <input
-				type="hidden" name="ipin_use_yn" id="ajax_ipin_use_yn" value="">
-			<input type="hidden" name="hg_nm" id="ajax_hg_nm" value=""> <input
-				type="hidden" name="vno" id="ajax_vno" value=""> <input
-				type="hidden" name="ssn1" id="ajax_ssn1" value=""> <input
-				type="hidden" name="ssn2" id="ajax_ssn2" value=""> <input
-				type="hidden" name="ipin_ci" id="ajax_ipin_ci" value=""> <input
-				type="hidden" name="ipin_di" id="ajax_ipin_di" value=""> <input
-				type="hidden" name="gender" id="ajax_gender" value=""> <input
-				type="hidden" name="legl_birth_dy" id="ajax_legl_birth_dy" value="">
-			<input type="hidden" name="frgnr_yn" id="ajax_frgnr_yn" value="">
-			<input type="hidden" name="under_14" id="ajax_under_14" value="">
-			<input type="hidden" name="id_validate" id="ajax_id_validate"
-				value=""> <input type="hidden" name="agr_dy"
-				id="ajax_agr_dy" value=""> <input type="hidden"
-				name="agr_tm" id="ajax_agr_tm" value=""> <input
-				type="hidden" name="agr_yn" id="ajax_agr_yn" value=""> <input
-				type="hidden" name="mod_rcvr_list" id="ajax_mod_rcvr_list" value="">
-		</form>
 
 	<!--script 영역-->
 <script>
@@ -2153,7 +2110,7 @@
         });
         	
         //CJ ONE + 제휴사 마케팅 전체 동의
-        $('[data-check-all]').checkboxAllChecker();
+  //      $('[data-check-all]').checkboxAllChecker();
         //정보제공 동의여부
         $('[data-control="accordion"]').accordion();
             
@@ -2176,7 +2133,7 @@
             }
         }
 	    	
-	    $("#lnChangeName").click(changeName);
+	  //  $("#lnChangeName").click(changeName);
 
 	    $("#birth_yy").change(function(){
 	    	date_change();
@@ -2451,7 +2408,7 @@ function chkPwd() {
 		}
 	$("#lnChangeName").on("click", function (event) {
 		event.preventDefault();
-		location.href = "<%=contextPath%>/olive/nameUpdate.do"; 
+		location.href = "/usermodify/name_update"; 
 	});
 
 	$("#btn_submit").on("click", function () {
