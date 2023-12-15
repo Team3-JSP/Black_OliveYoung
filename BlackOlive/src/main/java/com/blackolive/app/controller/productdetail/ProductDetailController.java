@@ -1,5 +1,6 @@
 package com.blackolive.app.controller.productdetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
 import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.domain.review.ReviewImgDTO;
+import com.blackolive.app.domain.review.ReviewScoreDTO;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
 import com.blackolive.app.service.review.ReviewService;
@@ -38,6 +41,9 @@ public class ProductDetailController {
 	
 	@GetMapping()
 	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
+			@RequestParam(value = "gdasSort", defaultValue = "01")String gdasSort,
+			@RequestParam(value="productId", defaultValue = "ALL")String productId,
+			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
@@ -75,9 +81,34 @@ public class ProductDetailController {
 		model.addAttribute("productExplainImgs", productExplainImgs);
 		
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
-		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, "02", "All", 1, 1);
-		// model.addAttribute("reviewlist",reviewlist);
+
+			// 페이징 처리
+		int numberOfPageBlock =10; //
+		int totalRecords =0; // 총 레코드 수 게시글 수
 		
+		int perPage = 1; // 한페이지에 출력하는 변수를 서버에 전송하는 변수 원래는 24이지만 테스트로인해 5로수정
+		int totalpage = 0; // 한페이지가 얼마나 나오는 수
+		PageDTO pageDTO = null;
+		totalRecords = this.reviewService.getTotalReviewRecordsService(productDisplayId, productId);
+		totalpage = this.reviewService.getTotalReviewPagesServiec(productDisplayId, productId, perPage);
+		model.addAttribute("pDto",new PageDTO(currentPage, perPage, numberOfPageBlock, totalpage));
+			// 리뷰 리스트 불러오기
+		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage);
+		model.addAttribute("reviewlist",reviewlist);
+		List<ReviewDTO> reviewlistall = this.reviewService.reviewListAllService(productDisplayId, productId);
+		// 리뷰 점수
+		ReviewScoreDTO reviewScoreDTO = this.reviewService.reviewScoreService(productDisplayId, productId);
+		model.addAttribute("reviewScore",reviewScoreDTO);
+		// 리뷰 이미지
+		List<ReviewImgDTO> reviewimglist = null;
+		List<List<ReviewImgDTO>> reviewimg = new ArrayList<List<ReviewImgDTO>>();
+		
+		model.addAttribute("reviewlistall",reviewlistall);
+		model.addAttribute("reviewimg",reviewimg);
+		model.addAttribute("totalRecords",totalRecords);
+		model.addAttribute("reviewcnt",reviewlistall.size());
+
+
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
 		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
 		model.addAttribute("productBrandInfo", productBrandInfo);

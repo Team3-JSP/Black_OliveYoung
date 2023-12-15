@@ -370,4 +370,10 @@ function qnaListAjax(currentPage, productDisplayId) {
 	}); // ajax close 
 } // qnaListAjax
 
-		
+// 리뷰 관련 스크립트
+$(function(){
+	 
+	 $(".prd_option_box.box_select").click(function(){
+		 $(this).addClass("open")
+	 })
+}) // function
