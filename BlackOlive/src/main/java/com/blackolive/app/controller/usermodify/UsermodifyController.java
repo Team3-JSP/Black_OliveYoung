@@ -26,6 +26,9 @@ public class UsermodifyController {
 	@Autowired
 	private UsermodifyService usermodifyService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	//비밀번호 변경_GET
 	@GetMapping("/pwd_modification")
 	public String pwdModify( Principal principal, Model model) throws ClassNotFoundException, SQLException {
@@ -35,6 +38,22 @@ public class UsermodifyController {
 		model.addAttribute("userDto", userDto);
 		//passwordEncoder.matches(userDto.getUserPassword(), );
 		return "usermodify.pwd_modification";
+	}
+
+	//비밀번호 변경 완료_POST
+	@PostMapping("/pwd_modification")
+	public String pwdModifyOk(@RequestParam("new_pwd") String newPassword
+										, @RequestParam("userDto") OliveUserDTO userDto
+										, Model model) throws ClassNotFoundException, SQLException {
+		log.info("pwdModifyOk_POST...");
+        userDto = this.usermodifyService.pwdModify(passwordEncoder.encode(newPassword));
+        
+        if (userDto == null) {
+            log.error("User not found for userId: " + userDto);
+            return "error";
+        } else {
+		return "usermodify.pwd_modification_ok";
+        }
 	}
 	
 	//회원정보수정-비밀번호체크_GET
@@ -54,30 +73,8 @@ public class UsermodifyController {
 		log.info( ">>>>>pwdCheckOk_POST..." +principal.getName());
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
-		log.info("아이디 : "+userDto.getUserId());
-		log.info("비밀번호 : "+userDto.getUserPassword());
 		model.addAttribute("userDto", userDto);
 		return "usermodify.info_modification";
 	}
-//	//비밀번호 체크_POST
-//	@PostMapping("/pwd_modification")
-//	public String pwdCheck ( Principal principal, Model model, String userPassword ) {
-//		log.info("pwdCheck_POST...");
-//		String userId = principal.getName();
-//		OliveUserDTO userDto = 
-//	}
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	//비밀번호 변경 완료_POST
-	@PostMapping("/pwd_modification")
-	public String pwdModifyOk(@RequestParam("new_pwd") String newPassword
-										, @RequestParam("userDto") OliveUserDTO userDto
-										, HttpRequest request
-										, Model model) throws ClassNotFoundException, SQLException {
-		log.info("pwdModifyOk_POST...");
-		
-		userDto = this.usermodifyService.pwdModify(newPassword);
-		return "usermodify.pwd_modification_ok";
-	}
+
 }
