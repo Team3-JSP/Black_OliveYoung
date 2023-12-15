@@ -8,7 +8,7 @@ import com.blackolive.app.domain.counselor.FaqVO;
 public interface CounselorService {
 	
 	//마이너 카테고리로 불러오기 서비스
-	public List<FaqVO> faqlistwithMinorservice(String askCategoryMinor) throws ClassNotFoundException, SQLException;
+	public List<FaqVO> faqlistwithMinorservice(String askCategoryMajor, String askCategoryMinor) throws ClassNotFoundException, SQLException;
 	
 	//메이져 카테고리로 불러오기 서비스
 	public List<FaqVO> faqlistwithMajorservice(String askCategoryMajor) throws ClassNotFoundException, SQLException;

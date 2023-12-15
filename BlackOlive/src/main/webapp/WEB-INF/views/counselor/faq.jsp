@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
+
+
 				
 	<div id="Container">
 		
@@ -80,9 +82,6 @@
 			<div id="TabsOpenArea">
 	
 		
-				
-				
-                    
                     
                 <div class="area-customer commsTabDiv acOn">
                     
@@ -91,14 +90,14 @@
 					<ul class="comm2sTabs">
 			
 				    
-						<li class="on" data-cd="200">
-						    <button type="button" class="icon_tab02" title="선택됨">온라인몰</button>
+						<li data-cd="200">
+						    <button type="button" class="icon_tab02" >온라인몰</button>
 							
 							<ul class="twoTabs twoTabsIdx200">
 							
                                 
                                 
-                                    <li class="on" ><button type="button">전체</button></li>
+                                    <li><button type="button">전체</button></li>
                                 
 							
                             
@@ -131,12 +130,8 @@
                                 
                                     <li data-cd="301"><button type="button">주문/결제</button></li>
                                 
-                            
-				
-                                
                                     <li data-cd="302"><button type="button">배송문의</button></li>
                                 
-                            
                                     <li data-cd="303"><button type="button">취소/교환/환불</button></li>
                                 
                                     <li data-cd="304"><button type="button">이벤트</button></li>
@@ -166,7 +161,7 @@
 				
 					</ul>
                 
-                <div class="topTen" id="btnFaqTop10"><a href="#n">가장 궁금해하시는 질문 10개</a></div>
+                <div class="topTen" id="btnFaqTop10"><a href="<%=contextPath%>/counselor/faq">가장 궁금해하시는 질문 10개</a></div>
                     
 				</div>
 				
@@ -176,7 +171,7 @@
 						<ul>
 						
 							<c:forEach items="${faqVO}" var="faq" begin="1" end="${fn:length(faqVO)}" step="1">
-							    <li class="${faq.rowNumber le 3 ? 'topThree' : ''}">
+							    <li class="${faq.rowNumber le 4 ? 'topThree' : ''}">
 							    
 							        <!-- 반복 동작 수행 -->
 							        <a href="#n" role="button" class="tit" title="답변 내용보기" data-attr="고객센터^FAQ_${faq.askCategoryMajor}/${faq.askCategoryMinor}^" data-value="${faq.faqTitle}">
@@ -221,7 +216,20 @@
 	
 	
 	</div>
-
+	<c:if test="${ askCategoryMinor eq TOP10 }">
+		<div class="phone-banner">
+			<div class="deposits">
+				<strong>매장</strong>
+				<em>1577-4887</em>
+				<span>평일 09:00 ~ 18:00</span>
+			</div>
+			<div class="online">
+				<strong>온라인몰</strong>
+				<em>1522-0882</em>
+				<span>평일 09:00 ~ 18:00</span>
+			</div>
+		</div>
+	</c:if>
 				<p class="common1s-text">찾으시는 질문이 없다면?</p>
 				<div class="area1sButton">
 			
@@ -232,6 +240,74 @@
 			</div>
 		</div>
 	</div>
-				
-</body>
-</html>
+
+
+<script>
+	
+<%-- 
+ $(document).ready(function(){
+	 	
+
+	 	$("ul.comm2sTabs li").removeClass("on");
+		$("ul.twoTabs li").removeClass("on");
+
+		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
+		
+		if ( ${askCategoryMinor} ) {
+			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
+		} else {
+			$("ul.twoTabs li button:contains('전체')").parent().addClass("on");
+		}
+		
+	 	
+	 
+	    $("a.tit").click(function() {
+	        var $parent = $(this).parent();
+	        var $siblingContents = $(this).siblings("ul.conts");
+
+	        if ($siblingContents.css("display") === "none") {
+	            // 현재 클릭한 항목을 열어야 하는 경우
+	            $parent.addClass("open");
+	            $siblingContents.show();
+	        } else {
+	            // 현재 클릭한 항목을 닫아야 하는 경우
+	            $parent.removeClass("open");
+	            $siblingContents.hide();
+	        }
+	        
+	        // 다른 항목들은 닫기
+	        $parent.siblings().removeClass("open").find("ul.conts").hide();
+	    });
+	    
+	    $("ul.comm2sTabs li button").on("click", function() {
+	    	
+	    	var major = $(this).text();
+	    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
+	    	
+	    });
+	    
+	    $("ul.twoTabs li button").on("click", function() {
+	    	var major = $(this).parents("ul").siblings("button").text();
+	    	var minor = $(this).text();	    	
+	    	if (minor.eq("전체")) {
+	    		location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major)
+			} else {
+		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
+			}
+	    });	
+	    
+	    
+
+	 	
+	    
+			
+			
+		
+	    
+	});
+--%>	
+ 
+</script>
+<script>
+	
+</script>

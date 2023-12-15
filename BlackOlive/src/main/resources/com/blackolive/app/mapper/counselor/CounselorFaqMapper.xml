@@ -13,7 +13,7 @@
 		<result property="faqTitle" column="faqTitle"/>
 		<result property="faqContent" column="faqContent"/>
 	</resultMap>
-	<!-- public List<FaqVO> faqlistwithMinor(String askCategoryMinor) throws ClassNotFoundException, SQLException; -->
+	<!-- public List<FaqVO> faqlistwithMinor(@Param("askCategoryMajor") String askCategoryMajor, @Param("askCategoryMinor") String askCategoryMinor) throws ClassNotFoundException, SQLException; -->
 	<select id="faqlistwithMinor" resultMap="faqMap">
 		SELECT  ROW_NUMBER ()over( ORDER BY faq_id) AS rowNumber,
 		        f.ask_category_id AS askCategoryId ,
@@ -23,7 +23,8 @@
 		        faq_content AS faqContent
 		FROM faq f
 		    LEFT JOIN ask_category ac on f.ask_category_id = ac.ask_category_id
-		WHERE ask_category_minor = #{ askCategoryMinor }
+		WHERE ask_category_minor = #{ askCategoryMinor } 
+		and ask_category_major = #{ askCategoryMajor } 
 	</select>
 	
 	
@@ -38,6 +39,7 @@
 		FROM faq f
 		    LEFT JOIN ask_category ac on f.ask_category_id = ac.ask_category_id
 		WHERE ask_category_major = #{ askCategoryMajor }
+		
 	</select>
 	
 	<!-- public List<FaqVO> faqlistsearch(String searchword) throws ClassNotFoundException, SQLException; -->
