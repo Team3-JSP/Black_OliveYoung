@@ -6,9 +6,6 @@
 
 
 
-	<div class="mypage-conts">
-		
-
 		<div class="title-area2">
 			<h2 class="tit">
 				주문/배송 조회<em>(최근 1개월)</em>
@@ -18,20 +15,20 @@
 		</div>
 		<div class="layer_pop_wrap" id="service_survey" style=""></div>
 
-		<a href="${pageContext.request.contextPath}/olive/orderDelivery.do" class="order_view"
+		<a href="${pageContext.request.contextPath}/mypage/orderDelivery" class="order_view"
 			data-attr="마이페이지^주문배송조회_요약건수">
 			<ul class="mypage-step">
 			
-				<c:set value="${ deliveryStatusMap }" var="delivery" /> 
-					<li><em> <%-- 주문접수 --%> ${ delivery.orderState1 }
+				<c:set value="${ deliveryStatusVO }" var="delivery" /> 
+					<li><em> <%-- 주문접수 --%> ${ delivery.deliveryStatus1 }
 					</em> <span>주문접수</span></li>
-					<li><em> <%-- 결제완료 --%> ${ delivery.orderState2 }
+					<li><em> <%-- 결제완료 --%> ${ delivery.deliveryStatus2 }
 					</em> <span>결제완료</span></li>
-					<li><em> <%-- 배송준비중 --%> ${ delivery.orderState3 }
+					<li><em> <%-- 배송준비중 --%> ${ delivery.deliveryStatus3 }
 					</em> <span>배송준비중</span></li>
-					<li><em> <%-- 배송중 --%> ${ delivery.orderState4 }
+					<li><em> <%-- 배송중 --%> ${ delivery.deliveryStatus4 }
 					</em> <span>배송중</span></li>
-					<li><em> <%-- 배송완료 --%> ${ delivery.orderState5 }
+					<li><em> <%-- 배송완료 --%> ${ delivery.deliveryStatus5 }
 					</em> <span>배송완료</span></li>
 				
 			</ul>
@@ -40,7 +37,7 @@
 		<div class="title-area mgT15">
 			<h2 class="tit">좋아요</h2>
 			<a class="btnMore" id="wishListMore"
-				href="${pageContext.request.contextPath}/olive/Like.do">더보기</a>
+				href="${pageContext.request.contextPath}/mypage/productlike">더보기</a>
 		</div>
 
 		<!-- 좋아요 상품 목록 -->
@@ -50,38 +47,38 @@
 			<ul class="cate_prd_list" id="wishList" name="wishList">
 											
 				<c:choose>
-					<c:when test="${ not empty userPlike }">
-						<c:forEach items="${ userPlike }" var="pl">
-							<li data-goods-no="${ pl.plpId }">
+					<c:when test="${ not empty likeVO }">
+						<c:forEach items="${ likeVO }" var="pl">
+							<li data-goods-no="${ pl.productId }">
 								<div class="prd_info">
-									<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.plpdispId}&displNum=${pl.plcsid}${pl.plcmid}" class="prd_thumb goodsList"
-										data-ref-goodsno="${ pl.plpId }" data-ref-dispcatno=""
+									<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" class="prd_thumb goodsList"
+										data-ref-goodsno="${ pl.productId }" data-ref-dispcatno=""
 										data-ref-itemno="001"><span class="thumb_flag best">베스트</span><img
-										src="${ pl.plImgsrc }" alt="${ pl.plpdispId }"
+										src="${ pl.productDisplaySrc }" alt="${ pl.productDisplayId }"
 										onerror="common.errorImg(this);"></a>
 									<div class="prd_name">
-										<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.plpdispId}&displNum=${pl.plcsid}${pl.plcmid}" class="goodsList"
-											data-ref-goodsno="${ pl.plpId }" data-ref-dispcatno=""
-											data-ref-itemno="001"><span class="tx_brand">${ pl.plbrand }</span>
-											<p class="tx_name">${ pl.plpdispN }</p></a>
+										<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" class="goodsList"
+											data-ref-goodsno="${ pl.productId }" data-ref-dispcatno=""
+											data-ref-itemno="001"><span class="tx_brand">${ pl.brandName }</span>
+											<p class="tx_name">${ pl.productDisplayName }</p></a>
 									</div>
 									<button class="btn_zzim jeem on"
 										data-ref-goodsno="A000000190116">
 										<span>찜하기후</span>
 									</button>
 									<p class="prd_price">
-										<span class="tx_org"><span class="tx_num">${ pl.plpricep }</span>원
-										</span><span class="tx_cur"><span class="tx_num">${ pl.plpricea }</span>원
+										<span class="tx_org"><span class="tx_num">${ pl.productPrice }</span>원
+										</span><span class="tx_cur"><span class="tx_num">${ pl.afterPrice }</span>원
 										</span>
 									</p>
 									<p class="prd_flag">
-										<c:if test="${ pl.pmd eq 1 }">
+										<c:if test="${ pl.promotionDiscount eq 1 }">
 											<span class="icon_flag sale">세일</span>
 										</c:if>
-										<c:if test="${ pl.pmp eq 1 }">
+										<c:if test="${ pl.promotionPresent eq 1 }">
 											<span class="icon_flag gift">증정</span>
 										</c:if>
-										<c:if test="${ pl.pmc eq 1 }">
+										<c:if test="${ pl.promotionCoupon eq 1 }">
 											<span class="icon_flag coupon">쿠폰</span>
 										</c:if>
 										<c:if test="${	pl.stock > 0}">
@@ -172,6 +169,6 @@
 
 
 
-	</div>
+
 
 

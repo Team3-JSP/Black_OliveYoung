@@ -29,12 +29,7 @@ public class HeadController {
 		Map<CategoryLargeDTO, List<CategoryMidDTO>> firstTotalCategory = this.headServiceImpl.getHeadCategorySerivce(1);
 		Map<CategoryLargeDTO, List<CategoryMidDTO>> secondTotalCategory = this.headServiceImpl.getHeadCategorySerivce(2);
 		Map<CategoryLargeDTO, List<CategoryMidDTO>> thirdTotalCategory = this.headServiceImpl.getHeadCategorySerivce(3);
-		
-		System.out.println(firstTotalCategory);
-		System.out.println(secondTotalCategory);
-		System.out.println(thirdTotalCategory);
-		
-		
+
 		 model.addAttribute("firstTotalCategory", firstTotalCategory);
 		model.addAttribute("secondTotalCategory", secondTotalCategory);
 		model.addAttribute("thirdTotalCategory", thirdTotalCategory);
@@ -45,4 +40,6 @@ public class HeadController {
 	//request.setAttribute("thirdTotalCategory", thirdTotalCategory);
 		
 	} //getCategory
+	
+	
 } // class

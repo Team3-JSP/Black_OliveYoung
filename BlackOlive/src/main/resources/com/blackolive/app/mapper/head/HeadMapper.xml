@@ -43,4 +43,47 @@
 		where category_total_id = 1
 	</select>
 	
+	<select id="selectAllEvent" resultType="EventDTO">
+		SELECT *
+		FROM event
+		WHERE event_category=#{click} AND event_enddate >= SYSDATE
+	</select>
+	
+	<select id="selectOneEvent" resultType="EventDTO">
+		SELECT *
+		FROM event
+		WHERE event_id = #{eventId}
+	</select>
+	
+	<select id="selectAllGiftCard" resultType="GiftCardDTO">
+		SELECT *
+		FROM giftcard
+	</select>
+	
+	<select id="selectOneGiftCard" resultType="GiftCardDTO">
+		SELECT *
+		FROM giftcard
+		WHERE giftcard_id = #{giftCardId}
+	</select>
+	
+	<select id="selectAllMsgCard" resultType="MsgCardDTO">
+		SELECT *
+		FROM msg_card
+	</select>
+
+	<select id="getTotalCategory" resultType="com.blackolive.app.domain.head.AllCategoryDTO">
+		SELECT DISTINCT
+                    ch.category_total_id
+					, cl.category_large_id, cl.category_large_name 
+					, cm.category_mid_id, cm.category_mid_name 
+					, cs.category_small_id, cs.category_small_name 
+					FROM product_display pd 
+					JOIN product p ON pd.product_display_id = p.product_display_id
+					JOIN category_small cs ON p.category_small_id = cs.category_small_id 
+					JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id 
+					JOIN category_large cl ON cm.category_large_id = cl.category_large_id
+					JOIN category_total ch ON cl.category_total_id = ch.category_total_id 
+					where pd.product_display_id = #{product_display_id}
+	</select>
+	
 </mapper>
