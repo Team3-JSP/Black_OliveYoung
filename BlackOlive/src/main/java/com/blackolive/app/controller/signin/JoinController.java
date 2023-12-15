@@ -127,6 +127,6 @@ public class JoinController {
 		String userPassword = userDto.getUserPassword();
 		userDto.setUserPassword(this.passwordEncoder.encode(userPassword));
 		this.joinService.insertUser(userDto);
-		return "auth.login";
+		return "redirect:../auth.login";
 	}
 }

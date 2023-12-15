@@ -284,8 +284,6 @@
 						<sec:authorize access="isAnonymous()">
 
 							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
-							<%-- <li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li> --%>
-
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
 						</sec:authorize>
@@ -318,9 +316,9 @@
 
 
 
-					<li class="order"><a onclick="" href="#"
+					<li class="order"><a onclick="" href="<%=contextPath%>/mypage/orderdelivery"
 						data-attr="공통^헤더^주문배송">주문배송</a></li>
-					<li class="customer"><a onclick="" href="#"
+					<li class="customer"><a onclick="" href="<%=contextPath%>/counselor/faq"
 						data-attr="공통^헤더^고객센터">고객센터</a></li>
 					<li class="store"><a onclick=""
 						href="<c:url value='/store/getStoreMain'/>"

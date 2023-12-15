@@ -522,16 +522,7 @@
 	<!-- 키보드보안 6.5 REAL URL -->
 			</section>
 
-			<form id="cplogn" name="cplogn" method="post">
-				<input type="hidden" name="reqInfo" value="FF3C0E7EC1A2A8EF675600B2C421F87785F62E8E44C8B86DCD70D56AB7C7F0A568BDC8D8651D1BBF243F7C764696F8CF672D10627188AFA294140A1631209084E19FEB81795467A64615AAFDAE5B740719746E4A8EADEC98F2990469F1BA5CA8B6E1B0D03AD07AF9F52B0CA872ABCBF4E628D11D66D145166B922D22131E93C2D2370B2EA5A77519EFCA48A12203F175B3A04FDDDA1A2F909998207ED37DF258F8484001684F6CA02CF79127EAED3D98C8E29272537215637FD9D2291FE07D78425B52D74E867BB4EC8FCE5F53EE43E9C5B43292083546C0175BFF66AC0B4A997C33216D769B629B4183668A0AFF2C94B7B50FC0876C1E522FF50616972FBB21">
-				<input type="hidden" name="returnURL" value="30AE4190ABA49F31B0B08B570F0712C134735204AA80C3494155F0BEF3CA1D7E926E6DB3FA4346606FD3BACFD3BF0720F7EC14F53A6FFF982237CFACF3E4F1E1ED7BEC2A3C2A5A793B6BDEA4DB0CE62B">
-				<input type="hidden" name="reqInfo1" value="E86A3C280320B80B2D3D6FDCD9E36FC3681CD330F86427C701AE21842D3A0DBE">
-				<input type="hidden" name="reqInfo2" value="KMC000001-">
-				<input type="hidden" name="reqCommIdStated" value="">
-				<input type="hidden" name="reqCommIdStatedYn" value="N">
-				<input type="hidden" name="retry" id="retry" value="">
-				<input type="hidden" name="CommId" id="CommId" value="">
-				<input type="hidden" name="reqCriOSYn" value="Y">
+			<form id="cplogn" name="cplogn" method="get" action="modify_phlast">
 			</form>
 
 			<div id="footer">
@@ -746,9 +737,8 @@
 		</script>
 <script>
 	$("#btnSms").on("click", function () {
-		location.href = "modify_phlast.jsp";
+		$("#cplogn").submit();
 	});
 </script>
-
 </body>
 </html>

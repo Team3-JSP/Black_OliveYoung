@@ -965,58 +965,14 @@
 
 					<!-- 옵션end -->
 <!-- 리뷰 시작 -->
-					<!-- 필터 start -->
-					<!-- ## 리뷰 고도화 1차 : 삭제  ##  -->
-					<!-- <div class="cate_align_box prodLine"> -->
-					<!-- <div class="align_sort">
-		<ul id="gdasSort">
-			<li><a href="javascript:;" data-value="02">최신순</a></li>
-			<li><a href="javascript:;" data-value="01">도움순</a></li>
-			<li><a href="javascript:;" data-value="03">높은 별점순</a></li>
-			<li><a href="javascript:;" data-value="04">낮은 별점순</a></li>
-		</ul>
-	</div> -->
-
-					<!-- 			<p class="txtFilter"></p> -->
-
-					<!-- </div> -->
-					<!-- ## 리뷰 고도화 1차 : 삭제  ##  -->
-					<!-- 필터end -->
-
-					<!-- 올영체험단 배너값 추가-->
+				
 					<input type="hidden" id="dispImgUrl"
 						value="https://image.oliveyoung.co.kr/uploads/images/display/">
 					<input type="hidden" id="bnrImgUrl"
 						value="900000100050003/131/7765849726836347803.jpg"> <input
 						type="hidden" id="bnrImgTxtCont" value="올영체험단 PC 배너">
-					<!-- summary 페이지  삽입됨  -->
-
-					<!-- 추천 키워드 영역 -->
-
-			
-
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-		
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-			
-
-					<!--평균별점집계 start-->
-
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					
-		
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
 				
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-
-
+<div id="review">
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">
@@ -1506,7 +1462,7 @@
 				</div>
 			</div>
 
-
+</div>
 			<!--  리뷰 팝업 창 -->
 			<div class="layer_pop_wrap w850" id="layerWrap850"
 				style="z-index: 999; display: none; left: 50%; margin-left: -425px; top: 2169.5px; margin-top: -371px;">
@@ -2369,6 +2325,41 @@ function modifyQnA(qnaId) {
 		} // error close
 		
 	}); //ajax close
-	
+
 } // modifyQna
+}) // ready Function
+</script>
+<script>
+// 리뷰
+$("#reviewInfo").on("click",function(){
+	var productDisplayId = $("#goodsNo").val();
+	reviewAjax(1,productDisplayId)
+})
+function reviewAjax(currentPage, productDisplayId) {
+	let qnadiv = $('.prd_qna_list');
+	let qnaPage = $('.pageing');
+	
+	
+	$.ajax({
+		type: "GET",
+		cache: false,
+		url: '/getReview',
+		data: {
+			productDisplayId : productDisplayId,
+			currentPage : currentPage
+		},
+		success: function(response) {
+			
+			$("#review").empty()
+			$("#review").append(response)
+				
+
+		},
+		error: function(response) {
+			alert('실패');
+			console.log("리뷰 조회 실패");
+		} // error close
+	}); // ajax close 
+} // qnaListAjax
+
 </script>

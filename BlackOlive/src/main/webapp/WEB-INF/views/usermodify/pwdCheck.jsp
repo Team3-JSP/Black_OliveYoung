@@ -3,16 +3,7 @@
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 	<div id="contentsWrap">
 			<form id="form1" method="post" action="">
-				<input type="hidden" name="coopco_cd" id="coopco_cd" value="7030">
-				<input type="hidden" name="brnd_cd" id="brnd_cd" value="3000">
-				<input type="hidden" name="mcht_no" id="mcht_no" value="3000">
-				<input type="hidden" name="coop_return_url" id="coop_return_url"
-					value="https://www.oliveyoung.co.kr/store/mypage/getMktReceiptInfo.do?refresh=Y">
-				<input type="hidden" name="__chkpwd" id="__chkpwd" value="">
-				<input type="hidden" name="pwd" id="security_pwd" value="">
-				<input type="hidden" name="access_token" id="access_token" value="">
-				<input type="hidden" name="noAgr" id="noAgr"
-					value="AGRTYPCD_10,AGRTYPCD_11,AGRTYPCD_30,AGRTYPCD_40,AGRTYPCD_31,AGRTYPCD_Y14LT">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 			<input type="hidden" name="tmpField">
 			<div id="contents">
@@ -79,12 +70,11 @@
 			console.log(`>password = \${inputPwd}`);
 			$.ajax({
 				url:"/userPwdCheck"		//passwordCheckAjaxController.java 
-				, method:"POST"
+				, method:"GET"
 				, data: {inputPwd:inputPwd
 					, "${_csrf.parameterName}" :"${_csrf.token}"}
 				, dataType:"json"
 				, success: function (data) {
-					alert(data);
 					 if (data == 0 ){
 				         alert("비밀번호가 일치하지 않습니다.");
 				         $("#pwd").focus();

@@ -20,7 +20,7 @@
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기 -->
 	<select id="getSortBrands" resultType="BrandPageDTO">
 		SELECT *
-		FROM productcontainer
+		FROM productcontainer2
 		WHERE brand_Id = #{brandId}
 		<choose>
 			<when
