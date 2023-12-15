@@ -111,6 +111,25 @@
 			$("body").append(dimm);
 			popupCenter($("#layer_pop_wrap"));
 		});
+		
+		// 리뷰 상세 보기 Ajax
+		function reviewDetail(reviewId) {
+			
+			$.ajax({
+				url: "/store/getReviewDetail"
+				, method:"GET"
+				, cache:false
+				, data:{
+					reviewId : reviewId
+				}
+				, success: function (data) {
+					console.log(data);
+				}
+				, error : function (xhr, data, textStatus) {
+					console.log('error');
+		        } // success , error
+			}) // ajax
+		}
 	});
 </script>
 
@@ -169,73 +188,96 @@
 			</div>
 				<div class="TabsConts on">
 					<ul class="cate_prd_list ">
-					<c:forEach items="${productList }" var="list" varStatus="status">
-							<li class="flag">
-								<div class="prd_info ">
-									<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000160943&amp;dispCatNo=90000010009&amp;trackingCd=Best_Sellingbest&amp;t_page=랭킹&amp;t_click=판매랭킹_전체_상품상세&amp;t_number=1" name="Best_Sellingbest" class="prd_thumb goodsList" data-ref-goodsno="A000000160943" data-attr="랭킹^판매랭킹리스트_전체^[11/17 단하루 특가] 셀리맥스 시카 지우개패드 60매 (토너 패드)^1" data-ref-dispcatno="90000010009" data-ref-itemno="001" data-trk="/" data-impression="A000000160943^랭킹_판매랭킹리스트_전체^1" data-impression-visibility="1">
-										<!-- <span class="newOyflag today"><em>오특</em></span>
-										<span class="newOyflag time" style="display:none;">
-											<div class="main-today">
-												<div class="timer ready">
-													<span class="nums h">
-														<span class="num" data-timer-val="0">0</span>
-														<span class="num" data-timer-val="0">0</span>
-													</span>
-													<span class="nums m">
-														<span class="num" data-timer-val="0">0</span>
-														<span class="num" data-timer-val="0">0</span>
-													</span>
+					<c:if test="${type eq '판매 랭킹' }">
+						<c:forEach items="${productList }" var="list" varStatus="status">
+								<li class="flag">
+									<div class="prd_info ">
+										<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000160943&amp;dispCatNo=90000010009&amp;trackingCd=Best_Sellingbest&amp;t_page=랭킹&amp;t_click=판매랭킹_전체_상품상세&amp;t_number=1" name="Best_Sellingbest" class="prd_thumb goodsList" data-ref-goodsno="A000000160943" data-attr="랭킹^판매랭킹리스트_전체^[11/17 단하루 특가] 셀리맥스 시카 지우개패드 60매 (토너 패드)^1" data-ref-dispcatno="90000010009" data-ref-itemno="001" data-trk="/" data-impression="A000000160943^랭킹_판매랭킹리스트_전체^1" data-impression-visibility="1">
+											<!-- <span class="newOyflag today"><em>오특</em></span>
+											<span class="newOyflag time" style="display:none;">
+												<div class="main-today">
+													<div class="timer ready">
+														<span class="nums h">
+															<span class="num" data-timer-val="0">0</span>
+															<span class="num" data-timer-val="0">0</span>
+														</span>
+														<span class="nums m">
+															<span class="num" data-timer-val="0">0</span>
+															<span class="num" data-timer-val="0">0</span>
+														</span>
+													</div>
 												</div>
-											</div>
-										</span> -->
-										<span class="thumb_flag best"><fmt:formatNumber value="${status.count}" pattern="00"/></span>
-										<img src="${list.productDisplaySrc }" alt="${list.productDisplayName }">
-									</a>
-									<div class="prd_name">
-										<a href="javascript:;" name="Best_Sellingbest" class="goodsList">
-											<span class="tx_brand">${list.brandName }</span>
-											<p class="tx_name">${list.productDisplayName }</p>
+											</span> -->
+											<span class="thumb_flag best"><fmt:formatNumber value="${status.count}" pattern="00"/></span>
+											<img src="${list.productDisplaySrc }" alt="${list.productDisplayName }">
 										</a>
+										<div class="prd_name">
+											<a href="javascript:;" name="Best_Sellingbest" class="goodsList">
+												<span class="tx_brand">${list.brandName }</span>
+												<p class="tx_name">${list.productDisplayName }</p>
+											</a>
+										</div>
+										<button class="btn_zzim jeem" data-goodsno="${list.productDisplayId }"><span>찜하기전</span></button>
+										<p class="prd_price">
+											<span class="tx_org">
+												<span class="tx_num">
+													<fmt:formatNumber value="${list.minprice }" pattern="#,###"/>
+												</span>원 
+											</span>
+											<span class="tx_cur">
+												<span class="tx_num">
+													<fmt:formatNumber value="${list.afterprice }" pattern="#,###"/>
+												</span>원 
+											</span>
+										</p>
+										<p class="prd_flag">
+											<c:if test="${list.discountflag eq '1'}">
+												<span class="icon_flag sale">세일</span>
+											</c:if>
+											<c:if test="${list.couponflag eq '1'}">
+												<span class="icon_flag coupon">쿠폰</span>
+											</c:if>
+											<!-- 기간계 상품, 브랜드 증정품만 아이콘 노출 -->
+											<c:if test="${list.presentflag eq '1'}">
+												<span class="icon_flag gift" id="free_gift">증정</span>
+											</c:if>
+											<c:if test="${list.todaypickupflag eq '1'}">
+												<span class="icon_flag delivery" id="quick_yn">오늘드림</span>
+											</c:if>
+										</p>
+										<p class="prd_point_area tx_num"><span class="review_point"><span class="point" style="width:94.0%">10점만점에 5.5점</span></span>(435)</p>
+										<p class="prd_btn_area"><button class="cartBtn" data-ref-goodsno="A000000160943" data-ref-dispcatno="90000010009" data-ref-itemno="001">장바구니</button><button class="btn_new_pop goodsList">새창보기</button></p>
 									</div>
-									<button class="btn_zzim jeem" data-goodsno="${list.productDisplayId }"><span>찜하기전</span></button>
-									<p class="prd_price">
-										<span class="tx_org">
-											<span class="tx_num">
-												<fmt:formatNumber value="${list.minprice }" pattern="#,###"/>
-											</span>원 
-										</span>
-										<span class="tx_cur">
-											<span class="tx_num">
-												<fmt:formatNumber value="${list.afterprice }" pattern="#,###"/>
-											</span>원 
-										</span>
-									</p>
-									<p class="prd_flag">
-										<c:if test="${list.discountflag eq '1'}">
-											<span class="icon_flag sale">세일</span>
-										</c:if>
-										<c:if test="${list.couponflag eq '1'}">
-											<span class="icon_flag coupon">쿠폰</span>
-										</c:if>
-										<!-- 기간계 상품, 브랜드 증정품만 아이콘 노출 -->
-										<c:if test="${list.presentflag eq '1'}">
-											<span class="icon_flag gift" id="free_gift">증정</span>
-										</c:if>
-										<c:if test="${list.todaypickupflag eq '1'}">
-											<span class="icon_flag delivery" id="quick_yn">오늘드림</span>
-										</c:if>
-									</p>
-									<p class="prd_point_area tx_num"><span class="review_point"><span class="point" style="width:94.0%">10점만점에 5.5점</span></span>(435)</p>
-									<p class="prd_btn_area"><button class="cartBtn" data-ref-goodsno="A000000160943" data-ref-dispcatno="90000010009" data-ref-itemno="001">장바구니</button><button class="btn_new_pop goodsList">새창보기</button></p>
-								</div>
-							</li>
-						<c:if test="${status.count % 4 == 0 or status.last}">
-				            </ul>
-				            <c:if test="${not status.last}">
-				                <ul class="cate_prd_list">
-				            </c:if>
-				        </c:if>
-					</c:forEach>
+								</li>
+							<c:if test="${status.count % 4 == 0 or status.last}">
+					            </ul>
+					            <c:if test="${not status.last}">
+					                <ul class="cate_prd_list">
+					            </c:if>
+					        </c:if>
+						</c:forEach>
+					</c:if>
+					<c:if test="${type eq '리뷰 베스트' }">
+						<div class="help_review_wrap grid" id="reviewBestList">
+							<c:forEach items="${reviewList}" var="list" varStatus="status">
+								<a href="javascript:;" class="review_items" onclick="reviewDetail('${list.reviewId}')">
+									<div class="img_wrap">
+										<img class="thum" src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/09/26/1695692530417.png?RS=165x0&amp;CS=165x165" alt="">
+										<span class="score_stick">리뷰 ${status.count }위</span>
+									</div>
+									<div class="info_wrap">									
+										<p class="title"></p>									
+										<p class="text_wrap none_title">${list.reviewContent }</p>
+									</div>
+									<div class="ect_wrap">
+										<ul class="ect">
+											<li class="help"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon_k_on.png" alt="">도움이 돼요 <span>${list.reviewLike }</span></li>
+										</ul>
+									</div>
+								</a>
+							</c:forEach>
+						</div>
+					</c:if>
 			</div>	
 		</div>
 	</div>

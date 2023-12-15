@@ -13,6 +13,7 @@ import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.review.ReviewDTO;
 
 public interface HeadMapper {
 
@@ -39,5 +40,7 @@ public interface HeadMapper {
 	List<CategoryLargeDTO> selectRankingCatLargeName(@Param("type") String type); // 랭킹 카테고리 중분류 이름 리스트
 
 	List<ProductContainer> selectSaleRankingProduct(@Param("categoryLargeId") String categoryLargeId); // 판매 랭킹 상품 리스트
+
+	List<ReviewDTO> selectReviceBest(@Param("categoryLargeId") String categoryLargeId); // 리뷰 베스트 리스트
 	
 } // interface

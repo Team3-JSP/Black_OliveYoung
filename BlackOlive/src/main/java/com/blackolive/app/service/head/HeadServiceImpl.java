@@ -15,6 +15,7 @@ import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -91,6 +92,11 @@ public class HeadServiceImpl implements HeadService{
 	@Override
 	public List<ProductContainer> getSaleRankingProduct(String categoryLargeId) throws SQLException {
 		return this.headMapper.selectSaleRankingProduct(categoryLargeId);
+	}
+
+	@Override
+	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException {
+		return this.headMapper.selectReviceBest(categoryLargeId);
 	}
 
 } // class

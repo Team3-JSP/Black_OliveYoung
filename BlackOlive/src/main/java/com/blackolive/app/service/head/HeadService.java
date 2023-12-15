@@ -10,6 +10,7 @@ import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.review.ReviewDTO;
 
 
 public interface HeadService {
@@ -31,4 +32,6 @@ public interface HeadService {
 	public List<CategoryLargeDTO> getRankingCatLargeName(String type) throws SQLException; // 랭킹 카테고리 중분류 이름 리스트
 
 	public List<ProductContainer> getSaleRankingProduct(String categoryLargeId) throws SQLException; // 판매랭킹 상품 얻기
+
+	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException;
 } // interface

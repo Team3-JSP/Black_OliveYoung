@@ -121,4 +121,14 @@
 		ORDER BY ordercnt DESC
 	</select>
 	
+	<!-- 나중에 리뷰 이미지 추가작업 -->
+	<select id="selectReviceBest" resultType="ReviewDTO">
+		SELECT review_id, review_content, review_like
+		FROM review r JOIN product p ON r.product_id = p.product_id
+		            JOIN category_small cs ON p.category_small_id = cs.category_small_id
+		            JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+		WHERE category_large_id = #{categoryLargeId}
+		ORDER BY review_like DESC
+	</select>
+	
 </mapper>
