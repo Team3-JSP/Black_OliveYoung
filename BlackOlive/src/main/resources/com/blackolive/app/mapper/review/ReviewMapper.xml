@@ -143,22 +143,22 @@ FROM (
 	ReviewScoreDTO reviewScore( String productDisplayId, String productId); -->
 	<select id="reviewScore" resultType="com.blackolive.app.domain.review.ReviewScoreDTO">
 	SELECT 
-				  COALESCE(SUM(CASE WHEN review_grade = 5 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade_5_ratio, 
-				  COALESCE(SUM(CASE WHEN review_grade = 4 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade_4_ratio, 
-				  COALESCE(SUM(CASE WHEN review_grade = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade_3_ratio, 
-				  COALESCE(SUM(CASE WHEN review_grade = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade_2_ratio, 
-				  COALESCE(SUM(CASE WHEN review_grade = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade_1_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_1 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade1_3_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_1 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade1_2_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_1 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade1_1_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_2 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade2_3_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_2 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade2_2_ratio, 
-                  COALESCE(SUM(CASE WHEN review_poll_2 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade2_1_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_3 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade3_3_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_3 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade3_2_ratio, 
-				  COALESCE(SUM(CASE WHEN review_poll_3 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0) AS grade3_1_ratio, 
-				  AVG(COALESCE(review_grade, 0)) AS averagegrade 
-				FROM review 
+    ROUND(COALESCE(SUM(CASE WHEN review_grade = 5 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade_5_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_grade = 4 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade_4_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_grade = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade_3_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_grade = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade_2_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_grade = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade_1_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_1 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade1_3_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_1 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade1_2_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_1 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade1_1_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_2 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade2_3_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_2 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade2_2_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_2 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade2_1_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_3 = 3 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade3_3_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_3 = 2 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade3_2_ratio, 
+    ROUND(COALESCE(SUM(CASE WHEN review_poll_3 = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100, 0), 1) AS grade3_1_ratio, 
+    ROUND(AVG(COALESCE(review_grade, 0)), 1) AS averagegrade 
+	FROM review
 				where
 				<choose>
         <when test='productId == "ALL"'>
