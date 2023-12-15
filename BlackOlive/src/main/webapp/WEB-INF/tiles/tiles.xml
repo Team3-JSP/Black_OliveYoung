@@ -38,6 +38,15 @@
 		<put-attribute name="title" value="블랙 올리브영"/>
 		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
 	</definition>
+	
+	<definition name="counselor.*" template="/WEB-INF/views/counselor/layout/counselorlayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/layout/head.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/views/counselor/{1}.jsp"/>
+		<put-attribute name="title" value="블랙 올리브영"/>
+		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
+		<put-attribute name="css2" value="/resources/cdn-main/counselor.css"/>		
+	</definition>
 
 	<definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/views/layout/head.jsp"/>
