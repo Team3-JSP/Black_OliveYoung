@@ -62,5 +62,11 @@ public interface ProductListMapper {
 
 	// 좋아요 상태 확인
 	public String isProductLiked( @Param("userId") String userId,  @Param("productDisplayId")String productDisplayId);
+	
+	// 그 카테고리에 많이 본 상품아이디 20개 갖고오는 작업 getTopviewProductId
+	public List<String> getTopviewProductId (@Param("largeId") String largeId);
+	
+	// 상품 아이디를 가지고 상품 정보 객체 갖고오기 getTopviewProduct
+	public List<ProductContainer> getTopviewProduct (@Param("productDisplayIds")List<String> productDisplayIds, String userId);
 
 } // interface

@@ -12,15 +12,15 @@ import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
+import com.blackolive.app.domain.productList.PageDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
-import com.blackolive.app.domain.productdetail.QnADTO;
+import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.domain.review.ReviewDTO;
-import com.blackolive.app.mapper.review.ReviewMapper;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
 import com.blackolive.app.service.review.ReviewService;
@@ -41,9 +41,13 @@ public class ProductDetailController {
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
+		
 		int cateHId = allCategoryDTO.getCategoryTotalId();
 		String CategoryLargeId = allCategoryDTO.getCategoryLargeId();
 		String CategoryMidId = allCategoryDTO.getCategoryMidId();
+		
+		// 상품 조회 기록 저장
+		this.productDetailService.insertProductViewSerivce(CategoryLargeId, productDisplayId);
 		
 		List<CategoryLargeDTO> categoryLargeList = this.productListService.getCategoryLargeService(CategoryMidId);
 		List<CategoryMidDTO> categoryMidList = this.productListService.getCategoryMidService(CategoryLargeId);
@@ -59,7 +63,7 @@ public class ProductDetailController {
 		model.addAttribute("productList",productList);
 		
 		//=======================  해당 상품의 프로모션 ===========================
-		ProductPromotionDTO productPromotion = this.productDetailService.getProductPromotionService(productDisplayId);
+		List<ProductPromotionDTO>productPromotion = this.productDetailService.getProductPromotionService(productDisplayId);
 		model.addAttribute("productPromotion",productPromotion);
 		
 		//======================= 해당 상품의 이미지 갖고오기 ===========================
@@ -72,7 +76,8 @@ public class ProductDetailController {
 		
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
 		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, "02", "All", 1, 1);
-		model.addAttribute("reviewlist",reviewlist);
+		// model.addAttribute("reviewlist",reviewlist);
+		
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
 		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
 		model.addAttribute("productBrandInfo", productBrandInfo);
@@ -82,8 +87,14 @@ public class ProductDetailController {
 		model.addAttribute("productBuyinfo", productBuyinfo);
 		
 		// ======================= 해당 QnA 갖고오기 ===========================
-		List<QnADTO> productQnA = this.productDetailService.getProductQnaService(productDisplayId);
-		model.addAttribute("productQnA", productQnA);
+		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId, 1, 10);
+		// model.addAttribute("qnaList", qnaList);
+		
+		// QnA 페이징 처리
+		int qnaTotalRecords = this.productDetailService.getQnaTotalRecordsService(productDisplayId);
+		int qnaTotalPages =this.productDetailService.getQnATotalPagesService(productDisplayId);
+		PageDTO qnaPagedto = new PageDTO(1, 10, 10, qnaTotalPages);
+		// model.addAttribute("qnaPagedto", qnaPagedto);
 		
 		// ======================= (데이터 수집) 사용자가 조회했던 중분류 카테고리 저장 ========
 		

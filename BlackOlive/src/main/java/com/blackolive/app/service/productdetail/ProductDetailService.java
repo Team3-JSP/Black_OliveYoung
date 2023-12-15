@@ -2,6 +2,8 @@ package com.blackolive.app.service.productdetail;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
@@ -9,7 +11,7 @@ import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
-import com.blackolive.app.domain.productdetail.QnADTO;
+import com.blackolive.app.domain.productdetail.QnAListDTO;
 
 public interface ProductDetailService {
 	
@@ -18,7 +20,7 @@ public interface ProductDetailService {
 	List<ProductDetailDTO> getProductService(String productDisplayId);
 	
 	// 해당 상품의 프로모션 갖고오기 getProductPromotion
-	ProductPromotionDTO getProductPromotionService(String productDisplayId);
+	List<ProductPromotionDTO> getProductPromotionService(String productDisplayId);
 	
 	// 해당 상품의 표시 이미지 갖고오기 getProductDisplayImg
 	List<ProductDetailIMGDTO> getProductDisplayImgService(String productDisplayId);
@@ -33,6 +35,17 @@ public interface ProductDetailService {
 	List<ProductBuyinfoDTO> getProductBuyInfoService (String productDisplayId);
 	
 	// 해당 상품의 QnA 갖고오기 getProductQna
-	List<QnADTO> getProductQnaService (String productDisplayId);
+	List<QnAListDTO> getProductQnaService (String productDisplayId, int currentPage, int perPage);
+	
+	// productView 기록 
+	public void insertProductViewSerivce(String largeId, String productDisplayId);
+	
+	// QnA 레코드 수 갖고오기
+	int getQnaTotalRecordsService(String productDisplayId);
+	
+	// QnA 총 페이지수 갖고오기
+	int getQnATotalPagesService(String productDisplayId);
+	
+
 	
 } // interface

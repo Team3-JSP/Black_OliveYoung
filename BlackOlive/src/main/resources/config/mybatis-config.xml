@@ -31,7 +31,7 @@
 			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO" alias="ProductDetailExplainIMGDTO" />
 			<typeAlias type="com.blackolive.app.domain.productdetail.ProductDetailBrandDTO" alias="ProductDetailBrandDTO" />
 			<typeAlias type="com.blackolive.app.domain.productdetail.ProductBuyinfoDTO" alias="ProductBuyinfoDTO" />
-			<typeAlias type="com.blackolive.app.domain.productdetail.QnADTO" alias="QnADTO" />
+			<typeAlias type="com.blackolive.app.domain.productdetail.QnAListDTO" alias="QnAListDTO" />
 			<typeAlias type="com.blackolive.app.domain.review.ReviewDTO" alias="ReviewDTO"/>
 			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
@@ -60,6 +60,7 @@
 		<mapper resource="com/blackolive/app/mapper/usermodify/UsermodifyMapper.xml"/>
 
 		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/productdetail/QnARestMapper.xml"/>
 		
 	</mappers>
 	

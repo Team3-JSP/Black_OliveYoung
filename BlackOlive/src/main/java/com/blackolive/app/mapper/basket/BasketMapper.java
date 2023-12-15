@@ -3,6 +3,7 @@ package com.blackolive.app.mapper.basket;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.blackolive.app.domain.basket.BasketDTO;
 
