@@ -26,40 +26,40 @@ public class StoreAjaxController {
 	
 	@GetMapping("/getDistrict/{city_id}")
 	public ResponseEntity<List<DistrictDTO>> getDistrict(@PathVariable String city_id) {
-		return new ResponseEntity<List<DistrictDTO>>(this.storeService.getDistrictService(city_id), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getDistrictService(city_id), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getStoreList")
 	public ResponseEntity<List<StoreDTO>> getDistrict(String[] tcs, String[] pss, String city, String district) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), city, district), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), city, district), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getStoreKeyword")
 	public ResponseEntity<List<StoreDTO>> getStoreKeyword(String[] tcs, String[] pss, String keyword) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), keyword), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), keyword), HttpStatus.OK);
 	}
 	
 	/*
 	@GetMapping("/getStoreCondition")
 	public ResponseEntity<List<StoreDTO>> getStoreCondition(String[] tcs, String[] pss, String keyword) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), keyword), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getStoreService(String.join(",", tcs), String.join(",", pss), keyword), HttpStatus.OK);
 	}
 	*/
 	
 	@PostMapping("/setStoreFavorite")
 	public ResponseEntity<String> setFavorite(String storeId, Integer clickCheck, Principal principal) throws Exception {
 		return this.storeService.udpStoreFavorService(storeId, principal.getName(), clickCheck) == 1
-				? new ResponseEntity<String>("success", HttpStatus.OK) 
-				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+				? new ResponseEntity<>("success", HttpStatus.OK) 
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping("/getInterestShopList")
 	public ResponseEntity<List<StoreDTO>> getInterestShop(String[] tcs, String[] pss, Principal principal) {
-		return new ResponseEntity<List<StoreDTO>>(this.storeService.getInterestShopService(String.join(",", tcs), String.join(",", pss), principal.getName()), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getInterestShopService(String.join(",", tcs), String.join(",", pss), principal.getName()), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getProductName/{keyword}")
 	public ResponseEntity<List<ProductContainer>> getProductName(@PathVariable String keyword) {
-		return new ResponseEntity<List<ProductContainer>>(this.storeService.getProductNameList(keyword), HttpStatus.OK);
+		return new ResponseEntity<>(this.storeService.getProductNameList(keyword), HttpStatus.OK);
 	}
 }

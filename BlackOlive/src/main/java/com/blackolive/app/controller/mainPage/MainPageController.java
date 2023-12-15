@@ -2,17 +2,21 @@ package com.blackolive.app.controller.mainPage;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.EventDTO;
-import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.mapper.mainPage.MainPageMapper;
 import com.blackolive.app.service.head.HeadServiceImpl;
 
@@ -85,9 +89,37 @@ public class MainPageController {
 	
 	@GetMapping("/store/getRanking")
 	public String getRanking(
-			@RequestParam(value = "click", defaultValue = "판매 랭킹") String click) {
+			String click
+			, @RequestParam(value = "type", defaultValue = "판매 랭킹") String type
+			, String categoryLargeId
+			, Model model) throws SQLException {
+		List<CategoryLargeDTO> categoryLargeList = this.headServiceImpl.getRankingCatLargeName(type);
+		List<ProductContainer> productList = null; 
+		List<ReviewDTO> reviewList = null; 
+		
+		if(type.equals("판매 랭킹")) {
+			productList = this.headServiceImpl.getSaleRankingProduct(categoryLargeId);
+			model.addAttribute("productList", productList);
+		} else {
+			categoryLargeId = "0001";
+			reviewList = this.headServiceImpl.getReviewBest(categoryLargeId);
+			model.addAttribute("reviewList", reviewList);
+		}
+		
+		System.out.println("reviewList : " + reviewList);
+		
+		model.addAttribute("click", click);
+		model.addAttribute("type", type);
+		model.addAttribute("categoryLargeList", categoryLargeList);
 		
 		
 		return "mainPage.ranking";
 	}
+	
+//	@GetMapping("/store/getReviewDetail")
+//	public ResponseEntity<Map<String, >> getReviewDetail(String reviewId) throws SQLException {
+//		
+//	}
+	
+	
 } // class

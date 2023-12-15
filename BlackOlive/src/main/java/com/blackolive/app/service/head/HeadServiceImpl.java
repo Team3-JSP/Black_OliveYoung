@@ -2,7 +2,6 @@ package com.blackolive.app.service.head;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +12,10 @@ import org.springframework.stereotype.Service;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.EventDTO;
-import com.blackolive.app.domain.head.ExampleDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -82,6 +82,21 @@ public class HeadServiceImpl implements HeadService{
 	@Override
 	public List<MsgCardDTO> getMsgcardList() throws SQLException {
 		return this.headMapper.selectAllMsgCard();
+	}
+
+	@Override
+	public List<CategoryLargeDTO> getRankingCatLargeName(String type) throws SQLException {
+		return this.headMapper.selectRankingCatLargeName(type);
+	}
+
+	@Override
+	public List<ProductContainer> getSaleRankingProduct(String categoryLargeId) throws SQLException {
+		return this.headMapper.selectSaleRankingProduct(categoryLargeId);
+	}
+
+	@Override
+	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException {
+		return this.headMapper.selectReviceBest(categoryLargeId);
 	}
 
 } // class
