@@ -66,15 +66,40 @@
 	</select>
 	
 <!-- 	// 해당 상품의 QnA 갖고오기
-	public List<QnADTO> getProductQna (@Param("productDisplayId") String productDisplayId); -->
+	public List<QnAListDTO> getProductQna (@Param("productDisplayId") String productDisplayId, @Param("start") int start, @Param("end") int end);; -->
 	<select id="getProductQna" resultType="QnAListDTO">
-		SELECT qna_id, user_id, qna_question, qna_answer, qna_date, qna_status FROM qna
-		WHERE product_display_id =#{productDisplayId}
+		SELECT *         
+   		 	FROM (             
+        			SELECT ROWNUM no, t.*            
+        			FROM 
+            			(
+                			SELECT qna_id, user_id, qna_question, qna_answer, qna_date, qna_status
+                			FROM qna 
+                			WHERE product_display_id = #{productDisplayId}
+                			ORDER BY qna_date desc
+            			) t
+        		) b
+		WHERE b.no BETWEEN #{start} AND #{end}
 	</select>
+	
+	<!-- // QnA 총 레코드수 갖고오기
+	public int getQnaTotalRecords(@Param("productDisplayId") String productDisplayId); -->
+	<select id="getQnaTotalRecords" resultType="int">
+		SELECT count(*) FROM qna
+		WHERE product_display_id = #{productDisplayId}
+	</select>
+	
+	<!-- // QnA 총 페이지수 갖고오기
+	public int getQnATotalPages(@Param("productDisplayId") String productDisplayId); -->
+	
+	<select id="getQnATotalPages" resultType="int">
+		SELECT CEIL( COUNT(*) / 10 ) FROM qna
+		WHERE product_display_id = #{productDisplayId}
+	</select>
+	
 	
 	<!-- // productView 기록 
 	public void insertProductView(@Param("largeId")String largeId, @Param("productDisplayId") String productDisplayId); -->
-	
 	<insert id="insertProductView">
 	INSERT INTO product_view  
 	VALUES (#{largeId}, #{productDisplayId}, SYSDATE)

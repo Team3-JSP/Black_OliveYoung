@@ -2,6 +2,8 @@ package com.blackolive.app.service.productdetail;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
@@ -33,10 +35,17 @@ public interface ProductDetailService {
 	List<ProductBuyinfoDTO> getProductBuyInfoService (String productDisplayId);
 	
 	// 해당 상품의 QnA 갖고오기 getProductQna
-	List<QnAListDTO> getProductQnaService (String productDisplayId);
+	List<QnAListDTO> getProductQnaService (String productDisplayId, int currentPage, int perPage);
 	
 	// productView 기록 
 	public void insertProductViewSerivce(String largeId, String productDisplayId);
+	
+	// QnA 레코드 수 갖고오기
+	int getQnaTotalRecordsService(String productDisplayId);
+	
+	// QnA 총 페이지수 갖고오기
+	int getQnATotalPagesService(String productDisplayId);
+	
 
 	
 } // interface

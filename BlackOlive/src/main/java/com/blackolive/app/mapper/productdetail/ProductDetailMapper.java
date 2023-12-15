@@ -33,7 +33,13 @@ public interface ProductDetailMapper {
 	public List<ProductBuyinfoDTO> getProductBuyInfo (@Param("productDisplayId") String productDisplayId);
 	
 	// 해당 상품의 QnA 갖고오기 getProductQna
-	public List<QnAListDTO> getProductQna (@Param("productDisplayId") String productDisplayId);
+	public List<QnAListDTO> getProductQna (@Param("productDisplayId") String productDisplayId, @Param("start") int start, @Param("end") int end);
+	
+	// QnA 총 레코드수 갖고오기
+	public int getQnaTotalRecords(@Param("productDisplayId") String productDisplayId);
+	
+	// QnA 총 페이지수 갖고오기
+	public int getQnATotalPages(@Param("productDisplayId") String productDisplayId);
 	
 	// productView 기록 insertProductView
 	public void insertProductView(@Param("largeId")String largeId, @Param("productDisplayId") String productDisplayId);

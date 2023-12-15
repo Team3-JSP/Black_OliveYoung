@@ -59,6 +59,7 @@
 		<mapper resource="com/blackolive/app/mapper/usermodify/UsermodifyMapper.xml"/>
 
 		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/productdetail/QnARestMapper.xml"/>
 		
 	</mappers>
 	

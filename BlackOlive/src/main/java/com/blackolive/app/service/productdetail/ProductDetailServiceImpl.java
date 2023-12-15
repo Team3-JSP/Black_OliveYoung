@@ -82,10 +82,13 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 	
 	// ============================ 해당 상품의 구매 정보 갖고오기 ==============================
 	@Override
-	public List<QnAListDTO> getProductQnaService(String productDisplayId) {
+	public List<QnAListDTO> getProductQnaService(String productDisplayId, int currentPage, int perPage) {
 		log.info("ProductDetailServiceImpl getProductQnaService call...");
 		
-		return this.productMapper.getProductQna(productDisplayId);
+		int start = (currentPage -1) * perPage + 1;
+		int end = start + perPage -1 ;
+		
+		return this.productMapper.getProductQna(productDisplayId, start, end);
 	} // getProductQnaService
 
 	// ============================ 해당 상품의 뷰 기록 저장 ==============================
@@ -94,6 +97,21 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 		log.info("ProductDetailServiceImpl insertProductViewSerivce call...");
 		
 		this.productMapper.insertProductView(largeId, productDisplayId);
+	}
+
+	// ============================ 해당 상품의 QnA 레코드 수 ==============================
+	@Override
+	public int getQnaTotalRecordsService(String productDisplayId) {
+		log.info("ProductDetailServiceImpl getQnaTotalRecordsService call...");
+		
+		return this.productMapper.getQnaTotalRecords(productDisplayId);
+	} // getQnaTotalRecordsService
+
+	// ============================ 해당 상품의 QnA 페이지 수 ==============================
+	@Override
+	public int getQnATotalPagesService(String productDisplayId) {
+		log.info("ProductDetailServiceImpl getQnATotalPages call...");
+		return this.productMapper.getQnATotalPages(productDisplayId);
 	} 
 	
 	

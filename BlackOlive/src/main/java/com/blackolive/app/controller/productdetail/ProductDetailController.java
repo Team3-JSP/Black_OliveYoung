@@ -12,6 +12,7 @@ import com.blackolive.app.domain.head.AllCategoryDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
+import com.blackolive.app.domain.productList.PageDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
@@ -76,6 +77,7 @@ public class ProductDetailController {
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
 		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, "02", "All", 1, 1);
 		// model.addAttribute("reviewlist",reviewlist);
+		
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
 		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
 		model.addAttribute("productBrandInfo", productBrandInfo);
@@ -85,8 +87,14 @@ public class ProductDetailController {
 		model.addAttribute("productBuyinfo", productBuyinfo);
 		
 		// ======================= 해당 QnA 갖고오기 ===========================
-		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId);
-		model.addAttribute("qnaList", qnaList);
+		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId, 1, 10);
+		// model.addAttribute("qnaList", qnaList);
+		
+		// QnA 페이징 처리
+		int qnaTotalRecords = this.productDetailService.getQnaTotalRecordsService(productDisplayId);
+		int qnaTotalPages =this.productDetailService.getQnATotalPagesService(productDisplayId);
+		PageDTO qnaPagedto = new PageDTO(1, 10, 10, qnaTotalPages);
+		// model.addAttribute("qnaPagedto", qnaPagedto);
 		
 		// ======================= (데이터 수집) 사용자가 조회했던 중분류 카테고리 저장 ========
 		

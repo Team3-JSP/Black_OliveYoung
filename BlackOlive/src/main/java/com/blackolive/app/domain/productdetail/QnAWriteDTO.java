@@ -7,14 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QnAListDTO {
-
-	private String qnaId;
+public class QnAWriteDTO {
+	
+	private String productDisplayId;
 	private String userId;
 	private String qnaQuestion;
-	private String qnaAnswer;
-	private String qnaDate;
-	private String qnaStatus;
-	private boolean canModify = false;
-	
+
 } // class
