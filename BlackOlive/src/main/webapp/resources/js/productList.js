@@ -97,22 +97,7 @@ $(function(){
 				var content = "";
 		              $("#displItem").empty();
 		              
-							content += `<div class="layer_pop_wrap w490" id="basketOption" style="z-index: 999; display: block;">
-	<div class="layer_cont2">
-		<h2 class="layer_title2">옵션선택</h2>
-	
-
-		<div class="prd_option_box cate_list_basket">
-
-	
-			<a href="javascript:open();" onclick="" class="sel_option" id="mainCartSelect">옵션을 선택해주세요</a>
-
-			<ul class="sel_option_list selectItem new">`
-			
-				for (var i = 0; i < response.length; i++) {
-				content +=`
-				<li class=" okQuick">
-				<!-- 혜택 아이콘 li 분기 끝 -->
+						 
 				
 				<!--[END 오늘드림 옵션상품 개선:jwkim]-->
 					<a href="javascript:;" onclick="test(this);" data-ref-goodsno="${response[i].productId }" data-ref-itemno="001" promkndcd="" buycnt="" promno="" getitemautoaddyn="" getitemgoodsno="" getitemitemno="">
