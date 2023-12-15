@@ -2228,27 +2228,105 @@ $(function() {
 		
 	}); // goods_qna
 	
-	function modifyQnA(qnaId) {
-		
-		$.ajax({
-			type: "GET",
-			cache: false,
-			data: {
-				qnaId : qnaId
-			},
-			url : "/modifyQnA",
-			dataType: "json",
-			success: function() {
-				
-			},
-			error: function () {
-				
-			} // error close
-			
-		}); //ajax close
-		
-	} // modifyQna
 	
+}) // ready Function
+
+function modifyQnA(qnaId) {
+	
+	$.ajax({
+		type: "GET",
+		cache: false,
+		data: {
+			qnaId : qnaId
+		},
+		url : "/modifyQnA",
+		dataType: "json",
+		success: function(data) {
+			let qnaPop = `<div class="popup-contents" id="pop_cont" style="top: 1300px; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%;">
+				<div class="pop-conts">
+				<form name="sForm" id="sForm">
+					<input type="hidden" name="gdasSeq" id="gdasSeq" value="${data.qnaId}"> 
+					<input type="hidden" name="goodsNo" id="goodsNo" value="">
+					<h1 class="ptit">상품 Q&amp;A 작성</h1>
+
+					<!-- [s] 2021.04.19 modify -->
+					<div class="mypage-qna-write disabled">
+						<div class="optionSec">
+							<h3>아래의 문의 유형을 선택해주세요.</h3>
+							<div class="radioGT1">
+								<label><input type="radio" name="prdTypeSelect" id="prdTypeSelect1"><span>상품문의</span></label>
+								<label><input type="radio" name="prdTypeSelect" id="prdTypeSelect2"><span>주문 상품문의</span></label>
+							</div>
+							<p class="txt">성분, 사용법, 구성 등 상품 관련 문의를 남겨주세요. 배송/교환/반품 문의는
+								‘주문상품문의’를 선택해주세요.</p>
+						</div>
+
+						<p class="common4s-text">아이디얼 포 맨 퍼펙트 올인원 탄력 기획(올인원 30ml+탄력크림 30ml 증정)</p>
+
+						<!-- 등록제한이 없는 한줄상품평 작성 -->
+						<div class="reviews-write disabled">
+							<textarea cols="5" rows="1" id="gdasCont" name="gdasCont" placeholder="Q&amp;A 게시판에서는 고객님의 정보 확인이 어려우므로 배송문의 등은 1:1 게시판 이용 부탁드립니다." disabled="">
+								${data.qnaQuestion}
+							</textarea>
+							<p>
+								<span id="curTxtLength">0</span>자/250자
+							</p>
+						</div>
+						<!-- 등록제한이 없는 한줄상품평 작성 -->
+
+						<div class="btnGroup">
+							<button id="cancel" type="button" class="btnGray" onclick="qnaPopDown()" disabled="disabled">취소</button>
+							<button id="reg" type="button" class="btnGreen" onclick="" disabled="disabled">등록</button>
+						</div>
+						<div class="usage-guide">
+							<h2 class="stit">이용안내</h2>
+							<ul>
+								<li>재판매글, 상업성 홍보글, 미풍양속을 해치는 글 등 상품 Q&amp;A의 취지에 어긋나는 글은 삭제될
+									수 있습니다.</li>
+							</ul>
+						</div>
+					</div>
+					<!-- [e] 2021.04.19 modify -->
+
+					<button type="button" class="ButtonClose" onclick="qnaPopDown();">팝업창
+						닫기</button>
+					<!-- [s] 2021.04.19 add -->
+					<div class="alertPop">
+						<p class="txt">
+							해당 상품의 배송/교환/반품 문의를 위해<br>1:1문의 게시판을 이용해주세요.
+						</p>
+						<p class="btnGroup">
+							<button type="button" class="btnMedium wGreen btnClose">취소</button>
+							<button id="btnCounsel" type="button" class="btnMedium btnGreen">1:1문의
+								바로가기</button>
+						</p>
+					</div>
+				</form>
+				<!-- [e] 2021.04.19 add -->
+			</div>
+			<div class="alertPop isOpen" style="display: none">
+				<p class="txt">
+					해당 상품의 배송/교환/반품 문의를 위해<br>1:1문의 게시판을 이용해주세요.
+				</p>
+				<p class="btnGroup">
+					<button type="button" class="btnMedium wGreen btnClose">취소</button>
+					<button id="btnCounsel" type="button" class="btnMedium btnGreen">1:1문의
+						바로가기</button>
+				</p>
+			</div>
+		</div>`;
+		
+		$('#Container').append(qnaPop);
+		
+		},
+		error: function (data) {
+			console.log(data);
+			alert('수정 실패');
+		} // error close
+		
+	}); //ajax close
+
+} // modifyQna
 }) // ready Function
 </script>
 <script>
