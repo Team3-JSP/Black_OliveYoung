@@ -2326,8 +2326,8 @@ function modifyQnA(qnaId) {
 		
 	}); //ajax close
 
-} // modifyQna
-}) // ready Function
+	} // modifyQna
+// ready Function
 </script>
 <script>
 // 리뷰
