@@ -1,5 +1,6 @@
 package com.blackolive.app.service.productdetail;
 
+import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.domain.productdetail.QnAWriteDTO;
 
 public interface QnARestService {
@@ -9,7 +10,7 @@ public interface QnARestService {
 	
 	// QnA 삭제 작업
 	
-	// QnA 수정 작업
-	
+	// Qna 수정하기 위해 QnaDTO를 갖고오는 작업 getQnA
+	public QnAListDTO getQnAService(String qnaId);
 	
 } // interface

@@ -11,5 +11,12 @@
 	<insert id="insertQnA">
 		INSERT INTO qna VALUES ('qna_'|| qna_seq.nextval,#{qnaWriteDTO.productDisplayId} , #{qnaWriteDTO.userId} , #{qnaWriteDTO.qnaQuestion} , null, sysdate, '답변대기')
 	</insert>
+	
+	<!-- // Qna 수정하기 위해 QnaDTO를 갖고오는 작업
+	public QnAListDTO getQnA(@Param("qnaId")String qnaId); -->
+	<select id="getQnA" resultType="QnAListDTO">
+		SELECT * FROM qna 
+		WHERE qna_Id = #{qnaId}
+	</select>
 
 </mapper>

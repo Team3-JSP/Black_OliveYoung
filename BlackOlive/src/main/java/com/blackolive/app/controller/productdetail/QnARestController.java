@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,10 +85,16 @@ public class QnARestController {
 	} // maskUserId
 	
 	@GetMapping("/modifyQnA")
-	public ResponseEntity<String> modifyQnA(String userId){
+	public ResponseEntity<QnAListDTO> modifyQnA(String qnaId){
+		log.info("QnARestController modifyQnA call...");
 		
-		return null;
-	}
+		QnAListDTO qna = this.qnaRestService.getQnAService(qnaId);
+		
+		return qna != null ? new ResponseEntity<QnAListDTO>(qna, HttpStatus.OK) : new ResponseEntity<QnAListDTO>(qna, HttpStatus.INTERNAL_SERVER_ERROR);
+	} // modifyQnA
+	
+	
+	
 	
 	
 } //class

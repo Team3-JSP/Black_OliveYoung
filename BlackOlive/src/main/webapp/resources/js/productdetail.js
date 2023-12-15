@@ -303,7 +303,7 @@ function qnaListAjax(currentPage, productDisplayId) {
 			    txUserId.append('<span>' + userId + '</span>');
 			    
 			   if (qna.canModify) {
-			        var editButton = $('<button class="btnSmall fullGray" onclick="">수정</button>');
+			        var editButton = $('<button class="btnSmall fullGray" onclick="modifyQnA(\''+ qna.qnaId  + '\')">수정</button>');
 			        var deleteButton = $('<button class="btnSmall fullGray" onclick="deleteQna(\'' + qna.qnaId + '\');">삭제</button>');
 			        
 			        txUserId.append(editButton);
