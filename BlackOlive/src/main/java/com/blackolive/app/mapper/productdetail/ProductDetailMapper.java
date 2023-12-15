@@ -3,20 +3,14 @@ package com.blackolive.app.mapper.productdetail;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-import com.blackolive.app.domain.head.CategoryLargeDTO;
-import com.blackolive.app.domain.head.CategoryMidDTO;
-import com.blackolive.app.domain.head.CategorySmallDTO;
-import com.blackolive.app.domain.productList.BrandDTO;
-import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailExplainIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailIMGDTO;
 import com.blackolive.app.domain.productdetail.ProductPromotionDTO;
-import com.blackolive.app.domain.productdetail.QnADTO;
+import com.blackolive.app.domain.productdetail.QnAListDTO;
 
 public interface ProductDetailMapper {
 	
@@ -24,7 +18,7 @@ public interface ProductDetailMapper {
 	public List<ProductDetailDTO> getProduct (@Param("productDisplayId") String productDisplayId);
 	
 	// 해당 상품의 프로모션 갖고오기 getProductPromotion
-	public ProductPromotionDTO getProductPromotion(@Param("productDisplayId") String productDisplayId);
+	public List<ProductPromotionDTO> getProductPromotion(@Param("productDisplayId") String productDisplayId);
 	
 	// 해당 상품의 표시 이미지 갖고오기 getProductDisplayImg
 	public List<ProductDetailIMGDTO> getProductDisplayImg(@Param("productDisplayId") String productDisplayId);
@@ -39,6 +33,17 @@ public interface ProductDetailMapper {
 	public List<ProductBuyinfoDTO> getProductBuyInfo (@Param("productDisplayId") String productDisplayId);
 	
 	// 해당 상품의 QnA 갖고오기 getProductQna
-	public List<QnADTO> getProductQna (@Param("productDisplayId") String productDisplayId);
+	public List<QnAListDTO> getProductQna (@Param("productDisplayId") String productDisplayId, @Param("start") int start, @Param("end") int end);
+	
+	// QnA 총 레코드수 갖고오기
+	public int getQnaTotalRecords(@Param("productDisplayId") String productDisplayId);
+	
+	// QnA 총 페이지수 갖고오기
+	public int getQnATotalPages(@Param("productDisplayId") String productDisplayId);
+	
+	// productView 기록 insertProductView
+	public void insertProductView(@Param("largeId")String largeId, @Param("productDisplayId") String productDisplayId);
+	
+
 	
 } // interface

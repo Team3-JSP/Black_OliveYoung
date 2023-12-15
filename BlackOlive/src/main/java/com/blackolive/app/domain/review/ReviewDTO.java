@@ -28,5 +28,7 @@ public class ReviewDTO {
 	private String skintoneName;
 	private String skintypeName;
 	private List<SkintbDTO> skinTrouble;
+	private List<ReviewImgDTO> reviewimg;
+	
 	
 }

@@ -1584,10 +1584,6 @@ $(function() {
 		}
 	});
 	
-	function () {
-		
-	}
-	
 })
 
 </script>

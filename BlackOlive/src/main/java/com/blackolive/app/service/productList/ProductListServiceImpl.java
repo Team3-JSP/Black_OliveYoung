@@ -1,5 +1,7 @@
 package com.blackolive.app.service.productList;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +131,23 @@ public class ProductListServiceImpl implements ProductListService{
 		}
 		return isLiked;
 	} // isProductLikedSerivce
+
+	// =============== 상품 아이디를 가지고 상품 정보 객체 갖고오기 =================== 
+	@Override
+	public List<ProductContainer> getTopviewProductService(String largeId, String userId) {
+		
+		log.info("ProductListServiceImpl getTopviewProductService call...");
+		
+		String[] brandId = new String [1];
+	
+		List<String> getProductIds = this.listMapper.getTopviewProductId(largeId);
+		if (getProductIds == null || getProductIds.size() <= 20) {
+			return this.listMapper.getProductList(1, largeId, "1",null , 1, 20, 1, 21, userId);
+		}
+		log.info("ProductListServiceImpl getTopviewProductId view...");
+		
+		return this.listMapper.getTopviewProduct(getProductIds, userId);
+	}
 
 	
 	

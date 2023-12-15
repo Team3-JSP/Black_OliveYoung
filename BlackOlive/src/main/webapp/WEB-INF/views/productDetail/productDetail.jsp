@@ -3,10 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/resources/js/productdetail.js"></script>
+<script>
+
+/* */
+
+
+</script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	
 <div id="Container">
 		<div id="Contents">
 
-			<!-- 상단 카테고리 history -->
 			<div class="page_location">
 				<a href="#" class="loc_home">홈</a>
 				<ul class="loc_history">
@@ -16,7 +28,7 @@
 								<c:if test="${not empty categoryLargeList }">
 									<c:forEach items="${categoryLargeList}" var="cll">
 										<li id="${cll.categoryLargeId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${cll.categoryLargeId}"
+											href="/store/display?dispCapno=${cll.categoryLargeId}"
 											class="goods_category1" data-deleteSession>${cll.categoryLargeName}</a></li>
 									</c:forEach>
 								</c:if>
@@ -28,7 +40,7 @@
 								<c:if test="${not empty categoryMidList}">
 									<c:forEach items="${categoryMidList}" var="cml">
 										<li id="${cml.categoryMidId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.categoryLargeId}${cml.categoryMidId}&sort=1"
+											href="/store/display?dispCapno=${allCategoryDTO.categoryLargeId}${cml.categoryMidId}&sort=1"
 											class="goods_category2" data-deleteSession>${cml.categoryMidName}</a></li>
 									</c:forEach>
 								</c:if>
@@ -40,7 +52,7 @@
 								<c:if test="${not empty categorySmallList}">
 									<c:forEach items="${categorySmallList}" var="csl">
 										<li id="${csl.categorySmallId}"><a
-											href="/view/product/pmidlistproduct.do?displNum=${allCategoryDTO.catLId}${allCategoryDTO.categoryMidId}${csl.categorySmallId}&sort=1"
+											href="/store/display?dispCapno=${allCategoryDTO.categoryLargeId}${allCategoryDTO.categoryMidId}${csl.categorySmallId}&sort=1"
 											class="goods_category3" data-deleteSession>${csl.categorySmallName}</a></li>
 									</c:forEach>
 								</c:if>
@@ -98,7 +110,7 @@
 				<div class="right_area">
 					<div class="prd_info">
 						<p class="prd_brand">
-							<a href=".do?brandId=${productList[0].brandId}" id="moveBrandShop"
+							<a href="/brandPage?brandId=${productList[0].brandId}" id="moveBrandShop"
 								class="pd_arrow_link">${productList[0].brandName}</a>
 						</p>
 						<p class="prd_name">${productList[0].productDisplayName }</p>
@@ -110,7 +122,7 @@
 										value="${productList[0].afterPrice}" pattern="#,###" /></strong> <span>원</span>
 							</span>
 							<c:if
-								test="${not empty productPromotion.promotionDiscountId or not empty productPromotion.promotionCouponId}">
+								test="${not empty productPromotion[0].promotionDiscountId or not empty productPromotion[0].promotionCouponId}">
 								<button type="button" id="btnSaleOpen" class="btn_more">혜택
 									정보</button>
 							</c:if>
@@ -123,22 +135,22 @@
 											<span class="label">판매가</span> <span class="price"><fmt:formatNumber
 													value="${productList[0].minPrice}" pattern="#,###" /><em>원</em></span>
 										</div>
-										<c:if test="${not empty productPromotion.promotionDiscountId}">
+										<c:if test="${not empty productPromotion[0].promotionDiscountId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">세일 (${productPromotion.promotionDiscountStartDay} ~
-														${productPromotion.promotionDiscountEndDay })</span> <span class="price"><fmt:formatNumber
-															value="${productPromotion.promotionDiscountPrice}" pattern="#,###" /><em>원</em></span>
+													<span class="label">세일 (${productPromotion[0].promotionDiscountStartDay} ~
+														${productPromotion[0].promotionDiscountEndDay })</span> <span class="price"><fmt:formatNumber
+															value="${productPromotion[0].promotionDiscountPrice}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
-										<c:if test="${not empty productPromotion.promotionCouponId}">
+										<c:if test="${not empty productPromotion[0].promotionCouponId}">
 											<div class="price_child">
 												<div class="flex-item">
-													<span class="label">${productPromotion.promotionCouponName }
-														(${productPromotion.promotionCouponStartDay}~ ${productPromotion.promotionCouponEndDay})</span> <span
+													<span class="label">${productPromotion[0].promotionCouponName }
+														(${productPromotion[0].promotionCouponStartDay}~ ${productPromotion[0].promotionCouponEndDay})</span> <span
 														class="price">-<fmt:formatNumber
-															value="${productPromotion.promotionCouponDiscount}" pattern="#,###" /><em>원</em></span>
+															value="${productPromotion[0].promotionCouponDiscount}" pattern="#,###" /><em>원</em></span>
 												</div>
 											</div>
 										</c:if>
@@ -266,12 +278,12 @@
 										<li
 											class="type1 <c:if test="${pll.productStock eq 0 }">soldout</c:if>">
 
-											<a style="cursor: pointer" href="#" id="LinkId${pll.proId}"
+											<a style="cursor: pointer" href="#" id="LinkId${pll.productId}"
 											onclick="displayDiv('${pll.productId}'); Test2();"> <span
 												class="color"> <img alt="상품이미지" src="${pll.productDisplaySrc}">
 											</span>
 												<div class="set">
-													<c:if test="${pll.proStock ne 0 }">
+													<c:if test="${pll.productStock ne 0 }">
 														<span class="option_value"> ${pll.productDisplayName} <span
 															class="option_price"> <span class="tx_num">
 																	<fmt:formatNumber value="${pll.afterPrice}"
@@ -783,56 +795,14 @@
 				<div id="kcInfo"></div>
 				<!-- 상품정보 -->
 				<div id="artcInfo">
-					<c:if test="">
+					<c:if test="${not empty productBuyinfo}">
+						<c:forEach items="${productBuyinfo}" var="pbi">
+						<dl class="detail_info_list">
+							<dt>${pbi.buyinfoTitle}</dt>
+							<dd>${pbi.buyinfoContent}</dd>
+						</dl>
+						</c:forEach>
 					</c:if>
-					<dl class="detail_info_list">
-					</dl>
-					<dl class="detail_info_list">
-						<dt>내용물의 용량 또는 중량</dt>
-						<dd>${detailInfoDTO.capacity}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>제품 주요 사양</dt>
-						<dd>${detailInfoDTO.reqirement}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>사용기한(또는 개봉 후 사용기간)</dt>
-						<dd>${detailInfoDTO.useDate}</dd>
-
-					</dl>
-					<dl class="detail_info_list">
-						<dt>사용방법</dt>
-						<dd>${detailInfoDTO.use}<br>
-						</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>화장품제조업자,화장품책임판매업자 및 맞춤형화장품판매업자</dt>
-						<dd>${detailInfoDTO.company}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>제조국</dt>
-						<dd>${detailInfoDTO.country}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>화장품법에 따라 기재해야 하는 모든 성분</dt>
-						<dd>${detailInfoDTO.ingredient}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>기능성 화장품 식품의약품안전처 심사필 여부</dt>
-						<dd>${detailInfoDTO.whether}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>사용할 때의 주의사항</dt>
-						<dd>${detailInfoDTO.caution}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>품질보증기준</dt>
-						<dd>${detailInfoDTO.quality}</dd>
-					</dl>
-					<dl class="detail_info_list">
-						<dt>소비자상담 전화번호</dt>
-						<dd>${detailInfoDTO.tel}</dd>
-					</dl>
 				</div>
 				<!-- 배송안내 -->
 				<h3 class="detail_tit mgT40">배송안내</h3>
@@ -943,7 +913,7 @@
 			</div>
 			<!--// 구매정보 컨텐츠 영역 -->
 
-
+<!--  
 			<!-- 리뷰 영역 -->
 			<div class="tabConts prd_detail_cont" id="gdasContentsArea">
 				<div class="review_wrap renew review-reward-notice">
@@ -964,26 +934,26 @@
 					<div class="prd_option_box box_select">
 
 						<a href="javascript:;" id="ALL" class="sel_option item"> <span
-							class="opt"><img src="${proDImg[0].proDImgSrc }"
+							class="opt"><img src="${productDisplayImgs[0].productDisplaySrc }"
 								onerror=""></span> <span class="txt">전체</span> <!-- ## 리뷰 고도화 1차 ## -->
 						</a>
 						<ul class="sel_option_list scrbar">
 							<li><a href="javascript:;" class="item" title="전체"> <span
-									class="opt"><img src="${proDImg[0].proDImgSrc }"
+									class="opt"><img src="${productDisplayImgs[0].productDisplaySrc  }"
 										onerror=""></span> <span class="txt">전체</span> <span
 									class="num"></span> <input type="hidden"
 									name="gdasItemNo" value="ALL"> <input type="hidden"
 									name="gdasLgcGoodsNo" value="ALL">
 							</a></li>
-							<c:forEach items="${pLists}" var="pll">
-								<li optgoodsinfo="${pll.proId }">
+							<c:forEach items="${productList}" var="pll">
+								<li optgoodsinfo="${pll.productId }">
 									<!-- ## 리뷰고도화 2차## 본상품+연관상품 적용시 필요값 (상품번호:아이템번호)--> <a
-									href="javascript:;" class="item" title="${pll.proName }"> <span
-										class="opt"> <img src="${pll.proImg }" onerror="">
+									href="javascript:;" class="item" title="${pll.productName }"> <span
+										class="opt"> <img src="${pll.productDisplaySrc }" onerror="">
 
-									</span> <span class="txt">${pll.proName }</span> <span class="num"></span> <input type="hidden"
-										name="gdasItemNo" value="${pll.proId }"> <input
-										type="hidden" name="gdasLgcGoodsNo" value="${pll.proId }">
+									</span> <span class="txt">${pll.productName }</span> <span class="num"></span> <input type="hidden"
+										name="gdasItemNo" value="${pll.productId }"> <input
+										type="hidden" name="gdasLgcGoodsNo" value="${pll.productId }">
 
 								</a>
 								</li>
@@ -994,261 +964,15 @@
 					</div>
 
 					<!-- 옵션end -->
-
-					<!-- 필터 start -->
-					<!-- ## 리뷰 고도화 1차 : 삭제  ##  -->
-					<!-- <div class="cate_align_box prodLine"> -->
-					<!-- <div class="align_sort">
-		<ul id="gdasSort">
-			<li><a href="javascript:;" data-value="02">최신순</a></li>
-			<li><a href="javascript:;" data-value="01">도움순</a></li>
-			<li><a href="javascript:;" data-value="03">높은 별점순</a></li>
-			<li><a href="javascript:;" data-value="04">낮은 별점순</a></li>
-		</ul>
-	</div> -->
-
-					<!-- 			<p class="txtFilter"></p> -->
-
-					<!-- </div> -->
-					<!-- ## 리뷰 고도화 1차 : 삭제  ##  -->
-					<!-- 필터end -->
-
-					<!-- 올영체험단 배너값 추가-->
+<!-- 리뷰 시작 -->
+				
 					<input type="hidden" id="dispImgUrl"
 						value="https://image.oliveyoung.co.kr/uploads/images/display/">
 					<input type="hidden" id="bnrImgUrl"
 						value="900000100050003/131/7765849726836347803.jpg"> <input
 						type="hidden" id="bnrImgTxtCont" value="올영체험단 PC 배너">
-					<!-- summary 페이지  삽입됨  -->
-
-					<!-- 추천 키워드 영역 -->
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-
-
-
-
-
-
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-
-
-
-
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-					<!--평균별점집계 start-->
-
-
+				
+<div id="review">
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">
@@ -1300,33 +1024,33 @@
 								</div>
 								<div class="graph_area">
 									<ul class="graph_list">
-										<li><span class="per">${reviewScore.grade_5_ratio }%</span>
+										<li><span class="per">${reviewScore.grade5Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_5_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade5Ratio }%;"></span>
 											</div> <span class="txt">5점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_4_ratio }%</span>
+										<li><span class="per">${reviewScore.grade4Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_4_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade4Ratio }%;"></span>
 											</div> <span class="txt">4점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_3_ratio }%</span>
+										<li><span class="per">${reviewScore.grade3Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_3_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade3Ratio }%;"></span>
 											</div> <span class="txt">3점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_2_ratio }%</span>
+										<li><span class="per">${reviewScore.grade2Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_2_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade2Ratio }%;"></span>
 											</div> <span class="txt">2점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_1_ratio }%</span>
+										<li><span class="per">${reviewScore.grade1Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_1_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade1Ratio }%;"></span>
 											</div> <span class="txt">1점</span></li>
 									</ul>
 								</div>
@@ -1349,16 +1073,16 @@
 									<ul class="list">
 										<li><span class="txt">건성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_3_ratio }%;"></span>
-											</div> <em class="per" data-value="19">${reviewScore.grade1_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade13Ratio }%;"></span>
+											</div> <em class="per" data-value="19">${reviewScore.grade13Ratio }%</em></li>
 										<li><span class="txt">복합성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_2_ratio }%;"></span>
-											</div> <em class="per" data-value="60">${reviewScore.grade1_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade12Ratio }%;"></span>
+											</div> <em class="per" data-value="60">${reviewScore.grade12Ratio }%</em></li>
 										<li><span class="txt">지성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_1_ratio }%;"></span>
-											</div> <em class="per" data-value="21">${reviewScore.grade1_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade11Ratio }%;"></span>
+											</div> <em class="per" data-value="21">${reviewScore.grade11Ratio }%</em></li>
 
 
 									</ul>
@@ -1372,16 +1096,16 @@
 									<ul class="list">
 										<li><span class="txt">보습에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_3_ratio }%;"></span>
-											</div> <em class="per" data-value="21">${reviewScore.grade2_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade23Ratio }%;"></span>
+											</div> <em class="per" data-value="21">${reviewScore.grade23Ratio }%</em></li>
 										<li><span class="txt">진정에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_2_ratio }%;"></span>
-											</div> <em class="per" data-value="79">${reviewScore.grade2_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade22Ratio }%;"></span>
+											</div> <em class="per" data-value="79">${reviewScore.grade22Ratio }%</em></li>
 										<li><span class="txt">주름/미백에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_1_ratio }%;"></span>
-											</div> <em class="per" data-value="1">${reviewScore.grade2_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade21Ratio }%;"></span>
+											</div> <em class="per" data-value="1">${reviewScore.grade21Ratio }%</em></li>
 									</ul>
 								</dd>
 							</dl>
@@ -1393,16 +1117,16 @@
 									<ul class="list">
 										<li><span class="txt">자극없이 순해요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_3_ratio }%;"></span>
-											</div> <em class="per" data-value="76">${reviewScore.grade3_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade33Ratio }%;"></span>
+											</div> <em class="per" data-value="76">${reviewScore.grade33Ratio }%</em></li>
 										<li><span class="txt">보통이에요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_2_ratio }%;"></span>
-											</div> <em class="per" data-value="24">${reviewScore.grade3_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade32Ratio }%;"></span>
+											</div> <em class="per" data-value="24">${reviewScore.grade32Ratio }%</em></li>
 										<li><span class="txt">자극이 느껴져요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_1_ratio }%;"></span>
-											</div> <em class="per" data-value="1">${reviewScore.grade3_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade31Ratio }%;"></span>
+											</div> <em class="per" data-value="1">${reviewScore.grade31Ratio }%</em></li>
 									</ul>
 								</dd>
 							</dl>
@@ -1477,15 +1201,15 @@
 					<div class="review_thum">
 						<ul class="inner clrfix">
 							<c:set var="i" value="${0 }" />
-							<c:forEach items="${reviewimg }" var="imglist"
+							<c:forEach items="${reviewlistall }" var="imglist"
 								varStatus="outloop">
 
-								<c:forEach items="${imglist }" var="img" varStatus="Loop">
+								<c:forEach items="${imglist.reviewimg }" var="img" varStatus="Loop">
 									<c:if test="${i < 7}">
 										<li><a href="javascript:;"
 											data-attr="상품상세^포토모아보기^포토 클릭^1"> <span> <!-- ## 리뷰 고도화 1차 ## onload , errorResizeImg -->
-													<img src="${img.rev_img_src }" class="thum"
-													data-value="${img.rev_id }" alt="" data-state="">
+													<img src="${img.reviewImgSrc }" class="thum"
+													data-value="${img.reviewId }" alt="" data-state="">
 											</span>
 
 										</a></li>
@@ -1497,7 +1221,7 @@
 											<!-- ## 리뷰 고도화 1차 ## --> <a href="javascript:;" class="more"
 											data-attr="상품상세^포토모아보기^포토더보기"> <span> <!-- ## 리뷰 고도화 1차 ## -->
 													<span><em>더보기</em></span> <!-- ## 리뷰 고도화 1차 ## onload , errorResizeImg -->
-													<img src="${img.rev_img_src }" class="thum"
+													<img src="${img.reviewImgSrc }" class="thum"
 													data-value="23722172_2" alt="" data-state="">
 											</span>
 
@@ -1559,7 +1283,7 @@
 												src="https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/04/1699105876598.png"
 												style="display: none;">
 												<div class="thum">
-													<span class="bg"></span> <img src="${review.user_img }"
+													<span class="bg"></span> <img src="${review.profileImg }"
 														class="profileThum_s"
 														style="background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg) no-repeat 0 0; background-size: 60px">
 												</div>
@@ -1568,7 +1292,7 @@
 											<p class="info_user">
 												<a href="javascript:;" class="id"
 													onclick="goods.gdas.hadleClickProductDetailReviewerProfile('QjdncktGcWptUk5vclBWbnM2NkN6QT09', { t_page: '상품상세', t_click: '리뷰어_리뷰어프로필', t_profile_name: '글리스', t_review_rank_name: '19'})"
-													data-attr="상품상세^리뷰어프로필^프로필이미지 또는 닉네임 클릭">${review.user_id }</a>
+													data-attr="상품상세^리뷰어프로필^프로필이미지 또는 닉네임 클릭">${review.nickname }</a>
 												<!--## 리뷰 고도화 1차 ## :  탑리뷰어 라운지로 이동시킴 -->
 												<a href="javascript:;"
 													onclick="goods.gdas.handleClickTopReviewer({t_page: '상품상세', t_click: '리뷰어_탑리뷰어순위', t_review_rank_name: '19'})"
@@ -1579,13 +1303,10 @@
 												<!--피부 컨디션이 -->
 												<!--<strong _tmplitem="143" >-->
 												<!-- ## 리뷰 고도화 1차 ## : 위치 변경 및 마크업 변경 -->
-												<span>${review.skintype_title }</span> <span>${review.skintone_title}</span>
-												<c:forEach items="${skinlists }" var="skinlist">
-													<c:forEach items="${skinlist }" var="skintrb">
-														<c:if test="${skintrb.user_id eq review.user_id }">
-															<span>${skintrb.skintrb_title }</span>
-														</c:if>
-													</c:forEach>
+												<span>${review.skintypeName }</span> <span>${review.skintoneName}</span>
+												<c:forEach items="${review.skinTrouble }" var="skintrb">
+															<span>${skintrb.skintroubleName }</span>
+														
 												</c:forEach>
 												<!--</strong>-->
 											</p>
@@ -1596,8 +1317,8 @@
 									<div class="review_cont">
 										<div class="score_area">
 											<span class="review_point"><span class="point"
-												style="width: ${review.rev_grade*20 }%">5점만점에
-													${review.rev_grade }점</span></span> <span class="date">${review.rev_reg }</span>
+												style="width: ${review.reviewGrade*20 }%">5점만점에
+													${review.reviewGrade }점</span></span> <span class="date">${review.reviewRegdate }</span>
 										</div>
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
@@ -1609,13 +1330,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_1 eq 3 }">
+															<c:when test="${review.reviewPoll1 eq 3 }">
 													건성에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_1 eq 2 }">
+															<c:when test="${review.reviewPoll1 eq 2 }">
 													복합성에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_1 eq 1 }">
+															<c:when test="${review.reviewPoll1 eq 1 }">
 													지성에 좋아요
 												</c:when>
 
@@ -1630,13 +1351,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_2 eq 3 }">
+															<c:when test="${review.reviewPoll2 eq 3 }">
 													보습에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_2 eq 2 }">
+															<c:when test="${review.reviewPoll2 eq 2 }">
 													진정에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_2 eq 1 }">
+															<c:when test="${review.reviewPoll2 eq 1 }">
 													주름/미백에 좋아요
 												</c:when>
 
@@ -1650,13 +1371,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_3 eq 3 }">
+															<c:when test="${review.reviewPoll3 eq 3 }">
 													자극없이 순해요
 												</c:when>
-															<c:when test="${review.rev_grade_3 eq 2 }">
+															<c:when test="${review.reviewPoll3 eq 2 }">
 													보통이에요
 												</c:when>
-															<c:when test="${review.rev_grade_3 eq 1 }">
+															<c:when test="${review.reviewPoll3 eq 1 }">
 													자극이 느껴져요
 												</c:when>
 
@@ -1666,22 +1387,22 @@
 											</dl>
 										</div>
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
-										<div class="txt_inner">${review.rev_content }</div>
+										<div class="txt_inner">${review.reviewContent }</div>
 										<!-- ## 리뷰 고도화 1차 ## : 태그 추가 -->
 										<div class="review_tag">
 											<span>어성초토너</span> <span>보습토너</span> <span>진정토너</span>
 										</div>
 										<div class="review_thum type1">
 											<ul class="inner clrfix">
-												<c:forEach items="${reviewimg }" var="imglist">
-													<c:forEach items="${imglist }" var="img">
+												<c:forEach items="${review.reviewimg }" var="img">
+													
 
-														<c:if test="${img.rev_id eq review.rev_id }">
+														
 															<li><a href="#" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
-																		src="${img.rev_img_src }" data-value="23082403_1"
+																		src="${img.reviewImgSrc }" data-value="23082403_1"
 																		class="thum" alt=""></span></a></li>
-														</c:if>
-													</c:forEach>
+														
+
 												</c:forEach>
 											</ul>
 										</div>
@@ -1701,7 +1422,7 @@
 												onclick="goods.gdas.setRecommGdasToggle('23082403',  'N', {t_page: '상품상세', t_click: '상품상세_도움이돼요', t_profile_name: '글리스', t_review_rank_name: '19'});"
 												data-attr="상품상세^도움이돼요^도움이돼요">
 												이 리뷰가 도움이 돼요! <span class="num" data-attr="상품상세^도움이돼요^도움이돼요">
-													${review.rev_like } </span>
+													${review.reviewLike } </span>
 											</button>
 											<input type="hidden" name="recommCnt_23082403" value="30">
 										</div>
@@ -1715,7 +1436,7 @@
 						</ul>
 					</div>
 					<!-- pageing start -->
-					<div class="pageing" id="<%=request.getParameter("goodsNo")%>">
+					<div class="pageing" id="<%=request.getParameter("productDisplayId")%>">
 						<c:if test="${pDto.prev }">
 							<a class="prev" href="javascript:;" data-page-no="1">이전 10
 								페이지</a>
@@ -1741,7 +1462,7 @@
 				</div>
 			</div>
 
-
+</div>
 			<!--  리뷰 팝업 창 -->
 			<div class="layer_pop_wrap w850" id="layerWrap850"
 				style="z-index: 999; display: none; left: 50%; margin-left: -425px; top: 2169.5px; margin-top: -371px;">
@@ -1765,7 +1486,7 @@
 													src="https://static.oliveyoung.co.kr/pc-static-root/image//comm/bg_2_2.png"
 													alt="">
 												</span> <img alt="" class="bigImg ${i }" name="${i }"
-													data-value="${img.rev_id }" src="${img.rev_img_src }">
+													data-value="${img.reviewId }" src="${img.reviewImgSrc }">
 											</div>
 											<c:set var="i" value="${i + 1 }" />
 										</c:forEach>
@@ -1789,7 +1510,7 @@
 													tabindex="0"> <img alt="" name="23745102"
 													data-attr="상품상세^포토상세^포토상세이동_포토"
 													data-value="23745102_2_23727075_1"
-													src="${img.rev_img_src }">
+													src="${img.reviewImgSrc }">
 											</div>
 										</c:forEach>
 									</c:forEach>
@@ -1964,9 +1685,9 @@ $(function(){
 									<c:forEach items="${reviewimg }" var="imglist">
 										<c:forEach items="${imglist }" var="img">
 											<li><a href="javascript:;"> <span class="thum">
-														<img style="width: 80px;" src="${img.rev_img_src }"
+														<img style="width: 80px;" src="${img.reviewImgSrc }"
 														class="review_img" alt="썸네일 이미지"
-														data-attr="상품상세^포토목록^포토 클릭" data-value="${img.rev_id }"
+														data-attr="상품상세^포토목록^포토 클릭" data-value="${img.reviewId }"
 														data-state="">
 												</span>
 											</a></li>
@@ -1982,7 +1703,7 @@ $(function(){
 
 
 				<input type="hidden" id="goodsNo" name="goodsNo"
-					value="A000000156230"> <input type="hidden" id="gdasSeq"
+					value="${productList[0].productDisplayId}"> <input type="hidden" id="gdasSeq"
 					name="gdasSeq" value="23744547"> <input type="hidden"
 					id="fileSeq" name="fileSeq" value="0">
 
@@ -2012,13 +1733,13 @@ $(function(){
 							<li class="">
 								<div class="qna_tit_box">
 									<p class="qna_question">
-										<c:if test="${not empty qna.answer}">
+										<c:if test="${not empty qna.qnaAnswer}">
 											<span class="qna_flag complete">답변완료</span>
-											<a href="#" class="completeBind">${qna.question }</a>
+											<a href="#" class="completeBind">${qna.qnaQuestion}</a>
 										</c:if>
-										<c:if test="${empty qna.answer}">
+										<c:if test="${empty qna.qnaAnswer}">
 											<span class="qna_flag">답변대기</span>
-											<a href="#" class="completeBind">${qna.question} </a>
+											<a href="#" class="completeBind">${qna.qnaQuestion} </a>
 										</c:if>
 									</p>
 									<p class="tx_userid">
@@ -2033,18 +1754,18 @@ $(function(){
 											</c:if>
 										</c:if>
 									</p>
-									<p class="tx_date">${qna.regDate}</p>
+									<p class="tx_date">${qna.qnaDate}</p>
 								</div>
 								<div class="qna_answer_box">
 									<div class="tx_question">
-										<span class="ico_qna question">질문</span> ${qna.question}
+										<span class="ico_qna question">질문</span> ${qna.qnaQuestion}
 									</div>
 									<div class="tx_answer">
-										<c:if test="${not empty qna.answer}">
+										<c:if test="${not empty qna.qnaAnswer}">
 											<span class="ico_qna answer">답변</span>
-											${qna.answer}
+											${qna.qnaAnswer}
 										</c:if>
-										<c:if test="${empty qna.answer}">
+										<c:if test="${empty qna.qnaAnswer}">
 										</c:if>
 									</div>
 								</div>
@@ -2053,11 +1774,33 @@ $(function(){
 					</c:if>
 
 				</ul>
+				
+				
 				<div class="pageing">
-
-					<strong title="현재 페이지">1</strong>
-
-				</div>
+				<%-- 
+			<c:if test="${qnaPagedto.prev }">
+				<a class="prev" href="#" data-page-no="${qnaPagedto.start-1}">이전 10
+				페이지</a>
+			</c:if>
+			<c:forEach var="i" begin="${qnaPagedto.start }" end="${qnaPagedto.end }" step="1">
+				<c:choose>
+					<c:when test="${i eq qnaPagedto.currentPage}">
+						<strong title="현재 페이지">${i}</strong>
+						<a class="active" href="#">${i }</a>
+					</c:when>
+					<c:otherwise>
+						<a
+							href="#" data-page-no="${i}">${i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${qnaPagedto.next }">
+				<a class="next" href="#" data-page-no="${qnaPagedto.end+1}">다음 10 페이지</a>
+			</c:if>
+			<!-- <strong title="현재 페이지">1</strong> -->
+			--%>
+		</div> 
+		
 
 			</div>
 
@@ -2066,3 +1809,479 @@ $(function(){
 		</div>
 	</div>
 	
+	<!-- =========== 팝업 창 시작 ============ -->
+	
+		
+	<!-- 팝업 창 키면 나오는 배경 -->
+	<div class="dimm" style="z-index: 990; display: none;"></div>
+	
+	
+	<!-- 배송비 안내 팝업 -->
+	<div class="layer_pop_wrap" id="layer_pop_wrap"
+		style="z-index: 999; display: none; left: 50%; margin-left: -203.5px;">
+		<div class="layer_cont2 w400" id="dlexAmtCont" data-dlv-cd="20"
+			data-set="true">
+			<h2 class="layer_title2">배송비 안내</h2>
+
+			<dl class="oy_dlex">
+				<dt class="bold_str">
+					<span id="dlvShpStr">올리브영</span> 배송
+				</dt>
+				<dd>
+					<span id="dlexAmt">2,500</span>원
+				</dd>
+			</dl>
+			<dl class="add_dlex_amt">
+				<dt class="bold_str">추가 배송비</dt>
+				<dd></dd>
+			</dl>
+			<dl class="dlex_amt_info">
+				<dt>도서산간</dt>
+				<dd>
+					<span id="ferryRgnDlexAmt">2,500</span>원
+				</dd>
+			</dl>
+			<dl class="dlex_amt_info">
+				<dt>제주지역</dt>
+				<dd>
+					<span id="jejuDlexAmt">2,500</span>원
+				</dd>
+			</dl>
+			<dl class="dlex_amt_info">
+				<dt>제주도서산간</dt>
+				<dd>
+					<span id="jejuFerryRgnDlexAmt">7,000</span>원
+				</dd>
+			</dl>
+			<button class="layer_close type2" onclick="popDown()">창 닫기</button>
+		</div>
+	</div>
+	
+	<!-- 오늘드림 팝업 -->
+	<div class="layer_pop_wrap w500 layer_todelivery"
+		id="infoTodayDeliveryQuestion"
+		style="z-index: 999; display: none; left: 50%; margin-left: -250px;">
+		<div class="layer_header">
+			<h2 class="layer_title">오늘드림 서비스 안내</h2>
+			<button class="layer_close" onclick="todayDeliveryPopDown();">창
+				닫기</button>
+		</div>
+		<div class="layer_cont layer_scroll_box">
+			<div class="area_logo">
+				<h3 class="logo">
+					<img
+						src="https://static.oliveyoung.co.kr/pc-static-root/image/product/img_todelivery_v2.png"
+						alt="">
+				</h3>
+				<p class="txt">
+					올리브영에서 가장 빠른 배송으로 받고싶다면?<br>지금! 오늘드림 4가지 서비스를 경험해보세요!
+				</p>
+			</div>
+			<div class="area_detail">
+				<div class="bx_detail">
+					<h4 class="tit icon01">배송 및 픽업 가능 지역</h4>
+					<div class="bx_info">
+						<p class="desc">
+							전국 <span class="sub_desc">(정확한 서비스 가능여부는 배송지 등록을 통해서 확인가능)</span>
+						</p>
+					</div>
+				</div>
+				<div class="bx_detail type_img">
+					<h4 class="tit icon02">픽업 방법 및 비용</h4>
+					<div class="bx_info">
+						<div class="item_info">
+							<img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/img_today_01.png"
+								class="img_info type01"> <img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/flag_today_01.png"
+								class="flag" alt="픽업">
+							<p class="desc">온라인에서 주문하고 매장에서 픽업!</p>
+							<p class="sub_desc">배송비 조건 없음</p>
+						</div>
+					</div>
+					<a
+						href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000100720116"
+						class="btn_link"><span class="btn_txt">픽업 서비스 자세히 보기</span></a>
+				</div>
+				<div class="bx_detail type_img">
+					<h4 class="tit icon03">배송 방법 및 비용</h4>
+					<div class="bx_info">
+						<div class="item_info">
+							<img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/img_today_02.png"
+								class="img_info type02"> <img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/flag_today_02.png"
+								class="flag" alt="낮 3-4시 3!4!배송">
+							<p class="desc">낮 1시까지 주문 시, 오늘 낮 3~4시 배송 도착</p>
+							<p class="sub_desc">배송비 2,500원(3만원 이상 무료배송)</p>
+						</div>
+						<div class="item_info">
+							<img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/img_today_03.png"
+								class="img_info type03"> <img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/flag_today_03.png"
+								class="flag" alt="밤 10-12시 미드나잇배송">
+							<p class="desc">밤 8시까지 주문 시, 오늘 밤 10~12시 배송도착</p>
+							<p class="sub_desc">배송비 2,500원(3만원 이상 무료배송)</p>
+						</div>
+						<div class="item_info">
+							<img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/img_today_04.png"
+								class="img_info type04"> <img
+								src="https://static.oliveyoung.co.kr/pc-static-root/image/product/flag_today_04.png"
+								class="flag" alt="주문 후, +3시간 빠름배송">
+							<p class="desc">밤 8시까지 주문 시, 주문 후 3시간 이내 배송 도착</p>
+							<p class="sub_desc">배송비 5,000원(3만원 이상 무료배송)</p>
+						</div>
+					</div>
+					<a
+						href="https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000100700005"
+						class="btn_link btn_link2"><span class="btn_txt">오늘드림
+							사용 설명서 보기</span></a>
+				</div>
+				<div class="bx_detail">
+					<h4 class="tit icon04">교환 및 반품</h4>
+					<div class="bx_info">
+						<dl class="lst_desc">
+							<div class="item_desc">
+								<dt>교환</dt>
+								<dd>회수 기사님을 통해 물류센터로 상품 교환 (단, 매장을 통한 교환 불가)</dd>
+							</div>
+							<div class="item_desc">
+								<dt>반품</dt>
+								<dd>
+									2가지 중 선택 가능
+									<ul class="lst_sub_desc">
+										<li class="item_sub_desc">회수 택배 기사님을 통해 물류센터로 반품</li>
+										<li class="item_sub_desc">오프라인 매장에 방문하여 직접 반품</li>
+									</ul>
+								</dd>
+							</div>
+						</dl>
+					</div>
+				</div>
+				<a href="#" class="btn_confirm" id="todayBtnConfirm"
+					onclick="todayDeliveryPopDown();"><span class="btn_txt">확인</span></a>
+			</div>
+			<ul class="lst_notice">
+				<li class="item_notice">매장 상품 출발대기 전까지 주문취소가 가능합니다.</li>
+				<li class="item_notice">서비스 특성상 주문 이후 배송지 변경은 어렵습니다.</li>
+				<li class="item_notice">상품 수령 보관장소가 여의치 않은 경우 자동 반송처리 될 수 있으며,
+					반송에 의한 반품비는 고객 부담으로 처리됩니다.</li>
+				<li class="item_notice">일반 배송비 쿠폰은 오늘드림 주문에 적용되지 않습니다.</li>
+				<li class="item_notice">기상상태에 따라 배송이 지연 또는 취소될 수 있습니다.</li>
+				<li class="item_notice">주문 확인 시 재고가 부족한 경우, 부득이하게 주문이 취소될 수
+					있습니다.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- 등급별 포인트 팝업 -->
+	<div class="layer_pop_wrap ly_cjone_point show" id="layerWrap534"
+		style="z-index: 999; display: none; left: 50%; margin-left: -250px; top: 362.5px;">
+		<div class="layer_cont2">
+			<h2 class="layer_title2">등급별 CJ ONE 포인트 적립</h2>
+			<div class="cjoneBox">
+				<table class="table_type">
+					<caption>등급별 CJ ONE 포인트 적립표</caption>
+					<colgroup>
+						<col style="width: 50%;">
+						<col style="width: 50%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>등급</th>
+							<th>적립률</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr>
+							<th>
+								<div class="icon_group">
+									<span class="icon_grade icon_grade1"></span> <span
+										class="txt_grade">GOLD OLIVE</span>
+								</div>
+							</th>
+							<td><em>1%</em></td>
+						</tr>
+
+						<tr>
+							<th>
+								<div class="icon_group">
+									<span class="icon_grade icon_grade2"></span> <span
+										class="txt_grade">BLACK OLIVE</span>
+								</div>
+							</th>
+							<td><em>1%</em></td>
+						</tr>
+
+						<tr>
+							<th>
+								<div class="icon_group">
+									<span class="icon_grade icon_grade3"></span> <span
+										class="txt_grade">GREEN OLIVE</span>
+								</div>
+							</th>
+							<td><em>1%</em></td>
+						</tr>
+
+						<tr>
+							<th>
+								<div class="icon_group">
+									<span class="icon_grade icon_grade4"></span> <span
+										class="txt_grade">PINK OLIVE</span>
+								</div>
+							</th>
+							<td><em>0.5%</em></td>
+						</tr>
+
+						<tr>
+							<th>
+								<div class="icon_group">
+									<span class="icon_grade icon_grade5"></span> <span
+										class="txt_grade">BABY OLIVE</span>
+								</div>
+							</th>
+							<td><em>0.5%</em></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="usage-guide mgT20">
+					<ul class="">
+						<li>일부 제휴카드 / 임직원 카드로 결제 시 0.1% 적립</li>
+						<li>복합 결제 진행 시 포인트 적립액 상이 가능</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layer_btn_area mgT20">
+				<button class="btnMedium fullGreen w120"
+					onclick="cjone_pointPopDown();">닫기</button>
+			</div>
+			<button class="layer_close type2" onclick="cjone_pointPopDown();">창
+				닫기</button>
+		</div>
+	</div>
+	
+	<!-- 카드 할인 혜택 팝업 -->
+	<div class="layer_pop_wrap" id="layer_pop_wrap2"
+		style="z-index: 999; display: none; left: 50%; margin-left: -325px; top: 532px;">
+		<div class="layer_cont2 w650">
+			<h2 class="layer_title2">카드할인혜택</h2>
+
+			<dl class="card_info_data">
+				<dt>THE CJ카드</dt>
+				<dd>결제 시 10% 할인 (BC 카드 제외)</dd>
+			</dl>
+
+
+
+
+			<button class="layer_close type2" onclick="card_infoPopDown()">창
+				닫기</button>
+		</div>
+	</div>
+	
+	<!-- === Q&A 쓰기 팝업 =====================  -->
+	<div class="popup-contents" id="pop_cont"
+		style="top: 1300px; display: none; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%;">
+		<div class="pop-conts">
+			<form name="sForm" id="sForm">
+				<input type="hidden" name="gdasSeq" id="gdasSeq" value=""> <input
+					type="hidden" name="goodsNo" id="goodsNo"
+					value="${productList[0].productDisplayId}">
+				<h1 class="ptit">상품 Q&amp;A 작성</h1>
+
+				<!-- [s] 2021.04.19 modify -->
+				<div class="mypage-qna-write disabled">
+					<div class="optionSec">
+						<h3>아래의 문의 유형을 선택해주세요.</h3>
+						<div class="radioGT1">
+							<label><input type="radio" name="prdTypeSelect"
+								id="prdTypeSelect1"><span>상품문의</span></label> <label><input
+								type="radio" name="prdTypeSelect" id="prdTypeSelect2"><span>주문
+									상품문의</span></label>
+						</div>
+						<p class="txt">성분, 사용법, 구성 등 상품 관련 문의를 남겨주세요. 배송/교환/반품 문의는
+							‘주문상품문의’를 선택해주세요.</p>
+					</div>
+
+					<p class="common4s-text">${productList[0].productDisplayName}</p>
+
+					<!-- 등록제한이 없는 한줄상품평 작성 -->
+					<div class="reviews-write disabled">
+						<textarea cols="5" rows="1" id="gdasCont" name="gdasCont"
+							placeholder="Q&amp;A 게시판에서는 고객님의 정보 확인이 어려우므로 배송문의 등은 1:1 게시판 이용 부탁드립니다."
+							disabled=""></textarea>
+						<p>
+							<span id="curTxtLength">0</span>자/250자
+						</p>
+					</div>
+					<!-- 등록제한이 없는 한줄상품평 작성 -->
+
+					<div class="btnGroup">
+						<button id="cancel" type="button" class="btnGray"
+							onclick="qnaPopDown()" disabled="disabled">취소</button>
+						<button id="reg" type="button" class="btnGreen" onclick=""
+							disabled="disabled">등록</button>
+					</div>
+					<div class="usage-guide">
+						<h2 class="stit">이용안내</h2>
+						<ul>
+							<li>재판매글, 상업성 홍보글, 미풍양속을 해치는 글 등 상품 Q&amp;A의 취지에 어긋나는 글은 삭제될
+								수 있습니다.</li>
+						</ul>
+					</div>
+				</div>
+				<!-- [e] 2021.04.19 modify -->
+
+				<button type="button" class="ButtonClose" onclick="qnaPopDown();">팝업창
+					닫기</button>
+				<!-- [s] 2021.04.19 add -->
+				<div class="alertPop">
+					<p class="txt">
+						해당 상품의 배송/교환/반품 문의를 위해<br>1:1문의 게시판을 이용해주세요.
+					</p>
+					<p class="btnGroup">
+						<button type="button" class="btnMedium wGreen btnClose">취소</button>
+						<button id="btnCounsel" type="button" class="btnMedium btnGreen">1:1문의
+							바로가기</button>
+					</p>
+				</div>
+			</form>
+			<!-- [e] 2021.04.19 add -->
+		</div>
+		<div class="alertPop isOpen" style="display: none">
+			<p class="txt">
+				해당 상품의 배송/교환/반품 문의를 위해<br>1:1문의 게시판을 이용해주세요.
+			</p>
+			<p class="btnGroup">
+				<button type="button" class="btnMedium wGreen btnClose">취소</button>
+				<button id="btnCounsel" type="button" class="btnMedium btnGreen">1:1문의
+					바로가기</button>
+			</p>
+		</div>
+	</div>
+
+<script>
+/* 상품 등록 함수 */
+$(function() {
+	
+	$('#reg').on('click', function () {
+		
+		var productDisplayId = $("#goodsNo").val();
+		var qnaQuestion = $("#gdasCont").val();		
+		
+		 $.ajax({
+	            type: "GET"
+	            , cache: false
+	            ,url: "/writeQna", 
+	            data: {
+	            	productDisplayId: productDisplayId,
+	            	qnaQuestion: qnaQuestion
+	            },
+	            success: function(response) {
+	                console.log("QnA 등록 성공");
+	                window.location.href = window.location.href;
+	                // 리뷰 등록 성공 시 원하는 동작 수행
+	            },
+	            error: function(error) {
+	                console.log("QnA 등록 실패");
+	                // 리뷰 등록 실패 시 에러 처리
+	                window.location.href = window.location.href;
+	            }
+	        });
+	}); // ajax close
+	
+	
+}) // ready function
+
+</script>
+<script>
+/* 상품리스트 함수 */
+
+
+$(function() {
+	
+	let qnadiv = $('.prd_qna_list');
+	let qnaContent = $('#qnaContentsArea');
+	
+	 $('#qnaContentsArea').on('click','.pageing a', function (e) {
+		 
+		e.preventDefault();
+		
+		var currentPage = $(this).data('page-no');
+
+		var productDisplayId = $("#goodsNo").val();
+		
+		qnaListAjax(currentPage, productDisplayId);
+		
+	}); // goods_qna 
+	
+	$('.goods_qna').on('click', function (e) {
+		e.preventDefault();
+		
+		var productDisplayId = $("#goodsNo").val();
+
+		qnaListAjax(1, productDisplayId);
+		
+	}); // goods_qna
+	
+	function modifyQnA(qnaId) {
+		
+		$.ajax({
+			type: "GET",
+			cache: false,
+			data: {
+				qnaId : qnaId
+			},
+			url : "/modifyQnA",
+			dataType: "json",
+			success: function() {
+				
+			},
+			error: function () {
+				
+			} // error close
+			
+		}); //ajax close
+		
+	} // modifyQna
+	
+}) // ready Function
+</script>
+<script>
+// 리뷰
+$("#reviewInfo").on("click",function(){
+	var productDisplayId = $("#goodsNo").val();
+	reviewAjax(1,productDisplayId)
+})
+function reviewAjax(currentPage, productDisplayId) {
+	let qnadiv = $('.prd_qna_list');
+	let qnaPage = $('.pageing');
+	
+	
+	$.ajax({
+		type: "GET",
+		cache: false,
+		url: '/getReview',
+		data: {
+			productDisplayId : productDisplayId,
+			currentPage : currentPage
+		},
+		success: function(response) {
+			
+			$("#review").empty()
+			$("#review").append(response)
+				
+
+		},
+		error: function(response) {
+			alert('실패');
+			console.log("리뷰 조회 실패");
+		} // error close
+	}); // ajax close 
+} // qnaListAjax
+
+</script>
