@@ -2284,7 +2284,7 @@ $(function() {
 				qnaId : qnaId
 			},
 			url : "/modifyQnA",
-			dataType: "json,
+			dataType: "json",
 			success: function() {
 				
 			},
