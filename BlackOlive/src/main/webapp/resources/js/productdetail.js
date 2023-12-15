@@ -186,6 +186,16 @@ function qnaPopDown() {
 	}
 $(function() {
 
+		$('.completeBind').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).closest('li').hasClass('show')) {
+				$(this).closest('li').removeClass('show');
+			}else{
+				$(this).closest('li').addClass('show');
+			}
+			
+		}) // completeBind
+
 		$('.btnInquiry.goods_qna_inquiry').on('click', function() {
 			
 			$('#pop_cont').show();
@@ -248,8 +258,119 @@ $(function() {
 		
 }) // ready function close
 
+// qnaListAjax
+
+function qnaListAjax(currentPage, productDisplayId) {
+	let qnadiv = $('.prd_qna_list');
+	let qnaPage = $('.pageing');
+	
+	
+	$.ajax({
+		type: "GET",
+		cache: false,
+		url: '/getQnAList',
+		dataType:'json', 
+		data: {
+			productDisplayId : productDisplayId,
+			currentPage : currentPage
+		},
+		success: function(response) {
+			
+			var qnaList = response.qnaList;
+			var qnaPageDTO = response.qnaPageDTO;
+			
+			console.log("QnA 조회 성공");
+			qnadiv.empty();
+			qnaPage.empty();
+			
+			$.each(qnaList, function (i, qna) {
+			    var li = $('<li class="">');
+			    
+			    var qnaTitBox = $('<div class="qna_tit_box">');
+			    var qnaQuestion = $('<p class="qna_question">');
+			    
+			    if (qna.qnaAnswer) {
+			        qnaQuestion.append('<span class="qna_flag complete">답변완료</span>');
+			    } else {
+			        qnaQuestion.append('<span class="qna_flag">답변대기</span>');
+			    }
+			    
+			    qnaQuestion.append('<a href="#" class="completeBind">' + qna.qnaQuestion + '</a>');
+			    
+			    var txUserId = $('<p class="tx_userid">');
+			    var userId = qna.userId;
+			    
+			    txUserId.append('<span>' + userId + '</span>');
+			    
+			   if (qna.canModify) {
+			        var editButton = $('<button class="btnSmall fullGray" onclick="">수정</button>');
+			        var deleteButton = $('<button class="btnSmall fullGray" onclick="deleteQna(\'' + qna.qnaId + '\');">삭제</button>');
+			        
+			        txUserId.append(editButton);
+			        txUserId.append(deleteButton);
+			    }
+			    
+			    txUserId.append('</p>');
+			    
+			    var txDate = $('<p class="tx_date">' + qna.qnaDate + '</p>');
+			    
+			    qnaTitBox.append(qnaQuestion);
+			    qnaTitBox.append(txUserId);
+			    qnaTitBox.append(txDate);
+			    
+			    var qnaAnswerBox = $('<div class="qna_answer_box">');
+			    
+			    var txQuestion = $('<div class="tx_question">');
+			    txQuestion.append('<span class="ico_qna question">질문</span>' + qna.qnaQuestion);
+			    
+			    var txAnswer = $('<div class="tx_answer">');
+			    
+			    if (qna.qnaAnswer) {
+			        txAnswer.append('<span class="ico_qna answer">답변</span>' + qna.qnaAnswer);
+			    }
+			    
+			    qnaAnswerBox.append(txQuestion);
+			    qnaAnswerBox.append(txAnswer);
+			    
+			    li.append(qnaTitBox);
+			    li.append(qnaAnswerBox);
+			    
+			    // Append the generated HTML to your container
+			    // Example: $('#yourContainerId').append(li);
+			    
+				qnadiv.append(li);
+				
+			});
+			
+			let paginationHtml = ' ';
+			if (qnaPageDTO.prev) {
+			    paginationHtml += '<a class="prev" href="#" data-page-no="' + (qnaPagedto.start - 1) + '">이전 10 페이지</a>';
+			}
+
+			for (let i = qnaPageDTO.start; i <= qnaPageDTO.end; i++) {
+			    if (i === qnaPageDTO.currentPage) {
+			        paginationHtml += '<strong title="현재 페이지">' + i + '</strong>';
+			    } else {
+			        paginationHtml += '<a href="javascript:qnaListAjax()" data-page-no="' + i + '">' + i + '</a>';
+			    }
+			}
+
+			if (qnaPageDTO.next) {
+			    paginationHtml += '<a class="next" href="#" data-page-no="' + (qnaPageDTO.end + 1) + '">다음 10 페이지</a>';
+			}
+			
+			qnaPage.append(paginationHtml);
+			
+			
+		},
+		error: function(response) {
+			alert('실패');
+			console.log("QnA 조회 실패");
+		} // error close
+	}); // ajax close 
+} // qnaListAjax
+
 // 리뷰 관련 스크립트
-		
 $(function(){
 	 
 	 $(".prd_option_box.box_select").click(function(){

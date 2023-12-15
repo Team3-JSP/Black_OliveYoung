@@ -1747,7 +1747,7 @@ $(function(){
 
 
 				<input type="hidden" id="goodsNo" name="goodsNo"
-					value="A000000156230"> <input type="hidden" id="gdasSeq"
+					value="${productList[0].productDisplayId}"> <input type="hidden" id="gdasSeq"
 					name="gdasSeq" value="23744547"> <input type="hidden"
 					id="fileSeq" name="fileSeq" value="0">
 
@@ -1818,11 +1818,33 @@ $(function(){
 					</c:if>
 
 				</ul>
+				
+				
 				<div class="pageing">
-
-					<strong title="현재 페이지">1</strong>
-
-				</div>
+				<%-- 
+			<c:if test="${qnaPagedto.prev }">
+				<a class="prev" href="#" data-page-no="${qnaPagedto.start-1}">이전 10
+				페이지</a>
+			</c:if>
+			<c:forEach var="i" begin="${qnaPagedto.start }" end="${qnaPagedto.end }" step="1">
+				<c:choose>
+					<c:when test="${i eq qnaPagedto.currentPage}">
+						<strong title="현재 페이지">${i}</strong>
+						<a class="active" href="#">${i }</a>
+					</c:when>
+					<c:otherwise>
+						<a
+							href="#" data-page-no="${i}">${i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${qnaPagedto.next }">
+				<a class="next" href="#" data-page-no="${qnaPagedto.end+1}">다음 10 페이지</a>
+			</c:if>
+			<!-- <strong title="현재 페이지">1</strong> -->
+			--%>
+		</div> 
+		
 
 			</div>
 
@@ -2112,7 +2134,7 @@ $(function(){
 			<form name="sForm" id="sForm">
 				<input type="hidden" name="gdasSeq" id="gdasSeq" value=""> <input
 					type="hidden" name="goodsNo" id="goodsNo"
-					value="${pLists[0].displId}">
+					value="${productList[0].productDisplayId}">
 				<h1 class="ptit">상품 Q&amp;A 작성</h1>
 
 				<!-- [s] 2021.04.19 modify -->
@@ -2129,7 +2151,7 @@ $(function(){
 							‘주문상품문의’를 선택해주세요.</p>
 					</div>
 
-					<p class="common4s-text">${pLists[0].displName }</p>
+					<p class="common4s-text">${productList[0].productDisplayName}</p>
 
 					<!-- 등록제한이 없는 한줄상품평 작성 -->
 					<div class="reviews-write disabled">
@@ -2185,3 +2207,94 @@ $(function(){
 			</p>
 		</div>
 	</div>
+
+<script>
+/* 상품 등록 함수 */
+$(function() {
+	
+	$('#reg').on('click', function () {
+		
+		var productDisplayId = $("#goodsNo").val();
+		var qnaQuestion = $("#gdasCont").val();		
+		
+		 $.ajax({
+	            type: "GET"
+	            , cache: false
+	            ,url: "/writeQna", 
+	            data: {
+	            	productDisplayId: productDisplayId,
+	            	qnaQuestion: qnaQuestion
+	            },
+	            success: function(response) {
+	                console.log("QnA 등록 성공");
+	                window.location.href = window.location.href;
+	                // 리뷰 등록 성공 시 원하는 동작 수행
+	            },
+	            error: function(error) {
+	                console.log("QnA 등록 실패");
+	                // 리뷰 등록 실패 시 에러 처리
+	                window.location.href = window.location.href;
+	            }
+	        });
+	}); // ajax close
+	
+	
+}) // ready function
+
+</script>
+<script>
+/* 상품리스트 함수 */
+
+
+$(function() {
+	
+	let qnadiv = $('.prd_qna_list');
+	let qnaContent = $('#qnaContentsArea');
+	
+	 $('#qnaContentsArea').on('click','.pageing a', function (e) {
+		 
+		e.preventDefault();
+		
+		var currentPage = $(this).data('page-no');
+		alert(currentPage);
+		var productDisplayId = $("#goodsNo").val();
+		
+		qnaListAjax(currentPage, productDisplayId);
+		
+	}); // goods_qna 
+	
+	$('.goods_qna').on('click', function (e) {
+		e.preventDefault();
+		
+		var productDisplayId = $("#goodsNo").val();
+
+		alert('click' + productDisplayId);
+		
+		
+		qnaListAjax(1, productDisplayId);
+		
+	}); // goods_qna
+	
+	function modifyQnA(qnaId) {
+		
+		$.ajax({
+			type: "GET",
+			cache: false,
+			data: {
+				qnaId : qnaId
+			},
+			url : "/modifyQnA",
+			dataType: "json,
+			success: function() {
+				
+			},
+			error: function () {
+				
+			} // error close
+			
+		}); //ajax close
+		
+	} // modifyQna
+	
+}) // ready Function
+</script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.productdetail.QnARestMapper">
+
+	<!-- // QnA등록 작업 insertQnA
+	public int insertQnA(@Param("qnaWriteDTO") QnAWriteDTO qnaWriteDTO); -->
+	
+	<insert id="insertQnA">
+		INSERT INTO qna VALUES ('qna_'|| qna_seq.nextval,#{qnaWriteDTO.productDisplayId} , #{qnaWriteDTO.userId} , #{qnaWriteDTO.qnaQuestion} , null, sysdate, '답변대기')
+	</insert>
+
+</mapper>

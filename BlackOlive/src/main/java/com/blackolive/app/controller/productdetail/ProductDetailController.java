@@ -81,6 +81,7 @@ public class ProductDetailController {
 		model.addAttribute("productExplainImgs", productExplainImgs);
 		
 		// ======================= 해당 상품의 리뷰 갖고오기 ===========================
+
 			// 페이징 처리
 		int numberOfPageBlock =10; //
 		int totalRecords =0; // 총 레코드 수 게시글 수
@@ -106,6 +107,8 @@ public class ProductDetailController {
 		model.addAttribute("reviewimg",reviewimg);
 		model.addAttribute("totalRecords",totalRecords);
 		model.addAttribute("reviewcnt",reviewlistall.size());
+
+
 		// ======================= 해당 브랜드 정보 갖고오기 ===========================
 		ProductDetailBrandDTO productBrandInfo = this.productDetailService.getProductBrandInfoSerivce(productDisplayId);
 		model.addAttribute("productBrandInfo", productBrandInfo);
@@ -115,8 +118,14 @@ public class ProductDetailController {
 		model.addAttribute("productBuyinfo", productBuyinfo);
 		
 		// ======================= 해당 QnA 갖고오기 ===========================
-		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId);
-		model.addAttribute("qnaList", qnaList);
+		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId, 1, 10);
+		// model.addAttribute("qnaList", qnaList);
+		
+		// QnA 페이징 처리
+		int qnaTotalRecords = this.productDetailService.getQnaTotalRecordsService(productDisplayId);
+		int qnaTotalPages =this.productDetailService.getQnATotalPagesService(productDisplayId);
+		PageDTO qnaPagedto = new PageDTO(1, 10, 10, qnaTotalPages);
+		// model.addAttribute("qnaPagedto", qnaPagedto);
 		
 		// ======================= (데이터 수집) 사용자가 조회했던 중분류 카테고리 저장 ========
 		

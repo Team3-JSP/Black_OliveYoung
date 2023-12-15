@@ -86,4 +86,49 @@
 					where pd.product_display_id = #{product_display_id}
 	</select>
 	
+	<select id="selectRankingCatLargeName" resultType="categoryLarge">
+		SELECT cl.category_large_id, category_large_name
+		FROM category_large cl 
+		<if test="type == '판매 랭킹'">
+			JOIN category_mid cm ON cl.category_large_id = cm.category_large_id
+			JOIN order_product o ON cm.category_mid_id = o.category_mid_id
+			GROUP BY cl.category_large_id, category_large_name
+			HAVING sum(product_cnt) > 50
+		</if>
+	</select>
+	
+	<select id="selectSaleRankingProduct" resultType="ProductContainer">
+		SELECT * 
+		FROM productcontainer 
+		WHERE  product_id IN ( 
+		    SELECT product_id 
+		    FROM ( 
+		        SELECT product_id, sum(product_cnt) cnt 
+		        FROM order_product o
+		        JOIN category_mid c ON o.category_mid_id = c.category_mid_id 
+		        <where>
+			        <if test="categoryLargeId != null and categoryLargeId != ''">
+						category_large_id = #{categoryLargeId}
+					</if>
+		        </where>
+		        GROUP BY product_id 
+		        ORDER BY cnt DESC 
+		    )
+		    <![CDATA[
+		    WHERE ROWNUM <= 100
+		    ]]>
+		)
+		ORDER BY ordercnt DESC
+	</select>
+	
+	<!-- 나중에 리뷰 이미지 추가작업 -->
+	<select id="selectReviceBest" resultType="ReviewDTO">
+		SELECT review_id, review_content, review_like
+		FROM review r JOIN product p ON r.product_id = p.product_id
+		            JOIN category_small cs ON p.category_small_id = cs.category_small_id
+		            JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+		WHERE category_large_id = #{categoryLargeId}
+		ORDER BY review_like DESC
+	</select>
+	
 </mapper>
