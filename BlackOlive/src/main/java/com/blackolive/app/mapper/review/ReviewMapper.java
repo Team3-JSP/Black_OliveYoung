@@ -12,20 +12,22 @@ import com.blackolive.app.domain.review.ReviewScoreDTO;
 
 public interface ReviewMapper {
 
-	// 리뷰 목록
+	// 리뷰 페이징
 	List<ReviewDTO> reviewList(@Param("productDisplayId") String productDisplayId, 
 			@Param("gdasSort") String gdasSort, @Param("productId") String productId, 
 			@Param("currentPage") int currentPage, @Param("numberPerPage") int numberPerPage);
+	// 리뷰 전체
+	List<ReviewDTO> reviewListAll(@Param("productDisplayId") String productDisplayId,@Param("productId") String productId);
 	//리뷰 이미지
-	List<ReviewImgDTO> reviewimg( String reviewId);
+	List<ReviewImgDTO> reviewimg( @Param("reviewId")String reviewId);
 	// 리뷰 단일
 	ReviewDTO review( String reviewId);
 	// 상품 점수
-	ReviewScoreDTO reviewScore( String productDisplayId, String productId);
+	ReviewScoreDTO reviewScore(@Param("productDisplayId")String productDisplayId, @Param("productId")String productId);
 	//페이징 처리
 	// 전체 페이지 구하기
-	int getTotalReviewPages(String productDisplayId, String productId, int numberPerPage)  throws SQLException;
+	int getTotalReviewPages(@Param("productDisplayId")String productDisplayId, @Param("productId")String productId,@Param("numberPerPage") int numberPerPage);
 		// 
-	int getTotalReviewRecords(String productDisplayId, String productId)  throws SQLException;
+	int getTotalReviewRecords(@Param("productDisplayId")String productDisplayId,@Param("productId") String productId);
 	
 }

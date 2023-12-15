@@ -11,10 +11,14 @@
 
 
 </script>
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	
 <div id="Container">
 		<div id="Contents">
 
-			<!-- 상단 카테고리 history -->
 			<div class="page_location">
 				<a href="#" class="loc_home">홈</a>
 				<ul class="loc_history">
@@ -930,26 +934,26 @@
 					<div class="prd_option_box box_select">
 
 						<a href="javascript:;" id="ALL" class="sel_option item"> <span
-							class="opt"><img src="${proDImg[0].proDImgSrc }"
+							class="opt"><img src="${productDisplayImgs[0].productDisplaySrc }"
 								onerror=""></span> <span class="txt">전체</span> <!-- ## 리뷰 고도화 1차 ## -->
 						</a>
 						<ul class="sel_option_list scrbar">
 							<li><a href="javascript:;" class="item" title="전체"> <span
-									class="opt"><img src="${proDImg[0].proDImgSrc }"
+									class="opt"><img src="${productDisplayImgs[0].productDisplaySrc  }"
 										onerror=""></span> <span class="txt">전체</span> <span
 									class="num"></span> <input type="hidden"
 									name="gdasItemNo" value="ALL"> <input type="hidden"
 									name="gdasLgcGoodsNo" value="ALL">
 							</a></li>
-							<c:forEach items="${pLists}" var="pll">
-								<li optgoodsinfo="${pll.proId }">
+							<c:forEach items="${productList}" var="pll">
+								<li optgoodsinfo="${pll.productId }">
 									<!-- ## 리뷰고도화 2차## 본상품+연관상품 적용시 필요값 (상품번호:아이템번호)--> <a
-									href="javascript:;" class="item" title="${pll.proName }"> <span
-										class="opt"> <img src="${pll.proImg }" onerror="">
+									href="javascript:;" class="item" title="${pll.productName }"> <span
+										class="opt"> <img src="${pll.productDisplaySrc }" onerror="">
 
-									</span> <span class="txt">${pll.proName }</span> <span class="num"></span> <input type="hidden"
-										name="gdasItemNo" value="${pll.proId }"> <input
-										type="hidden" name="gdasLgcGoodsNo" value="${pll.proId }">
+									</span> <span class="txt">${pll.productName }</span> <span class="num"></span> <input type="hidden"
+										name="gdasItemNo" value="${pll.productId }"> <input
+										type="hidden" name="gdasLgcGoodsNo" value="${pll.productId }">
 
 								</a>
 								</li>
@@ -960,7 +964,7 @@
 					</div>
 
 					<!-- 옵션end -->
-
+<!-- 리뷰 시작 -->
 					<!-- 필터 start -->
 					<!-- ## 리뷰 고도화 1차 : 삭제  ##  -->
 					<!-- <div class="cate_align_box prodLine"> -->
@@ -989,230 +993,28 @@
 
 					<!-- 추천 키워드 영역 -->
 
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-
-
-
-
-
-
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-
-
-
+			
 
 
 					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
+		
 
 					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
+			
 
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
 					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
-
-					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
-
-					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
-
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-					<!--평균별점집계 start-->
-
-
-					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
-
-
-
-					<!--평균별점집계 end-->
-
-					<!-- 만족도결과 start-->
 
 
 					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-
-
-					<!-- 만족도결과 end-->
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 Start -->
-
-					<!-- 연관상품 포함 건수 있는 경우 표시 -->
-
-
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-
-
-					<!-- ## 리뷰 고도화 1차 ## 정렬 항목 변경 END -->
-					<!-- 사진탭 start-->
-
-
+					
 
 					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
-					<!-- ## 리뷰 고도화 1차 ##  -->
+					
+		
+					<!-- <h3 class="tit_type poll_tit">고객 만족도</h3> -->
+				
 
-
-					<!-- 사진탭 end-->
-
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 1차 ## -->
-
-					<!-- ## 리뷰 고도화 1차 ## -->
-					<!-- 상품평 등록제한 카테고리 안내 문구 -->
-					<!-- ## 리뷰 고도화 2차## 
-	1. 연관상품 추가 : (정상계정)
-	2. 탭 건수 : 실시간조회(정상계정)
-	3. 별점 : 집계조회(정상계정)
-	4: 만족도 : 집계 조회(정상계정)
-	5. 옵션별 건수 :  실시간조회 (정상계정)
- -->
-					<!--평균별점집계 start-->
+					<!-- <h3 class="tit_type thum_tit">리뷰 이미지</h3 -->
 
 
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
@@ -1266,33 +1068,33 @@
 								</div>
 								<div class="graph_area">
 									<ul class="graph_list">
-										<li><span class="per">${reviewScore.grade_5_ratio }%</span>
+										<li><span class="per">${reviewScore.grade5Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_5_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade5Ratio }%;"></span>
 											</div> <span class="txt">5점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_4_ratio }%</span>
+										<li><span class="per">${reviewScore.grade4Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_4_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade4Ratio }%;"></span>
 											</div> <span class="txt">4점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_3_ratio }%</span>
+										<li><span class="per">${reviewScore.grade3Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_3_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade3Ratio }%;"></span>
 											</div> <span class="txt">3점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_2_ratio }%</span>
+										<li><span class="per">${reviewScore.grade2Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_2_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade2Ratio }%;"></span>
 											</div> <span class="txt">2점</span></li>
 
 
-										<li><span class="per">${reviewScore.grade_1_ratio }%</span>
+										<li><span class="per">${reviewScore.grade1Ratio }%</span>
 											<div class="graph">
-												<span style="height: ${reviewScore.grade_1_ratio }%;"></span>
+												<span style="height: ${reviewScore.grade1Ratio }%;"></span>
 											</div> <span class="txt">1점</span></li>
 									</ul>
 								</div>
@@ -1315,16 +1117,16 @@
 									<ul class="list">
 										<li><span class="txt">건성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_3_ratio }%;"></span>
-											</div> <em class="per" data-value="19">${reviewScore.grade1_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade13Ratio }%;"></span>
+											</div> <em class="per" data-value="19">${reviewScore.grade13Ratio }%</em></li>
 										<li><span class="txt">복합성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_2_ratio }%;"></span>
-											</div> <em class="per" data-value="60">${reviewScore.grade1_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade12Ratio }%;"></span>
+											</div> <em class="per" data-value="60">${reviewScore.grade12Ratio }%</em></li>
 										<li><span class="txt">지성에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade1_1_ratio }%;"></span>
-											</div> <em class="per" data-value="21">${reviewScore.grade1_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade11Ratio }%;"></span>
+											</div> <em class="per" data-value="21">${reviewScore.grade11Ratio }%</em></li>
 
 
 									</ul>
@@ -1338,16 +1140,16 @@
 									<ul class="list">
 										<li><span class="txt">보습에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_3_ratio }%;"></span>
-											</div> <em class="per" data-value="21">${reviewScore.grade2_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade23Ratio }%;"></span>
+											</div> <em class="per" data-value="21">${reviewScore.grade23Ratio }%</em></li>
 										<li><span class="txt">진정에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_2_ratio }%;"></span>
-											</div> <em class="per" data-value="79">${reviewScore.grade2_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade22Ratio }%;"></span>
+											</div> <em class="per" data-value="79">${reviewScore.grade22Ratio }%</em></li>
 										<li><span class="txt">주름/미백에 좋아요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade2_1_ratio }%;"></span>
-											</div> <em class="per" data-value="1">${reviewScore.grade2_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade21Ratio }%;"></span>
+											</div> <em class="per" data-value="1">${reviewScore.grade21Ratio }%</em></li>
 									</ul>
 								</dd>
 							</dl>
@@ -1359,16 +1161,16 @@
 									<ul class="list">
 										<li><span class="txt">자극없이 순해요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_3_ratio }%;"></span>
-											</div> <em class="per" data-value="76">${reviewScore.grade3_3_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade33Ratio }%;"></span>
+											</div> <em class="per" data-value="76">${reviewScore.grade33Ratio }%</em></li>
 										<li><span class="txt">보통이에요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_2_ratio }%;"></span>
-											</div> <em class="per" data-value="24">${reviewScore.grade3_2_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade32Ratio }%;"></span>
+											</div> <em class="per" data-value="24">${reviewScore.grade32Ratio }%</em></li>
 										<li><span class="txt">자극이 느껴져요</span>
 											<div class="graph">
-												<span style="width: ${reviewScore.grade3_1_ratio }%;"></span>
-											</div> <em class="per" data-value="1">${reviewScore.grade3_1_ratio }%</em></li>
+												<span style="width: ${reviewScore.grade31Ratio }%;"></span>
+											</div> <em class="per" data-value="1">${reviewScore.grade31Ratio }%</em></li>
 									</ul>
 								</dd>
 							</dl>
@@ -1443,15 +1245,15 @@
 					<div class="review_thum">
 						<ul class="inner clrfix">
 							<c:set var="i" value="${0 }" />
-							<c:forEach items="${reviewimg }" var="imglist"
+							<c:forEach items="${reviewlistall }" var="imglist"
 								varStatus="outloop">
 
-								<c:forEach items="${imglist }" var="img" varStatus="Loop">
+								<c:forEach items="${imglist.reviewimg }" var="img" varStatus="Loop">
 									<c:if test="${i < 7}">
 										<li><a href="javascript:;"
 											data-attr="상품상세^포토모아보기^포토 클릭^1"> <span> <!-- ## 리뷰 고도화 1차 ## onload , errorResizeImg -->
-													<img src="${img.rev_img_src }" class="thum"
-													data-value="${img.rev_id }" alt="" data-state="">
+													<img src="${img.reviewImgSrc }" class="thum"
+													data-value="${img.reviewId }" alt="" data-state="">
 											</span>
 
 										</a></li>
@@ -1463,7 +1265,7 @@
 											<!-- ## 리뷰 고도화 1차 ## --> <a href="javascript:;" class="more"
 											data-attr="상품상세^포토모아보기^포토더보기"> <span> <!-- ## 리뷰 고도화 1차 ## -->
 													<span><em>더보기</em></span> <!-- ## 리뷰 고도화 1차 ## onload , errorResizeImg -->
-													<img src="${img.rev_img_src }" class="thum"
+													<img src="${img.reviewImgSrc }" class="thum"
 													data-value="23722172_2" alt="" data-state="">
 											</span>
 
@@ -1525,7 +1327,7 @@
 												src="https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/04/1699105876598.png"
 												style="display: none;">
 												<div class="thum">
-													<span class="bg"></span> <img src="${review.user_img }"
+													<span class="bg"></span> <img src="${review.profileImg }"
 														class="profileThum_s"
 														style="background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg) no-repeat 0 0; background-size: 60px">
 												</div>
@@ -1534,7 +1336,7 @@
 											<p class="info_user">
 												<a href="javascript:;" class="id"
 													onclick="goods.gdas.hadleClickProductDetailReviewerProfile('QjdncktGcWptUk5vclBWbnM2NkN6QT09', { t_page: '상품상세', t_click: '리뷰어_리뷰어프로필', t_profile_name: '글리스', t_review_rank_name: '19'})"
-													data-attr="상품상세^리뷰어프로필^프로필이미지 또는 닉네임 클릭">${review.user_id }</a>
+													data-attr="상품상세^리뷰어프로필^프로필이미지 또는 닉네임 클릭">${review.nickname }</a>
 												<!--## 리뷰 고도화 1차 ## :  탑리뷰어 라운지로 이동시킴 -->
 												<a href="javascript:;"
 													onclick="goods.gdas.handleClickTopReviewer({t_page: '상품상세', t_click: '리뷰어_탑리뷰어순위', t_review_rank_name: '19'})"
@@ -1545,13 +1347,10 @@
 												<!--피부 컨디션이 -->
 												<!--<strong _tmplitem="143" >-->
 												<!-- ## 리뷰 고도화 1차 ## : 위치 변경 및 마크업 변경 -->
-												<span>${review.skintype_title }</span> <span>${review.skintone_title}</span>
-												<c:forEach items="${skinlists }" var="skinlist">
-													<c:forEach items="${skinlist }" var="skintrb">
-														<c:if test="${skintrb.user_id eq review.user_id }">
-															<span>${skintrb.skintrb_title }</span>
-														</c:if>
-													</c:forEach>
+												<span>${review.skintypeName }</span> <span>${review.skintoneName}</span>
+												<c:forEach items="${review.skinTrouble }" var="skintrb">
+															<span>${skintrb.skintroubleName }</span>
+														
 												</c:forEach>
 												<!--</strong>-->
 											</p>
@@ -1562,8 +1361,8 @@
 									<div class="review_cont">
 										<div class="score_area">
 											<span class="review_point"><span class="point"
-												style="width: ${review.rev_grade*20 }%">5점만점에
-													${review.rev_grade }점</span></span> <span class="date">${review.rev_reg }</span>
+												style="width: ${review.reviewGrade*20 }%">5점만점에
+													${review.reviewGrade }점</span></span> <span class="date">${review.reviewRegdate }</span>
 										</div>
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
@@ -1575,13 +1374,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_1 eq 3 }">
+															<c:when test="${review.reviewPoll1 eq 3 }">
 													건성에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_1 eq 2 }">
+															<c:when test="${review.reviewPoll1 eq 2 }">
 													복합성에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_1 eq 1 }">
+															<c:when test="${review.reviewPoll1 eq 1 }">
 													지성에 좋아요
 												</c:when>
 
@@ -1596,13 +1395,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_2 eq 3 }">
+															<c:when test="${review.reviewPoll2 eq 3 }">
 													보습에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_2 eq 2 }">
+															<c:when test="${review.reviewPoll2 eq 2 }">
 													진정에 좋아요
 												</c:when>
-															<c:when test="${review.rev_grade_2 eq 1 }">
+															<c:when test="${review.reviewPoll2 eq 1 }">
 													주름/미백에 좋아요
 												</c:when>
 
@@ -1616,13 +1415,13 @@
 												</dt>
 												<dd>
 													<span class="txt"> <c:choose>
-															<c:when test="${review.rev_grade_3 eq 3 }">
+															<c:when test="${review.reviewPoll3 eq 3 }">
 													자극없이 순해요
 												</c:when>
-															<c:when test="${review.rev_grade_3 eq 2 }">
+															<c:when test="${review.reviewPoll3 eq 2 }">
 													보통이에요
 												</c:when>
-															<c:when test="${review.rev_grade_3 eq 1 }">
+															<c:when test="${review.reviewPoll3 eq 1 }">
 													자극이 느껴져요
 												</c:when>
 
@@ -1632,22 +1431,22 @@
 											</dl>
 										</div>
 										<!--## 리뷰 고도화 1차 ## 위치변경 -->
-										<div class="txt_inner">${review.rev_content }</div>
+										<div class="txt_inner">${review.reviewContent }</div>
 										<!-- ## 리뷰 고도화 1차 ## : 태그 추가 -->
 										<div class="review_tag">
 											<span>어성초토너</span> <span>보습토너</span> <span>진정토너</span>
 										</div>
 										<div class="review_thum type1">
 											<ul class="inner clrfix">
-												<c:forEach items="${reviewimg }" var="imglist">
-													<c:forEach items="${imglist }" var="img">
+												<c:forEach items="${review.reviewimg }" var="img">
+													
 
-														<c:if test="${img.rev_id eq review.rev_id }">
+														
 															<li><a href="#" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
-																		src="${img.rev_img_src }" data-value="23082403_1"
+																		src="${img.reviewImgSrc }" data-value="23082403_1"
 																		class="thum" alt=""></span></a></li>
-														</c:if>
-													</c:forEach>
+														
+
 												</c:forEach>
 											</ul>
 										</div>
@@ -1667,7 +1466,7 @@
 												onclick="goods.gdas.setRecommGdasToggle('23082403',  'N', {t_page: '상품상세', t_click: '상품상세_도움이돼요', t_profile_name: '글리스', t_review_rank_name: '19'});"
 												data-attr="상품상세^도움이돼요^도움이돼요">
 												이 리뷰가 도움이 돼요! <span class="num" data-attr="상품상세^도움이돼요^도움이돼요">
-													${review.rev_like } </span>
+													${review.reviewLike } </span>
 											</button>
 											<input type="hidden" name="recommCnt_23082403" value="30">
 										</div>
@@ -1681,7 +1480,7 @@
 						</ul>
 					</div>
 					<!-- pageing start -->
-					<div class="pageing" id="<%=request.getParameter("goodsNo")%>">
+					<div class="pageing" id="<%=request.getParameter("productDisplayId")%>">
 						<c:if test="${pDto.prev }">
 							<a class="prev" href="javascript:;" data-page-no="1">이전 10
 								페이지</a>
@@ -1731,7 +1530,7 @@
 													src="https://static.oliveyoung.co.kr/pc-static-root/image//comm/bg_2_2.png"
 													alt="">
 												</span> <img alt="" class="bigImg ${i }" name="${i }"
-													data-value="${img.rev_id }" src="${img.rev_img_src }">
+													data-value="${img.reviewId }" src="${img.reviewImgSrc }">
 											</div>
 											<c:set var="i" value="${i + 1 }" />
 										</c:forEach>
@@ -1755,7 +1554,7 @@
 													tabindex="0"> <img alt="" name="23745102"
 													data-attr="상품상세^포토상세^포토상세이동_포토"
 													data-value="23745102_2_23727075_1"
-													src="${img.rev_img_src }">
+													src="${img.reviewImgSrc }">
 											</div>
 										</c:forEach>
 									</c:forEach>
@@ -1930,9 +1729,9 @@ $(function(){
 									<c:forEach items="${reviewimg }" var="imglist">
 										<c:forEach items="${imglist }" var="img">
 											<li><a href="javascript:;"> <span class="thum">
-														<img style="width: 80px;" src="${img.rev_img_src }"
+														<img style="width: 80px;" src="${img.reviewImgSrc }"
 														class="review_img" alt="썸네일 이미지"
-														data-attr="상품상세^포토목록^포토 클릭" data-value="${img.rev_id }"
+														data-attr="상품상세^포토목록^포토 클릭" data-value="${img.reviewId }"
 														data-state="">
 												</span>
 											</a></li>

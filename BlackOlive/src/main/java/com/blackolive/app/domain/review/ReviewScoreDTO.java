@@ -11,19 +11,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReviewScoreDTO {
 
-	private int grade_5_ratio;
-	private int grade_4_ratio;
-	private int grade_3_ratio;
-	private int grade_2_ratio;
-	private int grade_1_ratio;
-	private int grade1_3_ratio;
-	private int grade1_2_ratio;
-	private int grade1_1_ratio;
-	private int grade2_3_ratio;
-	private int grade2_2_ratio;
-	private int grade2_1_ratio;
-	private int grade3_3_ratio;
-	private int grade3_2_ratio;
-	private int grade3_1_ratio;
+	private int grade5Ratio;
+	private int grade4Ratio;
+	private int grade3Ratio;
+	private int grade2Ratio;
+	private int grade1Ratio;
+	private int grade13Ratio;
+	private int grade12Ratio;
+	private int grade11Ratio;
+	private int grade23Ratio;
+	private int grade22Ratio;
+	private int grade21Ratio;
+	private int grade33Ratio;
+	private int grade32Ratio;
+	private int grade31Ratio;
 	private float averagegrade;
 }

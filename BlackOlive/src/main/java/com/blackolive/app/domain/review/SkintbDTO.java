@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SkintbDTO {
 
-	private String userId2;
+	private String skintroubleId;
 	private String skintroubleName;
 }

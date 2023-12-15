@@ -38,6 +38,9 @@
 			<typeAlias type="com.blackolive.app.domain.head.GiftCardDTO" alias="GiftCardDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.MsgCardDTO" alias="MsgCardDTO"/>
 			
+			<!-- review  -->
+			<typeAlias type="com.blackolive.app.domain.review.ReviewImgDTO" alias="ReviewImgDTO"/>
+			
 	</typeAliases>
 	
 	<!-- 언더바를 대문자를 바꿔주는 작업 -->
@@ -59,6 +62,8 @@
 		<mapper resource="com/blackolive/app/mapper/usermodify/UsermodifyMapper.xml"/>
 
 		<mapper resource="com/blackolive/app/mapper/productdetail/ProductDetailMapper.xml"/>
+		
+		<mapper resource="com/blackolive/app/mapper/review/ReviewMapper.xml"/>
 		
 	</mappers>
 	
