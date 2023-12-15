@@ -285,7 +285,7 @@
 
 							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
 
-							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
+							
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
 						</sec:authorize>
@@ -706,7 +706,7 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/ranking.do"
+					<li style=""><a onclick="" href='<c:url value="store/getRanking"/>'
 						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
 					</a></li>
 					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
