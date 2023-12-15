@@ -8,7 +8,7 @@
 	<li data-goods-idx="1">
 		<div class="prod">
 			<a
-				href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
+				href="#"
 				name="BrandA001436_PROD" class="thumb goodsList"
 				data-ref-goodsno="A000000162323" data-ref-dispcatno="9000002"
 				data-ref-itemno="001"
@@ -25,7 +25,7 @@
 					<strong class="exclusive"></strong>
 				</div>
 				<a
-					href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
+					href="#"
 					class="goodsList" data-ref-goodsno="A000000162323"
 					data-ref-dispcatno="9000002" data-ref-itemno="001"
 					data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획">

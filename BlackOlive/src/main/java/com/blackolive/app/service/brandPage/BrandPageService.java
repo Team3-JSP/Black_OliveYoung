@@ -15,6 +15,11 @@ public interface BrandPageService {
 	public List<BrandPageDTO> getsellProduct(String brandId, String categoryId) throws ClassNotFoundException, SQLException;
 	//리뷰 가져오기 
 	public List<BrandPageDTO> getReviews(String prductDisplyId) throws ClassNotFoundException, SQLException;
+	// ajax  부분 html 으로 
+	public String createBrandPageHtml(String brandId, String sort, String dispcatno) throws Exception;
+
+	
+
 
 	// 리뷰 클릭시  상세보기 
 
