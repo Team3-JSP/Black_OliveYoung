@@ -35,7 +35,6 @@ public class HeadServiceImpl implements HeadService{
 		
 		
 		log.info(">>HeadService call...");
-		log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> "+headMapper);
 	
 			
 //		Map<CategoryLargeDTO, List<CategoryMidDTO>> list  = this.headMapper.getHeadCategory(categoryTotalId);
