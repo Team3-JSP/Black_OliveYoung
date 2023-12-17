@@ -22,6 +22,67 @@
         <result property="categoryMidName" column="category_mid_name"/>
         <result property="categoryLargeId" column="category_large_id"/>
     </resultMap>
+    
+    <resultMap type="com.blackolive.app.domain.review.ReviewDTO" id="reviewMap">
+       <id property="reviewId" column="review_id"/>
+		<result property="reviewId" column="review_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="productDisplayId" column="product_display_id"/>
+		<result property="reviewLike" column="review_like"/>
+		<result property="reviewContent" column="review_content"/>
+		<result property="reviewGrade" column="review_grade"/>
+		<result property="reviewRegdate" column="review_regdate"/>
+		<result property="reviewPoll1" column="review_poll_1"/>
+		<result property="reviewPoll2" column="review_poll_2"/>
+		<result property="reviewPoll3" column="review_poll_3"/>
+		<result property="productId" column="product_id"/>
+		<result property="nickname" column="nickname"/>
+		<result property="profileImg" column="profile_img"/>
+		<result property="skintoneName" column="skintone_name"/>
+		<result property="skintypeName" column="skintype_name"/>
+		<collection property="skinTrouble" resultMap="skinTroubleMap">
+		</collection>
+		<collection property="reviewimg" resultMap="reviewimgMap"></collection>
+	</resultMap>
+    
+    <resultMap type="com.blackolive.app.domain.review.ReviewDetailDTO" id="reviewDetailMap">
+       <id property="reviewId" column="review_id"/>
+		<result property="reviewId" column="review_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="productDisplayId" column="product_display_id"/>
+		<result property="reviewLike" column="review_like"/>
+		<result property="reviewContent" column="review_content"/>
+		<result property="reviewGrade" column="review_grade"/>
+		<result property="reviewRegdate" column="review_regdate"/>
+		<result property="reviewPoll1" column="review_poll_1"/>
+		<result property="reviewPoll2" column="review_poll_2"/>
+		<result property="reviewPoll3" column="review_poll_3"/>
+		<result property="productId" column="product_id"/>
+		<result property="nickname" column="nickname"/>
+		<result property="profileImg" column="profile_img"/>
+		<result property="skintoneName" column="skintone_name"/>
+		<result property="skintypeName" column="skintype_name"/>
+		<result property="gradeName" column="grade_name"/>
+		<result property="rnk" column="rnk"/>
+		<result property="reviewCnt" column="review_cnt"/>
+		<result property="likeCnt" column="like_cnt"/>
+		<result property="productName" column="product_name"/>
+		<result property="productPrice" column="product_price"/>
+		<result property="productImgSrc" column="product_img_src"/>
+		<result property="brandName" column="brand_name"/>
+		<collection property="skinTrouble" resultMap="skinTroubleMap">
+		</collection>
+		<collection property="reviewimg" resultMap="reviewimgMap"></collection>
+	</resultMap>
+	<resultMap type="com.blackolive.app.domain.review.SkintbDTO" id="skinTroubleMap">
+		<result property="userId2" column="user_id_2"/>
+		<result property="skintroubleName" column="skintrouble_name"/>
+	</resultMap>
+	<resultMap type="com.blackolive.app.domain.review.ReviewImgDTO" id="reviewimgMap">
+		<result property="reviewImgId" column="review_img_id"/>
+		<result property="reviewId" column="review_id"/>
+		<result property="reviewImgSrc" column="review_img_src"/>
+	</resultMap>
 
     <select id="getHeadCategory" resultMap="LargeResultMap">
         SELECT cl.category_large_id, cl.category_large_name, cl.category_total_id
@@ -121,14 +182,61 @@
 		ORDER BY ordercnt DESC
 	</select>
 	
-	<!-- 나중에 리뷰 이미지 추가작업 -->
-	<select id="selectReviceBest" resultType="ReviewDTO">
-		SELECT review_id, review_content, review_like
+	<!-- 리뷰 이미지도 함께 가져올 때 첫번 째 이미지만 가져온다. 만약 리뷰 이미지가 없다면 주문한 상품 이미지로 대체한다. -->
+	<select id="selectReviceBest" resultMap="reviewMap">
+		SELECT r.review_id, review_content, review_like, NVL(review_img_src, pi.product_img_src) review_img_src
 		FROM review r JOIN product p ON r.product_id = p.product_id
-		            JOIN category_small cs ON p.category_small_id = cs.category_small_id
-		            JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+			JOIN category_small cs ON p.category_small_id = cs.category_small_id
+			JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
+		    JOIN product_img pi ON r.product_id = pi.product_id
+		    LEFT JOIN (
+		        SELECT review_id, review_img_src
+		        FROM ( 
+		            SELECT review_id, review_img_src, ROW_NUMBER() OVER (PARTITION BY review_id ORDER BY review_id) AS rnk
+		            FROM review_img
+		        )
+		        WHERE rnk = 1
+		    ) img ON r.review_id = img.review_id
 		WHERE category_large_id = #{categoryLargeId}
 		ORDER BY review_like DESC
 	</select>
+
+	<!-- JOIN product p ON r.product_id = p.product_id -->
+	<select id="selectOneReview" resultMap="reviewDetailMap">
+		SELECT r.review_id, product_display_id, review_like, review_content, review_grade
+		    , review_regdate, review_poll_1, review_poll_2, review_poll_3, product_id
+		    , review_img_src, product_name, product_price, product_img_src, product_display_name
+		    , brand_name, NVL(nickname, SUBSTR(user_id, 1, LENGTH(user_id) - 4)||'****') nickname, profile_content, profile_img
+		    , skintone_name, skintype_name, skintrouble_name, grade_name, rnk, review_cnt, like_cnt
+		FROM review r
+		    LEFT JOIN review_img ri ON r.review_id = ri.review_id
+		    JOIN product p ON r.product_id = p.product_id
+		    JOIN product_img pi ON p.product_id = pi.product_id
+		    JOIN product_display pd ON p.product_display_id = pd.product_display_id
+		    JOIN brand b ON pd.brand_id = b.brand_id
+		    LEFT JOIN userprofile up ON r.user_id = up.user_id 
+		    LEFT JOIN profile_skintone ps ON up.skintone_id = ps.skintone_id
+		    LEFT JOIN profile_skintype pf ON up.skintype_id = pf.skintype_id
+		    LEFT JOIN userprofile_skintrouble us ON us.user_id = r.user_id
+		    LEFT JOIN profile_skintrouble pt ON us.skintrouble_id = pt.skintrouble_id
+		    JOIN olive_user ou ON r.user_id = ou.user_id
+		    JOIN olive_members om ON ou.grade_id = om.grade_id
+		    JOIN (
+		        SELECT ROWNUM rnk, tmp.*
+		        FROM (
+		            SELECT user_id, count(*) review_cnt, sum(review_like) like_cnt
+		            FROM review
+		            GROUP BY user_id
+		            ORDER BY like_cnt DESC
+		        ) tmp
+		        WHERE user_id = tmp.user_id
+		    ) info ON r.user_id = info.user_id  
+		WHERE r.review_id = #{reviewId}
+	</select>
 	
+	<update id="updateReviewLike">
+		UPDATE review
+		SET review_like = review_like + #{likePlus}
+		WHERE review_id = #{reviewId}
+	</update>
 </mapper>

@@ -17,10 +17,253 @@
 		var scrolled = window.scrollY;
 		var windowHeight = window.innerHeight;
 	
-		$(popup).css("top", (windowHeight / 2 + scrolled) + 'px');
+		$(popup).css("top", (windowHeight*0.3 + scrolled) + 'px');
 	}
 	
+	// 리뷰 도움돼요 업데이트
+	function udpReviewLike(reviewId, btn) {
+		let likePlus = 0;
+		if($(btn).hasClass("like")) {
+			$(btn).removeClass("on like").addClass("unlike");
+			likePlus = -1;
+		} else {
+			$(btn).removeClass("unlike").addClass("on like");	
+			likePlus = 1;
+		}
+		
+		$.ajax({
+			url: "/store/udpReviewLike"
+			, method:"POST"
+			, cache:false
+			, dataType : "text"
+			, data:{
+				reviewId : reviewId
+				, likePlus : likePlus
+				, '${_csrf.parameterName }' : '${_csrf.token }'
+			}
+			, success: function (data) {
+				console.log(data);		
+				
+				if(data === 'success') {
+					$(btn).find(".num").text(function(index, currentText) {
+						return parseInt(currentText) + likePlus;
+					});
+				}
+			}
+			, error : function (xhr, data, textStatus) {
+				if(xhr.status == 401) {
+					location.href = '<c:url value="/auth/login"/>';
+				}
+	        } // success , error
+		}) // ajax
+	}
 	
+	// 리뷰 상세 보기 Ajax
+	function reviewDetail(reviewId) {
+		
+		$.ajax({
+			url: "/store/getReviewDetail"
+			, method:"GET"
+			, cache:false
+			, dataType : "json"
+			, data:{
+				reviewId : reviewId
+			}
+			, success: function (data) {
+				// console.log(data);
+				var date = new Date(data.reviewRegdate);
+				var formattedDate =
+					  date.getFullYear() + '.' +
+					  ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+					  ('0' + date.getDate()).slice(-2);
+				
+				let grade = data.gradeName;
+				let grade_rate;
+				switch (grade) {
+				case "BABY OLIVE":
+					grade_rate = "rate_05";
+					break;
+				case "PINK OLIVE":
+					grade_rate = "rate_04";
+					break;
+				case "GREEN OLIVE":
+					grade_rate = "rate_03";
+					break;
+				case "BLACK OLIVE":
+					grade_rate = "rate_02";
+					break;
+				case "GOLD OLIVE":
+					grade_rate = "rate_01";
+					break;
+				}
+				
+				// 태그 만들기 시작
+				let reviewDetailContent = `
+				<div class="review-detail-view">
+					<p class="review-detail-view__tit">리뷰 상세보기 <button type="button" class="rw-popup-layer-close" onclick="javascript:$('#layerWrap920').hide(); $('.dimm').remove()"></button></p>
+					<div class="reviewer-profile-wrap clrfix">
+					<div class="reviewer-profile-info profile-top-reviewer-v1 ">
+						<div class="top-reviewer-inner">
+							<div class="top-reviewer-profile">
+								<div class="profile-top-content">
+									<div class="reviewer-profile-img thum">
+										<div class="reviewer-profile-img__inner" onclick="common.link.commonMoveUrl('mypage/getReviewerProfile.do?key=Q0hyeXVNazc3bWVpL3JPODE4UjRtdz09');">
+											<span class="reviewer-profile-img--active" style="background-image: url('\${data.profileImg}')"><span class="review-text-hidden">프로필 사진</span></span>		
+										</div>
+									</div>
+									<div class="new-profile-info">
+										<div class="user-id-area \${grade_rate}">	
+											<p class="id my-profile on">
+												<strong>\${data.nickname}</strong>
+												<span class="badge-img"><span class="blind">멤버십 등급별 이미지</span></span>
+											</p>	
+										</div>
+										<div class="profile-badge on">
+											<span class="badge-item top-number">
+												<a href="https://www.oliveyoung.co.kr/store/mypage/getReviewerLounge.do">TOP \${data.rnk}</a>
+											</span>							
+										</div>
+									</div>
+								</div>
+								<div class="profile-info-content">	
+									<div class="profile-keyword-area">
+										<ul class="profile-keyword-list on">`;
+										
+										if(data.skintoneName != null) {
+											reviewDetailContent += `<li class="list-item">\${data.skintoneName}</li>`;
+										}
+										if(data.skintypeName != null) {
+											reviewDetailContent += `<li class="list-item">\${data.skintypeName}</li>`;
+										}
+										
+										for (var i = 0; i < data.skinTrouble.length; i++) {
+											reviewDetailContent += `<li class="list-item">\${data.skinTrouble[i].skintroubleName}</li>`;
+										}
+							reviewDetailContent += `</ul></div>`;
+				
+				// 프로필 내용 여부
+				if(`\${data.profileContent}` != 'null') {
+					reviewDetailContent += `
+									<p class="top-review-info on">
+										\${data.profileContent}
+									<p>`;	
+				}			
+									
+									
+				reviewDetailContent +=	`
+								</div>
+							</div>
+							<ul class="reviewer-profile-info__bottom reviewer-data-info">
+								<li class="reviewer-data-info__list">
+									<span>\${data.reviewCnt}</span>
+									<span>리뷰</span>
+								</li>
+								<li class="reviewer-data-info__list">
+									<span>\${data.reviewLike}</span>
+									<span>도움</span>
+								</li>
+								<li class="reviewer-data-info__list">
+									<span>\${data.rnk}</span>
+									<span>랭킹</span>
+								</li>
+							</ul>	
+						</div>
+					</div>
+					<div class="reviewer-profile-content">
+						<div class="reviewer-profile-content__body">
+							<div class="rw-box">
+								<a href="#;" class="rw-box__link" onclick="location.href='https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188875&amp;trackingCd=Best_Reviewbest';">
+									<div class="rw-box-figure">
+										<div class="rw-box-figure__img">
+											<img src="\${data.productImgSrc}" alt="">
+										</div>
+										<div class="rw-box-figcaption">
+											<p class="rw-box-figcaption__brand">\${data.brandName}</p>
+											<p class="rw-box-figcaption__name">\${data.productName}</p>
+											<p class="rw-box-figcaption__price">
+												<span class="price">\${data.productPrice}원</span>
+											</p>
+											<p class="rw-box-figcaption__etc">
+												<span class="today">오늘드림</span>
+											</p>	
+										</div>
+									</div>
+								</a>
+								<div class="review-detail-view__content scrbar">
+									<div class="rw-box__first-line">
+										<span class="review_point"><!-- 리뷰 포인트 누적 리뷰에서와 같음. width 값으로 제어-->
+											<span class="point" style="width:\${data.reviewGrade*20}%">5점만점에 5점</span>
+										</span>
+										<span class="review_point_text">
+											<span>작성일자 \${formattedDate}</span>
+										</span>
+									</div>
+									<div class="rw-box__second-line"></div>`;
+									
+									// 리뷰 이미지가 있으면 
+									if(data.reviewimg.length > 0) {
+										
+										reviewDetailContent += '<div class="review-detail-thumb">';
+										reviewDetailContent += '<ul>';
+										
+										for (var i = 0; i < data.reviewimg.length; i++) {
+											reviewDetailContent += '<li>';
+											reviewDetailContent += '<span>';
+											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="" onload="common.imgLoads(this,76);" onerror="common.errorResizeImg(this,76)">`;											
+											reviewDetailContent += '</span>';
+											reviewDetailContent += '</li>';
+										}
+										
+										reviewDetailContent += '</ul>';
+										reviewDetailContent += '</div>';
+										
+									}
+									
+								reviewDetailContent += `
+									<div class="bimg" style="top: 180.2px; display: none;"><!-- 확대되는 부분은 따로 분리 - position: absolute -->
+										<div class="thumb"><img src="" alt=""></div>
+									</div>
+									<p class="rw-box__description">
+										\${data.reviewContent}
+									</p>
+									<div class="review-detail-fixed">
+										<dl class="review-detail-fixed__list clrfix">
+											<dt>피부타입</dt>
+											<dd>지성에 좋아요</dd>
+											<dt>피부고민</dt>
+											<dd>보습에 좋아요</dd>
+											<dt>자극도</dt>
+											<dd>자극없이 순해요</dd>	
+										</dl>
+									</div>
+								</div>
+								<div class="rw-box__bottom">
+									<div class="rw-box__help">
+										<button type="button" class="common-event-help unlike" id="gdas_24029311" onclick="udpReviewLike('\${data.reviewId}', this)">
+											<span>도움이 돼요</span>
+											<span class="num">\${data.reviewLike}</span>
+										</button>
+										<input type="hidden" name="recommCnt_24029311" value="132">
+									</div>
+									<button type="button" class="rw-box__help-btn" onclick="mypage.reviewerInfo.goDclPop('24029311', 'A000000188875', '001', 'N');">신고하기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>`;
+			// 태그 만들기 끝
+		
+				$("#layerWrap920").html(reviewDetailContent);
+				$("#layerWrap920").show();
+				popupCenter($("#layerWrap920"));
+				$("body").append(dimm);
+			}
+			, error : function (xhr, data, textStatus) {
+				console.log('error');
+	        } // success , error
+		}) // ajax
+	}
 
 	$(function() {
 		$('.btn_zzim.jeem').on("click", function() {
@@ -112,24 +355,44 @@
 			popupCenter($("#layer_pop_wrap"));
 		});
 		
-		// 리뷰 상세 보기 Ajax
-		function reviewDetail(reviewId) {
+		// 신고하기 버튼 눌렀을 때
+		$("#regBtn").on("click", function() {
+			let checked = $(".report_list li :checked");
+			if(checked.length == 0) {
+				alert("신고 사유를 선택해 주세요.");
+				return;
+			}
 			
-			$.ajax({
-				url: "/store/getReviewDetail"
-				, method:"GET"
+			let type = $(checked).next().text();	// 신고사유
+			let reviewReportContent = $(".txtArea textarea").val(); // 신고 내용
+			
+			/* $.ajax({
+				url: "/store/reviewReport"
+				, method:"PUT"
 				, cache:false
+				, dataType : "text"
 				, data:{
 					reviewId : reviewId
+					
+					, '${_csrf.parameterName }' : '${_csrf.token }'
 				}
 				, success: function (data) {
-					console.log(data);
+					console.log(data);		
+					
+					if(data === 'success') {
+						$(btn).find(".num").text(function(index, currentText) {
+							return parseInt(currentText) + likePlus;
+						});
+					}
 				}
 				, error : function (xhr, data, textStatus) {
-					console.log('error');
+					if(xhr.status == 401) {
+						location.href = '<c:url value="/auth/login"/>';
+					}
 		        } // success , error
-			}) // ajax
-		}
+			}) // ajax */
+		})
+		
 	});
 </script>
 
@@ -262,7 +525,9 @@
 							<c:forEach items="${reviewList}" var="list" varStatus="status">
 								<a href="javascript:;" class="review_items" onclick="reviewDetail('${list.reviewId}')">
 									<div class="img_wrap">
-										<img class="thum" src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/09/26/1695692530417.png?RS=165x0&amp;CS=165x165" alt="">
+										<c:forEach items="${list.reviewimg }" var="img">
+											<img class="thum" src="${img.reviewImgSrc }" alt="">											
+										</c:forEach>
 										<span class="score_stick">리뷰 ${status.count }위</span>
 									</div>
 									<div class="info_wrap">									
@@ -292,7 +557,7 @@
 	<input type="hidden" id="t_click" name="t_click" value="">
 </form>
 	
-	<div class="layer_pop_wrap z9 w488 trans2" id="layer_pop_wrap" style="z-index: 999; display: none; left: 50%; margin-left: -244px; top: 362px; margin-top: 0px;">
+	<div class="layer_pop_wrap z9 w488 trans2" id="layer_pop_wrap" style="z-index: 999; display: none; ">
 		<div class="layer_cont2">
 			<h2 class="layer_title">오늘의 도움 리뷰에 선정되려면?</h2>
 			<div class="contInner">
@@ -317,6 +582,100 @@
 			<p class="txt_recom txt_01">브랜드<br><em>좋아요</em></p>
 		</div>
 	</div>
+	
+	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>
+
+	<script>
+	$(window).ready(function(){
+	
+		//이미지 상세 보기
+		var _thum_list = $('.review-detail-thumb'),
+		_big_thum_list = $('.review-detail-thumb ul li'),
+		_thum_img = _thum_list.find('span');
+		_bimg = $('.review-detail-view__content .bimg');
+	
+		_thum_img.on('mouseover', function(){
+			_src = $(this).find('img').attr('src');
+			_index = $(this).parent().index();
+			_big_src =  _big_thum_list.eq(_index).find('img').attr('src');
+			if(_big_src.indexOf("?RS=") > -1){
+			    var temp= _big_src.substring(0,_big_src.indexOf("?RS="));
+			    _big_src = temp;
+			}
+			_thum_top = _thum_list.position().top;
+			_thum_pos = $(this).position().top;
+			_top = _thum_top+_thum_pos-101;
+			_bimg.find('img').attr('src',_big_src);
+			_bimg.css('top', _top).show();
+		}).on('mouseout', function(){
+			_bimg.hide();
+		});
+	
+		//2022-04-20 리뷰상세팝업 영역에 유효하지 않은 버튼으로 삭제처리
+	});
+	
+	</script>	
+	</div>
+	
+	
+	<div class="layer_pop_wrap w680" id="layerWrap680" style="z-index: 999; display: block;">
+		<div class="popup-contents">
+			<div class="pop-conts type40">
+				<h1 class="ptit">리뷰 신고하기</h1>
+				<div class="">
+					<div class="report_area">								
+						<div class="tit_top">
+							<h3 class="tit_type01">신고 사유를 알려주세요 (필수)</h3>
+							<p class="txt">신고한 내용은 관리자 검토 후 조치됩니다.</p>
+						</div>
+						<ul class="report_list">					
+							<li><input type="radio" id="report_type1" name="report_type" class="radioSmall" value="50"><label for="report_type1">저작권 침해, 명예훼손</label></li>					
+							<li><input type="radio" id="report_type2" name="report_type" class="radioSmall" value="30"><label for="report_type2">개인정보 유출</label></li>					
+							<li><input type="radio" id="report_type3" name="report_type" class="radioSmall" value="20"><label for="report_type3">광고 및 홍보성 내용</label></li>					
+							<li><input type="radio" id="report_type4" name="report_type" class="radioSmall" value="10"><label for="report_type4">상품과 무관한 내용</label></li>					
+							<li><input type="radio" id="report_type5" name="report_type" class="radioSmall" value="90"><label for="report_type5">해당 제품이 아닌 다른 제품의 리뷰</label></li>					
+							<li><input type="radio" id="report_type6" name="report_type" class="radioSmall" value="70"><label for="report_type6">사용하지 않은 제품에 대한 내용</label></li>					
+							<li><input type="radio" id="report_type7" name="report_type" class="radioSmall" value="80"><label for="report_type7">캡쳐사진 등 상품과 무관한 사진 첨부</label></li>				
+							<li><input type="radio" id="report_type8" name="report_type" class="radioSmall" value="00"><label for="report_type8">잘못된 정보가 포함된 리뷰</label></li>					
+							<li><input type="radio" id="report_type9" name="report_type" class="radioSmall" value="40"><label for="report_type9">욕설, 비방, 선정성 등 미풍양속을 해치는 내용</label></li>					
+							<li><input type="radio" id="report_type10" name="report_type" class="radioSmall" value="60"><label for="report_type10">기타</label></li>				
+						</ul>
+						<h3 class="tit_type01 mgT40">신고 상세사유를 입력해주세요 (선택)</h3>
+						<div class="txtArea">
+							<textarea placeholder="신고하시는 상세이유를 입력해주세요(최대글자는 1,000자입니다)" onkeyup="goods.gdas.dcl.chkTxtCnt(this, 1000)" maxlength="1000"></textarea>
+						</div>
+						<div class="area1sButton pdT30">
+							<a href="#none" class="btnGreen" id="regBtn">신고하기</a>
+							<a href="#none" class="btnGray" onclick="closePop();">취소</a>
+						</div>
+					</div>
+				</div>
+				<button type="button" class="ButtonClose" onclick="javascript:$('#layerWrap680').hide(); $('.dimm').remove()">팝업창 닫기</button>
+			</div>
+		</div>
+		<form name="gdasDclForm" id="gdasDclForm">
+			<input type="hidden" name="gdasSeq" id="gdasSeq" value="24093625">	
+			<input type="hidden" name="goodsNo" id="goodsNo" value="A000000192752">	
+			<input type="hidden" name="gdasItemNo" id="gdasItemNo" value="001">	
+			<input type="hidden" name="dclCausCd" id="dclCausCd">	
+			<input type="hidden" name="dclCont" id="dclCont">
+		</form>
+	<script>
+	setTimeout(function() {
+		goods.gdas.dcl.init();
+	},500);
+	
+	function closePop(){
+		fnLayerSet('layerWrap680', 'close');
+		// 리뷰 상세팝업 노출된 경우
+		if($('#layerWrap920').css("display") === "block") {
+			$('#layerWrap920').css("z-index", 999).css("border","1px solid #fff");
+			$('body').append('<div class="dimm" style="z-index: 990;"></div>');
+		}
+	}
+	</script>
+	</div>
+	
 	<!-- 브랜드 찜 확인 레이어 -->
 	<div class="layerAlim brand zzimOn" style="display:none;"><!-- zzimOn / zzimOff -->
 	 <span class="icon"></span>
