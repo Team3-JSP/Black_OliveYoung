@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.adminpage.AdminPageIndexMapper">
+
+	<!-- // 월별 판매량 갖고오기
+	public List<SalesPerMonthDTO> getSalesPerMonth(@Param("brandId") String brandId); -->
+	
+	<select id="getSalesPerMonth" resultType="SalesPerMonthDTO">
+		SELECT 
+		 to_char(payment_date, 'mm') as "month"
+		,SUM(payment_price) as "monthlySales"
+		FROM payment p 
+		LEFT JOIN refund r ON p.order_id = r.order_id
+		WHERE TO_CHAR(payment_date, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+			<if test="brandId != null">
+				AND brandId = #{brandId}
+			</if>
+		AND r.refund_id IS NULL
+		GROUP BY to_char(payment_date, 'mm')
+		ORDER BY to_char(payment_date, 'mm')
+	</select>
+	
+	<!-- // 일별 판매량 갖고오기 getSalesPerday
+	public List<SalesPerDayDTO> getSalesPerDay (@Param("brandId") String brandId); -->
+	<select id="getSalesPerDay" resultType="SalesPerDayDTO">
+		<![CDATA[
+		WITH MonthDays AS (
+  			SELECT LEVEL AS day
+  			FROM DUAL
+  			CONNECT BY LEVEL <= EXTRACT(DAY FROM LAST_DAY( SYSDATE ))
+			)
+		SELECT MonthDays.day as "day", 
+		COALESCE(daysales."daylysales", 0) as "daylySales"
+		FROM MonthDays
+		LEFT JOIN (
+  			SELECT TO_CHAR(order_date, 'dd') AS day
+       		, SUM(op.past_product_price * op.product_cnt) AS "daylysales"
+  			FROM olive_order oo
+  			JOIN order_product op ON oo.order_id = op.order_id
+  			JOIN productcontainer2 pdc2 ON op.product_id = pdc2.product_id
+  			LEFT JOIN refund r ON oo.order_id = r.order_id
+  			WHERE TO_CHAR(ORDER_DATE, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+  			]]>
+			<if test="brandId != null">
+				AND brandId = #{brandId}
+			</if>
+				<![CDATA[
+			AND r.refund_id IS NULL
+  			GROUP BY TO_CHAR(order_date, 'dd')
+  			ORDER BY TO_CHAR(order_date, 'dd')
+			) daysales
+		ON MonthDays.day = daysales.day
+		ORDER BY MonthDays.day
+				]]>
+	</select>
+	
+
+</mapper>

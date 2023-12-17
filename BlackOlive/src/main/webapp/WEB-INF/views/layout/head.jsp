@@ -282,7 +282,7 @@
 				<ul class="menu_list" id="menu_list_header">
 					
 						<sec:authorize access="isAnonymous()">
-
+							<li class="join"><a href="/adminpage" data-attr="공통^헤더^회원가입">관리자 페이지</a></li>
 							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
