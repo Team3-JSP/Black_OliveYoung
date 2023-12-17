@@ -41,6 +41,8 @@
 			
 			<!-- review  -->
 			<typeAlias type="com.blackolive.app.domain.review.ReviewImgDTO" alias="ReviewImgDTO"/>
+			<typeAlias type="com.blackolive.app.domain.review.ReviewDetailDTO" alias="ReviewDetailDTO"/>
+			
 			
 	</typeAliases>
 	

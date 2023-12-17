@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -16,6 +17,7 @@ import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.domain.review.ReviewDetailDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -97,6 +99,16 @@ public class HeadServiceImpl implements HeadService{
 	@Override
 	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException {
 		return this.headMapper.selectReviceBest(categoryLargeId);
+	}
+
+	@Override
+	public ReviewDetailDTO getReviewDetail(String reviewId) throws SQLException {
+		return this.headMapper.selectOneReview(reviewId);
+	}
+
+	@Override
+	public int udpReviewList(String reviewId, int likePlus) throws SQLException {
+		return this.headMapper.updateReviewLike(reviewId, likePlus);
 	}
 
 } // class
