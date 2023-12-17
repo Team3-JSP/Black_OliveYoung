@@ -38,43 +38,6 @@
 		if (mainurl.includes('/Black_OY/olive/main.do')) {
 			$('.main_cate_wrap').css("display",'block');
 		}
-		let storesNames = [];
-		
-		// 로그인이 되어 있을 시
-		// 관심매장 이름 리스트 얻어오기
-		if(${not empty logOn}) {
-			$.ajax({
-				type : 'post'
-				, async : false
-				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
-				, dataType : 'json'
-				, data : { user_id : '${logOn.user_id}' }
-				, success : function(data) {
-					if(data.storeNames != "no") {
-						let storeNames = []
-						for (var i = 0; i < data.storeNames.length; i++) {
-							storeNames.push(data.storeNames[i]);
-						}
-						$(".store .alim_box").html(`<p class="store_desc"><span>${logOn.u_name}</span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
-										+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
-					} else {
-						$(".store .alim_box").html('<p class="store_desc"><span>${logOn.u_name}</span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
-								+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/getStoreMain.do'";>관심매장 등록하기</button>`)
-					}
-					 //console.log(data);
-	            }
-				, error : function (data, textStatus) {
-					console.log(data);
-	                console.log('error');
-	            }
-			});
-		} else {
-			$(".store .alim_box").html('<p class="store_desc"><span>로그인</span>하시면 자주가는 매장을<br>관심 매장으로 설정 할 수 있습니다.</p>'
-					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
-		}
-		
-		
 		
 		
 	})
@@ -84,6 +47,43 @@
 <input type="hidden" id="skinTorn" name="skinTorn" value="" />
 <input type="hidden" id="skinIssue" name="skinIssue" value="" />
 -->
+<sec:authorize access="isAuthenticated()">
+	<script>
+	let storesNames = [];
+	let tcs = [];
+	let pss = [];
+	// 관심매장 이름 리스트 얻어오기
+	$.ajax({
+		type : 'post'
+		, cache: false
+		, url : '/store/getInterestShopList'
+		, data : {
+			tcs : tcs.toString()
+			, pss : pss.toString()
+			, '${_csrf.parameterName }' : '${_csrf.token }'
+		}
+		, dataType : 'json'
+		, success : function(data) {
+			console.log(data);
+			if(data.length > 0) {
+				let storeNames = []
+				for (var i = 0; i < data.length; i++) {
+					storeNames.push(data[i].storeName);
+				}
+				$(".store .alim_box").html(`<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
+								+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
+			} else {
+				$(".store .alim_box").html('<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
+						+ `<button class="mymenu_btn" onclick="javascript:location.href='<c:url value='store/getStoreMain'/>'";>관심매장 등록하기</button>`)
+			}
+        } 
+		, error : function (data, textStatus) {
+     		console.log(data);
+     		console.log('error');
+        }
+	});
+	</script>							
+</sec:authorize>
 	<div class="infoUpgr" style="display: none;">
 		<p>
 			<a class="ie"
@@ -525,11 +525,15 @@
 					<li class="store "><a onclick="" href="#" class="mymenu_layer"
 						title="관심 매장소식 자세히보기 열기/닫기">관심 매장소식</a>
 						<div class="alim_box">
-							<p class="store_desc">
+							<sec:authorize access="isAnonymous()">
+								<p class="store_desc">
 								<span>로그인</span>하시면 자주가는 매장을 <br>관심 매장으로 설정 할 수 있습니다.
-							</p>
-							<button class="mymenu_btn"
-								onclick="javascript:location.href='<%=contextPath%>/olive/LogOn.do'">로그인</button>
+								</p>
+								<button class="mymenu_btn"
+									onclick="javascript:location.href='<c:url value="/auth/login"/>'">로그인</button>
+							</sec:authorize>
+									
+							
 						</div></li>
 					<li class="recent"><a onclick="recProductView()" href="#"
 						class="mymenu_layer" title="최근 본 상품 자세히보기 열기/닫기">최근 본 상품</a>
