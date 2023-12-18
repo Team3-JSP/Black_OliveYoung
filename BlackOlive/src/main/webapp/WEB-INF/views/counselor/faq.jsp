@@ -244,7 +244,7 @@
 
 <script>
 	
-<%-- 
+
  $(document).ready(function(){
 	 	
 
@@ -253,10 +253,10 @@
 
 		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
 		
-		if ( ${askCategoryMinor} ) {
-			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
-		} else {
+		if ( '${askCategoryMinor}' == '' ) {
 			$("ul.twoTabs li button:contains('전체')").parent().addClass("on");
+		} else {
+			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
 		}
 		
 	 	
@@ -278,6 +278,16 @@
 	        // 다른 항목들은 닫기
 	        $parent.siblings().removeClass("open").find("ul.conts").hide();
 	    });
+	    if ( '${askCategoryMajor}' != '' ) {
+	    	$("ul.twoTabs li button").on("click", function() {
+		    	var major = '${askCategoryMajor}';
+		    	var minor = $(this).text();	  
+		   
+		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
+				
+		    });	
+		}
+	    
 	    
 	    $("ul.comm2sTabs li button").on("click", function() {
 	    	
@@ -285,16 +295,8 @@
 	    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
 	    	
 	    });
+	
 	    
-	    $("ul.twoTabs li button").on("click", function() {
-	    	var major = $(this).parents("ul").siblings("button").text();
-	    	var minor = $(this).text();	    	
-	    	if (minor.eq("전체")) {
-	    		location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major)
-			} else {
-		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
-			}
-	    });	
 	    
 	    
 
@@ -305,7 +307,7 @@
 		
 	    
 	});
---%>	
+	
  
 </script>
 <script>
