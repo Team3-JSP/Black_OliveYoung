@@ -113,7 +113,7 @@
 							<a href="/brandPage?brandId=${productList[0].brandId}" id="moveBrandShop"
 								class="pd_arrow_link">${productList[0].brandName}</a>
 						</p>
-						<p class="prd_name">${productList[0].productDisplayName }</p>
+						<p class="prd_name">${productList[0].productDisplayName}</p>
 						<!-- 202005 상품개선 : 추가 -->
 						<div class="price">
 							<span class="price-1"> <strike><fmt:formatNumber
@@ -723,9 +723,9 @@
 					data-attr="상품상세^상품상세_SortingTab^구매정보">구매정보</a></li>
 				<li id="reviewInfo"><a href="javascript:;"
 					class="goods_reputation" data-attr="상품상세^상품상세_SortingTab^리뷰">리뷰<span>(${reviewcnt })</span></a></li>
-				<li id="qnaInfo"><a href="javascript:;" class="goods_qna"
-					data-attr="상품상세^상품상세_SortingTab^Q&amp;A">Q&amp;A<span><c:if
-								test="${not empty productQnA}">(${productQnA.size()})</c:if> </span></a></li>
+				<li id="qnaInfo"><a href="javascript:;" class="goods_qna">Q&amp;A<span>
+				<c:if
+								test="${not empty qnaTotalRecords}">(${qnaTotalRecords})</c:if> </span></a></li>
 			</ul>
 			<div class="tabConts prd_detail_cont show">
 				<div class="detail_area">
@@ -1749,8 +1749,7 @@ $(function(){
 										<c:if test="${not empty sessionScope.logOn }">
 											<c:if test="${sessionScope.logOn.user_id eq qna.userId}">
 												<button class="btnSmall fullGray" onclick="">수정</button>
-												<button class="btnSmall fullGray"
-													onclick="deleteQna('${qna.qnaId}');">삭제</button>
+												<button class="btnSmall fullGray" onclick="deleteQnA('${qna.qnaId}');">삭제</button>
 											</c:if>
 										</c:if>
 									</p>
@@ -2183,12 +2182,14 @@ $(function() {
 	            },
 	            success: function(response) {
 	                console.log("QnA 등록 성공");
+	                alert("정상적으로 등록되었습니다.");
 	                window.location.href = window.location.href;
 	                // 리뷰 등록 성공 시 원하는 동작 수행
 	            },
 	            error: function(error) {
 	                console.log("QnA 등록 실패");
 	                // 리뷰 등록 실패 시 에러 처리
+	                alert("정상적으로 등록되었습니다.");
 	                window.location.href = window.location.href;
 	            }
 	        });
@@ -2233,6 +2234,8 @@ $(function() {
 
 function modifyQnA(qnaId) {
 	
+	var currentURL = window.location.href;
+	
 	$.ajax({
 		type: "GET",
 		cache: false,
@@ -2242,6 +2245,8 @@ function modifyQnA(qnaId) {
 		url : "/modifyQnA",
 		dataType: "json",
 		success: function(data) {
+			console.log(data);
+			console.log(data.qnaQuestion);
 			let qnaPop = `<div class="popup-contents" id="pop_cont" style="top: 1300px; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%;">
 				<div class="pop-conts">
 				<form name="sForm" id="sForm">
@@ -2261,7 +2266,7 @@ function modifyQnA(qnaId) {
 								‘주문상품문의’를 선택해주세요.</p>
 						</div>
 
-						<p class="common4s-text">아이디얼 포 맨 퍼펙트 올인원 탄력 기획(올인원 30ml+탄력크림 30ml 증정)</p>
+						<p class="common4s-text">${productList[0].productDisplayName }</p>
 
 						<!-- 등록제한이 없는 한줄상품평 작성 -->
 						<div class="reviews-write disabled">
@@ -2275,8 +2280,8 @@ function modifyQnA(qnaId) {
 						<!-- 등록제한이 없는 한줄상품평 작성 -->
 
 						<div class="btnGroup">
-							<button id="cancel" type="button" class="btnGray" onclick="qnaPopDown()" disabled="disabled">취소</button>
-							<button id="reg" type="button" class="btnGreen" onclick="" disabled="disabled">등록</button>
+							<button id="cancel" type="button" class="btnGray" onclick="qnaPopDown()">취소</button>
+							<button id="reg" type="button" class="btnGreen" onclick="">등록</button>
 						</div>
 						<div class="usage-guide">
 							<h2 class="stit">이용안내</h2>
@@ -2301,6 +2306,7 @@ function modifyQnA(qnaId) {
 								바로가기</button>
 						</p>
 					</div>
+					
 				</form>
 				<!-- [e] 2021.04.19 add -->
 			</div>
@@ -2314,10 +2320,80 @@ function modifyQnA(qnaId) {
 						바로가기</button>
 				</p>
 			</div>
+			
 		</div>`;
-		
+		let dimm = `<div class="dimm" style="z-index: 990;"></div>`;
+
 		$('#Container').append(qnaPop);
+		$('body').append(dimm);
 		
+		
+		/* js 처리 */
+		
+		$('.mypage-qna-write').removeClass('disabled');
+		$('#prdTypeSelect1').parent().addClass('checked');
+		$('.reviews-write').removeClass('disabled');
+		$('#gdasCont').removeAttr('disabled');
+		$('#gdasCont').html(data.qnaQuestion);
+		
+		var maxChars = 250;
+
+	    $("#gdasCont").on("input", function () {
+	        var curLength = $(this).val().length;
+	        $("#curTxtLength").text(curLength);
+
+	        // 250자를 넘으면 입력 취소
+	        if (curLength > maxChars) {
+	            $(this).val(function(_, val) {
+	            	alert('250자 이내로 작성해주세요.');
+	                return val.slice(0, maxChars);
+	                
+	            });
+	        }
+	    });
+	   
+	    $('#reg').on('click', function () {
+			
+			var qnaId = data.qnaId;
+			var qnaQuestion = $("#gdasCont").val();		
+			
+			 $.ajax({
+		            type: "POST"
+		            , cache: false
+		            ,url: "/modifyQnA", 
+		            data: {
+		            	qnaId: qnaId,
+		            	qnaQuestion: qnaQuestion
+		            },
+		            beforeSend: function(xhr) {
+						xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+						console.log(xhr);
+					},
+		            success: function(response) {
+		                console.log("QnA 수정 성공");
+		                alert("정상적으로 등록되었습니다.");
+		                window.location.href = response;
+		            },
+		            error: function(error) {
+		                console.log("QnA 수정 실패");
+		                alert("수정에 등록되었습니다.");
+		                window.location.href = currentURL;
+		            }
+		        });
+		}); // ajax close
+	    
+	    
+	    $('.ButtonClose').on('click', function() {
+			$('#pop_cont').remove();
+			$('.dimm').remove();
+		});
+		
+		$('#cancel').on('click', function() {
+			$('#pop_cont').remove();
+			$('.dimm').remove();
+		});
+		
+
 		},
 		error: function (data) {
 			console.log(data);
@@ -2327,7 +2403,39 @@ function modifyQnA(qnaId) {
 	}); //ajax close
 
 	} // modifyQna
-// ready Function
+	
+	function deleteQnA(qnaId) {
+		
+		var result = confirm("정말로 삭제하시겠습니까?");
+		
+		if (result) {
+			$.ajax({
+				type: "GET"
+		        , cache: false
+		        ,url: "/deleteQnA", 
+		        data: {
+		            	qnaId: qnaId,
+		            },
+		            success: function(response) {
+		            	
+		                console.log("QnA 삭제 성공");
+		                alert("삭제에 성공하였습니다.");
+		                window.location.href = response;
+		                
+		            },
+		            error: function(error) {
+		            	
+		                console.log("QnA 삭제 실패");
+		                alert("삭제에 실패하였습니다.");
+		                window.location.href = window.location.href;
+		                
+		            } // error close
+				
+			}) // ajax close
+		} // if
+		
+		
+	} // deleteQnA
 </script>
 <script>
 // 리뷰
@@ -2361,5 +2469,6 @@ function reviewAjax(currentPage, productDisplayId) {
 		} // error close
 	}); // ajax close 
 } // qnaListAjax
+
 
 </script>

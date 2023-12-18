@@ -73,7 +73,7 @@
         			SELECT ROWNUM no, t.*            
         			FROM 
             			(
-                			SELECT qna_id, user_id, qna_question, qna_answer, qna_date, qna_status
+                			SELECT qna_id, user_id, qna_question, qna_answer, TO_CHAR(QNA_DATE, 'yyyy.mm.dd') as QNA_DATE, qna_status
                 			FROM qna 
                 			WHERE product_display_id = #{productDisplayId}
                 			ORDER BY qna_date desc

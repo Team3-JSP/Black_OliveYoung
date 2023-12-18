@@ -123,6 +123,7 @@ public class ProductDetailController {
 		
 		// QnA 페이징 처리
 		int qnaTotalRecords = this.productDetailService.getQnaTotalRecordsService(productDisplayId);
+		model.addAttribute("qnaTotalRecords",qnaTotalRecords);
 		int qnaTotalPages =this.productDetailService.getQnATotalPagesService(productDisplayId);
 		PageDTO qnaPagedto = new PageDTO(1, 10, 10, qnaTotalPages);
 		// model.addAttribute("qnaPagedto", qnaPagedto);
