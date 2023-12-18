@@ -41,9 +41,10 @@ public class ProductDetailController {
 	
 	@GetMapping()
 	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
-			@RequestParam(value = "gdasSort", defaultValue = "01")String gdasSort,
+			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
@@ -93,7 +94,7 @@ public class ProductDetailController {
 		totalpage = this.reviewService.getTotalReviewPagesServiec(productDisplayId, productId, perPage);
 		model.addAttribute("pDto",new PageDTO(currentPage, perPage, numberOfPageBlock, totalpage));
 			// 리뷰 리스트 불러오기
-		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage);
+		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage,searchType_1);
 		model.addAttribute("reviewlist",reviewlist);
 		List<ReviewDTO> reviewlistall = this.reviewService.reviewListAllService(productDisplayId, productId);
 		// 리뷰 점수
@@ -102,7 +103,7 @@ public class ProductDetailController {
 		// 리뷰 이미지
 		List<ReviewImgDTO> reviewimglist = null;
 		List<List<ReviewImgDTO>> reviewimg = new ArrayList<List<ReviewImgDTO>>();
-		
+		model.addAttribute("gdasSort",gdasSort);
 		model.addAttribute("reviewlistall",reviewlistall);
 		model.addAttribute("reviewimg",reviewimg);
 		model.addAttribute("totalRecords",totalRecords);
@@ -123,6 +124,7 @@ public class ProductDetailController {
 		
 		// QnA 페이징 처리
 		int qnaTotalRecords = this.productDetailService.getQnaTotalRecordsService(productDisplayId);
+		model.addAttribute("qnaTotalRecords",qnaTotalRecords);
 		int qnaTotalPages =this.productDetailService.getQnATotalPagesService(productDisplayId);
 		PageDTO qnaPagedto = new PageDTO(1, 10, 10, qnaTotalPages);
 		// model.addAttribute("qnaPagedto", qnaPagedto);

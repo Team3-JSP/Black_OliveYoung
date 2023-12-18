@@ -29,8 +29,10 @@ public class ReviewAjaxController {
 	@GetMapping("/getReview")
 	public String getReview(@RequestParam(value = "currentPage", defaultValue = "1")int currentPage 
 			,@RequestParam(value ="productDisplayId")String productDisplayId,
-			@RequestParam(value = "gdasSort", defaultValue = "01")String gdasSort,
-			@RequestParam(value="productId", defaultValue = "ALL")String productId,Model model) {
+			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
+			@RequestParam(value="productId", defaultValue = "ALL")String productId,
+			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
+			Model model) {
 		
 		int numberOfPageBlock =10; //
 		int totalRecords =0; // 총 레코드 수 게시글 수
@@ -42,7 +44,7 @@ public class ReviewAjaxController {
 		totalpage = this.reviewService.getTotalReviewPagesServiec(productDisplayId, productId, perPage);
 		model.addAttribute("pDto",new PageDTO(currentPage, perPage, numberOfPageBlock, totalpage));
 			// 리뷰 리스트 불러오기
-		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage);
+		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage,searchType_1);
 		model.addAttribute("reviewlist",reviewlist);
 		List<ReviewDTO> reviewlistall = this.reviewService.reviewListAllService(productDisplayId, productId);
 		// 리뷰 점수
@@ -60,7 +62,16 @@ public class ReviewAjaxController {
 		model.addAttribute("productList",productList);
 		List<ProductDetailIMGDTO> productDisplayImgs = this.productDetailService.getProductDisplayImgService(productDisplayId);
 		model.addAttribute("productDisplayImgs", productDisplayImgs);
-		
+		System.out.println(gdasSort);
+		model.addAttribute("gdasSort",gdasSort);
+		model.addAttribute("searchType_1",searchType_1);
 		return "/review/review";
+	}
+	@GetMapping("/reviewimg")
+	public String reviewimg(@RequestParam(value="reviewId")String reviewId,Model model) {
+		
+		model.addAttribute("reviewDTO",this.reviewService.reviewService(reviewId));
+		
+		return "/review/reviewimg";
 	}
 }

@@ -41,7 +41,7 @@
 	<!-- List<ReviewDTO> reviewList( String productDisplayId, String gdasSort, String productId, int currentPage, int numberPerPage); -->
 	<select id="reviewList"  resultMap="reviewMap">
 		SELECT t.*
-FROM (
+	FROM (
     SELECT
         DENSE_RANK() OVER (ORDER BY r.review_id) AS no,
         r.REVIEW_ID,r.USER_ID,r.PRODUCT_DISPLAY_ID,r.REVIEW_LIKE,r.REVIEW_CONTENT,r.REVIEW_GRADE,r.REVIEW_REGDATE,r.REVIEW_POLL_1,r.REVIEW_POLL_2,r.REVIEW_POLL_3,r.PRODUCT_ID,
@@ -67,8 +67,11 @@ FROM (
              product_display_id = #{productDisplayId} AND product_id = #{productId}
         </otherwise>
     </choose>
+    	<if test='searchType_1 == "N"'>
+    		AND review_img_src is null
+    	</if>
         <choose>
-        <when test='gdasSort == "02"'>
+        <when test='gdasSort == 2'>
             order by review_regdate DESC
         </when>
         <otherwise>
