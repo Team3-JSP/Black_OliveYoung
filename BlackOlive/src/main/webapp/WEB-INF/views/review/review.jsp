@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">
@@ -174,17 +175,18 @@
 						<div class="align_sort">
 							<!-- 리뷰 고도화 1차 : 항목 변경 -->
 							<ul id="gdasSort">
-								<li class="is-layer on"><a href="javascript:;"
-									data-value="01" data-sort-type-code="useful"
+							<c:out value="${gdasSort}"></c:out>
+								<li class="is-layer <c:if test='${gdasSort eq 0}'> on</c:if>"><a href="javascript:;"
+									data-value="0" data-sort-type-code="useful"
 									data-attr="상품상세^리뷰정렬^유용한순">유용한순</a>
 									<button type="button" class="btn-open-layer">
 										<span>자세히 보기</span>
 									</button>
 									<div class="comment-layer">리뷰의 글자수, '도움이 돼요'수 , 등록된 사진,
 										최신 작성일등을 점수화하여 올리브영이 추천하는 리뷰를 정렬합니다.</div></li>
-								<li><a href="javascript:;" data-value="01"
+								<li class = "<c:if test='${gdasSort eq 1}'> on</c:if>" ><a href="javascript:;" data-value="1"
 									data-sort-type-code="help" data-attr="상품상세^리뷰정렬^도움순">도움순</a></li>
-								<li><a href="javascript:;" data-value="02"
+								<li <c:if test="${gdasSort eq 2}">class = "on"</c:if>><a href="javascript:;" data-value="2"
 									data-sort-type-code="latest" data-attr="상품상세^리뷰정렬^최신순">최신순</a></li>
 							</ul>
 							<!-- // 리뷰 고도화 1차 : 항목 변경 -->
@@ -193,7 +195,7 @@
 						<!--## 리뷰고도화 2차 ## 추가 S -->
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_1"
-								checked="checked" value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
+								<c:if test="${searchType_1 eq 'Y'}">checked="checked"</c:if> value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
 						</div>
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_2"
@@ -491,4 +493,104 @@
 						<!-- <strong title="현재 페이지">1</strong> -->
 					</div>
 				</div>
+				
+			<script>
+			 $(".pageing a").on("click",function(){
+				 event.preventDefault(); // 앵커의 기본 동작을 막습니다.
+				
+				 let currentPage = $(this).text()
+				 let productId = $(".prd_option_box.box_select > a").attr("id");
+				 let productDisplayId = $("#goodsNo").val();
+				 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
+				 //alert(currentpage+"/"+pro_id+"/"+displ+"/"+type)
+				 
+				 let data = {
+					 currentPage: currentPage,
+					 productId: productId,
+					 gdasSort: gdasSort,
+					 productDisplayId: productDisplayId
+				    };
+				 
+				 $.ajax({
+						url: "/getReview",
+						data:data,
+						cache: false,
+						success:function( response ) {
+				              $("#review").empty();
+				              $("#review").append( response );
+					           		              
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+					
+					
+				 
+			 })
+			 
+			 
+		$("#gdasSort li a").on("click",function(){
+		 $("#gdasSort li").removeClass("on")
+		 $(this).closest("li").addClass("on")
+		 let gdasSort = $(this).attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
 			
+			
+	 })
+	 
+	  $("#searchType_1").on("click",function(){
+		  let searchType1 = ''
+		 if ($(this).is(':checked')) {
+			searchType1 = 'Y'
+		}else{
+			searchType1 = 'N'
+		}
+		
+		 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 alert(searchType1)
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId,
+			 	searchType1: searchType1
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
+	 })
+	
+			</script>
+		

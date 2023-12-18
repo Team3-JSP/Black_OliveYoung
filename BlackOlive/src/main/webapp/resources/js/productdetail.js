@@ -392,7 +392,7 @@ $(function(){
 				data:data,
 				cache: false,
 				success:function( response ) {
-					$(".prd_option_box.box_select > a").attr("id",productId)
+					$(".prd_option_box.box_select > a").attr("id",productId);
 					$(".prd_option_box.box_select > a > span.txt").text(txt);
 					$(".prd_option_box.box_select").removeClass("open");
 		              $("#review").empty();
@@ -405,4 +405,13 @@ $(function(){
 			
 			
 	 })
+	 
+	 
+	 
 }) // function
+
+
+
+	
+	
+	
