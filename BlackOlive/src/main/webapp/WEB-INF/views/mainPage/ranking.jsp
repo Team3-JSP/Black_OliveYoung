@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,16 @@
 <title>블랙올리브영 온라인몰</title>
 </head>
 <body>
-
+<sec:authorize access="isAuthenticated()">
+	<script>
+		let loginCheck = true;
+	</script>
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+	<script>
+		let loginCheck = false;
+	</script>
+</sec:authorize>
 <script>
 	let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
 	
@@ -54,6 +64,11 @@
 	
 	// 리뷰 상세보기에서 신고하기를 눌렀을 때
 	function reviewReport(reviewId) {
+		if(!loginCheck) {
+			location.href = '<c:url value="/auth/login"/>';
+			return;
+		}
+		
 		$("#reviewId").val(reviewId);
 		$(dimm).css("z-index", "998");
 		$("#layerWrap920").css("z-index", "990")
@@ -214,7 +229,7 @@
 										for (var i = 0; i < data.reviewimg.length; i++) {
 											reviewDetailContent += '<li>';
 											reviewDetailContent += '<span>';
-											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="" onload="common.imgLoads(this,76);">`;											
+											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="">`;											
 											reviewDetailContent += '</span>';
 											reviewDetailContent += '</li>';
 										}
@@ -384,12 +399,12 @@
 					, '${_csrf.parameterName }' : '${_csrf.token }'
 				}
 				, success: function (data) {
-					console.log(data);		
+					//console.log(data);		
 					
 					if(data === 'success') {
-						$(btn).find(".num").text(function(index, currentText) {
-							return parseInt(currentText) + likePlus;
-						});
+						alert("신고 내용이 접수되었습니다.");
+						$('#layerWrap680').hide();
+						$('#layerWrap920').css('z-index', '999');
 					}
 				}
 				, error : function (xhr, data, textStatus) {
@@ -402,6 +417,27 @@
 		
 	});
 </script>
+
+	<script>
+	// 리뷰 상세 이미지 확대 기능
+	$(function() {
+		let bimg = $(".bimg");
+		
+		$("#layerWrap920").on("mouseover", ".review-detail-thumb ul li span", function() {
+		    // 마우스 오버 시 실행되는 코드
+		    $(".bimg").find('img').attr("src", $(this).find('img').attr('src'))
+		    	.css({
+		    		"height" : "100%"
+		    		, "width" : "80%"
+		    	});
+		    $(".bimg").show();
+		}).on("mouseout", ".review-detail-thumb ul li span", function() {
+		    // 마우스 아웃 시 실행되는 코드
+		    $(".bimg").hide();
+		});
+	});
+		
+	</script>	
 
 <div id="Wrapper">
 	<!-- #Container -->
@@ -592,36 +628,7 @@
 	
 	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>
 
-	<script>
-	$(window).ready(function(){
 	
-		//이미지 상세 보기
-		var _thum_list = $('.review-detail-thumb'),
-		_big_thum_list = $('.review-detail-thumb ul li'),
-		_thum_img = _thum_list.find('span');
-		_bimg = $('.review-detail-view__content .bimg');
-	
-		_thum_img.on('mouseover', function(){
-			_src = $(this).find('img').attr('src');
-			_index = $(this).parent().index();
-			_big_src =  _big_thum_list.eq(_index).find('img').attr('src');
-			if(_big_src.indexOf("?RS=") > -1){
-			    var temp= _big_src.substring(0,_big_src.indexOf("?RS="));
-			    _big_src = temp;
-			}
-			_thum_top = _thum_list.position().top;
-			_thum_pos = $(this).position().top;
-			_top = _thum_top+_thum_pos-101;
-			_bimg.find('img').attr('src',_big_src);
-			_bimg.css('top', _top).show();
-		}).on('mouseout', function(){
-			_bimg.hide();
-		});
-	
-		//2022-04-20 리뷰상세팝업 영역에 유효하지 않은 버튼으로 삭제처리
-	});
-	
-	</script>	
 </div>
 	
 	

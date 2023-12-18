@@ -144,15 +144,14 @@ public class MainPageController {
 	
 	@PostMapping("/store/reviewReport")
 	@ResponseBody
-	public ResponseEntity<String> reviewReport(ReviewReportDTO reviewReportDTO, Principal principal) {
+	public ResponseEntity<String> reviewReport(ReviewReportDTO reviewReportDTO, Principal principal) throws SQLException {
 		if(principal == null)
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		System.out.println("reviewReportDTO : " + reviewReportDTO);
-		return new ResponseEntity<>("success", HttpStatus.OK);
 		
-		/*return this.headServiceImpl.udpReviewList(reviewId, likePlus) == 1
+		reviewReportDTO.setUserId(principal.getName());
+		return this.headServiceImpl.addReviewReport(reviewReportDTO) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);*/
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping("/store/getReviewer")

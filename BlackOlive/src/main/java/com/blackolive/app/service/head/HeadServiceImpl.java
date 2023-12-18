@@ -18,6 +18,7 @@ import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewDetailDTO;
+import com.blackolive.app.domain.review.ReviewReportDTO;
 import com.blackolive.app.mapper.head.HeadMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -108,6 +109,11 @@ public class HeadServiceImpl implements HeadService{
 	@Override
 	public int udpReviewList(String reviewId, int likePlus) throws SQLException {
 		return this.headMapper.updateReviewLike(reviewId, likePlus);
+	}
+
+	@Override
+	public int addReviewReport(ReviewReportDTO reviewReportDTO) throws SQLException {
+		return this.headMapper.insertReviewReport(reviewReportDTO);
 	}
 
 } // class
