@@ -174,18 +174,18 @@
 						<div class="align_sort">
 							<!-- 리뷰 고도화 1차 : 항목 변경 -->
 							<ul id="gdasSort">
-							
-								<li class="is-layer <c:if test='${gdasSort eq 01}'> on</c:if>"><a href="javascript:;"
-									data-value="01" data-sort-type-code="useful"
+							<c:out value="${gdasSort}"></c:out>
+								<li class="is-layer <c:if test='${gdasSort eq 0}'> on</c:if>"><a href="javascript:;"
+									data-value="0" data-sort-type-code="useful"
 									data-attr="상품상세^리뷰정렬^유용한순">유용한순</a>
 									<button type="button" class="btn-open-layer">
 										<span>자세히 보기</span>
 									</button>
 									<div class="comment-layer">리뷰의 글자수, '도움이 돼요'수 , 등록된 사진,
 										최신 작성일등을 점수화하여 올리브영이 추천하는 리뷰를 정렬합니다.</div></li>
-								<li class = '<c:if test="${gdasSort eq '01'} "> on</c:if>' ><a href="javascript:;" data-value="01"
+								<li class = "<c:if test='${gdasSort eq 1}'> on</c:if>" ><a href="javascript:;" data-value="1"
 									data-sort-type-code="help" data-attr="상품상세^리뷰정렬^도움순">도움순</a></li>
-								<li <c:if test="${gdasSort eq '02'} ">class = "on"</c:if>><a href="javascript:;" data-value="02"
+								<li <c:if test="${gdasSort eq 2}">class = "on"</c:if>><a href="javascript:;" data-value="2"
 									data-sort-type-code="latest" data-attr="상품상세^리뷰정렬^최신순">최신순</a></li>
 							</ul>
 							<!-- // 리뷰 고도화 1차 : 항목 변경 -->
@@ -492,7 +492,7 @@
 						<!-- <strong title="현재 페이지">1</strong> -->
 					</div>
 				</div>
-				<!-- 
+				
 			<script>
 			 $(".pageing a").on("click",function(){
 				 event.preventDefault(); // 앵커의 기본 동작을 막습니다.
@@ -500,7 +500,7 @@
 				 let currentPage = $(this).text()
 				 let productId = $(".prd_option_box.box_select > a").attr("id");
 				 let productDisplayId = $("#goodsNo").val();
-				 let type = $("#gdasSort li.on > a").attr("data-value")
+				 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
 				 //alert(currentpage+"/"+pro_id+"/"+displ+"/"+type)
 				 
 				 let data = {
@@ -511,12 +511,12 @@
 				    };
 				 
 				 $.ajax({
-						url: "/olive/reviewajax.do",
+						url: "/getReview",
 						data:data,
 						cache: false,
 						success:function( response ) {
-				              $("#gdasList").empty();
-				              $("#gdasList").append( response );
+				              $("#review").empty();
+				              $("#review").append( response );
 					           		              
 				          }
 				        , error		: function() {
@@ -524,21 +524,39 @@
 				        }
 					})
 					
-					$.ajax({
-						url: "/olive/reviewpage.do",
-						data:data,
-						cache: false,
-						success:function( response ) {
-				              $(".pageing").empty();
-				              $(".pageing").append( response );
-					           		              
-				          }
-				        , error		: function() {
-				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
-				        }
-					})
 					
 				 
 			 })
+			 
+			 
+			 $("#gdasSort li a").on("click",function(){
+		 $("#gdasSort li").removeClass("on")
+		 $(this).closest("li").addClass("on")
+		 let gdasSort = $(this).attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 alert(gdasSort)
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
+			
+		 
+	 })
+
 			</script>
-			 -->
+		

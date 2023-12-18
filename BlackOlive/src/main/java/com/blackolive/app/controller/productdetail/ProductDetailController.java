@@ -41,7 +41,7 @@ public class ProductDetailController {
 	
 	@GetMapping()
 	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
-			@RequestParam(value = "gdasSort", defaultValue = "01")String gdasSort,
+			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 					Model model) {
@@ -102,7 +102,7 @@ public class ProductDetailController {
 		// 리뷰 이미지
 		List<ReviewImgDTO> reviewimglist = null;
 		List<List<ReviewImgDTO>> reviewimg = new ArrayList<List<ReviewImgDTO>>();
-		
+		model.addAttribute("gdasSort",gdasSort);
 		model.addAttribute("reviewlistall",reviewlistall);
 		model.addAttribute("reviewimg",reviewimg);
 		model.addAttribute("totalRecords",totalRecords);

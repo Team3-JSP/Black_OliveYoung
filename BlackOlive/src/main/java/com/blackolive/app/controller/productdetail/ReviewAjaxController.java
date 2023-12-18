@@ -29,7 +29,7 @@ public class ReviewAjaxController {
 	@GetMapping("/getReview")
 	public String getReview(@RequestParam(value = "currentPage", defaultValue = "1")int currentPage 
 			,@RequestParam(value ="productDisplayId")String productDisplayId,
-			@RequestParam(value = "gdasSort", defaultValue = "01")String gdasSort,
+			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,Model model) {
 		
 		int numberOfPageBlock =10; //
