@@ -105,25 +105,6 @@
 					</p>
 				</div>
 
-				<div class="right_area">
-					<div class="prd_info">
-						<p class="prd_brand">
-							<a href="/brandPage?brandId=${productList[0].brandId}" id="moveBrandShop"
-								class="pd_arrow_link">${productList[0].brandName}</a>
-						</p>
-						<p class="prd_name">${productList[0].productDisplayName}</p>
-						<!-- 202005 상품개선 : 추가 -->
-						<div class="price">
-							<span class="price-1"> <strike><fmt:formatNumber
-										value="${productList[0].minPrice}" pattern="#,###" /> </strike> <span>원</span>
-							</span> <span class="price-2"> <strong><fmt:formatNumber
-										value="${productList[0].afterPrice}" pattern="#,###" /></strong> <span>원</span>
-							</span>
-							<c:if
-								test="${not empty productPromotion[0].promotionDiscountId or not empty productPromotion[0].promotionCouponId}">
-								<button type="button" id="btnSaleOpen" class="btn_more">혜택
-									정보</button>
-							</c:if>
 				<!--// 고객 만족도 및 공유, 재고확인 -->
 			</div>
 			<div class="right_area">
