@@ -148,7 +148,7 @@
 
 		<section id="ct" class="certify_user2 certifyWrap certifyWrap_02">
 			<form id="cplogn" name="cplogn" method="post"
-				action="/usermodify/modify_phlast">
+				action="">
 				<div class="">
 					<fieldset>
 						<legend>휴대폰 본인확인 입력</legend>
@@ -236,7 +236,7 @@
 						<ul class="btn_area2 bt2">
 							<li><button type="button" id="btnCancel"
 									class="btn_r btn_type6">취소</button></li>
-							<li><button type="button" id="btnSubmit"
+							<li><button type="submit" id="btnSubmit"
 									class="btn_r btn_type btn_type3">확인</button></li>
 						</ul>
 					</div>
@@ -309,57 +309,69 @@
 <!-- script영역 -->
 <script>
 
-
-$(function () {
   	$('#securityNum').keydown(function(event) {
-    	console.log($('#userName').val());
-    	console.log($('#No').val());
-  		if ( event.which == 13 ){
+    	if ( event.which == 13 ){
      		$("#btnSubmit").click();	
      	}
-
    	});
   	
-	
 	$("#btnSubmit").on("click", function () {
 		if($("#userName").val()==""){
 			alert("이름을 입력해주세요.");
 			 $("#userName").focus();
 			return false;
 		}
-		if($("#Birth").val()==""){
+		if($("#Birth").val()=="" || $("#Birth").val().length !=6){			
 			alert("주민번호 앞 6자리를 입력해주세요.");
 			 $("#Birth").focus();
 			return false;
 		}
-		if($("#Sex").val()==""){
+		if($("#Sex").val()=="" ){
 			alert("주민번호 뒷자리를 입력해주세요.");
 			 $("#Sex").focus();
 			return false;
 		}
+		if($("#Sex").val() != "1" && $("#Sex").val() != "2"
+	        && $("#Sex").val() != "3" && $("#Sex").val() != "4"){
+	        alert("주민번호 뒷자리를 정확히 입력해주세요.");
+	         $("#Sex").focus();
+	        return false;
+	    }
 		if($("#userTel").val()==""){
 			alert("휴대폰번호를 입력해주세요.");
 			 $("#userTel").focus();
 			return false;
 		}
-		if($("#securityNum").val()==""){
+		if($("#securityNum").val()=="" || $("#securityNum").val().length != 5){
 			alert("보안문자를 정확히 입력해주세요.");
 			 $("#securityNum").focus();
 			return false;
 		}
 		alert("인증이 완료되었습니다.");
-		$("#cplogn").submit();
-		
-	    // 부모 창 함수 호출
- 		 window.close();
-   		 window.opener.submitParentForm();
-	    // 자식 창 닫기
+		document.domain="localhost";
+		opener.name = "parentPage";
+		// $("#cplogn").attr("target", "parentPage");
+		// $("#cplogn").attr("action", "/usermodify/modify_phlast");
+
+		 $("#cplogn").submit();
+		 var parentForm = window.opener.document.getElementById('parentForm'); 
+		 parentForm.submit();
+		 setTimeout(() => {
+			window.location.href="${pageContext.request.contextPath}/usermodify/modify_phlast";
+			close();
+		}, 100); 
+		return true;
 	});
 	$("#btnCancel").on("click", function () {
 		alert("인증이 취소되었습니다.");
 		close();
 	});
-});
+
+/* 	function popClose(){
+		opener.document.form1.target = "";
+		opener.document.form1.action = "";
+		self.close();
+	} */
 </script>
 </body>
 </html>
