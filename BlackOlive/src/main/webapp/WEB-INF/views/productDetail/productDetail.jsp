@@ -2363,3 +2363,15 @@ function reviewAjax(currentPage, productDisplayId) {
 } // qnaListAjax
 
 </script>
+
+
+
+<script>
+// 주문 스크립트
+
+$(function() {
+	$("#cartBtn").on("click", function() {
+		
+	});
+})
+</script>

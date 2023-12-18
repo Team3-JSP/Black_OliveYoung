@@ -29,7 +29,8 @@
 					let divBackgroundColor = $("<div>").addClass("dimm").css("z-index", "990px");
 					// 다양한 혜택 팝업 창
 					$(".button-benefit-info.posL").on("click", function() {
-						$("#lay_grade_selection").css("margin-left", "-280px").addClass("show");
+						$("#lay_grade_selection").addClass("show");
+						popupCenter($("#lay_grade_selection"));
 						$("body").append(divBackgroundColor);
 					});
 					
@@ -39,7 +40,8 @@
 					});
 					
 					$(".button-benefit-info.posR").on("click", function() {
-						$("#layer_pop_wrap").css("margin-left", "-280px").show();
+						$("#layer_pop_wrap").show();
+						popupCenter($("#layer_pop_wrap"));
 						$("body").append(divBackgroundColor);
 					});
 					
@@ -50,12 +52,13 @@
 					
 					$("#Contents > div:nth-child(1) > div.rating-info-content > div.graph-info > p > button")
 						.on("click", function() {
-							$("#lay_total_buy").css("margin-left", "-280px").addClass("show");
+							$("#lay_total_buy").show();
+							popupCenter($("#lay_total_buy"));
 							$("body").append(divBackgroundColor);
 						});
 					
 					$("#lay_total_buy > div > button").on("click", function() {
-						$("#lay_total_buy").removeClass("show");
+						$("#lay_total_buy").hide();
 						$(".dimm").remove();
 					});
 					
@@ -108,6 +111,7 @@
 												</button>						
 									</p>
 								</div>
+								
 								<div class="graph-area">
 									<ul class="progress-list">
 										<!--[D] 등급 완료 complet 클래스, 등급 진행 progress 클래스 width값 제어-->
@@ -859,7 +863,7 @@
 
 				</div>
 				
-				<div class="layer_pop_wrap w560 lounge-popup-layer" id="lay_total_buy" style="margin-left: -280px; top: 148.5px;" tabindex="0">
+				<div class="layer_pop_wrap w560 lounge-popup-layer" id="lay_total_buy" style="display: none">
 					<div class="layer_cont2">
 						<div class="lounge-popup-layer__inner ">
 							<div class="lounge-popup-content">
@@ -1235,7 +1239,7 @@
 		</div>
 		<!--/ㅁ 2017-02-23 수정 : TOP 바로가기 버튼 추가 -->
 	</div>
-	<div class="layer_pop_wrap" id="layer_pop_wrap" style="z-index: 999; display: none; left: 50%; margin-left: -325px; top: 342.5px;">
+	<div class="layer_pop_wrap" id="layer_pop_wrap" style="z-index: 999; display: none;">
 	<div class="pop-conts w650">
 		<h1 class="ptit">쿠폰 안내</h1>
 
