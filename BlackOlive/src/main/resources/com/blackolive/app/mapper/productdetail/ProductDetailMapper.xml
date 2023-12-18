@@ -105,5 +105,14 @@
 	VALUES (#{largeId}, #{productDisplayId}, SYSDATE)
 	</insert>
 	
-
+	<!--  증정품 가져오기
+	GiftDTO getGift(@Param("productDisplayId")String productDisplayId); -->
+	
+	<select id="getGift" resultType="GiftDTO">
+		select * from gift g join gift_display gd on g.gift_id = gd.gift_id 
+		join product_display pd on gd.product_display_id = pd.product_display_id 
+        join brand b on pd.brand_id = b.brand_id
+        where gd.product_display_id = #{productDisplayId}
+	</select>
+	
 </mapper>

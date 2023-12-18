@@ -34,6 +34,8 @@
 			<typeAlias type="com.blackolive.app.domain.productdetail.QnAListDTO" alias="QnAListDTO" />
 			<typeAlias type="com.blackolive.app.domain.review.ReviewDTO" alias="ReviewDTO"/>
 			
+			<typeAlias type="com.blackolive.app.domain.productdetail.GiftDTO" alias="GiftDTO" />
+			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.EventDTO" alias="EventDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.GiftCardDTO" alias="GiftCardDTO"/>

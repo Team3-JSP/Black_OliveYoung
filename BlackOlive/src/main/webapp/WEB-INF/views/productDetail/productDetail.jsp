@@ -334,7 +334,6 @@
 
 							</ul>
 						</div>
-
 						<div class="option_add_area pkg_goods_n">
 							<c:forEach items="${productList}" var="pli">
 								<div class="prd_cnt_box ${pli.productId} no_prom"
@@ -375,7 +374,7 @@
 							</c:forEach>
 
 
-							<!--  -->
+							
 						</div>
 
 					</c:if>
@@ -518,52 +517,20 @@
 			</div>
 		</div>
 		<!-- 202005 상품상세 개선 : 증정품 마크업 수정 -->
+		<c:if test="${not empty giftDTO} ">
 		<div class="prd_free_gift" id="giftInfo">
 			<p class="tit">증정품 안내</p>
 			<div class="free_gift">
 				<div class="inner">
 					<div class="info">
-						<div class="tarea soldout">
+					
+						<div class="tarea <c:if test="${giftDTO.giftStock eq 0} }"> soldout </c:if> ">
 							<b>[소진완료]</b>
 
-							<!-- 50:브랜드S -->
-
-							<!-- 수량S -->
-
-							<!-- 수량(일반)S -->
-
-							<!-- 수량(일반)E -->
-
-							<!-- 수량(개당)S -->
 							<span class="txt">전 회원 ${productBrandInfo.brandName } 상품
 								구매 상품 1개당, <span class="num">증정품 1개</span> 선착순 증정
 							</span>
 
-							<!-- 수량(개당)E -->
-
-							<!-- 수량E -->
-
-							<!-- 금액S -->
-
-							<!-- 금액E -->
-
-							<!-- 50:브랜드E -->
-
-							<!-- 35:기간계상품S -->
-
-							<!-- 35:기간계상품E -->
-
-							<!-- 20:표준카테고리S -->
-
-							<!-- 20:표준카테고리E -->
-
-							<!-- 00:전체S -->
-
-							<!-- 00:전체E -->
-
-							<!-- 90:브랜드+표준분류S -->
-
-							<!-- 90:브랜드+표준분류E -->
 						</div>
 						<span class="notice_exception">오늘드림 주문시 온라인 전용 증정품 미제공</span>
 					</div>
@@ -574,7 +541,7 @@
 
 
 		</div>
-
+</c:if>
 		<!-- 증정품 오늘드림S  -->
 
 		<input type="hidden" id="h_first_quickGift" value="2345679364472">
@@ -2461,7 +2428,7 @@ $(function(){
 
 							})
 			$(function(){
-		$(document).on("click", ".review_thum > .inner.clrfix li:not(.more)", function() {
+		$(document).on("click", ".review_thum:not(.type1) > .inner.clrfix li:not(.more)", function() {
 		 let reviewId = $(this).find("img").data("value")
 		 var index = $(".review_thum > .inner.clrfix li").index($(this));
 		 console.log(index)
@@ -2498,7 +2465,7 @@ $(function(){
 							
 							
 							
-					 $(function(){
+	$(function(){
 $(".more").click(function(){
 			$("#layerWrap850.photo").show()
 		})
@@ -2541,3 +2508,173 @@ $(".more").click(function(){
 			$('.slider-nav').slick('goTo', index);
 		}
 				</script>
+
+<script>
+// 상품 선택
+$(function() {
+		$('#buyOpt').on('click', function() {
+			if ($('#buy_option_box').hasClass('open')) {
+				 $('#buy_option_box').removeClass('open');
+			} else {
+				 $('#buy_option_box').addClass('open');
+				 $('.option_add_area.pkg_goods_n').css('display','block');
+			}
+		})
+		
+		$('.option_price > a${proId}').on('click', function(event) {
+	        event.preventDefault();
+	        var proId = '${proId}';
+	        deleteDiv(event, proId);
+		}) 
+		
+		$('#LinkId${proId}').on('click', function(event) {
+	        event.preventDefault();
+	        var proId = '${proId}';
+	        displayDiv(event, proId);
+	    });
+		
+		$('.btn_opt_del').on('click', function(event) {
+			 event.preventDefault(); 
+			 
+			 var totalPrice = $('#totalPrcTxt').text();
+			 totalPrice = parseInt(totalPrice.replace(/,/g, ''), 10);
+			 
+			var price = $(this).closest('.prd_cnt_box').find('.option_price .tx_num').text();
+			 price = parseInt(price.replace(/,/g, ''), 10);
+			
+			var cnt = $(this).closest('.prd_cnt_box').find('.tx_num').val();
+			
+			var sumPrice = price * cnt
+			
+			totalPrice -= sumPrice*1;
+	        
+	        $('.tx_cont > .tx_num').text(totalPrice);
+			
+			$(this).closest('.prd_cnt_box').find('.tx_num').val(0);
+	        $(this).closest('.prd_cnt_box').css('display','none');
+	    });
+		
+		$('.prd_cnt_box:not(.disabled) .btnCalc.plus').on('click', function(event) {
+			var totalPrice = $('#totalPrcTxt').text();
+			totalPrice = parseInt(totalPrice.replace(/,/g, ''), 10);
+			
+			event.preventDefault();
+			var inputElement = $(this).prev();
+			var currentValue = parseInt(inputElement.val());
+			if (currentValue < 10) {
+		        inputElement.val(currentValue + 1);
+		        
+		        var div = $(this).closest('.prd_cnt_box');
+		        var price = $(div).find('.option_price > .tx_num').text();
+		        price = parseInt(price.replace(/,/g, ''), 10);
+		        if (isNaN(price)) {
+		        	price = ${productList[0].afterPrice};	
+				}
+		        
+		        totalPrice += price*1;
+		        
+		        console.log(totalPrice)
+		        $('.tx_cont > .tx_num').text(totalPrice);
+		    } else {
+		        alert("총 10개까지만 구매할 수 있습니다.");
+		        // 이벤트를 취소하여 값이 변경되지 않도록 함
+		        event.preventDefault();
+		    }
+		})
+			/* */
+		$('.prd_cnt_box:not(.disabled) .btnCalc.minus').on('click', function(event) {
+			
+			var totalPrice = $('#totalPrcTxt').text();
+			totalPrice = parseInt(totalPrice.replace(/,/g, ''), 10);
+			event.preventDefault();
+			var inputElement =  $(this).next();
+		    var currentValue = parseInt(inputElement.val());
+		    if (currentValue > 1) {
+		        inputElement.val(currentValue - 1);
+		        var div = $(this).closest('.prd_cnt_box');
+		        var price = $(div).find('.option_price > .tx_num').text();
+		        price = parseInt(price.replace(/,/g, ''), 10);
+		        
+		        if (isNaN(price)) {
+		        	price = ${productList[0].afterPrice};	
+				}
+		        
+		        totalPrice -= price*1;
+		        
+				
+		        $('.tx_cont > .tx_num').text(totalPrice);
+		    } else {
+		        alert("1개 이상부터 구매할 수 있는 상품입니다.");
+		        // 이벤트를 취소하여 값이 변경되지 않도록 함
+		        event.preventDefault();
+		    }
+		})
+		/* */
+
+})
+function displayDiv(Id) {
+	 event.preventDefault();
+
+	 var totalPrice = $('#totalPrcTxt').text();
+	 totalPrice = parseInt(totalPrice.replace(/,/g, ''), 10);
+	 
+	 
+	 $('div #'+Id).css('display', 'block');
+	 
+	 var inputElement =  $('#input_'+Id);
+	 var currentValue = parseInt(inputElement.val());
+	    if (currentValue < 10) {
+	    	console.log('+버튼이 아닌 선택으로 1증가 ');
+	        inputElement.val(currentValue + 1);
+	        
+	        // 총합 금액 업데이트문 
+	        var div = $('.prd_cnt_box');
+	        var price = $('div #'+ Id +' .cont_area .option_price > .tx_num').text();
+	        price = parseInt(price.replace(/,/g, ''), 10);
+	        totalPrice += price*1;
+	        
+	        $('.tx_cont > .tx_num').text(totalPrice);
+	       
+	    } else {
+	        alert("총 10개까지만 구매할 수 있습니다.");
+	        // 이벤트를 취소하여 값이 변경되지 않도록 함
+	        event.preventDefault();
+	    } // if else
+	
+} // displayDiv
+
+function deleteDiv(event, Id) {
+	alert('123');
+	 var totalPrice = $('#totalPrcTxt').text();
+	 totalPrice = parseInt(totalPrice.replace(/,/g, ''), 10);
+	 alert(totalPrice);
+	 $('div #'+Id).css('display', 'none');
+	
+	 var inputElement =  $('#input_'+Id);
+	 var currentValue = parseInt(inputElement.val());
+
+	 console.log('닫기버튼 누름');
+	 inputElement.val(currentValue + 1);
+	        
+	        // 총합 금액 업데이트문 
+	 var div = $('.prd_cnt_box');
+	 var price = $('div #'+ Id +' .cont_area .option_price > .tx_num').text();
+	 price = parseInt(price.replace(/,/g, ''), 10);
+	  totalPrice -= price*inputElement;
+	        
+	 $('.tx_cont > .tx_num').text(totalPrice);
+	 $('#input_'+Id).val(0);
+	 
+} // deleteDiv
+</script>
+<script>
+$(function() {
+	$('#deliveDay').on('click', function() {
+		$('.option_add_area.pkg_goods_n').css('display','none');
+		$('.prd_cnt_box.no_prom').css('display','none');
+		$('.option_cnt_box input').val(0);
+		$('.tx_cont > .tx_num').text(0);
+	})// deliveDay
+}) // function
+
+</script>

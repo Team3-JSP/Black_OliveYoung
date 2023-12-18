@@ -431,7 +431,7 @@
 													
 
 														
-															<li><a href="#" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
+															<li><a href="javascript:;" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
 																		src="${img.reviewImgSrc }" data-value="23082403_1"
 																		class="thum" alt=""></span></a></li>
 														
@@ -590,6 +590,45 @@
 		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
 		        }
 			})
+	 })
+	 
+	 $(function(){
+$(".more").click(function(){
+			$("#layerWrap850.photo").show()
+		})
+		$(".photo li").click(function(){
+			var index = $(".photo li").index($(this));
+			let reviewId = $(this).find("img").data("value")
+			console.log(index);
+			
+			let data = {
+					reviewId: reviewId,
+					 index: index
+				    };
+				 
+					
+					$.ajax({
+						url: "/reviewimg",
+						data:data,
+						cache: false,
+						success:function( response ) {
+							 $(".photo").hide()
+				              $(".info_area.scrbar").empty();
+				              $(".info_area.scrbar").append( response );
+				              $("#layerWrap850:not(.photo)").show()
+				              
+				     		 slide(index);
+				                         
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+		})
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
 	 })
 	
 			</script>
