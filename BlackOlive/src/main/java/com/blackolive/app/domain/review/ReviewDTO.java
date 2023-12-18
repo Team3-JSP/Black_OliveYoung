@@ -24,6 +24,7 @@ public class ReviewDTO {
 	private int reviewPoll3;
 	private String productId;
 	private String nickname;
+	private String profileContent;
 	private String profileImg;
 	private String skintoneName;
 	private String skintypeName;

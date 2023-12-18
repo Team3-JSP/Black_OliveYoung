@@ -14,6 +14,7 @@ import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.domain.review.ReviewDetailDTO;
 
 public interface HeadMapper {
 
@@ -25,22 +26,36 @@ public interface HeadMapper {
 	
 	public ExampleDTO getExample() throws SQLException;
 
-	List<EventDTO> selectAllEvent(String click) throws SQLException; // 이벤트 리스트
+	// 이벤트 리스트
+	List<EventDTO> selectAllEvent(String click) throws SQLException; 
 
-	EventDTO selectOneEvent(String eventId) throws SQLException; // 이벤트 하나
+	// 이벤트 하나
+	EventDTO selectOneEvent(String eventId) throws SQLException; 
 
-	List<GiftCardDTO> selectAllGiftCard() throws SQLException; // 기프트카드 리스트
+	// 기프트카드 리스트
+	List<GiftCardDTO> selectAllGiftCard() throws SQLException; 
 
-	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException; // 기프트 카드 하나
+	// 기프트 카드 하나
+	GiftCardDTO selectOneGiftCard(String giftCardId) throws SQLException; 
 
-	List<MsgCardDTO> selectAllMsgCard() throws SQLException; // 메시지 카드 리스트
+	// 메시지 카드 리스트
+	List<MsgCardDTO> selectAllMsgCard() throws SQLException; 
 	
 	AllCategoryDTO getTotalCategory(String productDisplayId);
 
-	List<CategoryLargeDTO> selectRankingCatLargeName(@Param("type") String type); // 랭킹 카테고리 중분류 이름 리스트
+	// 랭킹 카테고리 중분류 이름 리스트
+	List<CategoryLargeDTO> selectRankingCatLargeName(@Param("type") String type) throws SQLException; 
 
-	List<ProductContainer> selectSaleRankingProduct(@Param("categoryLargeId") String categoryLargeId); // 판매 랭킹 상품 리스트
+	// 판매 랭킹 상품 리스트
+	List<ProductContainer> selectSaleRankingProduct(@Param("categoryLargeId") String categoryLargeId) throws SQLException; 
 
-	List<ReviewDTO> selectReviceBest(@Param("categoryLargeId") String categoryLargeId); // 리뷰 베스트 리스트
+	// 리뷰 베스트 리스트
+	List<ReviewDTO> selectReviceBest(@Param("categoryLargeId") String categoryLargeId) throws SQLException; 
+
+	// 리뷰 상세
+	ReviewDetailDTO selectOneReview(@Param("reviewId") String reviewId) throws SQLException;
+
+	// 리뷰 좋아요 업데이트
+	int updateReviewLike(@Param("reviewId") String reviewId, @Param("likePlus") int likePlus) throws SQLException;
 	
 } // interface

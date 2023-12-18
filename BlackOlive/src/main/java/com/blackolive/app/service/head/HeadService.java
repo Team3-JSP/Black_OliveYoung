@@ -11,6 +11,7 @@ import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.domain.review.ReviewDetailDTO;
 
 
 public interface HeadService {
@@ -33,5 +34,9 @@ public interface HeadService {
 
 	public List<ProductContainer> getSaleRankingProduct(String categoryLargeId) throws SQLException; // 판매랭킹 상품 얻기
 
-	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException;
+	public List<ReviewDTO> getReviewBest(String categoryLargeId) throws SQLException; // 리뷰 랭킹 리스트
+
+	public ReviewDetailDTO getReviewDetail(String reviewId) throws SQLException; // 리뷰 상세
+
+	int udpReviewList(String reviewId, int likePlus) throws SQLException; // 리뷰 좋아요 업데이트
 } // interface

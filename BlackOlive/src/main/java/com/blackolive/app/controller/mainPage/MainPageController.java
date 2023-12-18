@@ -1,15 +1,18 @@
 package com.blackolive.app.controller.mainPage;
 
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.EventDTO;
@@ -17,6 +20,7 @@ import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
+import com.blackolive.app.domain.review.ReviewDetailDTO;
 import com.blackolive.app.mapper.mainPage.MainPageMapper;
 import com.blackolive.app.service.head.HeadServiceImpl;
 
@@ -101,7 +105,9 @@ public class MainPageController {
 			productList = this.headServiceImpl.getSaleRankingProduct(categoryLargeId);
 			model.addAttribute("productList", productList);
 		} else {
-			categoryLargeId = "0001";
+			if(categoryLargeId == null || categoryLargeId.isEmpty()) {
+				categoryLargeId = "0001";				
+			}
 			reviewList = this.headServiceImpl.getReviewBest(categoryLargeId);
 			model.addAttribute("reviewList", reviewList);
 		}
@@ -116,10 +122,20 @@ public class MainPageController {
 		return "mainPage.ranking";
 	}
 	
-//	@GetMapping("/store/getReviewDetail")
-//	public ResponseEntity<Map<String, >> getReviewDetail(String reviewId) throws SQLException {
-//		
-//	}
+	@GetMapping("/store/getReviewDetail")
+	@ResponseBody
+	public ResponseEntity<ReviewDetailDTO> getReviewDetail(String reviewId) throws SQLException {
+		return new ResponseEntity<>(this.headServiceImpl.getReviewDetail(reviewId), HttpStatus.OK);
+	}
 	
-	
+	@PostMapping("/store/udpReviewLike")
+	@ResponseBody
+	public ResponseEntity<String> udpReviewLike(String reviewId, int likePlus, Principal principal) throws SQLException {
+		if(principal == null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			
+		return this.headServiceImpl.udpReviewList(reviewId, likePlus) == 1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 } // class

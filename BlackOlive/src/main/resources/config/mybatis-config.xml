@@ -41,6 +41,13 @@
 			
 			<!-- review  -->
 			<typeAlias type="com.blackolive.app.domain.review.ReviewImgDTO" alias="ReviewImgDTO"/>
+			<typeAlias type="com.blackolive.app.domain.review.ReviewDetailDTO" alias="ReviewDetailDTO"/>
+			
+			
+			
+			<!-- adminpage -->
+			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerMonthDTO" alias="SalesPerMonthDTO"/>
+			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerDayDTO" alias="SalesPerDayDTO"/>
 			
 	</typeAliases>
 	
@@ -66,6 +73,7 @@
 		<mapper resource="com/blackolive/app/mapper/productdetail/QnARestMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/review/ReviewMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/adminpage/AdminPageIndexMapper.xml"/>
 		
 	</mappers>
 	
