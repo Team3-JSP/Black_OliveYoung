@@ -11,5 +11,11 @@ public class AdminController {
 		
 		return "adminpage/index";
 	}
+	
+	@GetMapping("/adminpage/chart")
+	public String chartpage() {
+		
+		return "adminpage/chart";
+	}
 
 } //class
