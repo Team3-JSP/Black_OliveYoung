@@ -75,20 +75,24 @@
 	</select>
 
 	<!-- 리뷰가져오기 -->
-	<select id="getReviews" resultType="BrandPageDTO">
-		SELECT r.review_Id,
-		pdi.product_Display_Src, r.review_Like, r.review_Grade,
-		r.review_Content, pd.product_Display_Id
-		FROM Product_Display pd
-		JOIN
-		product_Display_IMG pdi ON pd.product_Display_Id =
-		pdi.product_Display_Id
-		JOIN review r ON pd.product_Display_Id =
-		r.product_Display_Id
-		WHERE pd.product_Display_Id = #{ productDisplayId
-		}
-	</select>
-
+<select id="getReviews" resultType="BrandPageDTO">
+    <![CDATA[
+    SELECT * FROM ( 
+        SELECT r.review_Id,
+               pd.brand_id,
+               pdi.product_Display_Src,
+               r.review_Like,
+               r.review_Grade,
+               r.review_Content,
+               pd.product_Display_Id
+        FROM Product_Display pd
+        JOIN product_Display_IMG pdi ON pd.product_Display_Id = pdi.product_Display_Id
+        JOIN review r ON pd.product_Display_Id = r.product_Display_Id
+        WHERE pd.brand_Id = #{brandId}
+        ORDER BY r.review_Like DESC
+    ) WHERE ROWNUM <= 3
+    ]]>
+</select>
 	<!-- 상품 -->
 
 

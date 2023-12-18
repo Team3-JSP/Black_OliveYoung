@@ -3,6 +3,7 @@ package com.blackolive.app.controller.brandPage;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,18 +35,25 @@ public class BrandPageController {
 		 
 		BrandPageDTO brand = null; 
 		 
+		
 		try {
 			// 브랜드 정보 가져오기
 			brand = this.brandPageService.getBrands(brandId);
 			model.addAttribute("brand", brand);
    
 			// 기본으로 보여줄 상품 목록 (인기순, 전체)
-			List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01");
-			model.addAttribute("brandList", brandList);
-
+			/*
+			 * List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p",
+			 * "cate_01"); model.addAttribute("brandList", brandList);
+			 */
 			// 베스트 상품 목록 가져오기 (슬라이드용)
 			List<BrandPageDTO> bestProducts = brandPageService.getsellProduct(brandId, "cate_01");
 			model.addAttribute("bestProducts", bestProducts);
+			
+			
+			//리뷰목록 가져오기 (
+			List<BrandPageDTO> reviewList = this.brandPageService.getReviews(brandId);
+			model.addAttribute("reviewList", reviewList);
 
 			return "brandPage.brandPage"; // 해당 뷰로 이동
 		} catch (ClassNotFoundException | SQLException e) {

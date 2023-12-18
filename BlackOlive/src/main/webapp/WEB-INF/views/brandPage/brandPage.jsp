@@ -539,7 +539,7 @@ $(window).ready(function(){
 																	data-attr="브랜드관^구달_베스트^[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
 																	data-trk="/" tabindex="-1"
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000165071&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;1&quot;);"><img
-																	src="${pro.pro_displ_src }"
+																	src="${pro.productDisplaySrc }"
 																	alt="[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
 																	class="pic-thumb" onerror="common.errorImg(this);"></a>
 																<div class="prod-info"
@@ -552,13 +552,13 @@ $(window).ready(function(){
 																		data-attr="브랜드관^구달_베스트^[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
 																		data-trk="/" tabindex="-1"><div class="prod-brand">
 																			<strong class="exclusive"></strong>
-																		</div> <span class="prod-name double-line">${ pro.pro_displ_name}</span>
+																		</div> <span class="prod-name double-line">${ pro.productDisplayName}</span>
 																		<div class="price">
-																			<strong class="total">${pro.pro_price}<span
+																			<strong class="total">${pro.productPrice}<span
 																				class="won">원</span></strong> <span class="oneday">오늘드림</span>
 																		</div>
 																		<div class="rating">
-																			<span class="point">${pro.pro_displ_like }</span><span class="num">(999+)</span>
+																			<span class="point">${pro.productDisplayLike }</span><span class="num">(999+)</span>
 																		</div>
 																		<div class="flags blank"></div></a>
 																</div>
@@ -589,7 +589,7 @@ $(window).ready(function(){
 																	data-attr="브랜드관^구달_베스트^[1+1기획] 구달 맑은 어성초 진정 토너 패드 70매 리필 기획(+70매 리필)"
 																	data-trk="/" tabindex="-1"
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000183368&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;2&quot;);"><img
-																	src="${pro.pro_displ_src }"
+																	src="${pro.productDisplaySrc }"
 																	alt="[1+1기획] 구달 맑은 어성초 진정 토너 패드 70매 리필 기획(+70매 리필)"
 																	class="pic-thumb" onerror="common.errorImg(this);"></a>
 																<div class="prod-info"
@@ -602,16 +602,16 @@ $(window).ready(function(){
 																		data-attr="브랜드관^구달_베스트^[1+1기획] 구달 맑은 어성초 진정 토너 패드 70매 리필 기획(+70매 리필)"
 																		data-trk="/" tabindex="-1"><div class="prod-brand">
 																			<strong class="exclusive"></strong>
-																		</div> <span class="prod-name double-line">${ pro.pro_displ_name}</span>
+																		</div> <span class="prod-name double-line">${ pro.productDisplayName}</span>
 																		<div class="discount">
-																			<span class="origin">${pro.pro_price}</span>
+																			<span class="origin">${pro.productPrice}</span>
 																		</div>
 																		<div class="price">
 																			<strong class="total">25,200<span
 																				class="won">원</span></strong> <span class="oneday">오늘드림</span>
 																		</div>
 																		<div class="rating">
-																			<span class="point">4.7</span><span class="num">${pro.pro_displ_like }</span>
+																			<span class="point">4.7</span><span class="num">${pro.productDisplayLike }</span>
 																		</div>
 																		<div class="flags">
 																			<span class="flag sale">세일</span>
@@ -1416,8 +1416,8 @@ $(window).ready(function(){
 						
 						
 						
-						 <!-- 리뷰  -->
-						<c:forEach items="${ relist }" var="review" varStatus="status">
+						 <!-- 리뷰 reviewList  -->
+						<c:forEach items="${ reviewList }" var="review" varStatus="status">
 							<div class="tabCont reviewPanel" role="tabpanel" id="tab-panel3"
 								aria-lebelledby="tabitem3">
 
@@ -1440,7 +1440,7 @@ $(window).ready(function(){
 														<li>
 															<p class="thum"
 																onclick="javascript:common.link.moveGoodsDetail('A000000162318', '', 'BrandA001436_Review', {t_page:'브랜드관',t_click:'리뷰_상품상세', t_number:'10'}); ">
-																<img src="${ review.pro_displ_src }"
+																<img src="${ review.productDisplaySrc }"
 																	data-ref-goodsno="A000000162318"
 																	alt="구달 청귤 비타C 잡티케어 세럼 마스크 1매 "
 																	onerror="common.errorImg(this);"
@@ -1452,12 +1452,12 @@ $(window).ready(function(){
 																onclick="openReviewModal('23251131');display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
-																		<span class="point pt5">${ review.rev_grade }</span>
+																		<span class="point pt5">${ review.reviewGrade }</span>
 																	</div>
-																	<span class="like"><span class="icon">${review.rev_like }</span></span>
+																	<span class="like"><span class="icon">${review.reviewLike }</span></span>
 																</div>
 																<dl class="retxt">														
-																	<dd>${ review.rev_content }</dd>
+																	<dd>${ review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="openReviewModal('23251131'); display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});"
@@ -1500,7 +1500,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">33</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>${review.rev_content }</dd>
+																	<dd>${ review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000168705', '[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++', '1'); mypage.reviewerLounge.goReviewDetail('23033813', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'1'});"
@@ -1529,7 +1529,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">24</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>${review.rev_content }</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000162323', '[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획', '2'); mypage.reviewerLounge.goReviewDetail('23102015', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'2'});"
@@ -1558,7 +1558,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">16</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>${review.rev_content }</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000183371', '[1+1기획] 구달 맑은 어성초 진정 수분 토너 300ml 기획(+300ml 리필)', '3'); mypage.reviewerLounge.goReviewDetail('22999186', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'3'});"
@@ -1596,9 +1596,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">10</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>조금 건조한 느낌 있어요 백탁 있구요 근데 이건 어느정도 잘 발라주면 덜하긴 하지만
-																		확실히 하얘지는건 있어요 글구 시간 지나고 낮잠 자고 그러면 엄청 건조해진다네여 ㅠㅠ 건조한거
-																		싫은분들은 비추천입니다</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000182780', '[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++', '4'); mypage.reviewerLounge.goReviewDetail('23039309', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'4'});"
@@ -1626,9 +1624,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">10</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>개인적으로 저랑은 안 맞았던 팩이에요 뭐가 올라오거나 한 것은 아니지만 올리면
-																		얼굴이 따가워서 금방 뗐습니다 개인 피부마다 차이가 있으니 다른 분들은 잘 맞을 수 있지만 저는
-																		안 맞아서 아쉬웠어요</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000171077', '구달 살구 콜라겐 탄력 마스크 1매', '5'); mypage.reviewerLounge.goReviewDetail('22881713', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'5'});"
@@ -1657,7 +1653,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">8</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>써보고 좋아서 엄마랑 하나씩 가지려고 구매했어요 할인해서 좋아용</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000187780', '[단독기획] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)', '6'); mypage.reviewerLounge.goReviewDetail('22915372', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'6'});"
@@ -1695,7 +1691,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">6</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>흑당근 앰플이랑 크림 저녁에 함께 사용중인데 쫀쫀하고 좋네요</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000190110', '[단독기획]구달 흑당근 비타A 레티놀 탄력 크림 50ml 기획 (+크림 15ml*2ea)', '7'); mypage.reviewerLounge.goReviewDetail('23024154', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'7'});"
@@ -1724,18 +1720,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">6</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>제 기억으로 토너패드를 입문하게 해준 게 구달 청귤패드인데요, 닦토로 쓰기에 정말
-																		좋았지만 나중에 성분을 볼줄 알게 되니 청귤추출물 말고는 미백 유효성분 없는 걸 알게되고 실망했던
-																		제품이에요. 근데! 원단도 닦토 팩토 다 가능할 것처럼 바뀌고, 나이아신아마이드도 추가돼서
-																		구매해봤어요. 매장에서 손등 테스트 했는데 원단이 신세계였어요! 반투명해서 붙이기도 괜찮은 것
-																		같은데 힘있어서 닦기도 굿… 근데 실상은 좀 다르네요. 분명히 원단에 에센스 흥건하게 적셔있는데…
-																		닦토 한 번 하면 붙일 정도로 촉촉하진 않아서 닦토 후 붙이긴 애매해요ㅋㅋㅠ 토너팩을 먼저 하고
-																		닦토해야 할 것 같아요. 근데 그러면 팩 안붙인 곳은 건조하자나요ㅠ 하지만 동시에 못한다는 거지,
-																		둘 다 어느정도 좋아요~~ 물론 흐물흐물하게 붙는 팩토 전용은 아니라서 닦토로써 더 좋긴 합니다.
-
-																		근데ㅠ 실링 제발 바꿔주세요… 두꺼운 실링 필름이 붙어있고, 그 위에 반은 떠있는 비닐 필름을
-																		두어서 비닐을 당기면 실링이 뜯기는 방식인데요, 비닐을 어떻게 잡아도 비닐만 뜯겨서 실링 뚫고
-																		뜯다가 손 베어버렸어요… 사실 매장에서도 테스터 개봉 안 돼있길래 뜯으려다 포기했는데…!!!</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000189175', '[NEW] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획', '8'); mypage.reviewerLounge.goReviewDetail('22890557', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'8'});"
@@ -1767,10 +1752,7 @@ $(window).ready(function(){
 																</div>
 																<dl class="retxt" >
 																
-																	<dd>다른 레티놀에 비해 순하긴 한 것 같아요. 타사 유명한 레티놀 제품을 사용했을 때
-																		좋다. 잘 맞는다. 괜찮다. 이런 느낌은 안 들었어서 이번에도 사용하기가 좀 무서웠어요. 근데
-																		3일동안 밤에만 사용했는데 생각보다 자극이 된다고 느껴지진 않았어요. 이거 쓰고 피부 결이 좋아진
-																		것 같은데 지금은 피부가 좀 예민해져서 잠시 중단했습니다.</dd></button>
+																	<dd>${review.reviewContent }</dd></button>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="";
@@ -1808,7 +1790,7 @@ $(window).ready(function(){
 																	<span class="like"><span class="icon">4</span></span>
 																</div>
 																<dl class="retxt">
-																	<dd>비타민c팩이라 하고나면 피부가 밝아보입니다. 시트팩 밀착력도 좋습니다</dd>
+																	<dd>${review.reviewContent }</dd>
 																</dl>
 																<a href="javascript:void(0);" class="btn_detail"
 																	onclick="javascript:display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});"

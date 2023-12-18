@@ -3,7 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<style>
+.review_stat.type2 .point.pt5 {
+    background-position: 0 -70px;
+}
+.review_stat.type2 .point {
+    display: inline-block;
+    margin-top: 2px;
+    width: 78px;
+    height: 14px;
+    text-indent: -9999px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point2.png) right 0/100% auto no-repeat;
+    vertical-align: top;
+}
+</style>
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">

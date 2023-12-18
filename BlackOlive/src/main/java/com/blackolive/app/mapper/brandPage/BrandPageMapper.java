@@ -17,7 +17,7 @@ public interface BrandPageMapper {
 	//베스트상품 4개(술라이드바용)
 	public List<BrandPageDTO> getsellProduct(@Param("brandId") String brandId,@Param("categoryId") String categoryId);
 	//리뷰 가져오기 
-	public List<BrandPageDTO> getReviews(@Param("productDisplayId") String productDisplayId);
+	public List<BrandPageDTO> getReviews(@Param("brandId") String brandId);
 	
 	// 리뷰 클릭시  상세보기 
 	
