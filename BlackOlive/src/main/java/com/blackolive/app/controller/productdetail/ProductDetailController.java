@@ -44,6 +44,7 @@ public class ProductDetailController {
 			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
+			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
 					Model model) {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
@@ -93,7 +94,7 @@ public class ProductDetailController {
 		totalpage = this.reviewService.getTotalReviewPagesServiec(productDisplayId, productId, perPage);
 		model.addAttribute("pDto",new PageDTO(currentPage, perPage, numberOfPageBlock, totalpage));
 			// 리뷰 리스트 불러오기
-		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage);
+		List<ReviewDTO> reviewlist = this.reviewService.reviewListService(productDisplayId, gdasSort, productId, currentPage, perPage,searchType_1);
 		model.addAttribute("reviewlist",reviewlist);
 		List<ReviewDTO> reviewlistall = this.reviewService.reviewListAllService(productDisplayId, productId);
 		// 리뷰 점수

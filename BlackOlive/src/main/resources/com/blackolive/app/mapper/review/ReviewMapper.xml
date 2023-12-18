@@ -67,6 +67,9 @@
              product_display_id = #{productDisplayId} AND product_id = #{productId}
         </otherwise>
     </choose>
+    	<if test='searchType_1 == "N"'>
+    		AND review_img_src is null
+    	</if>
         <choose>
         <when test='gdasSort == 2'>
             order by review_regdate DESC

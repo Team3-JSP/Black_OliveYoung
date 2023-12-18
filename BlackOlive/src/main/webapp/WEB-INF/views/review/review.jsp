@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">
@@ -194,7 +195,7 @@
 						<!--## 리뷰고도화 2차 ## 추가 S -->
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_1"
-								checked="checked" value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
+								<c:if test="${searchType_1 eq 'Y'}">checked="checked"</c:if> value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
 						</div>
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_2"
@@ -529,13 +530,13 @@
 			 })
 			 
 			 
-			 $("#gdasSort li a").on("click",function(){
+		$("#gdasSort li a").on("click",function(){
 		 $("#gdasSort li").removeClass("on")
 		 $(this).closest("li").addClass("on")
 		 let gdasSort = $(this).attr("data-value")
 		 let productId = $(".prd_option_box.box_select > a").attr("id");
 		 let productDisplayId = $("#goodsNo").val();
-		 alert(gdasSort)
+		 
 		 
 		 let data = {
 				 productId: productId,
@@ -555,8 +556,41 @@
 		        }
 			})
 			
-		 
+			
 	 })
-
+	 
+	  $("#searchType_1").on("click",function(){
+		  let searchType1 = ''
+		 if ($(this).is(':checked')) {
+			searchType1 = 'Y'
+		}else{
+			searchType1 = 'N'
+		}
+		
+		 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 alert(searchType1)
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId,
+			 	searchType1: searchType1
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
+	 })
+	
 			</script>
 		

@@ -19,11 +19,11 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Override
 	public List<ReviewDTO> reviewListService(String productDisplayId, int gdasSort, String productId,
-			int currentPage, int numberPerPage) {
+			int currentPage, int numberPerPage, String searchType_1) {
 		// TODO Auto-generated method stub
 		int begin = (currentPage -1) * numberPerPage + 1;
 		int end = begin + numberPerPage -1 ;
-		return this.reviewMapper.reviewList(productDisplayId, gdasSort, productId, begin, end);
+		return this.reviewMapper.reviewList(productDisplayId, gdasSort, productId, begin, end,searchType_1);
 	}
 
 	@Override
