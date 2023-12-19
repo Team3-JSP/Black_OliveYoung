@@ -69,4 +69,14 @@ public interface ProductListMapper {
 	// 상품 아이디를 가지고 상품 정보 객체 갖고오기 getTopviewProduct
 	public List<ProductContainer> getTopviewProduct (@Param("productDisplayIds")List<String> productDisplayIds, String userId);
 
+	//브랜드 좋아요 관련
+	// 좋아요 버튼을 누르면 데이터에 추가하는 작업
+	public boolean addBrandLike( @Param("userId") String userId,  @Param("brandId")String brandId);
+
+		// 좋아요 버튼을 한번 더 누르면 데이터에 삭제하는 작업
+	public boolean removeBrandLike( @Param("userId") String userId, @Param("brandId")String brandId);
+
+		// 좋아요 상태 확인
+	public String isBrandLiked( @Param("userId") String userId,  @Param("brandId")String brandId);
+	
 } // interface
