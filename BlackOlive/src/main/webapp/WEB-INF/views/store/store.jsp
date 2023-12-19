@@ -565,11 +565,69 @@
     };
 
 	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	// 현재 위치를 저장할 변수
+    let currentLocation;
+
+    // 현재 위치 얻기
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                // 현재 위치의 위도와 경도를 저장
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // 현재 위치를 변수에 저장
+                currentLocation = new kakao.maps.LatLng(latitude, longitude);
+
+                // 이후에 변수(currentLocation)를 사용할 수 있음
+                console.log('Current Location:', currentLocation);
+            },
+            (error) => {
+                console.error('Error getting current position:', error);
+            }
+        );
+    } else {
+        console.error('Geolocation is not supported.');
+    }
 </script>
 
 <script>
 let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
+
+function storeDetail(storeId) {
+	$('#store_viewPop_renew').show();
+	$('body').append(dimm);
+	popupCenter($('#store_viewPop_renew'));
+	
+	$.ajax({
+		type : 'post'
+		, cache: false
+		, url : '/store/setStoreFavorite'
+		, dataType : 'text'
+		, data : {
+			storeId : storeId
+			, clickCheck : clickCheck
+			, '${_csrf.parameterName }' : '${_csrf.token }'
+		}
+		, success : function(data) {
+			console.log(data)
+			console.log("즐겨찾기 업데이트 완료~~")
+        }
+		, 
+		error: function(xhr, textStatus, errorThrown) {
+	        console.log('Error Status Code: ' + xhr.status);
+	        console.log('Error Message: ' + xhr.statusText);
+	        console.log('Text Status: ' + textStatus);
+	        console.log('Error Thrown: ' + errorThrown);
+
+	    }
+		/* error : function (data, textStatus) {
+            console.log('error');
+        } */
+	});
+}
 
 //즐겨찾기 버튼 눌렀을 때 
 function favBtnClick(myBtn) {
@@ -980,7 +1038,22 @@ $(function() {
 							title : data[i].storeName
 							, latlng : new kakao.maps.LatLng(data[i].lat, data[i].lng)
 					};
-			
+					
+					// 현재 위치와 매장 거리 계산 시작
+					var polyline = new kakao.maps.Polyline({
+						path : [
+							currentLocation,
+							new kakao.maps.LatLng(data[i].lat, data[i].lng)
+						],
+					 strokeWeight: 2,
+					 strokeColor: '#FF00FF',
+					 strokeOpacity: 0.8,
+					 strokeStyle: 'dashed'
+					});
+					
+					var distance = Math.round(polyline.getLength()/100)/10;
+					// 현재 위치와 매장 거리 계산 끝
+					
 					latLngs.push(latLng);
 					
 					let li = $("<li>").addClass(data[i].storeId);
@@ -990,6 +1063,7 @@ $(function() {
 						map.setCenter(new kakao.maps.LatLng(data[i].lat, data[i].lng));
 						map.setLevel(2);
 					});
+					let span = $("<span>").addClass("store_nearWay").text(distance + 'km');
 					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 					let area = $("<div>").addClass("area");
 					let call = $("<div>").addClass("call").text(data[i].storeTel);
@@ -1024,8 +1098,9 @@ $(function() {
 						favBtnClick(this);
 					});
 					
+
 					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:66px">' 
-						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
+						+ '  <h4 class="tit">' + data[i].storeName + '<span class="store_nearWay">' + distance +'km</span>' + '</h4>'
 						+ '  <p class="addr" style="white-space: normal;">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
 						+ '    <div class="call">' + data[i].storeTel + '</div>'
@@ -1035,7 +1110,7 @@ $(function() {
 						+ '      명이 관심매장으로 등록했습니다.'
 						+ '  </div>'
 						+ '</div>'
-						+ `<a class="store_btn" onclick="javascript:$('#store_viewPop_renew').show();$('body').append(dimm);popupCenter($('#store_viewPop_renew'));">상세정보보기</a>`
+						+ `<a class="store_btn" onclick="storeDetail('\${data[i].storeId}')">상세정보보기</a>`
 						+ '<button class="star active" onclick="favBtnClick(this)"/> '
 						+ `<button class="wayClose" onclick="closeOverlay(\${i})"/> `;
 					
@@ -1045,6 +1120,7 @@ $(function() {
 					$(area).append(time);
 					
 					$(h4).append(a);
+					$(h4).append(span);
 					$(div).append(h4);
 					$(div).append(p);
 					$(div).append(area);
@@ -1061,12 +1137,11 @@ $(function() {
 					var marker = new kakao.maps.Marker({
 				        map: map // 마커를 표시할 지도
 				        , position: latLngs[i].latlng // 마커를 표시할 위치
-				        , title : latLngs[i].titl // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        , title : latLngs[i].title // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 				        , image : markerImage
-				        //, clickable : true
 				    });
 					markers.push(marker);
-					
+					let latlngTemp = latLngs[i].latlng;
 					var overlay = new kakao.maps.CustomOverlay({
 				        content: contents[i],
 				        //map: map,
@@ -1074,7 +1149,7 @@ $(function() {
 				    });
 					overlays.push(overlay);
 					
-					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {
+					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {					
 				        return function () {
 				        	for (var j = 0; j < overlays.length; j++) {
 								overlays[j].setMap(null);
@@ -1084,14 +1159,13 @@ $(function() {
 							}
 				            overlay.setMap(map);
 				            marker.setImage(new kakao.maps.MarkerImage(clickedImage, new kakao.maps.Size(28, 39)));
+				            map.setCenter(latlngTemp);
 				        };
 				    })(marker, overlay));
 				}
 				
-				var moveLatLon = latLngs[0].latlng;
-			    
 			    // 지도 중심을 이동 시킵니다
-			    map.setCenter(moveLatLon);
+			    map.setCenter(latLngs[0].latlng);
 			    map.setLevel(3);
 				
 				
