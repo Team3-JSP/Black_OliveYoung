@@ -102,7 +102,7 @@ public class UsermodifyController {
 	public String newInfoOk( Principal principal, Model model, HttpSession session
 									, @RequestParam ("userName") String newName
 									, @RequestParam ("userTel") String newTel
-									, HttpSession session) throws SQLException, ClassNotFoundException{
+									) throws SQLException, ClassNotFoundException{
 		log.info("newInfoOk_POST..." + newName + newTel );
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);

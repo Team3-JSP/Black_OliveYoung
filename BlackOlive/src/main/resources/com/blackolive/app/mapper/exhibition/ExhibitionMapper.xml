@@ -14,6 +14,6 @@
 		WHERE exhibition_end_day > SYSDATE AND ex.EXHIBITION_CATEGORY = #{exhibitionCategory}
 	</select>
 
-	<resultMap type="" id=""></resultMap>
+	
 
 </mapper>

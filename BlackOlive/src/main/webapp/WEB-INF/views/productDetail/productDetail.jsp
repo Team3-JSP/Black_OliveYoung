@@ -2508,7 +2508,7 @@ $(function(){
 					$(".layer_close.type2").on("click",function(){
 					$(	"#layerWrap850:not(.photo)").empty();
 					$(	"#layerWrap850:not(.photo)").hide();
-				})
+				})`
 
 				$(	"#layerWrap850:not(.photo)").html(content);
 				$(	"#layerWrap850:not(.photo)").show();
