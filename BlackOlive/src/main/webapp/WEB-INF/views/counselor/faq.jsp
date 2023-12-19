@@ -21,7 +21,7 @@
 			</ul>
 			
 			
-			<form id="sForm" name="sForm">
+			<form id="sForm" name="sForm" method="get" action="/counselor/faqlist">
 				
 				<fieldset class="search-faq">
 					<legend>FAQ 검색</legend>
@@ -34,8 +34,10 @@
 				</fieldset>
 				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="200">
 				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="201">
-				
 				<input type="hidden" id="tagYn" name="tagYn" value="">
+				<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }">
+    		  	<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }">
+    		  	<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }">    		  	    		  	
 			</form>
 			
 			
@@ -201,22 +203,34 @@
 	
 	
 		
-			
-		<strong title="현재 페이지">1</strong>
-			
-			
+			<c:if test="${ pageMaker.prev }">
+				<a href="${ pageMaker.startPage -1 }">&laquo;</a>
+			</c:if>
 		
-	
-		
+			<c:forEach begin="${ pageMaker.startPage }"
+				end="${ pageMaker.endPage }" step="1" var="num">
 			
-			
-		<a href="javascript:void(0);" data-page-no="2">2</a>
-			
-		
+			<!-- <strong title="현재 페이지">1</strong> -->
+				
+			<c:choose>
+				<c:when test="${ num eq pageMaker.criteria.pageNum }">
+					<strong title="현재 페이지">${ num }</strong>
+				</c:when>
+				<c:otherwise>
+					<a href="${ num }" class="${ num }">${ num }</a>				
+				</c:otherwise>
+			</c:choose>
+
+			</c:forEach>
+<!-- 		<a href="javascript:void(0);" data-page-no="2">2</a> -->
+
+			<c:if test="${ pageMaker.next }">
+				<a href="${ pageMaker.endPage -1 }">&raquo;</a>
+			</c:if>
 	
 	
 	</div>
-	<c:if test="${ askCategoryMinor eq TOP10 }">
+	<c:if test="${ askCategoryMinor eq 'TOP10' }">
 		<div class="phone-banner">
 			<div class="deposits">
 				<strong>매장</strong>
@@ -278,38 +292,29 @@
 	        // 다른 항목들은 닫기
 	        $parent.siblings().removeClass("open").find("ul.conts").hide();
 	    });
-	    if ( '${askCategoryMajor}' != '' ) {
-	    	$("ul.twoTabs li button").on("click", function() {
-		    	var major = '${askCategoryMajor}';
-		    	var minor = $(this).text();	  
-		   
-		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
-				
-		    });	
-		}
-	    
 	    
 	    $("ul.comm2sTabs li button").on("click", function() {
 	    	
 	    	var major = $(this).text();
+	    	console.log(major)
 	    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
 	    	
 	    });
-	
 	    
-	    
-	    
-
-	 	
-	    
-			
-			
-		
+	    if ( '${askCategoryMajor}' != '' ) {
+	    	$("ul.comm2sTabs li ul.twoTabs li button").on("click", function() {
+		    	var major = '${askCategoryMajor}';
+		    	var minor = $(this).text();	  
+		   		if ( minor === "전체" ) {
+		   			minor = "";
+		   			location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
+				}
+		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
+				
+		    });	
+		} 
 	    
 	});
 	
  
-</script>
-<script>
-	
 </script>
