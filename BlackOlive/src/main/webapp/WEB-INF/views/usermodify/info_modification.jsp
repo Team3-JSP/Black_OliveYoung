@@ -30,11 +30,11 @@
 									<h3 class="h3_tit">기본정보</h3>
 									<div class="info">
 
-										<a id="auth_btn_area" href="javascript:callAuthLayer()"
+										<!-- <a id="auth_btn_area" href="javascript:callAuthLayer()"
 											;="" class="btn btn_sm" style="display: none;"><span
 											class="arr">전체 정보 확인 및 수정</span></a> <a
 											href="https://www.cjone.com/cjmweb/member/withdrawal.do?coopco_cd=7030&amp;brnd_cd=3000&amp;mcht_no=3000"
-											class="btn btn_sm"><span class="arr">회원탈퇴</span></a>
+											class="btn btn_sm"><span class="arr">회원탈퇴</span></a> -->
 									</div>
 								</div>
 								<div class="table_col">

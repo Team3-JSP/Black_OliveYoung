@@ -99,7 +99,7 @@ public class UsermodifyController {
 	// 회원정보수정 휴대폰인증 완료_POST (팝업>부모창 이동)
 	// modify_phlast > name_update
 	@PostMapping("/modify_phlast")
-	public String newInfoOk( Principal principal, Model model
+	public String newInfoOk( Principal principal, Model model, HttpSession session
 									, @RequestParam ("userName") String newName
 									, @RequestParam ("userTel") String newTel ) throws SQLException, ClassNotFoundException{
 		log.info("newInfoOk_POST..." + newName + newTel );
@@ -109,7 +109,7 @@ public class UsermodifyController {
 		
 		userDto.setUserName(newName);
 		userDto.setUserTel(newTel.substring(0, 3)+"-"+newTel.substring(3,7)+"-"+newTel.substring(7));
-		model.addAttribute("userDto", userDto);
+		session.setAttribute("userDto", userDto);
 		log.info(userDto);
 		//model.addAttribute("newName", );
 		//model.addAttribute("newTel", inputTel);
@@ -120,14 +120,14 @@ public class UsermodifyController {
 	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
 	@PostMapping("/info_modification")
 	public String infoModify( Principal principal, OliveUserDTO userDto, Model model
-								) throws SQLException, ClassNotFoundException{
+								, HttpSession session ) throws SQLException, ClassNotFoundException{
 		log.info( "infoModify_POST...");
 		log.info(userDto.getUserName() +"/"+ userDto.getUserTel());
 		//로그인 회원 정보
 		String userId = principal.getName();
 		userDto = this.usermodifyService.getUser(userId);
 
-		model.addAttribute("userDto", userDto);
+		model.addAttribute(session.getAttribute("userDto"));
 		//model.addAttribute("newName", newName);
 		//model.addAttribute("newTel", newTel);	
 
@@ -139,13 +139,12 @@ public class UsermodifyController {
 	public String infoModifyOk( Principal principal, OliveUserDTO userDto
 			 , @RequestParam("email_addr1") String email1
 			 , @RequestParam("email_addr2") String email2
-			 , @RequestParam(required= false, value= "userTel") String inputTel
-			 , @RequestParam(required= false, value= "newTel") String newTel ) throws SQLException, ClassNotFoundException{
-		log.info("infoModifyOk_POST..." + inputTel + ">>>"+ userDto );
+						) throws SQLException, ClassNotFoundException{
+		log.info("infoModifyOk_POST..." );
+		log.info(userDto);
 		// 로그인 회원 정보
 		String userId = principal.getName();
 		OliveUserDTO currentUser = this.usermodifyService.getUser(userId);
-		
 		//
 		String inputEmail = email1+"@"+email2;
 		// 사용자 정보 업데이트
@@ -156,13 +155,13 @@ public class UsermodifyController {
 			userDto.setUserName(currentUser.getUserName());
 		}
 		// 전화번호
-		if ( inputTel != null ) {
-			currentUser.setUserTel(inputTel);
+		if ( userDto.getUserTel() != null ) {
+			currentUser.setUserTel(userDto.getUserTel());
 		} else {
 			userDto.setUserTel(currentUser.getUserTel());
 		}
 		// 이메일
-		if ( inputEmail != null ) {
+		if ( !inputEmail.isEmpty() ) {
 			currentUser.setUserEmail(inputEmail);
 		} else {
 			userDto.setUserEmail(currentUser.getUserEmail());
