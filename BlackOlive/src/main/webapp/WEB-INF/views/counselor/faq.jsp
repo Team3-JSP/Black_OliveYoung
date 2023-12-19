@@ -21,7 +21,7 @@
 			</ul>
 			
 			
-			<form id="sForm" name="sForm">
+			<form id="sForm" name="sForm" method="get" action="/counselor/faqlist">
 				
 				<fieldset class="search-faq">
 					<legend>FAQ 검색</legend>
@@ -32,10 +32,12 @@
 						<input type="submit" id="searchFaq" value="검색">
 					</div>
 				</fieldset>
-				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="200">
-				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="201">
-				
+				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="">
+				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="">
 				<input type="hidden" id="tagYn" name="tagYn" value="">
+				<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }">
+    		  	<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }">
+    		  	<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }">    		  	    		  	
 			</form>
 			
 			
@@ -201,22 +203,34 @@
 	
 	
 		
-			
-		<strong title="현재 페이지">1</strong>
-			
-			
+			<c:if test="${ pageMaker.prev }">
+				<a href="${ pageMaker.startPage -1 }">&laquo;</a>
+			</c:if>
 		
-	
-		
+			<c:forEach begin="${ pageMaker.startPage }"
+				end="${ pageMaker.endPage }" step="1" var="num">
 			
-			
-		<a href="javascript:void(0);" data-page-no="2">2</a>
-			
-		
+			<!-- <strong title="현재 페이지">1</strong> -->
+				
+			<c:choose>
+				<c:when test="${ num eq pageMaker.criteria.pageNum }">
+					<strong title="현재 페이지">${ num }</strong>
+				</c:when>
+				<c:otherwise>
+					<a href="${ num }" class="${ num }">${ num }</a>				
+				</c:otherwise>
+			</c:choose>
+
+			</c:forEach>
+<!-- 		<a href="javascript:void(0);" data-page-no="2">2</a> -->
+
+			<c:if test="${ pageMaker.next }">
+				<a href="${ pageMaker.endPage -1 }">&raquo;</a>
+			</c:if>
 	
 	
 	</div>
-	<c:if test="${ askCategoryMinor eq TOP10 }">
+	<c:if test="${ askCategoryMinor eq 'TOP10' }">
 		<div class="phone-banner">
 			<div class="deposits">
 				<strong>매장</strong>
@@ -244,19 +258,19 @@
 
 <script>
 	
-<%-- 
+
  $(document).ready(function(){
 	 	
 
 	 	$("ul.comm2sTabs li").removeClass("on");
+		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
 		$("ul.twoTabs li").removeClass("on");
 
-		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
 		
-		if ( ${askCategoryMinor} ) {
-			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
-		} else {
+		if ( '${askCategoryMinor}' == '' ) {
 			$("ul.twoTabs li button:contains('전체')").parent().addClass("on");
+		} else {
+			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
 		}
 		
 	 	
@@ -282,32 +296,47 @@
 	    $("ul.comm2sTabs li button").on("click", function() {
 	    	
 	    	var major = $(this).text();
+	    	console.log(major)
 	    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
 	    	
 	    });
 	    
-	    $("ul.twoTabs li button").on("click", function() {
-	    	var major = $(this).parents("ul").siblings("button").text();
-	    	var minor = $(this).text();	    	
-	    	if (minor.eq("전체")) {
-	    		location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major)
-			} else {
+	    if ( '${askCategoryMajor}' != '' ) {
+	    	$("ul.comm2sTabs li ul.twoTabs li button").on("click", function() {
+		    	var major = '${askCategoryMajor}';
+		    	var minor = $(this).text();	  
+		   		if ( minor === "전체" ) {
+		   			minor = "";
+		   			location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) ;
+				}
 		    	location.href = "/counselor/faq?askCategoryMajor=" + encodeURIComponent(major) + "&askCategoryMinor=" + encodeURIComponent(minor);
-			}
-	    });	
-	    
-	    
-
-	 	
-	    
-			
-			
-		
+				
+		    });	
+		} 
 	    
 	});
---%>	
+	
  
 </script>
 <script>
+	var sForm = $("#sForm");
+	$("#searchFaq").submit(function() {
+		
+		if (!sForm.find("input[name=inqTitNm]").val()) {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+		sForm.find("input[name='pageNum']").val("1");
+		event.preventDefault();
+		sForm.submit();
+		
+	})
+	
+	$("div.tag_list a").on("click", function() {
+		var tag = $(this).text();
+		alert(tag);
+		$("input#inqTitNm").val(tag);
+		$("#sForm").submit();
+	})
 	
 </script>

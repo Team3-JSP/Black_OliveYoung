@@ -77,6 +77,8 @@
 		<mapper resource="com/blackolive/app/mapper/review/ReviewMapper.xml"/>
 		<mapper resource="com/blackolive/app/mapper/adminpage/AdminPageIndexMapper.xml"/>
 		
+		<mapper resource="com/blackolive/app/mapper/mypage/MypagePersonalAskMapper.xml"/>
+		
 	</mappers>
 	
 </configuration>
