@@ -101,12 +101,12 @@ public class UsermodifyController {
 	@PostMapping("/modify_phlast")
 	public String newInfoOk( Principal principal, Model model, HttpSession session
 									, @RequestParam ("userName") String newName
-									, @RequestParam ("userTel") String newTel ) throws SQLException, ClassNotFoundException{
+									, @RequestParam ("userTel") String newTel
+									, HttpSession session) throws SQLException, ClassNotFoundException{
 		log.info("newInfoOk_POST..." + newName + newTel );
-		//로그인 회원 정보
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
-		
+    
 		userDto.setUserName(newName);
 		userDto.setUserTel(newTel.substring(0, 3)+"-"+newTel.substring(3,7)+"-"+newTel.substring(7));
 		session.setAttribute("userDto", userDto);
@@ -116,7 +116,7 @@ public class UsermodifyController {
 
 		return "usermodify.name_update";
 	}
-
+	 
 	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
 	@PostMapping("/info_modification")
 	public String infoModify( Principal principal, OliveUserDTO userDto, Model model
@@ -130,11 +130,13 @@ public class UsermodifyController {
 		model.addAttribute(session.getAttribute("userDto"));
 		//model.addAttribute("newName", newName);
 		//model.addAttribute("newTel", newTel);	
-
+    
 		return "usermodify.info_modification";
 	}
+//	
 
 	// 회원정보수정 완료_POST
+
 	@PostMapping("/info_modification_ok")
 	public String infoModifyOk( Principal principal, OliveUserDTO userDto
 			 , @RequestParam("email_addr1") String email1
@@ -177,5 +179,6 @@ public class UsermodifyController {
 
 		return "usermodify.info_modification_ok";
 	}
+
 
 }

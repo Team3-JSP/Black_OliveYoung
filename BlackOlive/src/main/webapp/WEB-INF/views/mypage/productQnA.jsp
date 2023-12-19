@@ -50,7 +50,7 @@
 	
 	<script src="<%=contextPath %>/resources/js/searchoptiondateonly.js"></script>
 	<%
-		String myPageURL = "mypage.productQnA";
+		String myPageURL = "/mypage/productQnA";
 	%>
 	<script>
 		var myPageURL = "<%= myPageURL %>"

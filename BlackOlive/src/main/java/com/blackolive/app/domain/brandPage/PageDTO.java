@@ -1,5 +1,6 @@
 package com.blackolive.app.domain.brandPage;
 
+
 import com.blackolive.app.controller.brandPage.Criteria;
 
 import lombok.Getter;

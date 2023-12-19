@@ -21,6 +21,7 @@ import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewDetailDTO;
+import com.blackolive.app.domain.review.ReviewReportDTO;
 import com.blackolive.app.mapper.mainPage.MainPageMapper;
 import com.blackolive.app.service.head.HeadServiceImpl;
 
@@ -122,12 +123,14 @@ public class MainPageController {
 		return "mainPage.ranking";
 	}
 	
+	// 리뷰 상세 Ajax 처리
 	@GetMapping("/store/getReviewDetail")
 	@ResponseBody
 	public ResponseEntity<ReviewDetailDTO> getReviewDetail(String reviewId) throws SQLException {
 		return new ResponseEntity<>(this.headServiceImpl.getReviewDetail(reviewId), HttpStatus.OK);
 	}
 	
+	// 리뷰 도움돼요 Ajax 처리
 	@PostMapping("/store/udpReviewLike")
 	@ResponseBody
 	public ResponseEntity<String> udpReviewLike(String reviewId, int likePlus, Principal principal) throws SQLException {
@@ -137,5 +140,24 @@ public class MainPageController {
 		return this.headServiceImpl.udpReviewList(reviewId, likePlus) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping("/store/reviewReport")
+	@ResponseBody
+	public ResponseEntity<String> reviewReport(ReviewReportDTO reviewReportDTO, Principal principal) throws SQLException {
+		if(principal == null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		
+		reviewReportDTO.setUserId(principal.getName());
+		return this.headServiceImpl.addReviewReport(reviewReportDTO) == 1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/store/getReviewer")
+	public String getReviewer() {
+		
+		
+		return "mainPage.topReviewer";
 	}
 } // class

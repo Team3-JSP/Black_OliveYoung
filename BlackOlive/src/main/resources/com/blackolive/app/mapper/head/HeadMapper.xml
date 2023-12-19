@@ -239,4 +239,10 @@
 		SET review_like = review_like + #{likePlus}
 		WHERE review_id = #{reviewId}
 	</update>
+	
+	<!-- 리뷰 아이디 컬럼명 수정하기 -->
+	<insert id="insertReviewReport">
+		INSERT INTO review_report(review_report_id, revew_id, user_id, review_report_content, review_report_type)
+		VALUES('rr'||TO_CHAR(review_report_seq.NEXTVAL, 'FM00000000'), #{reviewId}, #{userId}, #{reviewReportContent}, #{reviewReportType})
+	</insert>
 </mapper>

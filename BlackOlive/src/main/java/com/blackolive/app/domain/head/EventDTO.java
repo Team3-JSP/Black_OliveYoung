@@ -13,7 +13,7 @@ public class EventDTO {
 	private String eventId;
 	private String proDisplayId;
 	private String eventTitle;
-	private String eventSubltitle;
+	private String eventSubTitle;
 	private String eventDetail;
 	private String eventType;
 	private String eventCategory;
