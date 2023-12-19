@@ -1442,14 +1442,7 @@
 
 		</div>
 		<!--  리뷰 팝업 창 -->
-		<style>
-		.layer_pop_wrap {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-		</style>
+		
 		<div class="layer_pop_wrap w850" id="layerWrap850"
 			style="z-index: 999; display: none; margin-left: -425px; margin-top: -371px;">
 
@@ -2431,7 +2424,7 @@ $(function(){
 			cache : false,
 			success : function(response) {
 				$(	"#layerWrap850:not(.photo)").empty();
-				popupCenter($('#layerWrap850'));
+				popupCenter($('#layerWrap850:not(.photo)'));
 				let giftDTO = response;
 				let content ='';
 				content +=`
