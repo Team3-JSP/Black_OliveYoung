@@ -14,6 +14,7 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.PageDTO;
+import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
@@ -69,6 +70,11 @@ public class ProductDetailController {
 		List<ProductDetailDTO> productList = this.productDetailService.getProductService(productDisplayId);
 		model.addAttribute("productList",productList);
 		
+		//=======================  해당 상품의 증정품 정보 ===========================	
+				GiftDTO giftDTO = this.productDetailService.getGiftService(productDisplayId);
+				System.out.println("증정품: " + giftDTO);
+				model.addAttribute("giftDTO",giftDTO);
+				
 		//=======================  해당 상품의 프로모션 ===========================
 		List<ProductPromotionDTO>productPromotion = this.productDetailService.getProductPromotionService(productDisplayId);
 		model.addAttribute("productPromotion",productPromotion);
