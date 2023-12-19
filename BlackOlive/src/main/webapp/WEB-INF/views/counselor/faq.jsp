@@ -32,8 +32,8 @@
 						<input type="submit" id="searchFaq" value="검색">
 					</div>
 				</fieldset>
-				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="200">
-				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="201">
+				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="">
+				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="">
 				<input type="hidden" id="tagYn" name="tagYn" value="">
 				<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }">
     		  	<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }">
@@ -263,9 +263,9 @@
 	 	
 
 	 	$("ul.comm2sTabs li").removeClass("on");
+		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
 		$("ul.twoTabs li").removeClass("on");
 
-		$("ul.comm2sTabs li button:contains('${ askCategoryMajor }')").parent().addClass("on");
 		
 		if ( '${askCategoryMinor}' == '' ) {
 			$("ul.twoTabs li button:contains('전체')").parent().addClass("on");
@@ -317,4 +317,26 @@
 	});
 	
  
+</script>
+<script>
+	var sForm = $("#sForm");
+	$("#searchFaq").submit(function() {
+		
+		if (!sForm.find("input[name=inqTitNm]").val()) {
+			alert("검색어를 입력해주세요.");
+			return false;
+		}
+		sForm.find("input[name='pageNum']").val("1");
+		event.preventDefault();
+		sForm.submit();
+		
+	})
+	
+	$("div.tag_list a").on("click", function() {
+		var tag = $(this).text();
+		alert(tag);
+		$("input#inqTitNm").val(tag);
+		$("#sForm").submit();
+	})
+	
 </script>
