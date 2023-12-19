@@ -1445,13 +1445,13 @@
 		<style>
 		.layer_pop_wrap {
     position: fixed;
-    top: 80%;
-    left: 80%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 		</style>
 		<div class="layer_pop_wrap w850" id="layerWrap850"
-			style="z-index: 999; display: none; left: 80%; margin-left: -425px; top: 80%; margin-top: -371px;">
+			style="z-index: 999; display: none; margin-left: -425px; margin-top: -371px;">
 
 
 
@@ -2431,6 +2431,7 @@ $(function(){
 			cache : false,
 			success : function(response) {
 				$(	"#layerWrap850:not(.photo)").empty();
+				popupCenter($('#layerWrap850'));
 				let giftDTO = response;
 				let content ='';
 				content +=`
@@ -2491,15 +2492,8 @@ $(function(){
 							<li>정확한 증정품 내역은 주문 후 '주문상세내역'에서 확인할 수 있습니다.</li>
 						</ul>
 					</div>
-					<button class="layer_close type2" onclick="close();">창 닫기</button>
-				</div>
-				<script>
-					$(".layer_close.type2").on("click",function(){
-					$(	"#layerWrap850:not(.photo)").empty();
-					$(	"#layerWrap850:not(.photo)").hide();
-				})
-				</script>
-				`
+					<button class="layer_close type2" >창 닫기</button>
+				</div>`
 			
 			
 				$(	"#layerWrap850:not(.photo)").html(content);
@@ -2512,7 +2506,10 @@ $(function(){
 	})
 })
 $(function(){
-	
+	$("#layerWrap850").on("click",".layer_close.type2",function(){
+		$(	"#layerWrap850:not(.photo)").empty();
+		$(	"#layerWrap850:not(.photo)").hide();
+	})
 
 
 })
