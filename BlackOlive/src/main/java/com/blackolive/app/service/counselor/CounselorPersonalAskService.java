@@ -1,11 +1,13 @@
-package com.blackolive.app.service.mypage;
+package com.blackolive.app.service.counselor;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.blackolive.app.domain.mypage.PersonalAskVO;
+import org.apache.ibatis.annotations.Param;
 
-public interface MypagePersonalAskService {
+import com.blackolive.app.domain.counselor.PersonalAskVO;
+
+public interface CounselorPersonalAskService {
 	//1:1문의 등록
 	int insertPersonalAsk(PersonalAskVO askVo, String userId) throws ClassNotFoundException, SQLException;
 	//1:1문의 리스트
@@ -15,7 +17,7 @@ public interface MypagePersonalAskService {
 	// 문의 카테고리 대분류
 	List<String> selectmajCategory() throws ClassNotFoundException, SQLException;
 	// 문의 카테고리 소분류
-	List<String> selectminCategory(String askCategoryMajor) throws ClassNotFoundException, SQLException;
+	List<String> selectminCategory(@Param("askCategoryMajor") String askCategoryMajor) throws ClassNotFoundException, SQLException;
 	// 문의 키워드
 	//List<FaqDTO> faqKeyword(String faq_title) throws ClassNotFoundException, SQLException;
 }

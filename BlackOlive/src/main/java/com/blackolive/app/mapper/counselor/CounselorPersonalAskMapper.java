@@ -1,12 +1,12 @@
-package com.blackolive.app.mapper.mypage;
+package com.blackolive.app.mapper.counselor;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.blackolive.app.domain.mypage.PersonalAskVO;
+import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.signin.OliveUserDTO;
 
-public interface MypagePersonalAskMapper {
+public interface CounselorPersonalAskMapper {
 	//1:1문의 등록
 	int addPersonalAsk(PersonalAskVO askVo, String userId) throws ClassNotFoundException, SQLException;
 	//1:1문의 리스트

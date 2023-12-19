@@ -1,5 +1,6 @@
 package com.blackolive.app.controller.counselor;
 
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blackolive.app.domain.counselor.FaqVO;
+import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.service.counselor.CounselorService;
+import com.blackolive.app.service.usermodify.UsermodifyService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -24,6 +27,9 @@ public class CounselorController {
 	
 	@Autowired
 	private CounselorService counselorService;
+	
+	@Autowired
+	private UsermodifyService usermodifyService;
 	
 	@GetMapping("/faq")
 	public String getfaqcontroller(
@@ -61,11 +67,23 @@ public class CounselorController {
 		return "counselor.faq";
 	}
 	
+	// 1:1문의하기 목록 이동
+	@GetMapping("/personalAskList")
+	public String personalAskListcontroller( Principal principal ) throws ClassNotFoundException, SQLException {
+		log.info("personalAskListcontroller_GET....");
+		String userId = principal.getName();
+		return "counselor.personalAskList";
+	}
+	
+	// 1:1문의하기 이동
 	@GetMapping("/personalAsk")
-	public String personalAskcontroller() {
-		
+	public String personalAskcontroller( Principal principal ) throws ClassNotFoundException, SQLException {
+		log.info("personalAskcontroller_GET....");
+		String userId = principal.getName();
+		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
 		return "counselor.personalAsk";
 	}
+	
 	
 	@GetMapping("/notice")
 	public String noticecontroller() {

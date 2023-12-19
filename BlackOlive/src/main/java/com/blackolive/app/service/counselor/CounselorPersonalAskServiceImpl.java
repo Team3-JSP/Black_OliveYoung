@@ -1,20 +1,21 @@
-package com.blackolive.app.service.mypage;
+package com.blackolive.app.service.counselor;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blackolive.app.domain.mypage.PersonalAskVO;
+import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.signin.OliveUserDTO;
+import com.blackolive.app.mapper.counselor.CounselorPersonalAskMapper;
 import com.blackolive.app.mapper.mypage.MypageListMapper;
-import com.blackolive.app.mapper.mypage.MypagePersonalAskMapper;
 @Service
-public class MypagePersonalAskServiceImpl implements MypagePersonalAskService {
+public class CounselorPersonalAskServiceImpl implements CounselorPersonalAskService {
 
 	@Autowired
-	private MypagePersonalAskMapper personalAskMapper;
+	private CounselorPersonalAskMapper personalAskMapper;
 
 	//1:1문의 등록 
 	@Override
@@ -36,7 +37,7 @@ public class MypagePersonalAskServiceImpl implements MypagePersonalAskService {
 	
 	// 문의 카테고리 소분류
 	@Override
-	public List<String> selectminCategory(String askCategoryMajor) throws ClassNotFoundException, SQLException {
+	public List<String> selectminCategory(@Param("askCategoryMajor")String askCategoryMajor) throws ClassNotFoundException, SQLException {
 		return this.personalAskMapper.getminCategory(askCategoryMajor);
 	}
 

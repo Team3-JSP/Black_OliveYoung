@@ -161,7 +161,7 @@
 
 	</div>
 	<script>
-		var email = "${logOn.u_email}";
+		var email = "${userDto.userEmail}";
 		var arr = email.split('@', 2);
 		var emailadd1 = arr[0];
 		var emailadd2 = arr[1];
@@ -174,7 +174,7 @@
 		});
 	</script>
 	<script>
-		var str = "${logOn.u_tel}";
+		var str = "${userDto.userTel}";
 		var arr = email.split('-', 3);
 		var start = arr[0];
 		var mid = arr[1];
