@@ -59,7 +59,7 @@
 								<span class="evt_flag">${list.eventType }</span>
 								<img class="completed-seq-lazyload" src="${list.eventDetailImgSrc }">
 								<p class="evt_tit">${list.eventTitle }</p>
-								<p class="evt_desc">${list.eventSubltitle }</p>
+								<p class="evt_desc">${list.eventSubTitle }</p>
 								<p class="evt_date">${list.eventStartdate}-${list.eventEnddate}</p>
 							</a>
 						</li>

@@ -329,140 +329,181 @@
 </div>
 
 <!-- 201912 PC 매장 상세 팝업 -->
-<div class="layer_pop_wrap w850" id="store_viewPop_renew" style="z-index: 100; width: 560px; max-height: 1000px; margin-left: -280px; display: none; left: 50%; top: 310px;">
-
-<input type="hidden" id="strNo" value="DC8F">
-<input type="hidden" id="strPrdLoad" value="N">
-<input type="hidden" id="recommYn" value="Y">
-<input type="hidden" id="myPageYn" value="Y">
-<div class="layer_cont5 recoStore ">
-	<h2 class="layer_title5">매장 안내</h2>
-
-	<ul class="store_handleTab" id="layerTabList">
-		<li class="on"><a href="#" class="on strTab" id="info">매장 안내</a></li>
-		<li><a href="#" class="strTab" id="prod">베스트 상품</a></li>
-	</ul>
-	<div class="mCustomScrollbar _mCS_7 mCS_no_scrollbar"><div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 0px;"><div id="mCSB_7_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-		<div class="depth1" id="strInfo">
-			<div class="store_vArea">
-				<div class="store_vArea_top">
-					<h4 class="tit">
-						<!-- 3501644 매장안내 팝업 관심매장 등록 결함 개선 요청 -->						
-						<button class="star active star_DC8F" id="btn_star" data_strno="DC8F">관심매장</button>
-						고양향동점
-					</h4>
-					<span class="store_nearWay" style="display:none;">Km</span>
-					<p class="addr">경기도 고양시 덕양구 꽃마을로 4 퍼스트타워 101, 102, 103호</p>
-					<div class="area">		
-						<div class="call">02-3159-0243</div>
-					
-								<div class="time on">영업중</div>		
-					<div class="fv_reShop_in"><span class="str_DC8F_favorCnt">3,106</span>명이 관심매장으로 등록했습니다.</div>
-					</div>
-			 <!-- 매장 추천일 때만 지도 영역 노출 -->
-					<div class="api_mapArea">
-						<div class="store_wayP" id="store_map" style="overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/bg_tile.png&quot;);"><div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;"><div style="position: absolute;"><div style="position: absolute; z-index: 0;"></div><div style="position: absolute; z-index: 1; left: 0px; top: 0px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/860.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -112px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/861.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 144px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/862.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 400px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/860.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -112px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/861.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 144px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"><img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/862.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 400px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;"></div><div style="position: absolute; z-index: 1;"></div><div style="position: absolute; z-index: 1; width: 0px; height: 0px;"></div><div style="position: absolute; z-index: 1;"><svg version="1.1" style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;" viewBox="0 0 0 0"><defs></defs></svg></div><div style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);"><div style="position: absolute; margin: -34px 0px 0px -11px; z-index: 0; left: 215px; top: 100px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way.png" alt="" role="presentation" title="" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 24px, 35px, 0px); top: 0px; left: 0px; width: 24px; height: 35px;"></div></div></div></div><div style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);"><div style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left; display: none;"><div style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s ease 0s; border-top: none rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0); border-image: initial; width: 46px;"></div><div style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">50m</div></div><div style="margin: 0px 4px; float: left;"><a target="_blank" href="http://map.kakao.com/" title="Kakao 지도로 보시려면 클릭하세요." style="float: left; width: 32px; height: 10px;"><img src="https://t1.daumcdn.net/mapjsapi/images/2x/m_bi_b.png" alt="Kakao 지도로 이동" style="float: left; width: 32px; height: 10px; border: none;"></a><div style="font: 11px / 11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div></div></div><div style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div></div>
-					</div>
-			
-				</div>
-	
-				<div class="store_infoBox">
-					<h2>영업시간</h2>
-					<div class="store_time">
-						<ul>
-							<li>
-								<p>
-									<span class="day">
-										<em>평일</em> : <strong>10:00 - 22:30</strong>
-									</span>
-								</p>
-							</li>
-							<li>
-								<p>
-									<span class="day">
-										<em>토요일</em> : <strong>10:00 - 22:30</strong>
-									</span>
-									<span class="day">
-										<em>일요일</em> : <strong>10:00 - 22:30</strong>
-									</span>
-									<span class="day">
-										<em>공휴일</em> : <strong>10:00 - 22:30</strong>
-									</span>
-								</p>
-							</li>
-						</ul>
-					</div>
-					<div class="urNotice">
-						<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>
-					</div>
-				</div>		
-				<div class="store_infoBox">
-					<h2>취급 카테고리</h2>
-					<div class="store_pdList">
-						<div class="inner">
-						<span class="tag">스킨케어</span><span class="tag">메이크업</span><span class="tag">프래그런스</span><span class="tag">바디케어</span><span class="tag">헤어케어</span><span class="tag">건강/위생용품</span><span class="tag">건강식품</span><span class="tag">생활용품</span></div>
-					</div>
-				</div>		
-				<div class="store_infoBox">
-					<h2>매장 사진</h2>
-					<div class="store_sl">
-						<div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode" id="store_sl">
-							<ul class="swiper-wrapper" id="swiper-wrapper-3f6fe4af7c1bb9fe" aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">
-								<li class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_1.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>
-								<li class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_2.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>			
-								<li class="swiper-slide" role="group" aria-label="3 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_3.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>
-							</ul>
-							<div class="swiper-scrollbar"><div class="swiper-scrollbar-drag" style="transform: translate3d(0px, 0px, 0px); width: 0px;"></div></div>
-						<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-						<div class="recoStBtn">
-							<button class="recoStBtn_prev swiper-button-disabled" tabindex="-1" aria-label="Previous slide" aria-controls="swiper-wrapper-3f6fe4af7c1bb9fe" aria-disabled="true"></button>
-							<button class="recoStBtn_next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-3f6fe4af7c1bb9fe" aria-disabled="false"></button>
+<div class="layer_pop_wrap w850" id="store_viewPop_renew" style="z-index: 100; display: none; width: 560px; max-height: 1000px;">
+	<input type="hidden" id="strNo" value="DC8F">
+	<input type="hidden" id="strPrdLoad" value="N">
+	<input type="hidden" id="recommYn" value="Y">
+	<input type="hidden" id="myPageYn" value="Y">
+	<div class="layer_cont5 recoStore ">
+		<h2 class="layer_title5">매장 안내</h2>
+		<ul class="store_handleTab" id="layerTabList">
+			<li class="on"><a href="#" class="on strTab" id="info">매장 안내</a></li>
+			<li><a href="#" class="strTab" id="prod">베스트 상품</a></li>
+		</ul>
+		<div class="mCustomScrollbar _mCS_7 mCS_no_scrollbar">
+			<div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 0px;">
+				<div id="mCSB_7_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+					<div class="depth1" id="strInfo">
+						<div class="store_vArea">
+							<div class="store_vArea_top">
+								<h4 class="tit">
+									<!-- 3501644 매장안내 팝업 관심매장 등록 결함 개선 요청 -->						
+									<button class="star active star_DC8F" id="btn_star" data_strno="DC8F">관심매장</button>
+									고양향동점
+								</h4>
+								<span class="store_nearWay" style="display:none;">Km</span>
+								<p class="addr">경기도 고양시 덕양구 꽃마을로 4 퍼스트타워 101, 102, 103호</p>
+								<div class="area">		
+									<div class="call">02-3159-0243</div>
+									<div class="time on">영업중</div>		
+									<div class="fv_reShop_in"><span class="str_DC8F_favorCnt">3,106</span>명이 관심매장으로 등록했습니다.</div>
+								</div>
+			 				<!-- 매장 추천일 때만 지도 영역 노출 -->
+							<div class="api_mapArea">
+								<div class="store_wayP" id="store_map" style="overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/bg_tile.png&quot;);">
+									<div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;">
+										<div style="position: absolute;">
+											<div style="position: absolute; z-index: 0;"></div>
+											<div style="position: absolute; z-index: 1; left: 0px; top: 0px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/860.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -112px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/861.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 144px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2013/862.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 400px; top: 20px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/860.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: -112px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/861.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 144px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+												<img src="https://map.daumcdn.net/map_k3f_prod/bakery/image_map_png/PNG01/v23_izbfy/3/2014/862.png" alt="" role="presentation" draggable="false" style="position: absolute; user-select: none; -webkit-user-drag: none; min-width: 0px; min-height: 0px; max-width: none; max-height: none; left: 400px; top: -236px; opacity: 1; transition-property: opacity; transition-duration: 0.2s; transition-timing-function: ease; width: 256px; height: 256px;">
+											</div>
+											<div style="position: absolute; z-index: 1;"></div>
+											<div style="position: absolute; z-index: 1; width: 0px; height: 0px;"></div>
+											<div style="position: absolute; z-index: 1;">
+												<svg version="1.1" style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;" viewBox="0 0 0 0"><defs></defs></svg>
+											</div>
+											<div style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);">
+												<div style="position: absolute; margin: -34px 0px 0px -11px; z-index: 0; left: 215px; top: 100px; display: none;">
+													<img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way.png" alt="" role="presentation" title="" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 24px, 35px, 0px); top: 0px; left: 0px; width: 24px; height: 35px;"></div>
+											</div>
+										</div>
+									</div>
+									<div style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);">
+										<div style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left; display: none;">
+											<div style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s ease 0s; border-top: none rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0); border-image: initial; width: 46px;"></div>
+											<div style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">50m</div>
+										</div>
+										<div style="margin: 0px 4px; float: left;">
+											<a target="_blank" href="http://map.kakao.com/" title="Kakao 지도로 보시려면 클릭하세요." style="float: left; width: 32px; height: 10px;">
+												<img src="https://t1.daumcdn.net/mapjsapi/images/2x/m_bi_b.png" alt="Kakao 지도로 이동" style="float: left; width: 32px; height: 10px; border: none;">
+											</a><div style="font: 11px / 11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div>
+										</div>
+									</div>
+									<div style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div>
+								</div>
+							</div>
 						</div>
+						<div class="store_infoBox">
+							<h2>영업시간</h2>
+							<div class="store_time">
+								<ul>
+									<li>
+										<p>
+											<span class="day">
+												<em>평일</em> : <strong>10:00 - 22:30</strong>
+											</span>
+										</p>
+									</li>
+									<li>
+										<p>
+											<span class="day">
+												<em>토요일</em> : <strong>10:00 - 22:30</strong>
+											</span>
+											<span class="day">
+												<em>일요일</em> : <strong>10:00 - 22:30</strong>
+											</span>
+											<span class="day">
+												<em>공휴일</em> : <strong>10:00 - 22:30</strong>
+											</span>
+										</p>
+									</li>
+								</ul>
+							</div>
+							<div class="urNotice">
+								<p>매장 상황에 따라 매장별 실 영업시간이 다를 수 있습니다.</p>
+							</div>
+						</div>		
+						<div class="store_infoBox">
+							<h2>취급 카테고리</h2>
+							<div class="store_pdList">
+								<div class="inner">
+								<span class="tag">스킨케어</span><span class="tag">메이크업</span><span class="tag">프래그런스</span><span class="tag">바디케어</span><span class="tag">헤어케어</span><span class="tag">건강/위생용품</span><span class="tag">건강식품</span><span class="tag">생활용품</span></div>
+							</div>
+						</div>		
+						<div class="store_infoBox">
+							<h2>매장 사진</h2>
+							<div class="store_sl">
+								<div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode" id="store_sl">
+									<ul class="swiper-wrapper" id="swiper-wrapper-3f6fe4af7c1bb9fe" aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">
+										<li class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_1.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>
+										<li class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_2.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>			
+										<li class="swiper-slide" role="group" aria-label="3 / 3" style="width: 210px; margin-right: 10px;"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_3.jpg" onerror="common.errorImg(this);" class="mCS_img_loaded"></li>
+									</ul>
+									<div class="swiper-scrollbar"><div class="swiper-scrollbar-drag" style="transform: translate3d(0px, 0px, 0px); width: 0px;"></div></div>
+								<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+								<div class="recoStBtn">
+									<button class="recoStBtn_prev swiper-button-disabled" tabindex="-1" aria-label="Previous slide" aria-controls="swiper-wrapper-3f6fe4af7c1bb9fe" aria-disabled="true"></button>
+									<button class="recoStBtn_next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-3f6fe4af7c1bb9fe" aria-disabled="false"></button>
+								</div>
+							</div>
+							<p class="store_time mgT10">매장의 이미지는 단순 참고용으로만 확인부탁드립니다.<br>실제 매장 방문시 연출물은 시기에 따라 다를 수 있습니다.</p>
+						</div>	
+						<div class="store_infoBox">
+							<h2>제공중인 서비스</h2>
+							<ul class="store_sv">
+							<li><dl class="ico_rss_A"><dt>선물포장</dt><dd>올리브영 구입 상품을 유료 선물포장</dd></dl></li><li><dl class="ico_rss_B"><dt>TAXREFUND</dt><dd> </dd></dl></li><li><dl class="ico_rss_D"><dt>기프트카드판매</dt></dl></li><li><dl class="ico_rss_E"><dt>현금없는매장</dt><dd>현금 외 신용카드,기프트카드,<br>모바일 상품권,모바일 페이 결제 가능</dd></dl></li><li><dl class="ico_rss_H"><dt>간편결제</dt><dd>카카오페이,위챗페이,<br>알리페이 결제 가능</dd></dl></li><li><dl class="ico_rss_K"><dt>스마트반품</dt></dl></li><li><dl class="ico_rss_L"><dt>픽업</dt></dl></li><li><dl class="ico_rss_O"><dt>뷰티사이클</dt><dd>화장품 용기수거 가능</dd></dl></li></ul>
+						</div>		
 					</div>
-					<p class="store_time mgT10">매장의 이미지는 단순 참고용으로만 확인부탁드립니다.<br>실제 매장 방문시 연출물은 시기에 따라 다를 수 있습니다.</p>
-				</div>	
-				<div class="store_infoBox">
-					<h2>제공중인 서비스</h2>
-					<ul class="store_sv">
-					<li><dl class="ico_rss_A"><dt>선물포장</dt><dd>올리브영 구입 상품을 유료 선물포장</dd></dl></li><li><dl class="ico_rss_B"><dt>TAXREFUND</dt><dd> </dd></dl></li><li><dl class="ico_rss_D"><dt>기프트카드판매</dt></dl></li><li><dl class="ico_rss_E"><dt>현금없는매장</dt><dd>현금 외 신용카드,기프트카드,<br>모바일 상품권,모바일 페이 결제 가능</dd></dl></li><li><dl class="ico_rss_H"><dt>간편결제</dt><dd>카카오페이,위챗페이,<br>알리페이 결제 가능</dd></dl></li><li><dl class="ico_rss_K"><dt>스마트반품</dt></dl></li><li><dl class="ico_rss_L"><dt>픽업</dt></dl></li><li><dl class="ico_rss_O"><dt>뷰티사이클</dt><dd>화장품 용기수거 가능</dd></dl></li></ul>
-				</div>		
-			</div>
-		</div>
-		<div class="depth1" id="strPrdInfo" style="display:none;">
-			<div class="liveRk_bestPd">
-				<div class="topCate">					
-					<span class="bestSelect">
-						<select id="selAge" title="연령대">							
-								<option value="ALL">전체</option>							
-								<option value="10">10대</option>							
-								<option value="20">20대</option>						
-								<option value="30">30대</option>							
-								<option value="40">40대</option>
-								<option value="50">50대</option>
-						</select>
-					</span>
-					<span class="bestSelect">
-						<select id="selGen" title="성별">
-							<option value="ALL">전체</option>
-							<option value="B">여성</option>
-							<option value="A">남성</option>
-						</select>
-					</span>
-					<span class="bestSelect">
-						<select id="selCate" title="카테고리">
-						</select>
-					</span>
-					<span>베스트 상품이에요</span>
 				</div>
-				<p class="bestPd_date"><span>10</span>월 <span>05</span>일 ~ <span>11</span>월 <span>05</span>일 | 온라인몰 판매 중인 매장 베스트 상품</p>
+				<div class="depth1" id="strPrdInfo" style="display:none;">
+					<div class="liveRk_bestPd">
+						<div class="topCate">					
+							<span class="bestSelect">
+								<select id="selAge" title="연령대">							
+										<option value="ALL">전체</option>							
+										<option value="10">10대</option>							
+										<option value="20">20대</option>						
+										<option value="30">30대</option>							
+										<option value="40">40대</option>
+										<option value="50">50대</option>
+								</select>
+							</span>
+							<span class="bestSelect">
+								<select id="selGen" title="성별">
+									<option value="ALL">전체</option>
+									<option value="B">여성</option>
+									<option value="A">남성</option>
+								</select>
+							</span>
+							<span class="bestSelect">
+								<select id="selCate" title="카테고리">
+								</select>
+							</span>
+							<span>베스트 상품이에요</span>
+						</div>
+						<p class="bestPd_date"><span>10</span>월 <span>05</span>일 ~ <span>11</span>월 <span>05</span>일 | 온라인몰 판매 중인 매장 베스트 상품</p>
+					</div>
+					<div class="curation_area" id="storeBestProdArea">
+					</div>
+				</div>
+				<a href="javascript:;" class="store_btn" id="bottm_closeBtn" onclick="javascript:$('#store_viewPop_renew').hide();$('.dimm').remove();">닫기</a>
 			</div>
-			<div class="curation_area" id="storeBestProdArea">
-				
+			<div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
+				<div class="mCSB_draggerContainer">
+					<div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 303px; max-height: 595px; top: 0px;">
+						<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+					</div>
+					<div class="mCSB_draggerRail"></div>
+				</div>
 			</div>
 		</div>
-		<a href="javascript:;" class="store_btn" id="bottm_closeBtn" onclick="javascript:curation.popClose('store_viewPop_renew');">닫기</a>
-	</div><div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 303px; max-height: 595px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
-	<button class="layer_close type4" onclick="javascript:curation.popClose('store_viewPop_renew');">창 닫기</button>
+	</div>
+	<button class="layer_close type4" onclick="javascript:$('#store_viewPop_renew').hide();$('.dimm').remove();">창 닫기</button>
 	<input type="hidden" name="storeNo" value="DC8F">
 </div>
 </div>
@@ -524,10 +565,70 @@
     };
 
 	// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	// 현재 위치를 저장할 변수
+    let currentLocation;
+
+    // 현재 위치 얻기
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                // 현재 위치의 위도와 경도를 저장
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // 현재 위치를 변수에 저장
+                currentLocation = new kakao.maps.LatLng(latitude, longitude);
+
+                // 이후에 변수(currentLocation)를 사용할 수 있음
+                console.log('Current Location:', currentLocation);
+            },
+            (error) => {
+                console.error('Error getting current position:', error);
+            }
+        );
+    } else {
+        console.error('Geolocation is not supported.');
+    }
 </script>
 
 <script>
+let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
+
+function storeDetail(storeId) {
+	$('#store_viewPop_renew').show();
+	$('body').append(dimm);
+	popupCenter($('#store_viewPop_renew'));
+	
+	$.ajax({
+		type : 'post'
+		, cache: false
+		, url : '/store/setStoreFavorite'
+		, dataType : 'text'
+		, data : {
+			storeId : storeId
+			, clickCheck : clickCheck
+			, '${_csrf.parameterName }' : '${_csrf.token }'
+		}
+		, success : function(data) {
+			console.log(data)
+			console.log("즐겨찾기 업데이트 완료~~")
+        }
+		, 
+		error: function(xhr, textStatus, errorThrown) {
+	        console.log('Error Status Code: ' + xhr.status);
+	        console.log('Error Message: ' + xhr.statusText);
+	        console.log('Text Status: ' + textStatus);
+	        console.log('Error Thrown: ' + errorThrown);
+
+	    }
+		/* error : function (data, textStatus) {
+            console.log('error');
+        } */
+	});
+}
+
 //즐겨찾기 버튼 눌렀을 때 
 function favBtnClick(myBtn) {
 	if(${empty userName}) {
@@ -554,10 +655,9 @@ function favBtnClick(myBtn) {
 	
 	$.ajax({
 		type : 'post'
-		, async : true
 		, cache: false
 		, url : '/store/setStoreFavorite'
-		, dataType : 'json'
+		, dataType : 'text'
 		, data : {
 			storeId : storeId
 			, clickCheck : clickCheck
@@ -924,6 +1024,8 @@ $(function() {
 				contents = [];
 				overlays = [];
 				
+				var clickedImage = '/resources/images/store/point_way.png';
+				var defaultImage = '/resources/images/store/point_way_gray.png';
 				var imageSrc = '/resources/images/store/point_way_gray.png' // 마커이미지의 주소입니다    
 			    				, imageSize = new kakao.maps.Size(23, 34) // 마커이미지의 크기입니다
 			    				, imageOption = {offset: new kakao.maps.Point(10, 35)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
@@ -936,13 +1038,32 @@ $(function() {
 							title : data[i].storeName
 							, latlng : new kakao.maps.LatLng(data[i].lat, data[i].lng)
 					};
-			
+					
+					// 현재 위치와 매장 거리 계산 시작
+					var polyline = new kakao.maps.Polyline({
+						path : [
+							currentLocation,
+							new kakao.maps.LatLng(data[i].lat, data[i].lng)
+						],
+					 strokeWeight: 2,
+					 strokeColor: '#FF00FF',
+					 strokeOpacity: 0.8,
+					 strokeStyle: 'dashed'
+					});
+					
+					var distance = Math.round(polyline.getLength()/100)/10;
+					// 현재 위치와 매장 거리 계산 끝
+					
 					latLngs.push(latLng);
 					
 					let li = $("<li>").addClass(data[i].storeId);
 					let div = $("<div>").addClass("li_Pc_reInner");
 					let h4 = $("<h4>").addClass("tit")
-					let a = $("<a>").text(data[i].storeName);
+					let a = $("<a>").text(data[i].storeName).on("click", function() {
+						map.setCenter(new kakao.maps.LatLng(data[i].lat, data[i].lng));
+						map.setLevel(2);
+					});
+					let span = $("<span>").addClass("store_nearWay").text(distance + 'km');
 					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 					let area = $("<div>").addClass("area");
 					let call = $("<div>").addClass("call").text(data[i].storeTel);
@@ -977,9 +1098,10 @@ $(function() {
 						favBtnClick(this);
 					});
 					
+
 					var content = '<div class="way_view" style="background-color:white; padding:20px; width:360px; border:1px solid #888; position:inherit; left:-181px; bottom:66px">' 
-						+ '  <h4 class="tit">' + data[i].storeName + '</h4>'
-						+ '  <p class="addr" style="white-space:nonrmal">' + data[i].storeAddress + '</p>'
+						+ '  <h4 class="tit">' + data[i].storeName + '<span class="store_nearWay">' + distance +'km</span>' + '</h4>'
+						+ '  <p class="addr" style="white-space: normal;">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
 						+ '    <div class="call">' + data[i].storeTel + '</div>'
 						+ '    <div class="time ' + onCheck + '">' + openCheck + '</div>'
@@ -988,7 +1110,7 @@ $(function() {
 						+ '      명이 관심매장으로 등록했습니다.'
 						+ '  </div>'
 						+ '</div>'
-						+ '<a class="store_btn">상세정보보기</a>'
+						+ `<a class="store_btn" onclick="storeDetail('\${data[i].storeId}')">상세정보보기</a>`
 						+ '<button class="star active" onclick="favBtnClick(this)"/> '
 						+ `<button class="wayClose" onclick="closeOverlay(\${i})"/> `;
 					
@@ -998,6 +1120,7 @@ $(function() {
 					$(area).append(time);
 					
 					$(h4).append(a);
+					$(h4).append(span);
 					$(div).append(h4);
 					$(div).append(p);
 					$(div).append(area);
@@ -1014,12 +1137,11 @@ $(function() {
 					var marker = new kakao.maps.Marker({
 				        map: map // 마커를 표시할 지도
 				        , position: latLngs[i].latlng // 마커를 표시할 위치
-				        , title : latLngs[i].titl // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				        , title : latLngs[i].title // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 				        , image : markerImage
-				        //, clickable : true
 				    });
 					markers.push(marker);
-					
+					let latlngTemp = latLngs[i].latlng;
 					var overlay = new kakao.maps.CustomOverlay({
 				        content: contents[i],
 				        //map: map,
@@ -1027,20 +1149,23 @@ $(function() {
 				    });
 					overlays.push(overlay);
 					
-					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {
+					kakao.maps.event.addListener(marker, 'click', (function (marker, overlay) {					
 				        return function () {
 				        	for (var j = 0; j < overlays.length; j++) {
 								overlays[j].setMap(null);
 							}
+				        	for (var j = 0; j < markers.length; j++) {
+				        		markers[j].setImage(new kakao.maps.MarkerImage(defaultImage, new kakao.maps.Size(23, 34)));
+							}
 				            overlay.setMap(map);
+				            marker.setImage(new kakao.maps.MarkerImage(clickedImage, new kakao.maps.Size(28, 39)));
+				            map.setCenter(latlngTemp);
 				        };
 				    })(marker, overlay));
 				}
 				
-				var moveLatLon = latLngs[0].latlng;
-			    
 			    // 지도 중심을 이동 시킵니다
-			    map.setCenter(moveLatLon);
+			    map.setCenter(latLngs[0].latlng);
 			    map.setLevel(3);
 				
 				
@@ -1169,17 +1294,17 @@ $(function() {
 									return Number(currentHtml) + clickCheck;
 								});
 								
-								let store_id = $(this).parent().parent().attr("class");
+								let storeId = $(this).parent().parent().attr("class");
 								
 								$.ajax({
-									type : 'get'
-									, async : true
+									type : 'POST'
 									, cache: false
 									, url : '/store/setStoreFavorite'
-									, dataType : 'json'
+									, dataType : 'text'
 									, data : {
-										store_id : store_id
+										storeId : storeId
 										, clickCheck : clickCheck
+										, '${_csrf.parameterName }' : '${_csrf.token }'
 									}
 									, success : function(data) {
 										console.log("즐겨찾기 업데이트 완료~~")

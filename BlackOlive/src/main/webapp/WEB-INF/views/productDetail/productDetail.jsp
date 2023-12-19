@@ -2397,6 +2397,21 @@ function reviewAjax(currentPage, productDisplayId) {
 } // qnaListAjax
 </script>
 
+<<<<<<< HEAD
+</script>
+
+
+
+<script>
+// 주문 스크립트
+
+$(function() {
+	$("#cartBtn").on("click", function() {
+		
+	});
+})
+</script>
+
 <script type="text/javascript"
 	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
@@ -2541,3 +2556,4 @@ $(".more").click(function(){
 			$('.slider-nav').slick('goTo', index);
 		}
 				</script>
+>>>>>>> branch 'develop' of https://github.com/Team3-JSP/Black_OliveYoung.git

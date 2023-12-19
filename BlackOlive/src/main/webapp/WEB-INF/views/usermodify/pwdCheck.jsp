@@ -21,7 +21,7 @@
 				
 					<div class="mypage_sec modify">
 						<div class="regi_complete">
-							<span class="bg bg face_type2" style="display:block;  margin:0 auto 35px; background:url('/Black_OY/images/cjone/ico_regi_complete.png') no-repeat -300px 0; width:89px; height:89px;background-position:-100px -200px;"></span>
+							<span class="bg bg face_type2" style="display:block;  margin:0 auto 35px; background:url('/resources/images/cjone/ico_regi_complete.png') no-repeat -300px 0; width:89px; height:89px;background-position:-100px -200px;"></span>
 							<p class="h2_tit">회원정보를 수정하시려면 비밀번호를 입력하셔야 합니다.</p>
 							<p class="h_desc">회원님의 개인정보 보호를 위한 본인 확인 절차이오니, CJ ONE 회원 로그인
 								시 사용하시는 비밀번호를 입력해주세요.</p>

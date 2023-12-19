@@ -20,6 +20,8 @@
 			$("#getCouponLPop").on("click", function() {
 				event.preventDefault();
 				$("#layer_pop_wrap").show();
+				console.log(window.innerWidth + " / " + $("#couponNotice").width())
+				popupCenter($("#layer_pop_wrap"));
 				$("body").append(divBackgroundColor);
 			});
 			
@@ -31,6 +33,8 @@
 			$("#Container > div.coupon-area > div.coupon_tit_area > a").on("click", function() {
 				event.preventDefault();
 				$("#couponNotice").show();
+				console.log(window.innerWidth + " / " + $("#couponNotice").width())
+				popupCenter($("#couponNotice"));
 				$("body").append(divBackgroundColor);
 			});
 			
@@ -577,7 +581,7 @@
 			
 		</div>
 
-		<div class="layer_pop_wrap" id="layer_pop_wrap" style="z-index: 999; left: 50%; display:none; margin-left: -325px; top: 322px;">
+		<div class="layer_pop_wrap" id="layer_pop_wrap" style="z-index: 999; display:none;">
 			<div class="layer_cont2 w650">
 				<h2 class="layer_title2">쿠폰 등록</h2>
 				<div class="coupon_info_box2">
@@ -596,7 +600,7 @@
 			</div>	
 		</div>
 		
-		<div class="layer_pop_wrap w650" id="couponNotice" style="margin-left: -325px; display:none; top: 552.5px;" tabindex="0">
+		<div class="layer_pop_wrap w650" id="couponNotice" style="display:none;" >
   
 	<div class="layer_cont">
 		<h2 class="layer_title">쿠폰안내</h2>

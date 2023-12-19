@@ -7,8 +7,8 @@
 			<!--title-->
 			<div class="location_wrap">
 				<div class="location">
-					<a href="uath/login" class="home"><span class="haze">홈</span></a>
-					<a href="/joinCheck" class="now"><span>회원가입</span></a>
+					<a href="/auth/login" class="home"><span class="haze">홈</span></a>
+					<a href="/join/joinCheck" class="now"><span>회원가입</span></a>
 				</div>
 			</div>
 
@@ -24,8 +24,7 @@
 						<div id="layer1"
 							style="position: absolute; margin-left: -212px; top: 5%; left: 50%; width: 0px; height: 0px; display: none; z-index: -1">
 							<font face="verdana, arial, helvetica, sans-serif" size="2">
-								<div
-									style="float: left; background-color: white; padding: 3px; border: 1px solid black;">
+								<div style="float: left; background-color: white; padding: 3px; border: 1px solid black;">
 									<span style="float: right; padding-right: 0px; margin-right: 0px; background-color: gray; color: white; font-weight: bold; width ='20px'; text-align: center; cursor: pointer"
 										onclick="javascript:hideIt()">&nbsp;X&nbsp;</span>
 									<iframe id="jumin_frame" style="width: 0px; height: 0px;"
@@ -52,11 +51,11 @@
 								<div class="certification_sec">
 									<p class="certi_txt">안전한 회원가입을 위한 본인인증 단계입니다. 원하시는 인증방법을 선택해주세요.</p>
 									<ul class="way">
-										<li class="type1"><span class="bg" style ="display:block; position:absolute; width:88px; height:88px; margin-left:-44px; background:url('/BlackOlive/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top:0; left:50%;"></span>
+										<li class="type1"><span class="bg" style ="display:block; position:absolute; width:88px; height:88px; margin-left:-44px; background:url('/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top:0; left:50%;"></span>
 										<a href="#" class="btn btn_em" id="verifyPh" onclick="verifyPh();" title="새 창"><span>휴대전화 인증</span></a></li>
 
 										<li class="type2" style="border-right: 0px;">
-										<span class="bg" style ="display:block; position:absolute; width:88px; height:88px; margin-left:-44px; background:url('/BlackOlive/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top:0; left:50%;"></span>
+										<span class="bg" style ="display:block; position:absolute; width:88px; height:88px; margin-left:-44px; background:url('/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top:0; left:50%;"></span>
 										<a href="#" class="btn btn_em" title="새 창">공동인증서	인증</a></li>
 									</ul>
 								</div>
