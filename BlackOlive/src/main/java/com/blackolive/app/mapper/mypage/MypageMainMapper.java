@@ -30,4 +30,5 @@ public interface MypageMainMapper {
 	public List<ProductQnAVO> getproductQnAwithDate(@Param("userid") String userid,
 					@Param("startdate") String startdate,
 					@Param("enddate") String enddate) throws ClassNotFoundException, SQLException;
+	
 }

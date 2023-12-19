@@ -237,7 +237,7 @@
 								<li><span>픽업</span>
 									<div>
 										배송비 조건 없음 <a
-											href="javascirpt:;"
+											href="javascript:goods.detail.todayDelivery.openPickupPop();"
 											class="ico_info">픽업 안내 레이어열기</a>
 									</div></li>
 							</ul>
@@ -374,7 +374,7 @@
 							</c:forEach>
 
 
-
+							
 						</div>
 
 					</c:if>
@@ -517,33 +517,30 @@
 			</div>
 		</div>
 		<!-- 202005 상품상세 개선 : 증정품 마크업 수정 -->
-
+		
 		<c:if test="${not empty giftDTO}">
-			<div class="prd_free_gift" id="giftInfo">
-				<p class="tit">증정품 안내</p>
-				<div class="free_gift">
-					<div class="inner">
-						<div class="info">
+		<div class="prd_free_gift" id="giftInfo">
+			<p class="tit">증정품 안내</p>
+			<div class="free_gift">
+				<div class="inner">
+					<div class="info">
+					
+						<div class="tarea <c:if test='${giftDTO.giftStock eq 0}'> soldout </c:if> ">
+							<c:if test='${giftDTO.giftStock eq 0}'> <b>[소진완료]</b> </c:if>
 
-							<div
-								class="tarea <c:if test='${giftDTO.giftStock eq 0}'> soldout </c:if> ">
-								<c:if test='${giftDTO.giftStock eq 0}'>
-									<b>[소진완료]</b>
-								</c:if>
+							<span class="txt">전 회원 ${productBrandInfo.brandName } 상품
+								구매 상품 1개당, <span class="num">증정품 1개</span> 선착순 증정
+							</span>
 
-								<span class="txt">전 회원 ${productBrandInfo.brandName } 상품
-									구매 상품 1개당, <span class="num">증정품 1개</span> 선착순 증정
-								</span>
-
-							</div>
-							<span class="notice_exception">오늘드림 주문시 온라인 전용 증정품 미제공</span>
 						</div>
+						<span class="notice_exception">오늘드림 주문시 온라인 전용 증정품 미제공</span>
 					</div>
 				</div>
-				<a href="javascript:;"
-					class="btn_more goods_giftinfo">더보기</a>
 			</div>
-		</c:if>
+			<a href="javascript:goods.detail.openGiftLayerPop();"
+				class="btn_more goods_giftinfo">더보기</a>
+		</div>
+</c:if>
 
 		<!-- 증정품 오늘드림S  -->
 
@@ -555,7 +552,7 @@
 				<div class="inner">
 					<div class="info">
 						<div id="quickgift_1_2345679364472" data-evtno="G000000024149"
-							class="tarea  prd_gift_infoVer2 <c:if test="${giftDTO.giftStock eq 0} }"> soldout </c:if>">
+							class="tarea  prd_gift_infoVer2 <c:if test="${giftDTO.giftStock eq 0} }"> soldout </c:if>" >
 							<b id="quickgift_2_2345679364472">[오늘드림]</b> <span class="txt">전
 								회원 올리브영 전 상품 50,000원 이상 구매 시, <span class="num">증정품 1개</span>
 								선착순 증정
@@ -568,7 +565,7 @@
 				href="javascript:goods.detail.openGiftLayerPop();"
 				class="btn_more goods_giftinfo">더보기</a>
 		</div>
-
+		
 		<div class="prd_more_info type2 type-logo">
 			<div class="row store_search">
 				<a href="javascript:;"
@@ -687,22 +684,22 @@
 
 </script>
 
-		</div>
-		<!-- 큐레이션 2차 E -->
-		<ul class="prd_detail_tab" id="tabList">
-			<li class="on" id="productInfo"><a href="javascript:;"
-				class="goods_detailinfo" data-attr="상품상세^상품상세_SortingTab^상품설명">상품설명</a></li>
-			<li id="buyInfo"><a href="javascript:;" class="goods_buyinfo"
-				data-attr="상품상세^상품상세_SortingTab^구매정보">구매정보</a></li>
-			<li id="reviewInfo"><a href="javascript:;"
-				class="goods_reputation" data-attr="상품상세^상품상세_SortingTab^리뷰">리뷰<span>(${reviewcnt })</span></a></li>
-			<li id="qnaInfo"><a href="javascript:;" class="goods_qna">Q&amp;A<span>
-						<c:if test="${not empty qnaTotalRecords}">(${qnaTotalRecords})</c:if>
-				</span></a></li>
-		</ul>
-		<div class="tabConts prd_detail_cont show">
-			<div class="detail_area">
-				<!--
+			</div>
+			<!-- 큐레이션 2차 E -->
+			<ul class="prd_detail_tab" id="tabList">
+				<li class="on" id="productInfo"><a href="javascript:;"
+					class="goods_detailinfo" data-attr="상품상세^상품상세_SortingTab^상품설명">상품설명</a></li>
+				<li id="buyInfo"><a href="javascript:;" class="goods_buyinfo"
+					data-attr="상품상세^상품상세_SortingTab^구매정보">구매정보</a></li>
+				<li id="reviewInfo"><a href="javascript:;"
+					class="goods_reputation" data-attr="상품상세^상품상세_SortingTab^리뷰">리뷰<span>(${reviewcnt })</span></a></li>
+				<li id="qnaInfo"><a href="javascript:;" class="goods_qna">Q&amp;A<span>
+				<c:if
+								test="${not empty qnaTotalRecords}">(${qnaTotalRecords})</c:if> </span></a></li>
+			</ul>
+			<div class="tabConts prd_detail_cont show">
+				<div class="detail_area">
+					<!--
 
                     * [3492841] 상품상세 'MD공지배너' 노출 우선순위 변경 요청
                     - 노출 순서(AS IS) : 전체 > 배송유형 > 표준 카테고리 > 전시 카테고리 > 협력사 > 온라인 브랜드 > 상품
@@ -1442,18 +1439,139 @@
 
 		</div>
 		<!--  리뷰 팝업 창 -->
-		<style>
-		.layer_pop_wrap {
-    position: fixed;
-    top: 80%;
-    left: 80%;
-    transform: translate(-50%, -50%);
-}
-		</style>
 		<div class="layer_pop_wrap w850" id="layerWrap850"
-			style="z-index: 999; display: none; left: 80%; margin-left: -425px; top: 80%; margin-top: -371px;">
+			style="z-index: 999; display: none; left: 50%; margin-left: -425px; top: 2169.5px; margin-top: -371px;">
+
+			<div class="popup-contents"
+				style="top: 0; width: 850px; margin-left: -425px;">
+				<div class="pop-conts type40">
+					<h1 class="ptit">포토 상세</h1>
+					<div class="photo_view_area clrfix renew">
+						<div class="view_area">
+							<div class="thumb_slide slider-for">
 
 
+								<c:set var="i" value="${0 }" />
+								<c:forEach items="${reviewlistall }" var="imglist">
+
+									<c:forEach items="${imglist.reviewimg }" var="img">
+
+										<div style="width: 500px;">
+											<span class="base"> <img
+												src="https://static.oliveyoung.co.kr/pc-static-root/image//comm/bg_2_2.png"
+												alt="">
+											</span> <img alt="" class="bigImg ${i }" name="${i }"
+												data-value="${img.reviewId }" src="${img.reviewImgSrc }">
+										</div>
+										<c:set var="i" value="${i + 1 }" />
+									</c:forEach>
+								</c:forEach>
+
+
+							</div>
+							<!-- 여기 까지 -->
+							<div class="thums_slide slider-nav">
+
+
+								<c:forEach items="${reviewlistall }" var="imglist">
+
+									<c:forEach items="${imglist.reviewimg }" var="img">
+
+										<div>
+											<input type="hidden"
+												value="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/11/15/1699976348720.png"
+												tabindex="0"> <img alt="" name="23745102"
+												data-attr="상품상세^포토상세^포토상세이동_포토"
+												data-value="23745102_2_23727075_1"
+												src="${img.reviewImgSrc }">
+										</div>
+									</c:forEach>
+								</c:forEach>
+
+							</div>
+
+
+						</div>
+
+						<!-- //view E -->
+
+						<div class="info_area scrbar">
+							<div class="photo_detail" id="photoDetail">
+								<div class="review_summary photo" id="photoDetail">
+									<div class="user clrfix  ">
+										<a href="javascript:;"
+											onclick="goods.gdas.handleClickReviewPhotoDetailReviewerProfile('aTJNaDhBM0V5QStaeWYrWXdXaWFPZz09', {t_page: '포토상세', t_click: '리뷰포토상세_리뷰어프로필', t_profile_name: 'Mizthecat', goodsNo: 'A000000190051', goodsname: '[윈터 PICK] 마몽드 포어 슈링커 바쿠치올 크림 60ml 단독기획 (+30ml 추가증정)', t_review_rank_name: '1172'});"
+											data-attr="상품상세^포토상세^리뷰어프로필클릭"> <img
+											src="https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/07/31/1690732966938.png"
+											onerror="" style="display: none;">
+											<div class="thum">
+												<span class="bg"></span> <img
+													src="https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/07/31/1690732966938.png?RS=60x79&amp;CS=60x60"
+													class="profileThum_s"
+													style="background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg) no-repeat 0 0; background-size: 60px">
+											</div>
+										</a>
+										<p class="info_user">
+											<a href="javascript:;"
+												onclick="goods.gdas.handleClickReviewPhotoDetailReviewerProfile('aTJNaDhBM0V5QStaeWYrWXdXaWFPZz09', {t_page: '포토상세', t_click: '리뷰포토상세_리뷰어프로필', t_profile_name: 'Mizthecat', goodsNo: 'A000000190051', goodsname: '[윈터 PICK] 마몽드 포어 슈링커 바쿠치올 크림 60ml 단독기획 (+30ml 추가증정)', t_review_rank_name: '1172'});"
+												class="id" data-attr="상품상세^포토상세^리뷰어프로필클릭">Mizthecat</a> <a
+												href="javascript:;"
+												onclick="goods.gdas.handleClickTopReviewer({t_page: '포토상세', t_click: '리뷰포토상세_탑리뷰어순위', t_review_rank_name: '1172'})"
+												class="top">TOP 1172</a>
+										</p>
+										<!-- 리뷰 고도화 2차 추가 S-->
+										<!-- 리뷰 고도화 2차 추가 E-->
+										<p class="tag">
+											<span>트러블성</span> <span>겨울쿨톤</span> <span>각질</span> <span>모공</span>
+										</p>
+									</div>
+									<div class="score_area addOY">
+										<span class="review_point"><span class="point"
+											style="width: 100%">5점만점에 5점</span></span> <span class="date">2023.11.15</span>
+										<span class="ico_oyGroup">체험단</span>
+									</div>
+									<div class="txt_inner">사랑스러운 윈터가 모델이라니,,, 마몽드 프로모션 팀 일
+										잘하네요...!! 예전에도 마몽드 레티놀 토너를 토너패드로 만들어서 잘 썼는데 크림도 나왔네요. 레티놀이 쓰는
+										사람에 따라 조금 자극적이라고 느낄 수도 있다고 하는데, 저는 피부가 예민한 편인데도 자극적이라고 느끼진
+										못했어요! 참고하시길,,,</div>
+									<div class="review_tag"></div>
+									<p class="txt_beauty">* 본 상품 후기는 체험단으로 선정되어 CJ올리브영으로부터 위
+										상품을 무료로 제공받아 작성한 것입니다.</p>
+									<div class="poll_sample">
+										<dl class="poll_type1">
+											<dt>
+												<span>피부타입</span>
+											</dt>
+											<dd>
+												<span class="txt">복합성에 좋아요</span>
+											</dd>
+										</dl>
+										<dl class="poll_type1">
+											<dt>
+												<span>피부고민</span>
+											</dt>
+											<dd>
+												<span class="txt">주름/미백에 좋아요</span>
+											</dd>
+										</dl>
+										<dl class="poll_type1">
+											<dt>
+												<span>자극도</span>
+											</dt>
+											<dd>
+												<span class="txt">자극없이 순해요</span>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="ButtonClose"
+						onclick="goods.gdas.photo.closePhotoDetail('summary_thumb');">팝업창
+						닫기</button>
+				</div>
+			</div>
 
 		</div>
 
@@ -1494,38 +1612,37 @@
 
 		</div>
 
-		<!--  ====QNA=========================================  -->
-		<div class="tabConts prd_detail_cont" id="qnaContentsArea">
-			<div class="prd_qna_tit">
-				<p style="cursor: pointer;">★ 상품 문의사항이 아닌 반품/교환관련 문의는 고객센터 1:1
-					문의를 이용해주세요.</p>
-				<button class="btnInquiry goods_qna_inquiry" onclick="">상품문의</button>
-			</div>
-			<ul class="prd_qna_list" id="prd_qna_list">
-				<c:if test="${not empty qnaList }">
-					<c:forEach items="${qnaList}" var="qna">
-						<li class="">
-							<div class="qna_tit_box">
-								<p class="qna_question">
-									<c:if test="${not empty qna.qnaAnswer}">
-										<span class="qna_flag complete">답변완료</span>
-										<a href="#" class="completeBind">${qna.qnaQuestion}</a>
-									</c:if>
-									<c:if test="${empty qna.qnaAnswer}">
-										<span class="qna_flag">답변대기</span>
-										<a href="#" class="completeBind">${qna.qnaQuestion} </a>
-									</c:if>
-								</p>
-								<p class="tx_userid">
-									<c:set var="userId"
-										value="${fn:substring(qna.userId, 0, fn:length(qna.userId) - 4)}****" />
-									<span>${userId}</span>
-									<c:if test="${not empty sessionScope.logOn }">
-										<c:if test="${sessionScope.logOn.user_id eq qna.userId}">
-											<button class="btnSmall fullGray" onclick="">수정</button>
-											<button class="btnSmall fullGray"
-												onclick="deleteQnA('${qna.qnaId}');">삭제</button>
+			<!--  ====QNA=========================================  -->
+			<div class="tabConts prd_detail_cont" id="qnaContentsArea">
+				<div class="prd_qna_tit">
+					<p style="cursor: pointer;">★ 상품 문의사항이 아닌 반품/교환관련 문의는 고객센터 1:1
+						문의를 이용해주세요.</p>
+					<button class="btnInquiry goods_qna_inquiry" onclick="">상품문의</button>
+				</div>
+				<ul class="prd_qna_list" id="prd_qna_list">
+					<c:if test="${not empty qnaList }">
+						<c:forEach items="${qnaList}" var="qna">
+							<li class="">
+								<div class="qna_tit_box">
+									<p class="qna_question">
+										<c:if test="${not empty qna.qnaAnswer}">
+											<span class="qna_flag complete">답변완료</span>
+											<a href="#" class="completeBind">${qna.qnaQuestion}</a>
 										</c:if>
+										<c:if test="${empty qna.qnaAnswer}">
+											<span class="qna_flag">답변대기</span>
+											<a href="#" class="completeBind">${qna.qnaQuestion} </a>
+										</c:if>
+									</p>
+									<p class="tx_userid">
+										<c:set var="userId"
+											value="${fn:substring(qna.userId, 0, fn:length(qna.userId) - 4)}****" />
+										<span>${userId}</span>
+										<c:if test="${not empty sessionScope.logOn }">
+											<c:if test="${sessionScope.logOn.user_id eq qna.userId}">
+												<button class="btnSmall fullGray" onclick="">수정</button>
+												<button class="btnSmall fullGray" onclick="deleteQnA('${qna.qnaId}');">삭제</button>
+											</c:if>
 
 									</c:if>
 								</p>
@@ -2246,18 +2363,150 @@ function reviewAjax(currentPage, productDisplayId) {
 } // qnaListAjax
 </script>
 
-<script>
-// 주문 스크립트
-
-$(function() {
-	$("#cartBtn").on("click", function() {
-		
-	});
-})
-</script>
-
 <script type="text/javascript"
 	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+<script>
+$(function(){
+	$("#goods_curation_a002").slick({
+		  slidesToShow: 3,
+		  slidesToScroll: 3,
+		  infinite : true,
+		  arrows: true
+		  
+
+		});
+	 $('.slider-for').slick({
+		  slidesToShow: 1,
+		  slidesToScroll: 1,
+		  infinite : true,
+		  arrows: true,
+		  fade: true,
+		  asNavFor: '.slider-nav'
+		 
+		  
+		  
+		});
+		$('.slider-nav').slick({
+		  slidesToShow: 6,
+		  slidesToScroll: 1,
+		  infinite : true,
+		  asNavFor: '.slider-for',
+		  arrows: false,
+		  dots: false,
+		  centerMode: false,
+		  focusOnSelect: true
+		});
+		
+		
+		$('.slider-for').on('afterChange', function(event, slick, currentSlide, nextSlide){
+			let reviewId = $(`img.bigImg[name=\${currentSlide}]`).data("value");
+			console.log(reviewId)
+			let data = {
+					reviewId: reviewId,
+			    };
+			 
+				
+				$.ajax({
+					url: "/reviewimg",
+																data : data,
+																cache : false,
+																success : function(
+																		response) {
+																	$(	".info_area.scrbar").empty();
+																	$(	".info_area.scrbar").append(response);
+
+																},
+																error : function() {
+																	alert('서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.');
+																}
+															})
+
+												})
+
+							})
+			$(function(){
+		$(document).on("click", ".review_thum:not(.type1) > .inner.clrfix li:not(.more)", function() {
+		 let reviewId = $(this).find("img").data("value")
+		 var index = $(".review_thum > .inner.clrfix li").index($(this));
+		 console.log(index)
+		 
+		 let data = {
+				 reviewId: reviewId,
+				 index: index
+			    };
+			 
+				
+				$.ajax({
+					url: "/reviewimg",
+					data:data,
+					cache: false,
+					success:function( response ) {
+			              $(".info_area.scrbar").empty();
+			              $(".info_area.scrbar").append( response );
+			              $("#layerWrap850:not(.photo)").show()
+			     		 slide(index);
+			              console.log("t: "+index)  		              
+			          }
+			        , error		: function() {
+			            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+			        }
+				})
+		 //alert(value)
+		 
+	 })
+	 
+	 $(".ButtonClose").click(function(){
+		 $("#layerWrap850").hide()
+	 })
+							})
+							
+							
+							
+	$(function(){
+$(".more").click(function(){
+			$("#layerWrap850.photo").show()
+		})
+		$(".photo li").click(function(){
+			var index = $(".photo li").index($(this));
+			let reviewId = $(this).find("img").data("value")
+			console.log(index);
+			
+			let data = {
+					reviewId: reviewId,
+					 index: index
+				    };
+				 
+					
+					$.ajax({
+						url: "/reviewimg",
+						data:data,
+						cache: false,
+						success:function( response ) {
+							 $(".photo").hide()
+				              $(".info_area.scrbar").empty();
+				              $(".info_area.scrbar").append( response );
+				              $("#layerWrap850:not(.photo)").show()
+				              
+				     		 slide(index);
+				                         
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+		})
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
+	 })
+	 
+	 function slide(index) {
+			$('.slider-nav').slick('goTo', index);
+		}
+				</script>
 
 <script>
 // 상품 선택
@@ -2428,106 +2677,3 @@ $(function() {
 }) // function
 
 </script>
-<script>
-//증정품 더보기 클릭시
-$(function(){
-	$(".btn_more.goods_giftinfo").on("click",function(){
-		let productDisplayId = $("#goodsNo").val();
-		let data = {
-				productDisplayId: productDisplayId
-		    };
-		$.ajax({
-			url: "/giftpopup",
-			data : data,
-			cache : false,
-			success : function(response) {
-				$(	"#layerWrap850:not(.photo)").empty();
-				let giftDTO = response;
-				let content ='';
-				content +=`
-				<div class="layer_cont2">
-					<h2 class="layer_title2">증정품 안내</h2>
-					<div class="layer_scroll_box2">
-						
-										<div class="tit_info onlineGift">
-											<div id="quickgift_3_" class="tarea  onlineGift">
-												<span class="txt">
-																	${giftDTO.giftDisplayScope} ${giftDTO.brandName} 상품 ${giftDTO.giftRestirct}원 이상 구매시, <em class="num">증정품 1개</em> 제공<p></p>
-												</span>
-											</div>
-										</div>
-										<!-- 증정 반복부E -->
-											
-										<table id="quickgift_5_" class="layer_tbl_data mgT10  onlineGift">
-											<caption>증정품 안내</caption>
-											<colgroup>
-												<col style="width:30%;">
-												<col style="width:*">
-											</colgroup>
-											<tbody>
-												
-													<tr>
-														<th scope="row">기간</th>
-														<td>${giftDTO.giftDisplayStartDay}  ~ 선착순 한정 수량</td>
-													</tr>
-												
-												<tr>
-													<th scope="row">증정 대상 회원</th>
-													<td>										
-																<span class="memr">${giftDTO.giftDisplayScope}</span>
-															
-															
-														
-													</td>
-												</tr>
-												<tr>
-													<th scope="row">증정품</th>
-													<td><p class="itxt">${giftDTO.giftName}</p>
-												</td></tr>
-											</tbody>
-										</table>
-										
-					</div>
-					<div class="layer_full_area">
-						<ul class="info_dash_list">
-							<li>증정품은 최종 결제금액 기준으로 제공됩니다.</li>
-							<li>증정품은 주문 번호 당 1 개씩 증정이 기본이며 구매 상품 n개당 N개씩 증정되는 경우도 있습니다 . (구매 전 상세 내용을 필히 참고 해주세요.)</li>
-							<li>본 행사는 온라인몰 단독 행사로 매장 행사와 상이할 수 있습니다.</li>
-							<li>증정품은 판매 상품과 별개로 한정 운영되며 조기 소진될 수 있습니다.</li>
-							<li>반품 시 증정품도 함께 반품해주셔야 합니다.</li>
-							<li>오늘드림 증정품은 상품 상세페이지에서 오늘드림 주문 체크 시 확인 가능합니다.</li>
-							<li>증정품은 증정 대상 회원에 한하여 제공됩니다.</li>
-							<li>일부 제휴 업체 직배송 상품은 증정대상에서 제외됩니다.</li>
-							<li>온라인몰 증정 소진 시 별도 고지 없이 행사종료 될 수 있습니다.</li>
-							<li>정확한 증정품 내역은 주문 후 '주문상세내역'에서 확인할 수 있습니다.</li>
-						</ul>
-					</div>
-					<button class="layer_close type2" onclick="close();">창 닫기</button>
-				</div>
-        
-					$(".layer_close.type2").on("click",function(){
-					$(	"#layerWrap850:not(.photo)").empty();
-					$(	"#layerWrap850:not(.photo)").hide();
-				})
-
-				$(	"#layerWrap850:not(.photo)").html(content);
-				$(	"#layerWrap850:not(.photo)").show();
-			},
-			error : function() {
-				alert('서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.');
-			}
-		})
-	})
-})
-$(function(){
-	
-
-
-})
-function close(){
-	$(	"#layerWrap850:not(.photo)").empty();
-	$(	"#layerWrap850:not(.photo)").hide();
-}
-				
-</script>
-
