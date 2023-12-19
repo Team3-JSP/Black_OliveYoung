@@ -712,13 +712,10 @@
 					</a></li>
 					<li style=""><a onclick="" href='<c:url value="/store/getRanking"/>'><span>랭킹</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
-						data-attr="공통^GNB^LUXE EDIT"><span>LUXE EDIT</span> </a></li>
-
-					<li style=""><a onclick="" href="#"
-						data-ref-linkurl="main/getPlanShopList.do" data-attr="공통^GNB^기획전"><span>기획전</span>
+					<li style=""><a href="/store/getExhibition?eventId=le_00000001"><span>LUXE EDIT</span> </a></li>
+					<li style=""><a href="/store/main/getExhibition" data-ref-linkurl="/store/main/getExhibition" ><span>기획전</span>
 					</a></li>
-					<li style=""><a onclick="" href="#"
+					<li style=""><a  href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
 					<li style=""><a href="<c:url value='/store/getGiftCard'/>"><span>기프트카드</span> </a></li>

@@ -237,7 +237,7 @@
 								<li><span>픽업</span>
 									<div>
 										배송비 조건 없음 <a
-											href="javascript:goods.detail.todayDelivery.openPickupPop();"
+											href="javascirpt:;"
 											class="ico_info">픽업 안내 레이어열기</a>
 									</div></li>
 							</ul>

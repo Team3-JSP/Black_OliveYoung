@@ -2,150 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	
-<link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    
-    <link href="/resources/cdn-main/adminpage/sb-admin-2.min.css" rel="stylesheet">
-</head>
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminpage">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">관리자 페이지<sup></sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/adminpage">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                계정관리
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>계정 설정</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">계정 설정:</h6>
-                        <a class="collapse-item" href="buttons.html">정보 보기</a>
-                        <a class="collapse-item" href="cards.html">정보 변경</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>상품 관리</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">상품 관리</h6>
-                        <a class="collapse-item" href="utilities-color.html">상품 등록</a>
-                        <a class="collapse-item" href="utilities-border.html">기획전 등록</a>
-                        <a class="collapse-item" href="utilities-animation.html">상품 프로모션 관리</a>
-                        <a class="collapse-item" href="utilities-other.html">상품 Q&A 확인</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+<div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
@@ -574,74 +431,6 @@
                                 </div>
                             </div>
 
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="col-lg-6 mb-4">
@@ -649,33 +438,42 @@
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                    <h6 class="m-0 font-weight-bold text-dark">QnA 목록 <span>(7)</span>  <a href="#" style="text-align: right;">더보기</a> </h6>
+                                    
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
+                                    <div class="card mb-4 py-3 border-left-dark">
+                               			 <div class="card-body">
+                               			 		<a href="#">
+                               			 			<div>
+                               			 			.border-left-primary
+                               			 			</div>
+                               			 			<br>
+                               			 			<br>
+                               			 		</a>
+                               			 		dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                                		</div>
+                            		</div>
+                            		<div class="card mb-4 py-3 border-left-dark">
+                               			 <div class="card-body">
+                                    		.border-left-primary
+                                		</div>
+                            		</div>
+                            		<div class="card mb-4 py-3 border-left-dark">
+                               			 <div class="card-body">
+                                    		.border-left-primary
+                                		</div>
+                            		</div>
+                            		<div class="card mb-4 py-3 border-left-dark">
+                               			 <div class="card-body">
+                                    		.border-left-primary
+                                		</div>
+                            		</div>
+                            		<div class="card mb-4 py-3 border-left-dark">
+                               			 <div class="card-body">
+                                    		.border-left-primary
+                                		</div>
+                            		</div>
                                 </div>
                             </div>
 
@@ -699,140 +497,5 @@
             <!-- End of Footer -->
 
         </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">Ã</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/resources/js/adminpage/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="/resources/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/js/adminpage/chart-area-demo.js"></script>
-    <script src="/resources/js/adminpage/chart-pie-demo.js"></script>
-
-</body>
-<script>
-
-	$(function() {
-		
-		$.ajax({
-			url : "/salesPerMonth",
-			method : "GET",
-			dataType : "json",
-			cache : false,
-			success: function(data) {
-				console.log(data);
-				updateChart(data);
-			},
-			error : function(data) {
-				console.log(data);
-				alert('데이터 송신에 실패했습니다. 계속 오류 발생시 관리자 번호로 연락 부탁드립니다.' <br> '1588-1622');
-			} // error close
-		}) // ajax close
-		
-	}) // ready function close
-	
-	function updateChart(data) {
-		
-		var labels = data.map(entry => entry.month);
-		var salesData = data.map(entry => entry['monthlySales']);
-		
-		myLineChart.data.labels = [];
-		myLineChart.data.datasets[0].data = [];
-		
-		myLineChart.data.labels = labels;
-		myLineChart.data.datasets[0].data = salesData;
-		myLineChart.update();
-		
-	}
-	
-	/* chart buttons script */
-	$('#showSalesPerMonth').on('click', function() {
-		$.ajax({
-			url : "/salesPerMonth",
-			method : "GET",
-			dataType : "json",
-			cache : false,
-			success: function(data) {
-				console.log(data);
-				updateChart(data);
-			},
-			error : function(data) {
-				console.log(data);
-				alert('데이터 송신에 실패했습니다. 계속 오류 발생시 관리자 번호로 연락 부탁드립니다.' <br> '1588-1622');
-			} // error close
-		}) // ajax close
-		
-	}) // showSalesPerMonth function click
-	
-	$('#showSalesPerDay').on('click', function() {
-		
-		$.ajax({
-			url : "/salesPerDay",
-			method : "GET",
-			dataType : "json",
-			cache : false,
-			success: function(data) {
-				console.log(data);
-				updateChartDay(data);
-			},
-			error : function(data) {
-				console.log(data);
-				alert('데이터 송신에 실패했습니다. 계속 오류 발생시 관리자 번호로 연락 부탁드립니다.' <br> '1588-1622');
-			} // error close
-		}) // ajax close
-		
-		
-	}) // showSalesPerday click
-	
-		function updateChartDay(data) {
-		
-		var labels = data.map(entry => entry.day);
-		var salesData = data.map(entry => entry['daylySales']);
-		
-		myLineChart.data.labels = [];
-		myLineChart.data.datasets[0].data = [];
-		
-		myLineChart.data.labels = labels;
-		myLineChart.data.datasets[0].data = salesData;
-		myLineChart.update();
-		
-	}
-</script>
-</html>
+        
+        <script src="/resources/js/adminpage/index.js"></script>
