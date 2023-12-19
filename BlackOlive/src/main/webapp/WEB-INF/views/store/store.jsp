@@ -11,8 +11,8 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11.0.5/swiper-bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/swiper@11.0.5/swiper-bundle.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="jquery.mCustomScrollbar.css" />
-<script src="jquery.mCustomScrollbar.concat.min.js"></script>
+<link rel="stylesheet" href="/resources/cdn-main/jquery.mCustomScrollbar.css" />
+<script src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <title>블랙올리브영 온라인몰</title>
 <style>
@@ -474,26 +474,38 @@ function storeDetail(storeId) {
 												
 					popupContent +=			`</div>
 										</div>
-									</div>		
-									<div class="store_infoBox">
-										<h2>매장 사진</h2>
-										<div class="store_sl">
-											<div class="swiper-container" id="store_sl">
-												<ul class="swiper-wrapper">
-													<li class="swiper-slide"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_1.jpg" class="mCS_img_loaded"></li>
-													<li class="swiper-slide"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_2.jpg" class="mCS_img_loaded"></li>			
-													<li class="swiper-slide"><img src="https://image.oliveyoung.co.kr/uploads/images/store/DC8F_3.jpg" class="mCS_img_loaded"></li>
-												</ul>
-												<div class="swiper-scrollbar"><div class="swiper-scrollbar-drag"></div></div>
-											<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-											<div class="recoStBtn">
-												<button class="recoStBtn_prev"></button>
-												<button class="recoStBtn_next"></button>
-											</div>
-										</div>
-										<p class="store_time mgT10">매장의 이미지는 단순 참고용으로만 확인부탁드립니다.<br>실제 매장 방문시 연출물은 시기에 따라 다를 수 있습니다.</p>
-									</div>	
-									<div class="store_infoBox">
+									</div>`;
+						
+					// 매장 사진이 있을 시
+					if(data.storeThumbnail.length > 0) {
+						popupContent +=	`
+							<div class="store_infoBox">
+							<h2>매장 사진</h2>
+							<div class="store_sl">
+								<div class="swiper-container" id="store_sl">
+									<ul class="swiper-wrapper">
+						`;
+						
+						for (var i = 0; i < data.storeThumbnail.length; i++) {
+							popupContent += `<li class="swiper-slide"><img src="\${data.storeThumbnail[i].thumbnailSrc}" class="mCS_img_loaded"></li>`;
+						}
+						
+						popupContent += `
+										</ul>
+										<div class="swiper-scrollbar"><div class="swiper-scrollbar-drag"></div></div>
+									<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+									<div class="recoStBtn">
+										<button class="recoStBtn_prev"></button>
+										<button class="recoStBtn_next"></button>
+									</div>
+								</div>
+								<p class="store_time mgT10">매장의 이미지는 단순 참고용으로만 확인부탁드립니다.<br>실제 매장 방문시 연출물은 시기에 따라 다를 수 있습니다.</p>
+							</div>
+						`;
+					}
+							
+									
+					popupContent +=	`<div class="store_infoBox">
 										<h2>제공중인 서비스</h2>
 										<ul class="store_sv">`;
 										
@@ -502,9 +514,14 @@ function storeDetail(storeId) {
 										popupContent += `
 											<li>
 												<dl class="ico_rss_\${data.oliveService[i].serviceType}">
-													<dt>\${data.oliveService[i].serviceName}</dt>
-													<dd>\${data.oliveService[i].serviceContent}</dd>
-												</dl>
+													<dt>\${data.oliveService[i].serviceName}</dt>`;
+										if(data.oliveService[i].serviceContent) {
+											popupContent += `
+												<dd>\${data.oliveService[i].serviceContent}</dd>
+											`;	
+										}
+													
+										popupContent += `</dl>
 											</li>
 										`;
 									}										
