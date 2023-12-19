@@ -237,7 +237,7 @@
 								<li><span>픽업</span>
 									<div>
 										배송비 조건 없음 <a
-											href="javascript:goods.detail.todayDelivery.openPickupPop();"
+											href="javascirpt:;"
 											class="ico_info">픽업 안내 레이어열기</a>
 									</div></li>
 							</ul>
@@ -2239,7 +2239,18 @@ function reviewAjax(currentPage, productDisplayId) {
 } // qnaListAjax
 </script>
 
+<script>
+// 주문 스크립트
 
+$(function() {
+	$("#cartBtn").on("click", function() {
+		
+	});
+})
+</script>
+
+<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <script>
 // 상품 선택
@@ -2485,10 +2496,15 @@ $(function(){
 							<li>정확한 증정품 내역은 주문 후 '주문상세내역'에서 확인할 수 있습니다.</li>
 						</ul>
 					</div>
-					<button class="layer_close type2" >창 닫기</button>
-				</div>`
-			
-			
+					<button class="layer_close type2" onclick="close();">창 닫기</button>
+				</div>
+        
+					$(".layer_close.type2").on("click",function(){
+					$(	"#layerWrap850:not(.photo)").empty();
+					$(	"#layerWrap850:not(.photo)").hide();
+				})`
+
+
 				$(	"#layerWrap850:not(.photo)").html(content);
 				$(	"#layerWrap850:not(.photo)").show();
 			},
@@ -2512,3 +2528,4 @@ function close(){
 }
 				
 </script>
+

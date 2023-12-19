@@ -32,6 +32,8 @@
 %>
 <script src="/resources/js/head.js"></script>
 	<script>
+	
+	
 	$(function() {
 		let mainurl = window.location.href
 		console.log(mainurl)
@@ -708,27 +710,18 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href='<c:url value="store/getRanking"/>'
-						data-ref-linkurl="/store/getRanking" data-attr="공통^GNB^랭킹"><span>랭킹</span>
+					<li style=""><a onclick="" href='<c:url value="/store/getRanking"/>'><span>랭킹</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
-						data-attr="공통^GNB^LUXE EDIT"><span>LUXE EDIT</span> </a></li>
-
-					<li style=""><a onclick="" href="#"
-						data-ref-linkurl="main/getPlanShopList.do" data-attr="공통^GNB^기획전"><span>기획전</span>
+					<li style=""><a href="/store/getExhibition?eventId=le_00000001"><span>LUXE EDIT</span> </a></li>
+					<li style=""><a href="/store/main/getExhibition" data-ref-linkurl="/store/main/getExhibition" ><span>기획전</span>
 					</a></li>
-					<li style=""><a onclick="" href="#"
+					<li style=""><a  href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
-						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
-						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
-					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
-						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
+					<li style=""><a href="<c:url value='/store/getGiftCard'/>"><span>기프트카드</span> </a></li>
+					<li style=""><a href='<c:url value="/store/getMembership"/>'><span>멤버십/쿠폰</span>
 					</a></li>
-					<li style=""><a onclick=""
-						href="<%=contextPath%>/olive/event.do"
-						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
+					<li style=""><a href="<c:url value='/store/getEvent'/>"><span>이벤트</span>
 					</a></li>
 				</ul>
 

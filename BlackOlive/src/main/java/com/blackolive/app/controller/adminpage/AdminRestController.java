@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
+import com.blackolive.app.service.adminpage.AdminPageIndexService;
 import com.blackolive.app.service.adminpage.AdminPageIndexServiceImpl;
 
 import lombok.extern.log4j.Log4j;
@@ -19,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 public class AdminRestController {
 	
 	@Autowired
-	private AdminPageIndexServiceImpl adminPageIndexServiceImpl;
+	private AdminPageIndexService adminPageIndexServiceImpl;
 
 	@GetMapping("/salesPerMonth")
 	public ResponseEntity<List<SalesPerMonthDTO>> getMoneyMonth(){

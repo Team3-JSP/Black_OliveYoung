@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 
 <!--컨텐츠-->
-<form method="POST" action="/usermodify/info_modification" target="parentPage" id="parentForm">
+<form method="POST" action="/usermodify/info_modification" id="parentForm">
 <div id="contentsWrap">
 
 	<div id="contents">
@@ -87,15 +87,15 @@
 </div>
 <!--//contents-->
 	
-	<input type="hidden" name="newName" value="${newName}" />
-    <input type="hidden" name="newTel" value="${newTel}" />
+	<input type="hidden" name="userName" value="${userDto.userName}" />
+    <input type="hidden" name="userTel" value="${userDto.userTel}" /> 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 
 <script type="text/javascript">
 	$(function() {
-		console.log("name: "+"${newName}");
-		console.log("tel: "+"${newTel}");
+		console.log("name: "+"${userDto.userName}");
+		console.log("tel: "+"${userDto.userTel}");
 		$('[data-control="hover"]').hover();
 	});
 
@@ -104,15 +104,11 @@
 </script>
   <script>
 	function verifyPh(){
+		document.domain="localhost";
 		window.open("/usermodify/modify_phfirst", "_blank","width=496,height=823");
+		
 
 	}
-	function submitParentForm() {
-	console.log("name: "+"${newName}");
-	console.log("tel: "+"${newTel}");
-		// 폼 서브밋
-	    document.getElementById("parentForm").submit(); // 폼 ID를 실제 폼의 ID로 변경해야 합니다.
-	}
-	
+
     </script>
 <!--//script 영역-->

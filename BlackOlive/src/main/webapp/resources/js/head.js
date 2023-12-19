@@ -6,7 +6,21 @@ document.getElementById("btnGnbClose").onclick = function () {
     document.querySelector(".layer_all_menu.active").className = "layer_all_menu";
 }*/
 
-
+// 팝업창 가운데 조정
+	function popupCenter(popup) {
+		var scrolled = window.scrollY;
+		var windowHeight = window.innerHeight;
+		var elementHeight = $(popup).height();
+		
+		let height = (windowHeight-elementHeight) > 0 ? windowHeight-elementHeight : (windowHeight-elementHeight)*-1;
+		let width = (window.innerWidth - $(popup).width())/2;
+		
+		$(popup).css({
+			"top" : (scrolled + height/2) + 'px'
+			, "left" : width + 'px'
+			, "margin-left" : 0
+			});
+	}
 
 // 페이지 로드되면 시작
 $(function() {
