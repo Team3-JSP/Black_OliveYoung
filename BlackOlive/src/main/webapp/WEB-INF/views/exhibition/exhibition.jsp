@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="Container">
 
-		<c:if test="${not empty eventInfo}">
+		<c:if test="${not empty exhibitionInfoDTO}">
 			<div class="title-plan-view">
-			<h1 id="planTitle">${eventInfo.peiName }</h1>
+			<h1 id="planTitle">${exhibitionInfoDTO.exhibitionName }</h1>
 
-			<span>${eventInfo.peiSD} - ${eventInfo.peiED}</span>
+			<span>${exhibitionInfoDTO.exhibitionStartDay} - ${exhibitionInfoDTO.exhibitionEndDay}</span>
 			<div class="event_share_link">
 
 				<a href="javascript:;" class="link_social kakaoT">카카오톡 공유하기</a> <a
@@ -24,13 +24,13 @@
 			class="plan-visual contEditor U85de00a9-4c59-42dd-8cfa-2cdf2d2c6ec1"
 			name="Home_Planshop2_PROD">
 			<div class="pc w638 plan-template">
-				<!-- <div class="oyblind">
-					<span>11.13-11.20</span>
-					<h3>두피-모발까지 7초 케어 헤어, 지지마</h3>
-					<span>#장바구니 쿠폰 추가할인</span>
-				</div> -->
-				<img alt=""
-					src="${eventInfo.peiSrc}">
+				
+				<c:if test="${not empty exhibitionImg}">
+					<c:forEach items="${exhibitionImg}" var="exi">
+						<img alt="${exi.exhibitionImgId}" src="${exi.exhibitionImgSrc}">						
+					</c:forEach>
+				</c:if>
+			
 			</div>
 
 		</div>
