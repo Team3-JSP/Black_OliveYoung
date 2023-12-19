@@ -72,6 +72,7 @@ public class ProductDetailController {
 		
 		//=======================  해당 상품의 증정품 정보 ===========================	
 				GiftDTO giftDTO = this.productDetailService.getGiftService(productDisplayId);
+				System.out.println("증정품: " + giftDTO);
 				model.addAttribute("giftDTO",giftDTO);
 				
 		//=======================  해당 상품의 프로모션 ===========================
