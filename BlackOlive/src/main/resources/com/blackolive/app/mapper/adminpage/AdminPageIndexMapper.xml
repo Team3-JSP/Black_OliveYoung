@@ -42,7 +42,7 @@
   			JOIN order_product op ON oo.order_id = op.order_id
   			JOIN productcontainer2 pdc2 ON op.product_id = pdc2.product_id
   			LEFT JOIN refund r ON oo.order_id = r.order_id
-  			WHERE TO_CHAR(ORDER_DATE, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+  			WHERE TO_CHAR(ORDER_DATE, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM')
   			]]>
 			<if test="brandId != null">
 				AND brandId = #{brandId}

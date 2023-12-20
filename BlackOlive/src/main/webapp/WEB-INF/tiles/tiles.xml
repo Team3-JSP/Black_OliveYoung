@@ -60,6 +60,8 @@
 	
 	<definition name="adminpage/*" template="/WEB-INF/views/adminpage/layout/layout.jsp">
 		<put-attribute name="sidebar" value="/WEB-INF/views/adminpage/layout/sidebar.jsp"/>
+		<put-attribute name="topbar" value="/WEB-INF/views/adminpage/layout/topbar.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/views/adminpage/layout/footer.jsp"/>
 		<put-attribute name="logoutmodal" value="/WEB-INF/views/adminpage/layout/logoutmodal.jsp"/>
 		<put-attribute name="content" value="/WEB-INF/views/adminpage/{1}.jsp"/>
 		<put-attribute name="title" value="관리자페이지"/>
