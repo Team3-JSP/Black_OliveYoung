@@ -2,7 +2,128 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+// 브랜드 ID 파라미터 갖고오기
+String s = "";
+if (request.getParameter("brandId") != null) {
+	String brandIds[] = request.getParameterValues("brandId");
 
+	for (int i = 0; i < brandIds.length; i++) {
+		s += "&brandId=" + brandIds[i];
+	} // for
+
+} //if
+%>
+<script>
+$(function(){
+	
+	if (${param.plusButtonFlag eq 'Y'}) {
+		$('.search_box.brand').addClass("on")
+	}
+	
+	$('.search_box.brand .btnMore').click(function() {
+        const brandBox = $('.search_box.brand');
+        if (brandBox.hasClass('on')) {
+            brandBox.removeClass('on');
+            
+        } else {
+            brandBox.addClass('on');
+            
+        }
+    });
+	
+	 var urlParams = new URLSearchParams(window.location.search);
+	// sort 버튼 li태그 클래스 추가 삭제
+		if (urlParams.has('sort')) {
+
+			$(".cate_align_box .align_sort ul > li").removeClass("on");
+			$(".cate_align_box .align_sort ul > li").eq(${param.sort != null ? param.sort - 1 : 0}).addClass("on"); 
+		} //  if
+
+		$(".cate_align_box .align_sort ul > li a").click(function (event) {
+	        event.preventDefault();
+		
+	        // data-prdsoting 속성을 통해 설정한 sort 값을 가져옴
+	        var selectedSorting = $(this).data("prdsoting");
+
+	        // moveSort 함수 호출하여 URL 업데이트
+	        moveSort(selectedSorting);
+
+	        // 현재 선택된 링크에 'on' 클래스를 추가하고 다른 링크에서는 제거
+	        $(".cate_align_box .align_sort ul > li a").removeClass("on");
+	        $(this).addClass("on");
+	    });
+		const moveSort = function moveSorting(sortNum) {
+			
+	    	const URLSearch = new URLSearchParams(location.search);
+	    	URLSearch.set('sort', String(sortNum));
+	    	const newParam = URLSearch.toString();
+	    	window.location.href = location.pathname + '?' + newParam;
+	};
+	
+	var urlParams = new URLSearchParams(window.location.search);
+    var checkboxes = document.querySelectorAll('input[name="brandId"]');
+ // 브랜드 체크 처리
+    if (urlParams.has('brandId')) {
+        var selectedBrands = urlParams.getAll('brandId');
+        
+        checkboxes.forEach(function(checkbox) {
+            var brandID = checkbox.value;
+            if (selectedBrands.includes(brandID)) {
+                checkbox.checked = true; // 파라미터에 해당하는 값이 있으면 체크박스를 체크함
+            }
+        });
+    }
+ 
+    $('input[name="brandId"]').on('change', function() {
+    	
+   	 var url = "/search?searchWord=${param.searchWord}"+''+"&sort=${param.sort}&currentpage=1&categorySmallId=${param.categorySmallId}<%=s%>"; 
+   	<%-- var url = window.location.href+''+"<%=s%>"; --%>
+       var brandID = $(this).val();
+		var plusButtonFlag = "&plusButtonFlag=Y";
+		const brandBox = $('.search_box.brand');
+       if ($(this).is(':checked')) {
+           // 체크박스가 체크되었을 때
+           if (url.indexOf('brandId=' + brandID) === -1) {
+               // 파라미터가 없으면 파라미터 추가
+               var separator = url.indexOf('?') !== -1 ? '&' : '?';
+               if (brandBox.hasClass('on')) {
+               	window.location.href = url + separator + 'brandId=' + brandID + plusButtonFlag;
+				}else{
+					window.location.href = url + separator + 'brandId=' + brandID;
+
+				}
+               
+           }
+       } else {
+           // 체크박스가 해제되었을 때
+           if (url.indexOf('brandId=' + brandID) !== -1) {
+               // 파라미터가 있으면 파라미터 삭제
+               var newUrl = url.replace(new RegExp('[?&]brandId=' + brandID), '');
+               if (brandBox.hasClass('more_view')) {
+               	window.location.href = newUrl + plusButtonFlag;
+				}else{
+					window.location.href = newUrl;
+				}
+               
+           }
+       }
+   })   
+   
+   
+   $("#price").on("click",function(){
+	   let minPrice = $("#sale_below_price").val()
+	   let maxPrice = $("#sale_over_price").val()
+	   const URLSearch = new URLSearchParams(location.search)
+		URLSearch.set("minPrice", String(minPrice))
+		URLSearch.set("maxPrice", String(maxPrice))
+		const newParam = URLSearch.toString();
+		window.location.href = location.pathname + '?' + newParam
+		//window.location.href = url + categorySmallId;
+   })
+	
+})
+</script>
 <div id="Container">
 	<!-- #Contents -->
 
@@ -69,7 +190,8 @@
 			<!-- 검색어오류 영역 추가 (2017-01-13 추가)  -->
 			<div class="searchResultArea">
 				<p class="resultTxt">
-					<strong>${searchWord}</strong>검색결과 (전체 <span>${totalRecords}개</span>의 상품)
+					<strong>${searchWord}</strong>검색결과 (전체 <span>${totalRecords}개</span>의
+					상품)
 				</p>
 				<div class="searchWrap">
 					<div class="check_today">
@@ -105,32 +227,38 @@
 						<!-- 버튼은 6개 이상만 노출 -->
 						<!-- 카테고리는 서브 텝 존재로 구조가 다름 zzzzzzzzzzzzzzz -->
 						<ul class="list show">
-						<c:forEach items="${categorySmallList}" var="cat" varStatus="loop">
-						 <c:if test="${loop.index <= 5}">
-							<li><a href="javascript:void(0);" id="${cat.categorySmallId}"
-								value="10000010001"
-								onclick="javascript:CateOnclick('10000010001','스킨케어')"
-								data-attr="통합검색결과페이지^필터_카테고리^스킨케어">${cat.categorySmallName}<span></span></a>
-							<!-- 대카 클릭시 클래스 on--> <!-- // 2017-01-16 중카 영역이동 div subCate 안으로  // -->
-							</li>
-							</c:if>
+							<c:forEach items="${categorySmallList}" var="cat"
+								varStatus="loop">
+								<c:if test="${loop.index <= 5}">
+									<li><a href="javascript:void(0);"
+										id="${cat.categorySmallId}"
+										class="cate <c:if test='${cat.categorySmallId eq categorySmallId}'> on active check </c:if>"
+										value="${cat.categorySmallId}"
+										onclick="javascript:CateOnclick('10000010001','스킨케어')"
+										data-attr="통합검색결과페이지^필터_카테고리^스킨케어">${cat.categorySmallName}<span></span></a>
+										<!-- 대카 클릭시 클래스 on--> <!-- // 2017-01-16 중카 영역이동 div subCate 안으로  // -->
+									</li>
+								</c:if>
 							</c:forEach>
 						</ul>
-						
+
 						<ul class="list ">
 							<!-- cateId.equals("") -->
-							<c:forEach items="${categorySmallList}" var="cat" varStatus="loop">
-						 <c:if test="${loop.index > 5}">
-							<li><a href="javascript:void(0);" id="category_10000030005"
-								value="10000030005"
-								onclick="javascript:CateOnclick('10000030005','리빙/펫')"
-								data-attr="통합검색결과페이지^필터_카테고리^리빙/펫">리빙/펫<span></span></a>
-							<!-- 대카 클릭시 클래스 on--> <!-- // 2017-01-16 중카 영역이동 div subCate 안으로  // -->
-							</li>
-							</c:if>
+							<c:forEach items="${categorySmallList}" var="cat"
+								varStatus="loop">
+								<c:if test="${loop.index > 5}">
+									<li><a href="javascript:void(0);"
+										id="${cat.categorySmallId}"
+										class="cate <c:if test='${cat.categorySmallId eq categorySmallId}'> on active check </c:if>"
+										value="${cat.categorySmallId}"
+										onclick="javascript:CateOnclick('10000030005','리빙/펫')"
+										data-attr="통합검색결과페이지^필터_카테고리^리빙/펫">${cat.categorySmallName}<span></span></a>
+										<!-- 대카 클릭시 클래스 on--> <!-- // 2017-01-16 중카 영역이동 div subCate 안으로  // -->
+									</li>
+								</c:if>
 							</c:forEach>
 						</ul>
-													
+
 					</div>
 				</div>
 				<div class="search_box brand">
@@ -140,18 +268,18 @@
 							<button class="btnMore">열기/닫기</button>
 						</h4>
 						<ul class="list scrbar">
-						<c:forEach items="${brandList }" var="brandList">
-							<li><input type="checkbox" id="inpChk1_A000451"
-								name="brand_check" value="${brandList.brandId}"
-								onclick="javascript:brandOnclick('A000451','바이오더마');"
-								data-attr="통합검색결과페이지^필터_브랜드^바이오더마"><label
-								for="inpChk1_A000451">${brandList.brandName}</label></li>
-								</c:forEach>
+							<c:forEach items="${brandList }" var="brandList">
+								<li><input type="checkbox" id="inpChk1_A000451"
+									name="brandId" value="${brandList.brandId}"
+									onclick="javascript:brandOnclick('A000451','바이오더마');"
+									data-attr="통합검색결과페이지^필터_브랜드^바이오더마"><label
+									for="inpChk1_A000451">${brandList.brandName}</label></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
 				<!-- //브랜드 -->
-				<div class="search_box attBox">
+				<!-- <div class="search_box attBox">
 					<div class="tooltip" id="tooltip">
 						<p class="txt">NEW</p>
 						<button type="button" class="toolClose">
@@ -480,9 +608,9 @@
 								for="inpChk1_c4e3726be3f88f236622dceebd314987">젤크림제형</label></li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 				<!-- //속성항목 -->
-				<div class="search_box benefit">
+				<!-- <div class="search_box benefit">
 					<div class="inner">
 						<h4 class="tit_th">
 							혜택
@@ -525,7 +653,7 @@
 								disabled="true"> <label for="inpChk24">무료배송</label></li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 				<!-- //혜택 -->
 				<div class="search_box">
 					<div class="inner">
@@ -536,11 +664,32 @@
 								type="text" id="sale_over_price" name="sale_over_price"
 								placeholder="최고가" value="" title=""> <input
 								type="submit" value="가격대 적용" title="가격대 적용"
-								onclick="return Price_Search()">
+								onclick="return Price_Search()"
+								id="price">
 						</div>
 					</div>
 				</div>
 				<!-- //가격대 -->
+				<div class="btnBox">
+					<dl class="choice_area clrfix">
+						<dt>선택필터</dt>
+						<dd>
+							<ul class="choiceKey clrfix">
+								<c:forEach items="${categorySmallList}" var="cat">
+									<c:if test="${cat.categorySmallId eq categorySmallId }">
+										<li><button class="btn_del"
+												onclick="doDelCate('10000010001');">${cat.categorySmallName}</button></li>
+									</c:if>
+								</c:forEach>
+								<c:if test="${not empty param.minPrice}">
+								<li><button class="btn_del" onclick="doDelprice('30,000 40,000');">${param.minPrice} ~ ${param.maxPrice}</button></li>
+								</c:if>
+							</ul>
+						</dd>
+					</dl>
+					<button type="button" class="btnReset"
+						onclick="Reset_Button_Click();">선택 초기화</button>
+				</div>
 			</div>
 			<!-- // 상품 속성 정보 검색 서비스 개선 -->
 		</form>
@@ -566,18 +715,21 @@
 			<div class="align_sort">
 				<ul>
 					<li class="on"><a href="#" value="WEIGHT/DESC,RANK/DESC"
-						onclick="doSorting('WEIGHT/DESC,RANK/DESC');"data-prdsoting="1">인기순</a></li>
+						onclick="doSorting('WEIGHT/DESC,RANK/DESC');" data-prdsoting="1">인기순</a></li>
 					<li><a href="#" value="WEIGHT/DESC,DATE/DESC"
-						onclick="doSorting('WEIGHT/DESC,DATE/DESC');"data-prdsoting="2">신상품순</a></li>
+						onclick="doSorting('WEIGHT/DESC,DATE/DESC');" data-prdsoting="2">신상품순</a></li>
 					<li><a href="#" value="WEIGHT/DESC,SALE_QTY/DESC"
-						onclick="doSorting('WEIGHT/DESC,SALE_QTY/DESC');"data-prdsoting="3">판매순</a></li>
+						onclick="doSorting('WEIGHT/DESC,SALE_QTY/DESC');"
+						data-prdsoting="3">판매순</a></li>
 
 
 					<li><a href="#" value="WEIGHT/DESC,SALE_PRC/ASC"
-						onclick="doSorting('WEIGHT/DESC,SALE_PRC/ASC');"data-prdsoting="4">낮은 가격순</a></li>
+						onclick="doSorting('WEIGHT/DESC,SALE_PRC/ASC');"
+						data-prdsoting="4">낮은 가격순</a></li>
 
 					<li><a href="#" value="WEIGHT/DESC,SALE_PER/DESC"
-						onclick="doSorting('WEIGHT/DESC,SALE_PER/DESC');"data-prdsoting="5">할인율순</a></li>
+						onclick="doSorting('WEIGHT/DESC,SALE_PER/DESC');"
+						data-prdsoting="5">할인율순</a></li>
 				</ul>
 			</div>
 			<div class="count_sort tx_num">
@@ -600,1737 +752,120 @@
 		<!-- 카테고리 상품 리스트 -->
 		<!-- 컬럼형 리스트 -->
 		<div id="ajaxList">
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000192898&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_1"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000192898',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '1');moveGoodsDetailForSearch('A000000192898','1000001000300140001', 'Result_1' , '로션' ,  '1' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획^1"
-							data-trk="/"
-							data-impression="A000000192898^통합검색결과페이지_검색결과상품_인기순^1"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0019/A00000019289804ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000192898',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '1');moveGoodsDetailForSearch('A000000192898','1000001000300140001', 'Result_1' ,  '로션' , '1' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획^1"
-								data-trk="/"> <span class="tx_brand">일리윤</span>
-								<p class="tx_name">[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML
-									어워즈 한정기획</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000192898"
-							data-ref-goodsnm="[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획"
-							data-ref-goodsbrand="일리윤"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="1" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">40,500</span>원</span> <span
-								class="tx_cur"><span class="tx_num">25,500</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">1493</span></span>(1493)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000192898"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_1"
-								data-ref-goodsnm="[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획"
-								data-ref-goodsbrand="일리윤"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="1" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000192898','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
+			<c:forEach var="i" varStatus="outerLoop" begin="1" end="6">
+				<ul id="w_cate_prd_list" class="cate_prd_list">
+					<c:set var="innerLoopBegin" value="${(outerLoop.index - 1) * 4}" />
+					<c:set var="innerLoopEnd" value="${(outerLoop.index * 4) -1}" />
+					<c:forEach items="${productList}" var="pml"
+						begin="${innerLoopBegin}" end="${innerLoopEnd}"
+						varStatus="innerLoop">
+						<!-- 1단형일 경우 클래스 list_type 추가 -->
+						<li class="flag li_result">
+							<div class="prd_info">
+								<!-- 이미지 영역 -->
+								<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
+								<a href="/store/goods?productDisplayId=${pml.productDisplayId}"
+									class="prd_thumb"
+									data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획^1"
+									data-trk="/"
+									data-impression="A000000192898^통합검색결과페이지_검색결과상품_인기순^1"
+									data-impression-visibility="1" name="${pml.productDisplayId}">
+									<span class="thumb_flag best">베스트</span> <!-- 베스트/신상 Flag | best : 베스트 / new : 신상 -->
+									<img src="${pml.productDisplaySrc}"
+									onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
+									alt="이미지 썸네일">
+								</a>
+								<!--// 이미지 영역 -->
+								<!-- 상품명 -->
+								<div class="prd_name">
+									<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
+									<a
+										href="javascript:gtm.goods.callGoodsGtmInfo('A000000192898',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '1');moveGoodsDetailForSearch('A000000192898','1000001000300140001', 'Result_1' ,  '로션' , '1' );"
+										data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획^1"
+										data-trk="/"> <span class="tx_brand">${pml.brandName}</span>
+										<p class="tx_name">${pml.productDisplayName}</p>
+									</a>
+								</div>
+								<!--// 상품명  -->
+								<!-- 찜버튼 -->
+								<button
+									class="btn_zzim jeem <c:if test='${pml.productLikeState eq 1}'> on </c:if>"
+									data-ref-goodsno="${pml.productDisplayId}"
+									data-ref-goodsnm="[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획"
+									data-ref-goodsbrand="일리윤"
+									data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
+									data-ref-goodstrackingno="1" data-ref-entrysource="통합검색결과페이지"
+									data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
+									<span>찜하기전</span>
+								</button>
+								<!--// 찜버튼 -->
+								<!-- 상품가격 영역 -->
+								<p class="prd_price">
+									<span class="tx_org"><span class="tx_num">${pml.minprice}</span>원</span>
+									<span class="tx_cur"><span class="tx_num">${pml.afterprice}</span>원</span>
+								</p>
+								<!--// 상품가격 영역 -->
+								<!-- 상품 쿠폰 및 플러스 추가 영역 -->
+								<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
+								<p class="prd_flag">
+									<c:if test="${pml.discountflag eq 1}">
+										<span class="icon_flag sale">세일</span>
+									</c:if>
+									<c:if test="${pml.couponflag eq 1}">
+										<span class="icon_flag coupon">쿠폰</span>
+									</c:if>
+
+									<c:if test="${pml.presentflag eq 1}">
+										<span class="icon_flag gift">증정</span>
+									</c:if>
+
+									<c:if test="${pml.todaypickupflag > 0}">
+										<span class="icon_flag delivery">오늘드림</span>
+									</c:if>
+								</p>
+								<!--// 상품 쿠폰 및 플러스 추가 영역 -->
+								<!--  상품평 및 장바구니버튼 -->
+								<p class="prd_point_area tx_num">
+									<span class="review_point"><span class="point"
+										style="width: 90%">1493</span></span>(1493)
+								</p>
+								<p class="prd_btn_area">
+									<button class="cartBtn" data-ref-goodsno="A000000192898"
+										data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
+										data-ref-cnt="0" data-ref-prstyn="N" name="Result_1"
+										data-ref-goodsnm="[2023어워즈바디1위] 일리윤 세라마이드 아토 로션 600ML+334ML 어워즈 한정기획"
+										data-ref-goodsbrand="일리윤"
+										data-ref-goodscategory="바디용품>바디 보습류>바디로션"
+										data-ref-goodstype="" data-ref-goodstrackingno="1"
+										data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세">장바구니</button>
+									<button class="btn_new_pop goodsList"
+										onclick="javascript:common.link.moveGoodsDetailNew('A000000192898','1000001000300140001');">새창보기</button>
+								</p>
+								<!-- // 상품평 및 장바구니버튼 -->
+							</div>
+						</li>
+					</c:forEach>
+
+				</ul>
+
+			</c:forEach>
+
+			<c:if test="${empty productList }">
+				<div class="search_no_data">
+					<p>
+						검색하신 <strong> ${param.searchWord }</strong>에 대한 <strong>상세검색</strong> 결과가 없습니다.
+					</p>
+					<div class="usage-guide">
+						<p>다시 검색해 보세요</p>
+						<ul>
+							<li>검색어의 철자가 정확한지 확인해보세요.</li>
+							<li>한글을 영어로 혹은 영어를 한글로 입력했는지 확인해보세요.</li>
+							<li>검색어의 띄어쓰기를 다르게 해보세요.</li>
+						</ul>
 					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000192919&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_2"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000192919',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '2');moveGoodsDetailForSearch('A000000192919','1000001000300140001', 'Result_2' , '로션' ,  '2' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈]더마비 데일리 모이스처 바디로션 500ml 어워즈 한정기획 (2023)^2"
-							data-trk="/"
-							data-impression="A000000192919^통합검색결과페이지_검색결과상품_인기순^2"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0019/A00000019291904ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000192919',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '2');moveGoodsDetailForSearch('A000000192919','1000001000300140001', 'Result_2' ,  '로션' , '2' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[2023어워즈]더마비 데일리 모이스처 바디로션 500ml 어워즈 한정기획 (2023)^2"
-								data-trk="/"> <span class="tx_brand">더마비</span>
-								<p class="tx_name">[2023어워즈]더마비 데일리 모이스처 바디로션 500ml 어워즈 한정기획
-									(2023)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000192919"
-							data-ref-goodsnm="[2023어워즈]더마비 데일리 모이스처 바디로션 500ml 어워즈 한정기획 (2023)"
-							data-ref-goodsbrand="더마비"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="2" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">39,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">22,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">2329</span></span>(2329)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000192919"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_2"
-								data-ref-goodsnm="[2023어워즈]더마비 데일리 모이스처 바디로션 500ml 어워즈 한정기획 (2023)"
-								data-ref-goodsbrand="더마비"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="2" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000192919','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000184129&amp;dispCatNo=1000001000800130001&amp;trackingCd=Result_3"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000184129',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '3');moveGoodsDetailForSearch('A000000184129','1000001000800130001', 'Result_3' , '로션' ,  '3' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^에스트라 아토베리어365 로션 150ml 기획 (+하이드로에센스 25ml+무기자차선크림10ml 증정)^3"
-							data-trk="/"
-							data-impression="A000000184129^통합검색결과페이지_검색결과상품_인기순^3"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0018/A00000018412902ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000184129',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '3');moveGoodsDetailForSearch('A000000184129','1000001000800130001', 'Result_3' ,  '로션' , '3' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^에스트라 아토베리어365 로션 150ml 기획 (+하이드로에센스 25ml+무기자차선크림10ml 증정)^3"
-								data-trk="/"> <span class="tx_brand">에스트라</span>
-								<p class="tx_name">에스트라 아토베리어365 로션 150ml 기획 (+하이드로에센스
-									25ml+무기자차선크림10ml 증정)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000184129"
-							data-ref-goodsnm="에스트라 아토베리어365 로션 150ml 기획 (+하이드로에센스 25ml+무기자차선크림10ml 증정)"
-							data-ref-goodsbrand="에스트라" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="3"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">31,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">23,200</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">10402</span></span>(10402)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000184129"
-								data-ref-dispcatno="1000001000800130001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_3"
-								data-ref-goodsnm="에스트라 아토베리어365 로션 150ml 기획 (+하이드로에센스 25ml+무기자차선크림10ml 증정)"
-								data-ref-goodsbrand="에스트라"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="3" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000184129','1000001000800130001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000157820&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_4"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000157820',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '4');moveGoodsDetailForSearch('A000000157820','1000001000300140001', 'Result_4' , '로션' ,  '4' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^일리윤 세라마이드 아토 로션 기획(334ml+100ml정품증정)^4"
-							data-trk="/"
-							data-impression="A000000157820^통합검색결과페이지_검색결과상품_인기순^4"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0015/A00000015782013ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000157820',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '4');moveGoodsDetailForSearch('A000000157820','1000001000300140001', 'Result_4' ,  '로션' , '4' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^일리윤 세라마이드 아토 로션 기획(334ml+100ml정품증정)^4"
-								data-trk="/"> <span class="tx_brand">일리윤</span>
-								<p class="tx_name">일리윤 세라마이드 아토 로션 기획(334ml+100ml정품증정)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000157820"
-							data-ref-goodsnm="일리윤 세라마이드 아토 로션 기획(334ml+100ml정품증정)"
-							data-ref-goodsbrand="일리윤"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="4" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">18,900</span>원</span> <span
-								class="tx_cur"><span class="tx_num">13,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">8495</span></span>(8495)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000157820"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_4"
-								data-ref-goodsnm="일리윤 세라마이드 아토 로션 기획(334ml+100ml정품증정)"
-								data-ref-goodsbrand="일리윤"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="4" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000157820','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000160158&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_5"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000160158',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '5');moveGoodsDetailForSearch('A000000160158','1000001000300140001', 'Result_5' , '로션' ,  '5' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^레이비 바디로션 350ml 4종 택1^5"
-							data-trk="/"
-							data-impression="A000000160158^통합검색결과페이지_검색결과상품_인기순^5"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0016/A00000016015815ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000160158',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '5');moveGoodsDetailForSearch('A000000160158','1000001000300140001', 'Result_5' ,  '로션' , '5' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^레이비 바디로션 350ml 4종 택1^5"
-								data-trk="/"> <span class="tx_brand">레이비</span>
-								<p class="tx_name">레이비 바디로션 350ml 4종 택1</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000160158"
-							data-ref-goodsnm="레이비 바디로션 350ml 4종 택1" data-ref-goodsbrand="레이비"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="5" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">13,900</span>원~</span>
-							<span class="tx_cur"><span class="tx_num">10,900</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">12777</span></span>(12777)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000160158"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_5"
-								data-ref-goodsnm="레이비 바디로션 350ml 4종 택1"
-								data-ref-goodsbrand="레이비"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="5" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000160158','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000161508&amp;dispCatNo=1000001000100160001&amp;trackingCd=Result_6"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000161508',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '6');moveGoodsDetailForSearch('A000000161508','1000001000100160001', 'Result_6' , '로션' ,  '6' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^라운드랩 1025 독도 로션 400ml 대용량^6"
-							data-trk="/"
-							data-impression="A000000161508^통합검색결과페이지_검색결과상품_인기순^6"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0016/A00000016150810ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000161508',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '6');moveGoodsDetailForSearch('A000000161508','1000001000100160001', 'Result_6' ,  '로션' , '6' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^라운드랩 1025 독도 로션 400ml 대용량^6"
-								data-trk="/"> <span class="tx_brand">라운드랩</span>
-								<p class="tx_name">라운드랩 1025 독도 로션 400ml 대용량</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000161508"
-							data-ref-goodsnm="라운드랩 1025 독도 로션 400ml 대용량"
-							data-ref-goodsbrand="라운드랩" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="6"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">39,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">25,600</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">7186</span></span>(7186)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000161508"
-								data-ref-dispcatno="1000001000100160001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_6"
-								data-ref-goodsnm="라운드랩 1025 독도 로션 400ml 대용량"
-								data-ref-goodsbrand="라운드랩"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="6" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000161508','1000001000100160001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000123568&amp;dispCatNo=1000001000800040005&amp;trackingCd=Result_7"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000123568',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '7');moveGoodsDetailForSearch('A000000123568','1000001000800040005', 'Result_7' , '로션' ,  '7' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^피지오겔 DMT 바디로션 400ml^7"
-							data-trk="/"
-							data-impression="A000000123568^통합검색결과페이지_검색결과상품_인기순^7"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0012/A00000012356803ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000123568',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '7');moveGoodsDetailForSearch('A000000123568','1000001000800040005', 'Result_7' ,  '로션' , '7' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^피지오겔 DMT 바디로션 400ml^7"
-								data-trk="/"> <span class="tx_brand">피지오겔</span>
-								<p class="tx_name">피지오겔 DMT 바디로션 400ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000123568"
-							data-ref-goodsnm="피지오겔 DMT 바디로션 400ml" data-ref-goodsbrand="피지오겔"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="7" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">33,500</span>원</span> <span
-								class="tx_cur"><span class="tx_num">26,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">3027</span></span>(3027)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000123568"
-								data-ref-dispcatno="1000001000800040005" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_7"
-								data-ref-goodsnm="피지오겔 DMT 바디로션 400ml"
-								data-ref-goodsbrand="피지오겔"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="7" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000123568','1000001000800040005');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000161657&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_8"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000161657',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '8');moveGoodsDetailForSearch('A000000161657','1000001000300140001', 'Result_8' , '로션' ,  '8' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^더마비 데일리 모이스처 바디로션 500ml^8"
-							data-trk="/"
-							data-impression="A000000161657^통합검색결과페이지_검색결과상품_인기순^8"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0016/A00000016165708ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000161657',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '8');moveGoodsDetailForSearch('A000000161657','1000001000300140001', 'Result_8' ,  '로션' , '8' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^더마비 데일리 모이스처 바디로션 500ml^8"
-								data-trk="/"> <span class="tx_brand">더마비</span>
-								<p class="tx_name">더마비 데일리 모이스처 바디로션 500ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000161657"
-							data-ref-goodsnm="더마비 데일리 모이스처 바디로션 500ml"
-							data-ref-goodsbrand="더마비"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="8" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">19,500</span>원</span> <span
-								class="tx_cur"><span class="tx_num">13,800</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">8703</span></span>(8703)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000161657"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_8"
-								data-ref-goodsnm="더마비 데일리 모이스처 바디로션 500ml"
-								data-ref-goodsbrand="더마비"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="8" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000161657','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000171921&amp;dispCatNo=1000001000300140002&amp;trackingCd=Result_9"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000171921',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '9');moveGoodsDetailForSearch('A000000171921','1000001000300140002', 'Result_9' , '로션' ,  '9' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^더마비 울트라 모이스처 바디크림 430ml 기획 (430ml+20ml로션)^9"
-							data-trk="/"
-							data-impression="A000000171921^통합검색결과페이지_검색결과상품_인기순^9"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0017/A00000017192102ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000171921',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '9');moveGoodsDetailForSearch('A000000171921','1000001000300140002', 'Result_9' ,  '로션' , '9' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^더마비 울트라 모이스처 바디크림 430ml 기획 (430ml+20ml로션)^9"
-								data-trk="/"> <span class="tx_brand">더마비</span>
-								<p class="tx_name">더마비 울트라 모이스처 바디크림 430ml 기획 (430ml+20ml로션)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000171921"
-							data-ref-goodsnm="더마비 울트라 모이스처 바디크림 430ml 기획 (430ml+20ml로션)"
-							data-ref-goodsbrand="더마비"
-							data-ref-goodscategory="바디용품>바디 보습류>바디크림" data-ref-goodstype=""
-							data-ref-goodstrackingno="9" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">23,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">16,000</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">3547</span></span>(3547)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000171921"
-								data-ref-dispcatno="1000001000300140002" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_9"
-								data-ref-goodsnm="더마비 울트라 모이스처 바디크림 430ml 기획 (430ml+20ml로션)"
-								data-ref-goodsbrand="더마비"
-								data-ref-goodscategory="바디용품>바디 보습류>바디크림" data-ref-goodstype=""
-								data-ref-goodstrackingno="9" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000171921','1000001000300140002');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000190615&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_10"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000190615',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '10');moveGoodsDetailForSearch('A000000190615','1000001000300140001', 'Result_10' , '로션' ,  '10' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^바이오가 밀크 프로틴 로션 500ml^10"
-							data-trk="/"
-							data-impression="A000000190615^통합검색결과페이지_검색결과상품_인기순^10"
-							data-impression-visibility="1"> <span class="thumb_flag best">베스트</span>
-						<!-- 베스트/신상 Flag | best : 베스트 / new : 신상 --> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0019/A00000019061501ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000190615',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '10');moveGoodsDetailForSearch('A000000190615','1000001000300140001', 'Result_10' ,  '로션' , '10' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^바이오가 밀크 프로틴 로션 500ml^10"
-								data-trk="/"> <span class="tx_brand">바이오가</span>
-								<p class="tx_name">바이오가 밀크 프로틴 로션 500ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000190615"
-							data-ref-goodsnm="바이오가 밀크 프로틴 로션 500ml"
-							data-ref-goodsbrand="바이오가"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="10" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_cur"><span class="tx_num">21,500</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">158</span></span>(158)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000190615"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_10"
-								data-ref-goodsnm="바이오가 밀크 프로틴 로션 500ml"
-								data-ref-goodsbrand="바이오가"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="10" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000190615','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000149109&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000149109',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '11');moveGoodsDetailForSearch('A000000149109','1000001000300140001', 'Result_11_30' , '로션' ,  '11' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[올영단독]아비노 스킨릴리프/스트레스릴리프 바디로션 354ml+스킨릴리프 71ml 기획팩^11"
-							data-trk="/"
-							data-impression="A000000149109^통합검색결과페이지_검색결과상품_인기순^11"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014910944ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000149109',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '11');moveGoodsDetailForSearch('A000000149109','1000001000300140001', 'Result_11_30' ,  '로션' , '11' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[올영단독]아비노 스킨릴리프/스트레스릴리프 바디로션 354ml+스킨릴리프 71ml 기획팩^11"
-								data-trk="/"> <span class="tx_brand">아비노</span>
-								<p class="tx_name">[올영단독]아비노 스킨릴리프/스트레스릴리프 바디로션 354ml+스킨릴리프
-									71ml 기획팩</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000149109"
-							data-ref-goodsnm="[올영단독]아비노 스킨릴리프/스트레스릴리프 바디로션 354ml+스킨릴리프 71ml 기획팩"
-							data-ref-goodsbrand="아비노"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="11" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">21,900</span>원~</span>
-							<span class="tx_cur"><span class="tx_num">14,900</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">5442</span></span>(5442)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000149109"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="004"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="[올영단독]아비노 스킨릴리프/스트레스릴리프 바디로션 354ml+스킨릴리프 71ml 기획팩"
-								data-ref-goodsbrand="아비노"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="11" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000149109','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000176103&amp;dispCatNo=1000001000100160001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000176103',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '12');moveGoodsDetailForSearch('A000000176103','1000001000100160001', 'Result_11_30' , '로션' ,  '12' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^아누아 어성초 70 데일리 로션 200ml^12"
-							data-trk="/"
-							data-impression="A000000176103^통합검색결과페이지_검색결과상품_인기순^12"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0017/A00000017610304ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000176103',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '12');moveGoodsDetailForSearch('A000000176103','1000001000100160001', 'Result_11_30' ,  '로션' , '12' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^아누아 어성초 70 데일리 로션 200ml^12"
-								data-trk="/"> <span class="tx_brand">아누아</span>
-								<p class="tx_name">아누아 어성초 70 데일리 로션 200ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000176103"
-							data-ref-goodsnm="아누아 어성초 70 데일리 로션 200ml"
-							data-ref-goodsbrand="아누아" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="12"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">28,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">21,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">551</span></span>(551)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000176103"
-								data-ref-dispcatno="1000001000100160001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="아누아 어성초 70 데일리 로션 200ml"
-								data-ref-goodsbrand="아누아" data-ref-goodscategory="기초화장품>스킨케어>로션"
-								data-ref-goodstype="" data-ref-goodstrackingno="12"
-								data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000176103','1000001000100160001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000181496&amp;dispCatNo=1000001000100160001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000181496',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '13');moveGoodsDetailForSearch('A000000181496','1000001000100160001', 'Result_11_30' , '로션' ,  '13' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^크리니크 노란에센스 젤/로션 125ml 기획 (루피 키링 증정)^13"
-							data-trk="/"
-							data-impression="A000000181496^통합검색결과페이지_검색결과상품_인기순^13"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0018/A00000018149611ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000181496',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '13');moveGoodsDetailForSearch('A000000181496','1000001000100160001', 'Result_11_30' ,  '로션' , '13' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^크리니크 노란에센스 젤/로션 125ml 기획 (루피 키링 증정)^13"
-								data-trk="/"> <span class="tx_brand">크리니크</span>
-								<p class="tx_name">크리니크 노란에센스 젤/로션 125ml 기획 (루피 키링 증정)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000181496"
-							data-ref-goodsnm="크리니크 노란에센스 젤/로션 125ml 기획 (루피 키링 증정)"
-							data-ref-goodsbrand="크리니크" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="13"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">55,000</span>원~</span>
-							<span class="tx_cur"><span class="tx_num">38,500</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">1592</span></span>(1592)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000181496"
-								data-ref-dispcatno="1000001000100160001" data-ref-itemno="003"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="크리니크 노란에센스 젤/로션 125ml 기획 (루피 키링 증정)"
-								data-ref-goodsbrand="크리니크"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="13" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000181496','1000001000100160001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000142694&amp;dispCatNo=1000001000800130005&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000142694',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '14');moveGoodsDetailForSearch('A000000142694','1000001000800130005', 'Result_11_30' , '로션' ,  '14' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[온라인 단독기획] 바이오더마 하이드라비오 에센스로션 더블기획(200ml+200ml)^14"
-							data-trk="/"
-							data-impression="A000000142694^통합검색결과페이지_검색결과상품_인기순^14"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014269410ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000142694',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '14');moveGoodsDetailForSearch('A000000142694','1000001000800130005', 'Result_11_30' ,  '로션' , '14' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[온라인 단독기획] 바이오더마 하이드라비오 에센스로션 더블기획(200ml+200ml)^14"
-								data-trk="/"> <span class="tx_brand">바이오더마</span>
-								<p class="tx_name">[온라인 단독기획] 바이오더마 하이드라비오 에센스로션
-									더블기획(200ml+200ml)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000142694"
-							data-ref-goodsnm="[온라인 단독기획] 바이오더마 하이드라비오 에센스로션 더블기획(200ml+200ml)"
-							data-ref-goodsbrand="바이오더마"
-							data-ref-goodscategory="기초화장품>스킨케어>에센스" data-ref-goodstype=""
-							data-ref-goodstrackingno="14" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">54,000</span>원~</span>
-							<span class="tx_cur"><span class="tx_num">43,740</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">8507</span></span>(8507)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000142694"
-								data-ref-dispcatno="1000001000800130005" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_11_30"
-								data-ref-goodsnm="[온라인 단독기획] 바이오더마 하이드라비오 에센스로션 더블기획(200ml+200ml)"
-								data-ref-goodsbrand="바이오더마"
-								data-ref-goodscategory="기초화장품>스킨케어>에센스" data-ref-goodstype=""
-								data-ref-goodstrackingno="14" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000142694','1000001000800130005');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000016686&amp;dispCatNo=1000001000800130001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000016686',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '15');moveGoodsDetailForSearch('A000000016686','1000001000800130001', 'Result_11_30' , '로션' ,  '15' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^아벤느 트릭세라 로션 (본품200ml+100ml 추가 증정)^15"
-							data-trk="/"
-							data-impression="A000000016686^통합검색결과페이지_검색결과상품_인기순^15"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0001/A00000001668625ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000016686',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '15');moveGoodsDetailForSearch('A000000016686','1000001000800130001', 'Result_11_30' ,  '로션' , '15' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^아벤느 트릭세라 로션 (본품200ml+100ml 추가 증정)^15"
-								data-trk="/"> <span class="tx_brand">아벤느</span>
-								<p class="tx_name">아벤느 트릭세라 로션 (본품200ml+100ml 추가 증정)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000016686"
-							data-ref-goodsnm="아벤느 트릭세라 로션 (본품200ml+100ml 추가 증정)"
-							data-ref-goodsbrand="아벤느" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="15"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_cur"><span class="tx_num">33,000</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">3306</span></span>(3306)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000016686"
-								data-ref-dispcatno="1000001000800130001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_11_30"
-								data-ref-goodsnm="아벤느 트릭세라 로션 (본품200ml+100ml 추가 증정)"
-								data-ref-goodsbrand="아벤느" data-ref-goodscategory="기초화장품>스킨케어>로션"
-								data-ref-goodstype="" data-ref-goodstrackingno="15"
-								data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000016686','1000001000800130001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000145576&amp;dispCatNo=1000001000100160001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000145576',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '16');moveGoodsDetailForSearch('A000000145576','1000001000100160001', 'Result_11_30' , '로션' ,  '16' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^라운드랩 1025 독도 로션 (본품200ml+50ml 추가 증정)^16"
-							data-trk="/"
-							data-impression="A000000145576^통합검색결과페이지_검색결과상품_인기순^16"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014557623ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000145576',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '16');moveGoodsDetailForSearch('A000000145576','1000001000100160001', 'Result_11_30' ,  '로션' , '16' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^라운드랩 1025 독도 로션 (본품200ml+50ml 추가 증정)^16"
-								data-trk="/"> <span class="tx_brand">라운드랩</span>
-								<p class="tx_name">라운드랩 1025 독도 로션 (본품200ml+50ml 추가 증정)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000145576"
-							data-ref-goodsnm="라운드랩 1025 독도 로션 (본품200ml+50ml 추가 증정)"
-							data-ref-goodsbrand="라운드랩" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="16"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">20,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">17,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">4262</span></span>(4262)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000145576"
-								data-ref-dispcatno="1000001000100160001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="라운드랩 1025 독도 로션 (본품200ml+50ml 추가 증정)"
-								data-ref-goodsbrand="라운드랩"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="16" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000145576','1000001000100160001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000174053&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000174053',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '17');moveGoodsDetailForSearch('A000000174053','1000001000300140001', 'Result_11_30' , '로션' ,  '17' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[신세경PICK] 스킨유 끈적임 없는 퍼퓸 바디로션 350ML 3종 택1(머스크/플로럴)^17"
-							data-trk="/"
-							data-impression="A000000174053^통합검색결과페이지_검색결과상품_인기순^17"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0017/A00000017405312ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000174053',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '17');moveGoodsDetailForSearch('A000000174053','1000001000300140001', 'Result_11_30' ,  '로션' , '17' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[신세경PICK] 스킨유 끈적임 없는 퍼퓸 바디로션 350ML 3종 택1(머스크/플로럴)^17"
-								data-trk="/"> <span class="tx_brand">스킨유</span>
-								<p class="tx_name">[신세경PICK] 스킨유 끈적임 없는 퍼퓸 바디로션 350ML 3종
-									택1(머스크/플로럴)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000174053"
-							data-ref-goodsnm="[신세경PICK] 스킨유 끈적임 없는 퍼퓸 바디로션 350ML 3종 택1(머스크/플로럴)"
-							data-ref-goodsbrand="스킨유"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="17" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">19,900</span>원~</span>
-							<span class="tx_cur"><span class="tx_num">14,900</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">432</span></span>(432)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000174053"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="[신세경PICK] 스킨유 끈적임 없는 퍼퓸 바디로션 350ML 3종 택1(머스크/플로럴)"
-								data-ref-goodsbrand="스킨유"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="17" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000174053','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000008525&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000008525',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '18');moveGoodsDetailForSearch('A000000008525','1000001000300140001', 'Result_11_30' , '로션' ,  '18' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[리뷰이벤트] 니베아 SOS케어 바디로션 더블 기획 (400ml+400ml)^18"
-							data-trk="/"
-							data-impression="A000000008525^통합검색결과페이지_검색결과상품_인기순^18"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0000/A00000000852519ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000008525',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '18');moveGoodsDetailForSearch('A000000008525','1000001000300140001', 'Result_11_30' ,  '로션' , '18' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[리뷰이벤트] 니베아 SOS케어 바디로션 더블 기획 (400ml+400ml)^18"
-								data-trk="/"> <span class="tx_brand">니베아</span>
-								<p class="tx_name">[리뷰이벤트] 니베아 SOS케어 바디로션 더블 기획
-									(400ml+400ml)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000008525"
-							data-ref-goodsnm="[리뷰이벤트] 니베아 SOS케어 바디로션 더블 기획 (400ml+400ml)"
-							data-ref-goodsbrand="니베아"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="18" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">19,800</span>원</span> <span
-								class="tx_cur"><span class="tx_num">19,600</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">1215</span></span>(1215)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000008525"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="[리뷰이벤트] 니베아 SOS케어 바디로션 더블 기획 (400ml+400ml)"
-								data-ref-goodsbrand="니베아"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="18" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000008525','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000157452&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000157452',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '19');moveGoodsDetailForSearch('A000000157452','1000001000300140001', 'Result_11_30' , '로션' ,  '19' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^세타필 모이스춰라이징 로션 1L^19"
-							data-trk="/"
-							data-impression="A000000157452^통합검색결과페이지_검색결과상품_인기순^19"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0015/A00000015745245ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000157452',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '19');moveGoodsDetailForSearch('A000000157452','1000001000300140001', 'Result_11_30' ,  '로션' , '19' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^세타필 모이스춰라이징 로션 1L^19"
-								data-trk="/"> <span class="tx_brand">세타필</span>
-								<p class="tx_name">세타필 모이스춰라이징 로션 1L</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000157452"
-							data-ref-goodsnm="세타필 모이스춰라이징 로션 1L" data-ref-goodsbrand="세타필"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="19" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_cur"><span class="tx_num">25,600</span>원~</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">13013</span></span>(13013)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000157452"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="002"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="세타필 모이스춰라이징 로션 1L" data-ref-goodsbrand="세타필"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="19" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000157452','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000012809&amp;dispCatNo=1000001000800130001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000012809',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '20');moveGoodsDetailForSearch('A000000012809','1000001000800130001', 'Result_11_30' , '로션' ,  '20' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^피지오겔 DMT 데일리보습 로션 200ml^20"
-							data-trk="/"
-							data-impression="A000000012809^통합검색결과페이지_검색결과상품_인기순^20"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0001/A00000001280903ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000012809',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '20');moveGoodsDetailForSearch('A000000012809','1000001000800130001', 'Result_11_30' ,  '로션' , '20' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^피지오겔 DMT 데일리보습 로션 200ml^20"
-								data-trk="/"> <span class="tx_brand">피지오겔</span>
-								<p class="tx_name">피지오겔 DMT 데일리보습 로션 200ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000012809"
-							data-ref-goodsnm="피지오겔 DMT 데일리보습 로션 200ml"
-							data-ref-goodsbrand="피지오겔" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="20"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_cur"><span class="tx_num">38,000</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">8652</span></span>(8652)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000012809"
-								data-ref-dispcatno="1000001000800130001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_11_30"
-								data-ref-goodsnm="피지오겔 DMT 데일리보습 로션 200ml"
-								data-ref-goodsbrand="피지오겔"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="20" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000012809','1000001000800130001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
-			<ul id="w_cate_prd_list" class="cate_prd_list">
-				<!-- 1단형일 경우 클래스 list_type 추가 -->
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000156807&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000156807',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '21');moveGoodsDetailForSearch('A000000156807','1000001000300140001', 'Result_11_30' , '로션' ,  '21' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^헉슬리 바디로션 모로칸 가드너 300ml^21"
-							data-trk="/"
-							data-impression="A000000156807^통합검색결과페이지_검색결과상품_인기순^21"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0015/A00000015680722ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000156807',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '21');moveGoodsDetailForSearch('A000000156807','1000001000300140001', 'Result_11_30' ,  '로션' , '21' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^헉슬리 바디로션 모로칸 가드너 300ml^21"
-								data-trk="/"> <span class="tx_brand">헉슬리</span>
-								<p class="tx_name">헉슬리 바디로션 모로칸 가드너 300ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000156807"
-							data-ref-goodsnm="헉슬리 바디로션 모로칸 가드너 300ml"
-							data-ref-goodsbrand="헉슬리"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="21" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">38,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">32,300</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">1089</span></span>(1089)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000156807"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="헉슬리 바디로션 모로칸 가드너 300ml"
-								data-ref-goodsbrand="헉슬리"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="21" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000156807','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000156295&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000156295',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '22');moveGoodsDetailForSearch('A000000156295','1000001000300140001', 'Result_11_30' , '로션' ,  '22' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[더블기획] 뉴트로지나 비져블리 리뉴 바디로션 더블 기획 (450ml+450ml)^22"
-							data-trk="/"
-							data-impression="A000000156295^통합검색결과페이지_검색결과상품_인기순^22"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0015/A00000015629504ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000156295',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '22');moveGoodsDetailForSearch('A000000156295','1000001000300140001', 'Result_11_30' ,  '로션' , '22' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[더블기획] 뉴트로지나 비져블리 리뉴 바디로션 더블 기획 (450ml+450ml)^22"
-								data-trk="/"> <span class="tx_brand">뉴트로지나</span>
-								<p class="tx_name">[더블기획] 뉴트로지나 비져블리 리뉴 바디로션 더블 기획
-									(450ml+450ml)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000156295"
-							data-ref-goodsnm="[더블기획] 뉴트로지나 비져블리 리뉴 바디로션 더블 기획 (450ml+450ml)"
-							data-ref-goodsbrand="뉴트로지나"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="22" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">24,900</span>원</span> <span
-								class="tx_cur"><span class="tx_num">19,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">2149</span></span>(2149)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000156295"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="[더블기획] 뉴트로지나 비져블리 리뉴 바디로션 더블 기획 (450ml+450ml)"
-								data-ref-goodsbrand="뉴트로지나"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="22" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000156295','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000129008&amp;dispCatNo=1000001000800130001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000129008',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '23');moveGoodsDetailForSearch('A000000129008','1000001000800130001', 'Result_11_30' , '로션' ,  '23' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^에스트라 아토베리어365 로션 150ml^23"
-							data-trk="/"
-							data-impression="A000000129008^통합검색결과페이지_검색결과상품_인기순^23"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0012/A00000012900813ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000129008',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '23');moveGoodsDetailForSearch('A000000129008','1000001000800130001', 'Result_11_30' ,  '로션' , '23' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^에스트라 아토베리어365 로션 150ml^23"
-								data-trk="/"> <span class="tx_brand">에스트라</span>
-								<p class="tx_name">에스트라 아토베리어365 로션 150ml</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000129008"
-							data-ref-goodsnm="에스트라 아토베리어365 로션 150ml"
-							data-ref-goodsbrand="에스트라" data-ref-goodscategory="기초화장품>스킨케어>로션"
-							data-ref-goodstype="" data-ref-goodstrackingno="23"
-							data-ref-entrysource="통합검색결과페이지" data-ref-cornernm="검색상품상세"
-							onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">31,000</span>원</span> <span
-								class="tx_cur"><span class="tx_num">23,200</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag gift">증정</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">14577</span></span>(14577)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000129008"
-								data-ref-dispcatno="1000001000800130001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="Y" name="Result_11_30"
-								data-ref-goodsnm="에스트라 아토베리어365 로션 150ml"
-								data-ref-goodsbrand="에스트라"
-								data-ref-goodscategory="기초화장품>스킨케어>로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="23" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000129008','1000001000800130001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-				<li class="flag li_result">
-					<div class="prd_info">
-						<!-- 이미지 영역 -->
-						<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-						<a
-							href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000157408&amp;dispCatNo=1000001000300140001&amp;trackingCd=Result_11_30"
-							onclick="javascript:gtm.goods.callGoodsGtmInfo('A000000157408',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '24');moveGoodsDetailForSearch('A000000157408','1000001000300140001', 'Result_11_30' , '로션' ,  '24' ); return false;"
-							class="prd_thumb"
-							data-attr="통합검색결과페이지^검색결과상품_인기순^[단독기획]닥터바이오 에코 모이스춰라이징 로션 (500ml+100ml)^24"
-							data-trk="/"
-							data-impression="A000000157408^통합검색결과페이지_검색결과상품_인기순^24"
-							data-impression-visibility="1"> <img
-							src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0015/A00000015740804ko.jpg?l=ko"
-							onerror="this.src='https://static.oliveyoung.co.kr/pc-static-root/image/comm/noimg_550.gif';this.onerror='';"
-							alt="이미지 썸네일">
-						</a>
-						<!--// 이미지 영역 -->
-						<!-- 상품명 -->
-						<div class="prd_name">
-							<!-- [3389141] (영역별 매출분석) 오특, 검색, 베스트, 메인 추가(CHY) -->
-							<a
-								href="javascript:gtm.goods.callGoodsGtmInfo('A000000157408',null, 'ee-productClick', '통합검색결과페이지_검색결과상품_인기순', '24');moveGoodsDetailForSearch('A000000157408','1000001000300140001', 'Result_11_30' ,  '로션' , '24' );"
-								data-attr="통합검색결과페이지^검색결과상품_인기순^[단독기획]닥터바이오 에코 모이스춰라이징 로션 (500ml+100ml)^24"
-								data-trk="/"> <span class="tx_brand">닥터바이오</span>
-								<p class="tx_name">[단독기획]닥터바이오 에코 모이스춰라이징 로션 (500ml+100ml)</p>
-							</a>
-						</div>
-						<!--// 상품명  -->
-						<!-- 찜버튼 -->
-						<button class="btn_zzim jeem" data-ref-goodsno="A000000157408"
-							data-ref-goodsnm="[단독기획]닥터바이오 에코 모이스춰라이징 로션 (500ml+100ml)"
-							data-ref-goodsbrand="닥터바이오"
-							data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-							data-ref-goodstrackingno="24" data-ref-entrysource="통합검색결과페이지"
-							data-ref-cornernm="검색상품상세" onclick="zzimWebLog();">
-							<span>찜하기전</span>
-						</button>
-						<!--// 찜버튼 -->
-						<!-- 상품가격 영역 -->
-						<p class="prd_price">
-							<span class="tx_org"><span class="tx_num">20,400</span>원</span> <span
-								class="tx_cur"><span class="tx_num">16,900</span>원</span>
-						</p>
-						<!--// 상품가격 영역 -->
-						<!-- 상품 쿠폰 및 플러스 추가 영역 -->
-						<!-- icon 사이 공백으로 인해 다 붙여서 한줄로 만들것 -->
-						<p class="prd_flag">
-							<span class="icon_flag sale">세일</span> <span
-								class="icon_flag delivery">오늘드림</span>
-						</p>
-						<!--// 상품 쿠폰 및 플러스 추가 영역 -->
-						<!--  상품평 및 장바구니버튼 -->
-						<p class="prd_point_area tx_num">
-							<span class="review_point"><span class="point"
-								style="width: 90%">1354</span></span>(1354)
-						</p>
-						<p class="prd_btn_area">
-							<button class="cartBtn" data-ref-goodsno="A000000157408"
-								data-ref-dispcatno="1000001000300140001" data-ref-itemno="001"
-								data-ref-cnt="0" data-ref-prstyn="N" name="Result_11_30"
-								data-ref-goodsnm="[단독기획]닥터바이오 에코 모이스춰라이징 로션 (500ml+100ml)"
-								data-ref-goodsbrand="닥터바이오"
-								data-ref-goodscategory="바디용품>바디 보습류>바디로션" data-ref-goodstype=""
-								data-ref-goodstrackingno="24" data-ref-entrysource="통합검색결과페이지"
-								data-ref-cornernm="검색상품상세">장바구니</button>
-							<button class="btn_new_pop goodsList"
-								onclick="javascript:common.link.moveGoodsDetailNew('A000000157408','1000001000300140001');">새창보기</button>
-						</p>
-						<!-- // 상품평 및 장바구니버튼 -->
-					</div>
-				</li>
-			</ul>
+				</div>
+			</c:if>
+
 			<ul style="">
 				<li class="cura_resultsList">
 					<div class="cura_pord crtBtm" id="curation_area_s204" style="">
@@ -2391,16 +926,6 @@
 				<li>
 					<div class="cura_pord crtBtm" id="curation_area_s001" style="">
 						<div class="curation_slide type01" id="goods_curation_s001">
-
-
-
-
-
-
-
-
-
-
 
 
 							<h4 class="tit_h4">
@@ -3270,47 +1795,6 @@
 										</div>
 									</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 									<button type="button" data-role="none"
 										class="slick-next slick-arrow" aria-label="Next" role="button"
 										style="display: block;">1/4</button>
@@ -3679,23 +2163,55 @@
 		<!--// -->
 		<!-- pageing start -->
 		<div class="pageing">
-			<strong title="현재 페이지">1</strong><a href="#none"
-				onclick="javascript:doPaging('24');" title="Paging"> 2 </a><a
-				href="#none" onclick="javascript:doPaging('48');" title="Paging">
-				3 </a><a href="#none" onclick="javascript:doPaging('72');"
-				title="Paging"> 4 </a><a href="#none"
-				onclick="javascript:doPaging('96');" title="Paging"> 5 </a><a
-				href="#none" onclick="javascript:doPaging('120');" title="Paging">
-				6 </a><a href="#none" onclick="javascript:doPaging('144');"
-				title="Paging"> 7 </a><a href="#none"
-				onclick="javascript:doPaging('168');" title="Paging"> 8 </a><a
-				href="#none" onclick="javascript:doPaging('192');" title="Paging">
-				9 </a><a href="#none" onclick="javascript:doPaging('216');"
-				title="Paging"> 10 </a><a class="next" href="#none"
-				onclick="javascript:doPaging('240')" title="Next Page">다음 페이지</a>
+			<c:if test="${pageDTO.prev }">
+				<a class="prev" href="#" data-page-no="${pageDTO.start-1}">이전 10
+					페이지</a>
+			</c:if>
+			<c:forEach var="i" begin="${pageDTO.start }" end="${pageDTO.end }"
+				step="1">
+				<c:choose>
+					<c:when test="${i eq pageDTO.currentPage}">
+						<strong title="현재 페이지">${i}</strong>
+						<%-- <a class="active" href="#">${i }</a> --%>
+					</c:when>
+					<c:otherwise>
+						<a href="#" data-page-no="${i}">${i }</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${pageDTO.next }">
+				<a class="next" href="#" data-page-no="${pageDTO.end+1}">다음 10
+					페이지</a>
+			</c:if>
+			<!-- <strong title="현재 페이지">1</strong> -->
 		</div>
 		<!-- //pageing end -->
 		<!-- </div> -->
 	</div>
 	<!-- //#Contents -->
 </div>
+
+<script>
+	$(function() {
+		$("a.cate").on("click", function() {
+			let categorySmallId = $(this).attr("id")
+			console.log(categorySmallId)
+			//let url = window.location.href;
+			let url = "/search?searchWord=${param.searchWord}&sort=${param.sort}&currentpage=1&categorySmallId=";
+			 
+			const URLSearch = new URLSearchParams(location.search)
+			URLSearch.set("categorySmallId", String(categorySmallId))
+			const newParam = URLSearch.toString();
+			//window.location.href = location.pathname + '?' + newParam
+			window.location.href = url + categorySmallId;
+		})
+		
+		$(".btnReset").on("click",function(){
+			const URLSearch = new URLSearchParams(location.search)
+			const newParam = URLSearch.get("searchWord")
+			 
+			window.location.href = location.pathname+'?searchWord='+newParam
+		})
+		
+	})
+</script>

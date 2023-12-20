@@ -39,5 +39,17 @@ public interface SearchService {
 				String brandId[],
 				int minPrice,
 				int maxPrice);
+		
+		// 검색 ajax
+		public List<ProductContainer>searchAjaxService(String word);
+		// 브랜드 검색 ajax
+		public BrandDTO searchBrandAjaxService(String word);
+		
+		// 검색어 조회
+		public List<String> searchWordService();
+		// 검색어 중복 확인
+		public int checkSearchWordService(String searchWord);
+		//검색어 저장/업뎃
+		public int addSearchWordService(String searchWord);
 
 }
