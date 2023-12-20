@@ -57,4 +57,50 @@ public class SearchServiceImpl implements SearchService {
 		return this.searchMapper.searchTotalPages(searchWord, categorySmallId, perPage, brandId, minPrice, maxPrice);
 	}
 
+	@Override
+	public List<ProductContainer> searchAjaxService(String word) {
+		
+		List<ProductContainer> list = this.searchMapper.searchAjax(word);
+		for (int i = 0; i < list.size(); i++) {
+			ProductContainer item = list.get(i);
+			 String fieldToSearch = item.getProductDisplayName();
+           // 만약 리스트의 항목에 해당 단어가 포함되어 있다면 변경
+			 if (fieldToSearch != null && fieldToSearch.contains(word)) {
+			        fieldToSearch = fieldToSearch.replaceAll(word, "<span>" + word + "</span>");
+			        item.setProductDisplayName(fieldToSearch); // 변경된 문자열로 필드를 대체
+			        list.set(i, item); // 변경된 객체를 리스트에 다시 설정
+			    }
+       }
+		
+		return list;
+	}
+
+	@Override
+	public BrandDTO searchBrandAjaxService(String word) {
+		
+		return this.searchMapper.searchBrandAjax(word);
+	}
+
+	@Override
+	public List<String> searchWordService() {
+		// TODO Auto-generated method stub
+		return this.searchMapper.searchWord();
+	}
+
+	@Override
+	public int checkSearchWordService(String searchWord) {
+		// TODO Auto-generated method stub
+		return this.searchMapper.checkSearchWord(searchWord);
+	}
+
+	@Override
+	public int addSearchWordService(String searchWord) {
+		if (checkSearchWordService(searchWord) == 1) {
+			return this.searchMapper.updateSearchWord(searchWord);
+		}else {
+			return this.searchMapper.insertSearchWord(searchWord);
+		}
+		
+	}
+
 }

@@ -61,7 +61,21 @@ public class SearchController {
 		model.addAttribute("productList", productList);
 		
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("categorySmallId",categorySmallId);
+		
+		this.searchService.addSearchWordService(searchWord);
 		
 		return "search.search";
+	}
+	
+	@GetMapping("/searchAjax")
+	public String searchAjax(@RequestParam("word")String word, Model model) {
+		List<ProductContainer> list = this.searchService.searchAjaxService(word);
+		BrandDTO brandDTO = this.searchService.searchBrandAjaxService(word);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("brandSearch",brandDTO);
+		
+		return "/search/searchAjax";
 	}
 }

@@ -114,5 +114,9 @@
         join brand b on pd.brand_id = b.brand_id
         where gd.product_display_id = #{productDisplayId}
 	</select>
-	
+	<!-- 쿠키용 -->
+	<!-- ProductContainer cookie(@Param("productDisplayId")String productDisplayId); -->
+	<select id="cookie" resultType="ProductContainer">
+		select * from productcontainer where product_display_id= #{productDisplayId}
+	</select>
 </mapper>

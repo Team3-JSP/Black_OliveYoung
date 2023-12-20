@@ -41,4 +41,18 @@ public interface SearchMapper {
 			@Param("brandId")String brandId[],
 			@Param("minPrice") int minPrice,
 			@Param("maxPrice") int maxPrice);
+	
+	// 검색 ajax
+	public List<ProductContainer>searchAjax(@Param("word")String word);
+	// 브랜드 검색 ajax
+	public BrandDTO searchBrandAjax(@Param("word")String word);
+	
+	// 검색어 저장
+	public int insertSearchWord(@Param("searchWord") String searchWord);
+	// 검색어 업데이트
+	public int updateSearchWord(@Param("searchWord") String searchWord);
+	// 검색어 조회
+	public int checkSearchWord(@Param("searchWord") String searchWord);
+	// 상위 10개 검색어 가져오기
+	public List<String> searchWord();
 }

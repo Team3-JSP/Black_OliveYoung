@@ -83,7 +83,7 @@
 		JOIN category_mid cm ON cm.category_mid_id = cs.category_mid_id
         where product_display_name Like '%${searchWord}%'
         <if test="categorySmallId != null and categorySmallId.length > 0">
-            AND   category_small_id = #{categorySmallId}
+            AND    cs.category_small_id = #{categorySmallId}
         </if>
 	</select>
 	<!-- // 검색된 상품의 총 레코드 수
@@ -132,5 +132,43 @@
 			</if>
 		
 		</select>
-
+		
+		<select id="searchAjax" resultType="ProductContainer">
+		<![CDATA[
+		SELECT * FROM (
+                SELECT * FROM productcontainer where product_display_name Like '%${word}%'
+				) WHERE ROWNUM <= 5
+				]]>
+		</select>
+		
+		<select id="searchBrandAjax" resultType="BrandDTO">
+			select b.brand_id, brand_name, i.brand_logo_src 
+			from brand b 
+			left join brand_logo i 
+			on b.brand_id = i.brand_id 
+			where brand_name = #{word}
+		</select>
+		
+		 <select id="checkSearchWord" resultType="int">
+		 	select count(*) from searchword where searchword = #{searchWord}
+		 </select>
+		 
+		 <select id="searchWord" resultType="String">
+		 <![CDATA[
+		 	select * from(
+			select searchword from searchword order by search_cnt desc) WHERE ROWNUM <= 10
+			]]>
+		 </select>
+		 
+		 <insert id="insertSearchWord">
+		 	INSERT INTO searchword (search_id, searchword, search_cnt)
+			VALUES (searchword_seq.NEXTVAL, #{searchWord}, 1)
+		 </insert>
+		 
+		 <update id="updateSearchWord">
+		 	UPDATE searchword
+		 	SET search_cnt = search_cnt + 1
+		 	WHERE searchword = #{searchWord}
+		 </update>
+		 
 </mapper>
