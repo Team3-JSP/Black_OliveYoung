@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blackolive.app.domain.exhibition.BannerNProductDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
+import com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionImgDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionInfoDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -41,6 +42,15 @@ public class ExhibitionController {
 		// 기획전 사진 갖고오는 작업
 		List<ExhibitionImgDTO> exhibitionImg = this.exhibitionService.getExhibitionImgService(eventId);
 		model.addAttribute("exhibitionImg", exhibitionImg);
+		
+		// 기획전 카테고리, 상품 갖고오는 작업
+		List<ExhibitionCategoryDTO> exhibitionCategory = this.exhibitionService.getExhibitionCategoryService(eventId);
+		model.addAttribute("exhibitionCategory", exhibitionCategory);
+		
+		if (eventId.equals("le_00000001")) {
+			return "exhibition.luxeedit";
+		}
+		
 		
 		return "exhibition.exhibition";
 	}//

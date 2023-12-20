@@ -34,7 +34,11 @@ public class ExhibitionTest {
 		
 		//System.out.println(">>>>>>"+this.exhibitionService.getExhibitionBannerNProduct(null).get(0).getGetproductcontainer().toString());
 		
-		assertNotNull(this.exhibitionService.getExhibitionInfoService("pe_00000001"));
+		// assertNotNull(this.exhibitionService.getExhibitionInfoService("pe_00000001"));
+		
+		// assertNotNull(this.exhibitionService.getExhibitionImgService("pe_00000001"));
+		
+		assertNotNull(this.exhibitionService.getExhibitionCategoryService("le_00000001"));
 	} // getBannerNProduct
 
 }

@@ -89,10 +89,29 @@
 	public List<ExhibitionImgDTO> getExhibitionImg(@Param("eventId")String eventId) throws SQLException; -->
 	<select id="getExhibitionImg" resultType="ExhibitionImgDTO">
 		SELECT 
-			EXHIBITION_IMG_ID
+			EXHIBITION_IMG_ID,
 			EXHIBITION_IMG_SRC
 		FROM exhibition_img
 		WHERE EXHIBITION_ID = #{eventId}
 	</select>
+	
+	<!-- // 기획전 내부카테고리와 상품 리스트 갖고오는 작업
+	public List<ExhibitionCategoryDTO> getExhibitionCategory(@Param("eventId")String eventId) throws SQLException; -->
+	
+	<resultMap type="ExhibitionCategoryDTO" id="getExCate">
+		<result property="exhibitionCategoryId" column="exhibition_category_id"/>
+		<result property="exhibitionCategoryName" column="exhibition_category_name"/>
+		<collection property="productContainer" resultMap="productContainer"></collection>	
+	</resultMap>
+	
+	<select id="getExhibitionCategory" resultMap="getExCate">
+		SELECT excate.exhibition_category_id, excate.exhibition_category_name, pdct.*
+		FROM exhibition ex
+		JOIN exhibition_category excate ON ex.exhibition_id = excate.exhibition_id
+		JOIN exhibition_connect exconn ON excate.exhibition_category_id = exconn.exhibition_category_id
+		JOIN productcontainer pdct ON exconn.product_display_id = pdct.product_display_id
+		WHERE ex.exhibition_id = #{eventId}
+	</select>
+	
 
 </mapper>

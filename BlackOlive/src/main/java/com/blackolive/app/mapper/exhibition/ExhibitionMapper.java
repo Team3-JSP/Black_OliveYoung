@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.exhibition.BannerNProductDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
+import com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionImgDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionInfoDTO;
 
@@ -25,5 +26,9 @@ public interface ExhibitionMapper {
 	
 	// 기획전 사진 갖고오는 작업 getExhibitionImg
 	public List<ExhibitionImgDTO> getExhibitionImg(@Param("eventId")String eventId) throws SQLException;
+	
+	// 기획전 내부카테고리와 상품 리스트 갖고오는 작업
+	public List<ExhibitionCategoryDTO> getExhibitionCategory(@Param("eventId")String eventId) throws SQLException;
+	
 	
 } // interface

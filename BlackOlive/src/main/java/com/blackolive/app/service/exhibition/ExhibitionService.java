@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.blackolive.app.domain.exhibition.BannerNProductDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
+import com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionImgDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionInfoDTO;
 
@@ -19,6 +20,9 @@ public interface ExhibitionService {
 	
 	// 기획전 사진 갖고오는 작업
 	public List<ExhibitionImgDTO> getExhibitionImgService(String eventId);
+	
+	// 기획전 카테고리, 상품 갖고오는 작업
+	public List<ExhibitionCategoryDTO> getExhibitionCategoryService(String eventId);
 	
 	
 } // interface

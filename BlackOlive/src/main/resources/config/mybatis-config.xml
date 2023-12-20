@@ -49,6 +49,7 @@
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionBannerDTO" alias="ExhibitionBannerDTO"/>
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionInfoDTO" alias="ExhibitionInfoDTO"/>
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionImgDTO" alias="ExhibitionImgDTO"/>
+			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO" alias="ExhibitionCategoryDTO"/>
 			
 			
 			<!-- adminpage -->
