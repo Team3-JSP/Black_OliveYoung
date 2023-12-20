@@ -125,9 +125,9 @@
 									</dl>
 								</div>
 								
-								<div class="sroll_store scrbar">
-								    <div id="mCSB_3">
-								        <div id="mCSB_3_container">
+								<div class="sroll_store scrbar mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="overflow: auto;">
+								    <div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0">
+								        <div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px;" dir="ltr">
 								            <ul class="mlist-reStore" id="wordStoreList">
 								            	<c:forEach items="${storeList}" var="list">
 													<li class="${list.storeId }">
@@ -136,59 +136,20 @@
 																<a href="javascript:;">${list.storeName }</a>
 															</h4>
 															<p class="addr">${list.storeAddress }</p> 
-																<div class="area">
-																	<div class="call">${list.storeTel }</div>
-																	<div class="time on">영업중</div>	
-																</div>
-																<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
-																<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
+															<div class="area">
+																<div class="call">${list.storeTel }</div>
+																<div class="time ${list.openYN == 'Y' ? 'on' : ''}">${list.openYN == 'Y' ? '영업중' : '영업 준비중'}</div>	
+															</div>
+															<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
+															<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
 														</div>
 													</li>
 												</c:forEach>
 								            </ul>
 								        </div>
-								        <div id="mCSB_3_scrollbar_vertical" >
-								            <div>
-								                <div id="mCSB_3_dragger_vertical" >
-								                    <div></div>
-								                </div>
-								                <div></div>
-								            </div>
-								        </div>
+								        
 								    </div>
 								</div>
-								<%-- <div class="sroll_store scrbar mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="overflow: auto;">
-									<div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside"  tabindex="0">
-										<div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px;" dir="ltr">
-											<ul class="mlist-reStore" id="wordStoreList">	
-												<c:forEach items="${storeList}" var="list">
-													<li class="${list.storeId }">
-														<div class="li_Pc_reInner">
-															<h4 class="tit">
-																<a href="javascript:;">${list.storeName }</a>
-															</h4>
-															<p class="addr">${list.storeAddress }</p> 
-																<div class="area">
-																	<div class="call">${list.storeTel }</div>
-																	<div class="time on">영업중</div>	
-																</div>
-																<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
-																<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
-														</div>
-													</li>
-												</c:forEach>
-											</ul>
-										</div>
-										<div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
-											<div class="mCSB_draggerContainer">
-												<div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 98px; top: 0px; display: block; max-height: 450px;">
-													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-												</div>
-												<div class="mCSB_draggerRail"></div>
-											</div>
-										</div>
-									</div>
-								</div> --%>
 							</div>
 						</div>
 						<!--직접검색 영역 E  -->
@@ -224,9 +185,14 @@
 										<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
 									</dl>
 								</div>
-								<div class="sroll_store scrbar mCustomScrollbar _mCS_3" style="overflow: auto;"><div id="mCSB_3" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_3_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
-									<ul class="mlist-reStore" id="areaStoreList"></ul>
-								</div><div id="mCSB_3_scrollbar_vertical" class="mCSB_scrollTools mCSB_3_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_3_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 98px; display: none; max-height: 450px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+								<div class="sroll_store scrbar mCustomScrollbar _mCS_3" style="overflow: auto;">
+									<div id="mCSB_3" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside"  tabindex="0">
+										<div id="mCSB_3_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+											<ul class="mlist-reStore" id="areaStoreList"></ul>
+										</div>
+										
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- 지역검색 영역 E  -->
@@ -255,10 +221,21 @@
 										<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
 									</dl>
 								</div>
-								<div class="sroll_store scrbar mCustomScrollbar _mCS_4 mCS_no_scrollbar" style="max-height:100%; overflow: auto;"><div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-									<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
+								<div class="sroll_store scrbar mCustomScrollbar _mCS_4 mCS_no_scrollbar" style="overflow: auto;">
+									<div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0">
+										<div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+											<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
+										</div>
+										<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
+											<div class="mCSB_draggerContainer">
+												<div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;">
+													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+												</div>
+												<div class="mCSB_draggerRail"></div>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
 								
 							</sec:authorize>
 						</div>
@@ -284,10 +261,21 @@
 										<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
 									</dl>
 								</div>
-								<div class="sroll_store scrbar mCustomScrollbar _mCS_5 mCS_no_scrollbar" style="overflow: auto;"><div id="mCSB_5" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0"><div id="mCSB_5_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-									<ul class="mlist-reStore" id="itemStoreList">
-									</ul>
-								</div><div id="mCSB_5_scrollbar_vertical" class="mCSB_scrollTools mCSB_5_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_5_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+								<div class="sroll_store scrbar mCustomScrollbar _mCS_5 mCS_no_scrollbar" style="overflow: auto;">
+									<div id="mCSB_5" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0">
+										<div id="mCSB_5_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+											<ul class="mlist-reStore" id="itemStoreList"></ul>
+										</div>
+										<div id="mCSB_5_scrollbar_vertical" class="mCSB_scrollTools mCSB_5_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
+											<div class="mCSB_draggerContainer">
+												<div id="mCSB_5_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;">
+													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+												</div>
+												<div class="mCSB_draggerRail"></div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- 판매매장 찾기 영역 E  -->
@@ -302,13 +290,35 @@
 								<div class="reShop_opList" id="tc_list">
 									<p>카테고리 취급매장</p>
 									<ul>
-										<li><button>스킨케어</button><input type="hidden" name="tcVal" value="1"></li><li><button>메이크업</button><input type="hidden" name="tcVal" value="2"></li><li><button>프래그런스</button><input type="hidden" name="tcVal" value="3"></li><li><button>바디케어</button><input type="hidden" name="tcVal" value="4"></li><li><button>헤어케어</button><input type="hidden" name="tcVal" value="5"></li><li><button>프리미엄브랜드</button><input type="hidden" name="tcVal" value="6"></li><li><button>건강/위생용품</button><input type="hidden" name="tcVal" value="7"></li><li><button>건강식품</button><input type="hidden" name="tcVal" value="8"></li><li><button>생활용품</button><input type="hidden" name="tcVal" value="9"></li><li><button>펫용품</button><input type="hidden" name="tcVal" value="10"></li><li><button>주류</button><input type="hidden" name="tcVal" value="11"></li>
+										<li><button>스킨케어</button><input type="hidden" name="tcVal" value="1"></li>
+										<li><button>메이크업</button><input type="hidden" name="tcVal" value="2"></li>
+										<li><button>프래그런스</button><input type="hidden" name="tcVal" value="3"></li>
+										<li><button>바디케어</button><input type="hidden" name="tcVal" value="4"></li>
+										<li><button>헤어케어</button><input type="hidden" name="tcVal" value="5"></li>
+										<li><button>프리미엄브랜드</button><input type="hidden" name="tcVal" value="6"></li>
+										<li><button>건강/위생용품</button><input type="hidden" name="tcVal" value="7"></li>
+										<li><button>건강식품</button><input type="hidden" name="tcVal" value="8"></li>
+										<li><button>생활용품</button><input type="hidden" name="tcVal" value="9"></li>
+										<li><button>펫용품</button><input type="hidden" name="tcVal" value="10"></li>
+										<li><button>주류</button><input type="hidden" name="tcVal" value="11"></li>
 									</ul>
 								</div>
 								<div class="reShop_opList" id="ps_list">
 									<p>서비스 제공 매장</p>
 									<ul>
-										<li><button>선물포장</button><input type="hidden" name="psVal" value="1"></li><li><button>TAXREFUND</button><input type="hidden" name="psVal" value="2"></li><li><button>TAXREFUND(즉시환급)</button><input type="hidden" name="psVal" value="3"></li><li><button>기프트카드판매</button><input type="hidden" name="psVal" value="4"></li><li><button>현금없는매장</button><input type="hidden" name="psVal" value="5"></li><li><button>상품권판매(문화)</button><input type="hidden" name="psVal" value="6"></li><li><button>간편결제</button><input type="hidden" name="psVal" value="7"></li><li><button>뷰티스트</button><input type="hidden" name="psVal" value="8"></li><li><button>주차가능</button><input type="hidden" name="psVal" value="9"></li><li><button>스마트반품</button><input type="hidden" name="psVal" value="10"></li><li><button>픽업</button><input type="hidden" name="psVal" value="11"></li><li><button>뷰티사이클</button><input type="hidden" name="psVal" value="12"></li><li><button>주류</button><input type="hidden" name="psVal" value="13"></li>
+										<li><button>선물포장</button><input type="hidden" name="psVal" value="1"></li>
+										<li><button>TAXREFUND</button><input type="hidden" name="psVal" value="2"></li>
+										<li><button>TAXREFUND(즉시환급)</button><input type="hidden" name="psVal" value="3"></li>
+										<li><button>기프트카드판매</button><input type="hidden" name="psVal" value="4"></li>
+										<li><button>현금없는매장</button><input type="hidden" name="psVal" value="5"></li>
+										<li><button>상품권판매(문화)</button><input type="hidden" name="psVal" value="6"></li>
+										<li><button>간편결제</button><input type="hidden" name="psVal" value="7"></li>
+										<li><button>뷰티스트</button><input type="hidden" name="psVal" value="8"></li>
+										<li><button>주차가능</button><input type="hidden" name="psVal" value="9"></li>
+										<li><button>스마트반품</button><input type="hidden" name="psVal" value="10"></li>
+										<li><button>픽업</button><input type="hidden" name="psVal" value="11"></li>
+										<li><button>뷰티사이클</button><input type="hidden" name="psVal" value="12"></li
+										><li><button>주류</button><input type="hidden" name="psVal" value="13"></li>
 									</ul>
 								</div>
 								<div class="btnBox">
@@ -323,6 +333,9 @@
 				</div>
 		</div>
 	</div>
+	
+	<div class="layer_pop_wrap w850" id="store_viewPop_renew" style="z-index: 100; width: 560px; max-height: 1000px; margin-left: -280px; display: block; left: 50%; top: 1%; margin-top: 210px;"></div>
+	
 	<!-- 2017-02-23 수정 : TOP 바로가기 버튼 추가 -->
 	<div id="directTop" style="display: none;">
 		<button><span></span>TOP</button>
@@ -372,7 +385,47 @@
 <script>
 let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
 
-$(".sroll_store ").mCustomScrollbar();
+$(function() {
+	$("#store_viewPop_renew").on("click", "#info", function(event) {
+		event.preventDefault();
+		$(this).parent().addClass("on");
+		$(this).parent().next().removeClass("on");
+		$("#strInfo").show();
+		$("#strPrdInfo").hide();
+	});
+	
+	$("#store_viewPop_renew").on("click", "#prod", function(event) {
+		event.preventDefault();
+		$(this).parent().addClass("on");
+		$(this).parent().prev().removeClass("on");
+		$("#strPrdInfo").show();
+		$("#strInfo").hide();
+		
+		$.ajax({
+			type : 'post'
+			, cache: false
+			, url : '/store/setStoreFavorite'
+			, dataType : 'text'
+			, data : {
+				storeId : storeId
+				, clickCheck : clickCheck
+			}
+			, success : function(data) {
+				console.log(data)
+				console.log("즐겨찾기 업데이트 완료~~")
+	        }
+			, 
+			error: function(xhr, textStatus, errorThrown) {
+		        console.log('Error Status Code: ' + xhr.status);
+		        console.log('Error Message: ' + xhr.statusText);
+		        console.log('Text Status: ' + textStatus);
+		        console.log('Error Thrown: ' + errorThrown);
+
+		    }
+		});
+	});
+});
+
 
 // 매장 상세 Ajax
 function storeDetail(storeId) {
@@ -395,8 +448,8 @@ function storeDetail(storeId) {
 				<div class="layer_cont5 recoStore ">
 					<h2 class="layer_title5">매장 안내</h2>
 					<ul class="store_handleTab" id="layerTabList">
-						<li class="on"><a href="#" class="on strTab" id="info">매장 안내</a></li>
-						<li><a href="#" class="strTab" id="prod">베스트 상품</a></li>
+						<li class="on"><a href="javascript:;" class="on strTab" id="info">매장 안내</a></li>
+						<li><a href="javascript:;" class="strTab" id="prod">베스트 상품</a></li>
 					</ul>
 					<div class="content">
 						<div id="mCSB_7" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0">
@@ -413,7 +466,7 @@ function storeDetail(storeId) {
 											<p class="addr">\${data.storeAddress}</p>
 											<div class="area">		
 												<div class="call">\${data.storeTel}</div>
-												<div class="time on">영업중</div>		
+												<div class="time \${data.openYN === 'Y' ? 'on' : ''}">\${data.openYN === 'Y' ? '영업 중' : '영업 준비중'}</div>		
 												<div class="fv_reShop_in"><span class="str_DC8F_favorCnt">\${data.storeFavorite}</span>명이 관심매장으로 등록했습니다.</div>
 											</div>
 						 				<!-- 매장 추천일 때만 지도 영역 노출 -->
@@ -587,7 +640,15 @@ function storeDetail(storeId) {
 											</li>
 										`;
 									}										
-											
+					
+					// 현재 날짜와 현재 날짜에서 한달 전 날짜 구하기
+					let currDate = new Date();
+					let month = currDate.getMonth() + 1;
+					let date = currDate.getDate();
+					currDate.setMonth(currDate.getMonth() - 1);
+					let prevMonth = currDate.getMonth() + 1;
+					let prevDate = currDate.getDate();
+									
 					popupContent +=		`</ul>
 									</div>		
 								</div>
@@ -618,7 +679,7 @@ function storeDetail(storeId) {
 										</span>
 										<span>베스트 상품이에요</span>
 									</div>
-									<p class="bestPd_date"><span>10</span>월 <span>05</span>일 ~ <span>11</span>월 <span>05</span>일 | 온라인몰 판매 중인 매장 베스트 상품</p>
+									<p class="bestPd_date"><span>\${prevMonth}</span>월 <span>\${prevDate}</span>일 ~ <span>\${month}</span>월 <span>\${date}</span>일 | 온라인몰 판매 중인 매장 베스트 상품</p>
 								</div>
 								<div class="curation_area" id="storeBestProdArea">
 								</div>
@@ -842,18 +903,9 @@ $(function() {
 						let area = $("<div>").addClass("area");
 						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
-						let date = new Date();
-						let hour = date.getHours() + "";
-						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = data[i].weekday;
-						let weekdays = weekday.split(" - ");
-						let time;
-						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-							time = $("<div>").addClass(["time", "on"]).text("영업중");
-						} else {
-							time = $("<div>").addClass("time").text("영업 준비중");
-						}
-						
+						let time = data[i].openYN === 'Y' 
+							? $("<div>").addClass(["time", "on"]).text("영업중")
+							: $("<div>").addClass("time").text("영업 준비중");
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
@@ -876,7 +928,7 @@ $(function() {
 						$("#wordStoreList").append(li);
 					}
 					
-					
+					$("#mCSB_2_container").css("top", "0");
 	            }
 				, error : function (data, textStatus) {
 	                console.log('error');
@@ -920,7 +972,6 @@ $(function() {
 					$("#searchWordDiv .reShop_result > dt > span").text("0");
 					return;
 				}
-				// console.log(data);
 				
 				$("#noSearchWordInfo").hide();
 				$("#searchWordDiv .reShop_result > dt > span").text(data.length);
@@ -933,18 +984,9 @@ $(function() {
 					let area = $("<div>").addClass("area");
 					let call = $("<div>").addClass("call").text(data[i].storeTel);
 					
-					let date = new Date();
-					let hour = date.getHours() + "";
-					let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-					let weekday = data[i].weekday;
-					let weekdays = weekday.split(" - ");
-					let time;
-					if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-						time = $("<div>").addClass(["time", "on"]).text("영업중");
-					} else {
-						time = $("<div>").addClass("time").text("영업 준비중");
-					}
-					
+					let time = data[i].openYN === 'Y' 
+							? $("<div>").addClass(["time", "on"]).text("영업중")
+							: $("<div>").addClass("time").text("영업 준비중");
 					
 					let fv_reShop_in = $("<div>")
 										.addClass("fv_reShop_in")
@@ -966,7 +1008,7 @@ $(function() {
 					$(li).append(div);
 					$("#wordStoreList").append(li);
 				}
-				
+				$("#mCSB_2_container").css("top", "0");
             }
 			, error : function (data, textStatus) {
                 console.log('error');
@@ -1116,24 +1158,9 @@ $(function() {
 					let area = $("<div>").addClass("area");
 					let call = $("<div>").addClass("call").text(data[i].storeTel);
 					
-					let date = new Date();
-					let hour = date.getHours() + "";
-					let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-					let weekday = data[i].weekday;
-					let weekdays = weekday.split(" - ");
-					let time;
-					let onCheck = "on";
-					let openCheck = "영업중";
-					if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-						time = $("<div>").addClass(["time", "on"]).text("영업중");
-						onCheck = "on";
-						openCheck = "영업중";
-					} else {
-						time = $("<div>").addClass("time").text("영업 준비중");
-						onCheck = "";
-						openCheck = "영업 준비중";
-					}
-					
+					let time = data[i].openYN === 'Y' 
+						? $("<div>").addClass(["time", "on"]).text("영업중")
+						: $("<div>").addClass("time").text("영업 준비중");				
 					
 					let fv_reShop_in = $("<div>")
 										.addClass("fv_reShop_in")
@@ -1152,7 +1179,7 @@ $(function() {
 						+ '  <p class="addr" style="white-space: normal;">' + data[i].storeAddress + '</p>'
 						+ '  <div class="area">'
 						+ '    <div class="call">' + data[i].storeTel + '</div>'
-						+ '    <div class="time ' + onCheck + '">' + openCheck + '</div>'
+						+ `    <div class="time \${data[i].openYN == 'Y' ? 'on' : ''}">\${data[i].openYN == 'Y' ? '영업 중' : '영업 준비중'}</div>`
 						+ '    <div class="fv_reShop_in_DD75_cnt">'
 						+ '      <span>' + data[i].storeFavorite + '</span>'
 						+ '      명이 관심매장으로 등록했습니다.'
@@ -1215,8 +1242,8 @@ $(function() {
 			    // 지도 중심을 이동 시킵니다
 			    map.setCenter(latLngs[0].latlng);
 			    map.setLevel(3);
-			    $("#mCSB_2_container").css("top", "0");
-				
+			    $("#mCSB_3_container").css("top", "0");
+			    //$(".sroll_store").mCustomScrollbar("update");
 				
                 
             }
@@ -1297,18 +1324,9 @@ $(function() {
 							let area = $("<div>").addClass("area");
 							let call = $("<div>").addClass("call").text(data[i].storeTel);
 							
-							let date = new Date();
-							let hour = date.getHours() + "";
-							let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-							let weekday = data[i].weekday;
-							let weekdays = weekday.split(" - ");
-							let time;
-							if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-								time = $("<div>").addClass(["time", "on"]).text("영업중");
-							} else {
-								time = $("<div>").addClass("time").text("영업 준비중");
-							}
-							
+							let time = data[i].openYN === 'Y' 
+								? $("<div>").addClass(["time", "on"]).text("영업중")
+								: $("<div>").addClass("time").text("영업 준비중");
 							
 							let fv_reShop_in = $("<div>")
 												.addClass("fv_reShop_in")
@@ -1442,18 +1460,9 @@ $(function() {
 						let area = $("<div>").addClass("area");
 						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
-						let date = new Date();
-						let hour = date.getHours() + "";
-						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = data[i].weekday;
-						let weekdays = weekday.split(" - ");
-						let time;
-						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-							time = $("<div>").addClass(["time", "on"]).text("영업중");
-						} else {
-							time = $("<div>").addClass("time").text("영업 준비중");
-						}
-						
+						let time = data[i].openYN === 'Y' 
+							? $("<div>").addClass(["time", "on"]).text("영업중")
+							: $("<div>").addClass("time").text("영업 준비중");
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
@@ -1520,18 +1529,9 @@ $(function() {
 						let area = $("<div>").addClass("area");
 						let call = $("<div>").addClass("call").text(data[i].storeTel);
 						
-						let date = new Date();
-						let hour = date.getHours() + "";
-						let curTime = hour.padStart(2, '0') + ":" + date.getMinutes();
-						let weekday = data[i].weekday;
-						let weekdays = weekday.split(" - ");
-						let time;
-						if(weekdays[0] <= curTime && curTime <= weekdays[1]) {
-							time = $("<div>").addClass(["time", "on"]).text("영업중");
-						} else {
-							time = $("<div>").addClass("time").text("영업 준비중");
-						}
-						
+						let time = data[i].openYN === 'Y' 
+							? $("<div>").addClass(["time", "on"]).text("영업중")
+							: $("<div>").addClass("time").text("영업 준비중");
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
