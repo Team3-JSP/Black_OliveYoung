@@ -32,49 +32,14 @@
 %>
 <script src="/resources/js/head.js"></script>
 	<script>
+	
+	
 	$(function() {
 		let mainurl = window.location.href
 		console.log(mainurl)
 		if (mainurl.includes('/Black_OY/olive/main.do')) {
 			$('.main_cate_wrap').css("display",'block');
 		}
-		let storesNames = [];
-		
-		// 로그인이 되어 있을 시
-		// 관심매장 이름 리스트 얻어오기
-		if(${not empty logOn}) {
-			$.ajax({
-				type : 'post'
-				, async : false
-				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
-				, dataType : 'json'
-				, data : { user_id : '${logOn.user_id}' }
-				, success : function(data) {
-					if(data.storeNames != "no") {
-						let storeNames = []
-						for (var i = 0; i < data.storeNames.length; i++) {
-							storeNames.push(data.storeNames[i]);
-						}
-						$(".store .alim_box").html(`<p class="store_desc"><span>${logOn.u_name}</span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
-										+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
-					} else {
-						$(".store .alim_box").html('<p class="store_desc"><span>${logOn.u_name}</span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
-								+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/getStoreMain.do'";>관심매장 등록하기</button>`)
-					}
-					 //console.log(data);
-	            }
-				, error : function (data, textStatus) {
-					console.log(data);
-	                console.log('error');
-	            }
-			});
-		} else {
-			$(".store .alim_box").html('<p class="store_desc"><span>로그인</span>하시면 자주가는 매장을<br>관심 매장으로 설정 할 수 있습니다.</p>'
-					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
-		}
-		
-		
 		
 		
 	})
@@ -84,6 +49,43 @@
 <input type="hidden" id="skinTorn" name="skinTorn" value="" />
 <input type="hidden" id="skinIssue" name="skinIssue" value="" />
 -->
+<sec:authorize access="isAuthenticated()">
+	<script>
+	let storesNames = [];
+	let tcs = [];
+	let pss = [];
+	// 관심매장 이름 리스트 얻어오기
+	$.ajax({
+		type : 'post'
+		, cache: false
+		, url : '/store/getInterestShopList'
+		, data : {
+			tcs : tcs.toString()
+			, pss : pss.toString()
+			, '${_csrf.parameterName }' : '${_csrf.token }'
+		}
+		, dataType : 'json'
+		, success : function(data) {
+			console.log(data);
+			if(data.length > 0) {
+				let storeNames = []
+				for (var i = 0; i < data.length; i++) {
+					storeNames.push(data[i].storeName);
+				}
+				$(".store .alim_box").html(`<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
+								+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
+			} else {
+				$(".store .alim_box").html('<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
+						+ `<button class="mymenu_btn" onclick="javascript:location.href='<c:url value='store/getStoreMain'/>'";>관심매장 등록하기</button>`)
+			}
+        } 
+		, error : function (data, textStatus) {
+     		console.log(data);
+     		console.log('error');
+        }
+	});
+	</script>							
+</sec:authorize>
 	<div class="infoUpgr" style="display: none;">
 		<p>
 			<a class="ie"
@@ -282,7 +284,7 @@
 				<ul class="menu_list" id="menu_list_header">
 					
 						<sec:authorize access="isAnonymous()">
-
+							<li class="join"><a href="/adminpage" data-attr="공통^헤더^회원가입">관리자 페이지</a></li>
 							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
@@ -525,11 +527,15 @@
 					<li class="store "><a onclick="" href="#" class="mymenu_layer"
 						title="관심 매장소식 자세히보기 열기/닫기">관심 매장소식</a>
 						<div class="alim_box">
-							<p class="store_desc">
+							<sec:authorize access="isAnonymous()">
+								<p class="store_desc">
 								<span>로그인</span>하시면 자주가는 매장을 <br>관심 매장으로 설정 할 수 있습니다.
-							</p>
-							<button class="mymenu_btn"
-								onclick="javascript:location.href='<%=contextPath%>/olive/LogOn.do'">로그인</button>
+								</p>
+								<button class="mymenu_btn"
+									onclick="javascript:location.href='<c:url value="/auth/login"/>'">로그인</button>
+							</sec:authorize>
+									
+							
 						</div></li>
 					<li class="recent"><a onclick="recProductView()" href="#"
 						class="mymenu_layer" title="최근 본 상품 자세히보기 열기/닫기">최근 본 상품</a>
@@ -704,27 +710,18 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href='<c:url value="store/getRanking"/>'
-						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
+					<li style=""><a onclick="" href='<c:url value="/store/getRanking"/>'><span>랭킹</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
-						data-attr="공통^GNB^LUXE EDIT"><span>LUXE EDIT</span> </a></li>
-
-					<li style=""><a onclick="" href="#"
-						data-ref-linkurl="main/getPlanShopList.do" data-attr="공통^GNB^기획전"><span>기획전</span>
+					<li style=""><a href="/store/getExhibition?eventId=le_00000001"><span>LUXE EDIT</span> </a></li>
+					<li style=""><a href="/store/main/getExhibition" data-ref-linkurl="/store/main/getExhibition" ><span>기획전</span>
 					</a></li>
-					<li style=""><a onclick="" href="#"
+					<li style=""><a  href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
-						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
-						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
-					<li style=""><a onclick="" href='<c:url value="/store/getMembership"/>'
-						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
+					<li style=""><a href="<c:url value='/store/getGiftCard'/>"><span>기프트카드</span> </a></li>
+					<li style=""><a href='<c:url value="/store/getMembership"/>'><span>멤버십/쿠폰</span>
 					</a></li>
-					<li style=""><a onclick=""
-						href="<%=contextPath%>/olive/event.do"
-						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
+					<li style=""><a href="<c:url value='/store/getEvent'/>"><span>이벤트</span>
 					</a></li>
 				</ul>
 

@@ -186,21 +186,12 @@ function qnaPopDown() {
 	}
 $(function() {
 
-		$('.completeBind').on('click', function(e) {
-			e.preventDefault();
-			if ($(this).closest('li').hasClass('show')) {
-				$(this).closest('li').removeClass('show');
-			}else{
-				$(this).closest('li').addClass('show');
-			}
-			
-		}) // completeBind
-
 		$('.btnInquiry.goods_qna_inquiry').on('click', function() {
 			
 			$('#pop_cont').show();
-			$('.dimm').show();
+			$('.dimm').css('display', 'block');
 			$('#sForm')[0].reset();
+			
 		}) // btnInquiry
 		
 		$('.radioGT1 label:nth-child(1)').on('click', function() {
@@ -304,7 +295,7 @@ function qnaListAjax(currentPage, productDisplayId) {
 			    
 			   if (qna.canModify) {
 			        var editButton = $('<button class="btnSmall fullGray" onclick="modifyQnA(\''+ qna.qnaId  + '\')">수정</button>');
-			        var deleteButton = $('<button class="btnSmall fullGray" onclick="deleteQna(\'' + qna.qnaId + '\');">삭제</button>');
+			        var deleteButton = $('<button class="btnSmall fullGray" onclick="deleteQnA(\'' + qna.qnaId + '\');">삭제</button>');
 			        
 			        txUserId.append(editButton);
 			        txUserId.append(deleteButton);
@@ -361,6 +352,16 @@ function qnaListAjax(currentPage, productDisplayId) {
 			
 			qnaPage.append(paginationHtml);
 			
+			$('.completeBind').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).closest('li').hasClass('show')) {
+				$(this).closest('li').removeClass('show');
+			}else{
+				$(this).closest('li').addClass('show');
+			}
+			
+		}) // completeBind
+			
 			
 		},
 		error: function(response) {
@@ -391,7 +392,7 @@ $(function(){
 				data:data,
 				cache: false,
 				success:function( response ) {
-					$(".prd_option_box.box_select > a").attr("id",productId)
+					$(".prd_option_box.box_select > a").attr("id",productId);
 					$(".prd_option_box.box_select > a > span.txt").text(txt);
 					$(".prd_option_box.box_select").removeClass("open");
 		              $("#review").empty();
@@ -404,4 +405,13 @@ $(function(){
 			
 			
 	 })
+	 
+	 
+	 
 }) // function
+
+
+
+	
+	
+	

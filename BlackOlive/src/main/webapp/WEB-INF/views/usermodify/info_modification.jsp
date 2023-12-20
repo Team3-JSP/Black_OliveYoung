@@ -2,29 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 
-
 		<!-- contents -->
 		<div id="contentsWrap">
-
-			<form name="form1" id="form1" method="post" action="">
-					<input type="hidden" name = "newTel" value = "${newTel }"/>
-					<input type="hidden" name = "newName" value="${newName }"/>
-				
-				<input type="hidden" name="chk_email_acv_change" value="N"
-					id="chk_email_acv_change"> <input type="hidden"
-					name="chk_sms_acv_change" value="N" id="chk_sms_acv_change">
-				<input type="hidden" name="chk_tel_acv_change" value="N"
-					id="chk_tel_acv_change"> <input type="hidden"
-					name="chk_birth_change" value="N" id="chk_birth_change"> <input
-					type="hidden" name="chk_tel_change" value="N" id="chk_tel_change">
-				<input type="hidden" name="chk_email_change" value="N"
-					id="chk_email_change"> <input type="hidden"
-					name="chk_info_agr_change" value="N" id="chk_info_agr_change">
-				<input type="hidden" name="chk_receipts_change" value="N"
-					id="chk_receipts_change"> <input type="hidden"
-					name="user_info_change" value="N" id="user_info_change"> <input
-					type="hidden" name="chk_info_agr_change2" value="N"
-					id="chk_info_agr_change2">
+			<form name="form1" id="form1" method="post" action="/usermodify/info_modification_ok">
 
 				<div id="contents">
 					<!-- location -->
@@ -50,11 +30,11 @@
 									<h3 class="h3_tit">기본정보</h3>
 									<div class="info">
 
-										<a id="auth_btn_area" href="javascript:callAuthLayer()"
+										<!-- <a id="auth_btn_area" href="javascript:callAuthLayer()"
 											;="" class="btn btn_sm" style="display: none;"><span
 											class="arr">전체 정보 확인 및 수정</span></a> <a
 											href="https://www.cjone.com/cjmweb/member/withdrawal.do?coopco_cd=7030&amp;brnd_cd=3000&amp;mcht_no=3000"
-											class="btn btn_sm"><span class="arr">회원탈퇴</span></a>
+											class="btn btn_sm"><span class="arr">회원탈퇴</span></a> -->
 									</div>
 								</div>
 								<div class="table_col">
@@ -71,15 +51,16 @@
 												<th scope="row">이름</th>
 												<td>
 													<div class="input_group">
-														<span id="hg_nm_area" name = "u_name">
-														<c:choose>
+														<span id="hg_nm_area" name = "userName">
+														${userDto.userName}
+														<%-- <c:choose>
 															<c:when test= "${not empty newName}">
 																${newName}
 															</c:when>
 															<c:otherwise>
 																${userDto.userName}
 															</c:otherwise>
-														</c:choose>
+														</c:choose> --%>
 														
 														</span>
 														<a href="#" class="btn btn_sm" id="lnChangeName">
@@ -128,20 +109,18 @@
 												<th scope="row"><label for="mob_no_1">휴대전화번호</label></th>
 												<td>
 													<div>
-														<span class="input_txt w100 phon_write" id="mobileNoInfo">
-														<c:choose>
-														<c:when test= "${not empty newTel}">
+														<span class="input_txt w100 phon_write" id="mobileNoInfo" name="u_tel">
+<%-- 														<c:choose>
+														<c:when test= "${not empty param.newTel}">
 																${newTel}
 															</c:when>
 															<c:otherwise>
-																${userDto.userTel}
+																
 															</c:otherwise>
-														</c:choose>
+														</c:choose> --%>
+														${userDto.userTel}
 														</span>
-														<input type="hidden" name="mob_no_1" id="mob_no_1"
-															value=""> <input type="hidden" name="mob_no_2"
-															id="mob_no_2" value=""> <input type="hidden"
-															name="mob_no_3" id="mob_no_3" value="">
+								
 															<a href="<%=contextPath%>/usermodify/name_update" class="btn btn_sm">
 															<span class="arr">변경하기</span></a>
 													</div>
@@ -206,7 +185,7 @@
 														<div class="input_group" data-handler="trPwdCheck">
 															<span class="input_txt w250"> <input
 																type="password" class="text" placeholder="비밀번호를 입력해주세요."
-																maxlength="50" name="pwd" id="pwd"></span> <span
+																maxlength="50" name="userPassword" id="pwd"></span> <span
 																class="msg_desc" id="alert_pwd_strength"></span>
 															<p id="msg_pwd" class="msg_info em hide">비밀번호는 영문자,
 																숫자,특수문자 모두 최소 1가지 이상 조합한 8~12자리이어야 합니다.</p>
@@ -279,8 +258,7 @@
 
 										<li>
 											<p class="question_wrap">
-												<button type="button" data-handler-target="cj_gatherAgree">
-													<span class="title">홍보 및 마케팅을 위한 개인정보 수집 및 활용 동의
+												<button type="button" class="toggleBtn" data-handler-target="cj_gatherAgree">													<span class="title">홍보 및 마케팅을 위한 개인정보 수집 및 활용 동의
 														(선택)</span> <span class="btn" data-handler="toggleText">열기</span>
 												</button>
 											</p>
@@ -347,7 +325,7 @@
 
 										<li>
 											<p class="question_wrap">
-												<button type="button">
+												<button type="button" class="toggleBtn">
 													<span class="title">스탬프 서비스 이용을 위한 개인정보 수집 및 활용 동의
 														(선택)</span> <span class="btn" data-handler="toggleText">열기</span>
 												</button>
@@ -413,7 +391,7 @@
 
 										<li>
 											<p class="question_wrap">
-												<button type="button">
+												<button type="button" class="toggleBtn">
 													<span class="title">CJ ONE 제 3자 정보제공 동의(선택)</span> <span
 														class="btn" data-handler="toggleText">열기</span>
 												</button>
@@ -789,10 +767,6 @@
 															</div>
 														</div>
 													</div>
-
-
-
-
 													<!--20200903 기프트 카드 이용 약관 수정-->
 
 													<p style="padding-top: 8px;">※ 이용자는 기프트카드 서비스 이용약관에 대한
@@ -818,18 +792,8 @@
 														</span>
 													</div>
 												</div>
-
-
-
-
 												<div class="item_box">
-
-
-
 													<h4 class="h5_tit">멤버십 연동을 위한 제3자 정보제공 동의</h4>
-
-
-
 													<div class="clause_box">
 														<table border="1" cellspacing="0" cellpadding="0"
 															style="width: 100%">
@@ -872,9 +836,6 @@
 															</tbody>
 														</table>
 													</div>
-
-
-
 													<!--20200903 기프트 카드 이용 약관 수정-->
 
 													<!--//20200903 기프트 카드 이용 약관 수정-->
@@ -900,137 +861,7 @@
 
 											</div>
 										</li>
-
-
-										<!-- CJ ONE 서비스 이용을 위한 정보제공 및 활용동의 -->
-										<li>
-											<p class="question_wrap">
-												<button type="button">
-													<span class="title">CJ ONE 서비스 이용을 위한 정보제공 및 활용동의</span> <span
-														class="btn" data-handler="toggleText">열기</span>
-												</button>
-												<!-- 클릭 시 열기 텍스트를 닫기로 변경 -->
-											</p>
-											<div class="answer_wrap agreement_clause">
-
-
-												<div class="item_box">
-													<h4 class="h5_tit">CGV 정보 제공 동의</h4>
-													<div class="cont clause_box">
-														<!-- // 해당 브랜드 URL 가져오는 부분 -->
-														<a href="http://www.cgv.co.kr/" target="_blank"
-															class="btn btn_sm view_all">CGV 바로가기</a>
-
-
-														<div class="iframe_sec">
-
-
-
-															<!-- iframe id="coopcoFrm" src="/cjmweb/agreement/coop_7010_1000.html" frameborder="0" scrolling="no" class="agr_register2" style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe -->
-															<iframe id="coopcoFrm"
-																src="/cjmweb/common/getBrndAgrCnts.do?coopco_cd=7010&amp;brnd_cd=1000&amp;agr_typ_cd=98"
-																frameborder="0" scrolling="no" class="agr_register2"
-																style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe>
-
-
-														</div>
-
-
-
-													</div>
-												</div>
-
-												<div class="item_box">
-													<h4 class="h5_tit">올리브영 정보 제공 동의</h4>
-													<div class="cont clause_box">
-														<!-- // 해당 브랜드 URL 가져오는 부분 -->
-														<a href="http://www.oliveyoung.co.kr" target="_blank"
-															class="btn btn_sm view_all">올리브영 바로가기</a>
-
-
-														<div class="iframe_sec">
-
-
-
-															<!-- iframe id="coopcoFrm" src="/cjmweb/agreement/coop_7030_3000.html" frameborder="0" scrolling="no" class="agr_register2" style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe -->
-															<iframe id="coopcoFrm"
-																src="/cjmweb/common/getBrndAgrCnts.do?coopco_cd=7030&amp;brnd_cd=3000&amp;agr_typ_cd=98"
-																frameborder="0" scrolling="no" class="agr_register2"
-																style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe>
-
-
-														</div>
-
-
-
-													</div>
-												</div>
-
-												<div class="item_box">
-													<h4 class="h5_tit">CJ온스타일 정보 제공 동의</h4>
-													<div class="cont clause_box">
-														<!-- // 해당 브랜드 URL 가져오는 부분 -->
-														<a href="http://www.cjoshopping.com/" target="_blank"
-															class="btn btn_sm view_all">CJ온스타일 바로가기</a>
-
-
-														<div class="iframe_sec">
-
-
-
-															<!-- iframe id="coopcoFrm" src="/cjmweb/agreement/coop_7050_5000.html" frameborder="0" scrolling="no" class="agr_register2" style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe -->
-															<iframe id="coopcoFrm"
-																src="/cjmweb/common/getBrndAgrCnts.do?coopco_cd=7050&amp;brnd_cd=5000&amp;agr_typ_cd=98"
-																frameborder="0" scrolling="no" class="agr_register2"
-																style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe>
-
-
-														</div>
-
-
-
-													</div>
-												</div>
-
-												<div class="item_box">
-													<h4 class="h5_tit">TVING 정보 제공 동의</h4>
-													<div class="cont clause_box">
-														<!-- // 해당 브랜드 URL 가져오는 부분 -->
-														<a href="http://www.tving.com" target="_blank"
-															class="btn btn_sm view_all">TVING 바로가기</a>
-
-
-														<div class="iframe_sec">
-
-
-
-															<!-- iframe id="coopcoFrm" src="/cjmweb/agreement/coop_7190_1900.html" frameborder="0" scrolling="no" class="agr_register2" style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe -->
-															<iframe id="coopcoFrm"
-																src="/cjmweb/common/getBrndAgrCnts.do?coopco_cd=7190&amp;brnd_cd=1900&amp;agr_typ_cd=98"
-																frameborder="0" scrolling="no" class="agr_register2"
-																style="width: 97%; height: 480px" title="약관 페이지입니다."></iframe>
-
-
-														</div>
-
-
-
-													</div>
-												</div>
-
-											</div>
-											<div class="answer_wrap">
-												<ul class="bul_list">
-													<li class="dot_arr">제휴 브랜드에 대한 정보 제공 동의는 제휴 브랜드 이용 및
-														통합 회원정보 관리와 관계되어 있습니다. 따라서 정보 제공 동의 철회는 해당 제휴 브랜드의 이용약관 동의
-														철회와 함께 이루어집니다.</li>
-													<li class="dot_arr">제휴 브랜드에 대한 정보 제공 철회(제휴 브랜드 이용약관 동의
-														철회)를 원하시는 경우 각 제휴 브랜드에 방문하시어 직접 이용약관 철회 및 정보 제공 동의 철회를 진행해
-														주셔야 합니다.</li>
-												</ul>
-											</div>
-										</li>
-
+						
 										<!-- 옴니 서비스 약관 -->
 										<li>
 											<p class="question_wrap">
@@ -1099,9 +930,6 @@
 													<h4 class="h5_tit">CJ제일제당㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7060', '6040');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1216,9 +1044,6 @@
 													<h4 class="h5_tit">CJ대한통운㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7130', '1301');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1331,9 +1156,6 @@
 													<h4 class="h5_tit">CJ이엔엠㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7040', '4070');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1450,9 +1272,6 @@
 													<h4 class="h5_tit">CJ올리브영㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7030', '3000');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1570,9 +1389,6 @@
 													<h4 class="h5_tit">CJ올리브네트웍스㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7240', '2401');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1687,9 +1503,6 @@
 													<h4 class="h5_tit">CJ씨지브이㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7010', '1000');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1807,9 +1620,6 @@
 													<h4 class="h5_tit">CJ푸드빌㈜의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
 														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7020', '2000');">전문보기</a>
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -1916,18 +1726,10 @@
 												</div>
 
 
-
-
-
-
-
 												<div class="item_box">
 													<h4 class="h5_tit">㈜티빙의 개인정보 제공 동의 (선택)</h4>
 													<div class="cont clause_box"
-														style="padding: 20px; border: 1px solid #ddd;">
-														<a href="javascript:void(0);" class="btn btn_sm view_all"
-															data-control="modal"
-															onclick="omniTerms('10', '7190', '1900');">전문보기</a>
+														style="padding: 20px; border: 1px solid #ddd;">	
 														<div id="polView">
 															<p>본인은 아래 본인의 정보를 다음과 같이 제3자에게 제공함에 동의합니다.</p>
 															<p>씨제이제일제당㈜, 씨제이대한통운㈜, 씨제이이엔엠㈜, 씨제이올리브영㈜,
@@ -2083,6 +1885,11 @@
 						</div>
 					</div>
 				</div>
+				
+				<input type="hidden" name = "newtel" id="newTel" value = "${newTel }"/>
+				<input type="hidden" name = "newname" value="${newName }"/>
+<%-- 				<input type="hidden" name="username" value="${userDto.userName }" />
+				<input type="hidden" name="usertel" id="usertel" value="${userDto.userTel }"/> --%>
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 		</div>
@@ -2091,6 +1898,64 @@
 
 	<!--script 영역-->
 <script>
+
+
+/* $(function(){
+	 const accordionItems =$('[data-control="accordion"]');
+
+	 accordionItems.each(function() {
+	    const title = $(this).find('.question_wrap .toggleBtn');
+        const content = $(this).find('.answer_wrap');
+        title.on('click', function() {
+           const isActive = $(this).closest('[data-control="accordion"]').hasClass('active');
+            // 모든 아코디언 아이템을 닫음
+            accordionItems.removeClass('active');
+            if (!isActive) {
+              // 클릭된 아코디언 아이템을 열음
+              $(this).closest('[data-control="accordion"]').addClass('active');
+            }
+        });
+    });
+}); */
+
+$(document).ready(function () {
+    $('.question_wrap').on('click', function () {
+        var $parentLi = $(this).closest('li');
+        $parentLi.toggleClass('on');
+        var $btnText = $(this).find('[data-handler="toggleText"]');
+        $btnText.text(function (i, text) {
+            return text === '열기' ? '닫기' : '열기';
+        });
+        var $answer = $parentLi.find('.answer_wrap');
+        $('.answer_wrap').not($answer).hide();
+        $answer.toggle();
+    });
+    
+    $('.radio_agreement a').on('click', function(event) {
+        event.preventDefault();
+        const $parentRadio = $(this).closest('.radio_agreement');
+        $parentRadio.find('.radio_btn').removeClass('on');
+        $(this).parent('.radio_btn').addClass('on');
+        $(this).siblings('.chk').prop('checked', true);
+    });
+    $('#omniagreeN1070606040').prop('checked', true);
+    
+    $('.agreement_choose a').on('click', function(event) {
+        event.preventDefault();
+        const $parentRadio = $(this).closest('.radio_btn');
+        const $radioBtns = $('.radio_btn');
+
+        $radioBtns.removeClass('on'); 
+        $parentRadio.addClass('on'); 
+
+        // 선택된 라디오 버튼 체크 처리
+        const $radioInput = $parentRadio.find('.chk');
+        $radioInput.prop('checked', true);
+    });
+    
+});
+
+
 	var tm_rcv_checkbox = new Array();
 	var sms_rcv_checkbox = new Array();
 	var email_rcv_checkbox = new Array();
@@ -2108,12 +1973,7 @@
         $('#coop_agree input:checkbox[id^="email_rcv_"]').each(function(){
         	email_rcv_checkbox.push($(this).is(":checked")?"Y":"N")
         });
-        	
-        //CJ ONE + 제휴사 마케팅 전체 동의
-  //      $('[data-check-all]').checkboxAllChecker();
-        //정보제공 동의여부
-        $('[data-control="accordion"]').accordion();
-            
+  
     });
 </script>
 <script type="text/javascript">	
@@ -2132,26 +1992,10 @@
                 }
             }
         }
-	    	
-	  //  $("#lnChangeName").click(changeName);
 
-	    $("#birth_yy").change(function(){
-	    	date_change();
-	    });
-	    $("#birth_mm").change(function(){
-	    	date_change();
-	    });
 
-	    var cj_marketing_agree = "Y";
-	    if(cj_marketing_agree != "Y"){
-	    	cjMarketingAgreeControl(false);
-	    }
 	    
-	    var coop_marketing_agree = "";
-	    if(coop_marketing_agree != "Y"){
-	    	coopMarketingAgreeControl(false);
-	    } 
-
+	    
 /* 
     
 	function alertMsg(objId, ErrMsg){
@@ -2184,89 +2028,8 @@
 
 
     // 회원수정 체크
- /*    function checkInput() {
-    	
-    	if ( isMaskYn == 'Y') {
+     function checkInput() {
     		
-        	if(isPwdChange){
-                if($('#pwd').val().length < 6){
-                	showErrorMsg("pwd", "");
-                    $('#pwd').focus();
-                    return false;
-                }
-        		$("#msg_pwd").hide();
-        		
-                if($('#pwd_check').val() == ""){
-                	showErrorMsg("pwd_check", "");
-                    $('#pwd_check').focus();
-                    return false;
-                }
-
-                if( $("#pwd").val() != $("#pwd_check").val() ){
-                	alertMsg('msg_pwd_check',"입력하신 비밀번호가 일치하지 않습니다. 다시 확인해 주세요.")
-                    $('#pwd_check').focus();
-                    return false;
-        	    } else{
-        	        $("#msg_pwd_check").hide();
-        	    }
-                
-    			checkPasswordValid();
-    			if ( flag == "invalid") {
-    				return false;
-    			} 		
-        	}
-    	    return true;
-        	
-    	} else {
-	    	
-	    	if(isPwdChange){
-	            if($('#pwd').val().length < 6){
-	            	showErrorMsg("pwd", "");
-	                $('#pwd').focus();
-	                return false;
-	            }
-	    		$("#msg_pwd").hide();
-	    		
-	            if($('#pwd_check').val() == ""){
-	            	showErrorMsg("pwd_check", "");
-	                $('#pwd_check').focus();
-	                return false;
-	            }
-	
-	            if( $("#pwd").val() != $("#pwd_check").val() ){
-	            	alertMsg('msg_pwd_check',"입력하신 비밀번호가 일치하지 않습니다. 다시 확인해 주세요.")
-	                $('#pwd_check').focus();
-	                return false;
-	    	    } else{
-	    	        $("#msg_pwd_check").hide();
-	    	    }
-	            
-				checkPasswordValid();
-				if ( flag == "invalid") {
-					return false;
-				} 		
-	    	}
-	    	
-	        if($('input[name=clndr_typ_cd]:checked').val() == "L"){
-	        	alert("생년월일은 양력으로만 운영됩니다. 개인정보> 생년월일 영역에서 양력으로 변경 후 확인 버튼을 클릭해주세요.");
-	            $('#clndr_typ_cd').focus();
-	            return false;
-	        }        	
-	
-			if (!$('#birth_yy').val()) {
-	            alert("생년월일을 선택하세요.");
-	            $('#birth_yy').focus();
-	            return false;
-			} else if (!$('#birth_mm').val()) {
-	            alert("생년월일을 선택하세요.");
-	            $('#birth_mm').focus();
-	            return false;
-			} else if (!$('#birth_dd').val() || $('#birth_dd').val() == "" ) {
-	            alert("생년월일을 선택하세요.");
-	            $('#birth_dd').focus();
-	            return false;
-			}
-	
 	        if($('#email_addr1').val() == ""){
 	            alert("이메일 주소를 입력하세요.");
 	            alertMsg('msg_email_addr', "이메일 주소를 입력하세요.");
@@ -2287,7 +2050,7 @@
 	            $('#email_addr2').focus();
 	            return false;
 	        }
- */
+     }
 	function placeHolder(){
 		  $('[placeholder][type="password"]').each(function(){
 	          $(this).wrap('<div style="position: relative;"></div>');
@@ -2333,17 +2096,28 @@
 	
 	</script>
 	<script>
-	var tel = "${userDto.userTel}";
-	var arr = tel.split('-', 3);
-	var tel1 = arr[0];
-	var tel2 = arr[1];
-	var tel3 = arr[2];
-	
-	$("#mob_no_1").val(tel1);
-	$("#mob_no_2").val("****");
-	$("#mob_no_3").val(tel3);
-	$("#mobileNoInfo").text(tel1+"-"+"****"+"-"+tel3);
-	
+	$(function () {
+		var userTel = 	"${userDto.userTel}";
+		var newTel = "${newTel}";
+		var mobileNoText =  $("#mobileNoInfo").text(); 
+			/* if(mobileNoText===userTel ){ */
+			var arr = userTel.split('-', 3);
+			var tel1 = arr[0];
+			var tel2 = arr[1];
+			var tel3 = arr[2];
+			$("#usertel").val(tel1+"-"+tel2+"-"+tel3);
+			$("#mobileNoInfo").text(tel1+"-"+"****"+"-"+tel3);
+	 	/*  } else if (mobileNoText===newTel ){
+			var newTel1 = newTel.substring(0, 3);
+			var newTel2 = newTel.substring(3, newTel.length - 4); // 국번 부분의 길이를 설정합니다.
+			var newTel3 = newTel.substring(newTel.length - 4);
+			
+			$("#newTel").val(newTel1 + "-" + newTel2 + "-" + newTel3);
+			$("#mobileNoInfo").text(newTel1 + "-" + "****" + "-" + newTel3);
+			
+		}   */
+	});
+
 	</script>
 	<script>
 
@@ -2384,9 +2158,9 @@ function chkPwd() {
 	    return true;
 	}
 // 패스워드 강도 체크  
-/* 
-	$("#btn_submit").on("change", function () {
-		//alert("event");		
+
+$("#btn_submit").on("change", function () {
+	//alert("event");		
 	var inputVal = $("#pwd").val();	
 	var length = inputVal.length;
 		if ( length >15) {
@@ -2398,7 +2172,7 @@ function chkPwd() {
 		}  else{
 	       	$("#pwd").text("강도 : 매우약함");
 	   }
-}); */
+}); 
 
 </script>
 	<script>

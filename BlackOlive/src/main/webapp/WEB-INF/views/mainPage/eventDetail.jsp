@@ -36,7 +36,7 @@
 			<div class="event_cont_wrap">
 				<div class="event_title_box ">
 					<span class="evt_flag"> ${dto.eventType } </span>
-					<p class="event_name">${dto.eventTitle }</p>
+					<p class="event_name">${dto.eventDetail }</p>
 					<p class="event_date">${dto.eventStartdate} - ${dto.eventEnddate }</p>
 					<div class="event_share_link">
 						<a href="javascript:;" class="link_social kakaoT" title="새창 열림">카카오톡

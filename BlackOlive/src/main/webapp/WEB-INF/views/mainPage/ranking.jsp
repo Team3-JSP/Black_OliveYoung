@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,15 +11,18 @@
 <title>블랙올리브영 온라인몰</title>
 </head>
 <body>
-
+<sec:authorize access="isAuthenticated()">
+	<script>
+		let loginCheck = true;
+	</script>
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+	<script>
+		let loginCheck = false;
+	</script>
+</sec:authorize>
 <script>
 	let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
-	function popupCenter(popup) {
-		var scrolled = window.scrollY;
-		var windowHeight = window.innerHeight;
-	
-		$(popup).css("top", (windowHeight*0.3 + scrolled) + 'px');
-	}
 	
 	// 리뷰 도움돼요 업데이트
 	function udpReviewLike(reviewId, btn) {
@@ -57,6 +61,22 @@
 	        } // success , error
 		}) // ajax
 	}
+	
+	// 리뷰 상세보기에서 신고하기를 눌렀을 때
+	function reviewReport(reviewId) {
+		if(!loginCheck) {
+			location.href = '<c:url value="/auth/login"/>';
+			return;
+		}
+		
+		$("#reviewId").val(reviewId);
+		$(dimm).css("z-index", "998");
+		$("#layerWrap920").css("z-index", "990")
+		$("#layerWrap680").show();
+		popupCenter($("#layerWrap680"));
+	}
+	
+	
 	
 	// 리뷰 상세 보기 Ajax
 	function reviewDetail(reviewId) {
@@ -120,7 +140,7 @@
 										</div>
 										<div class="profile-badge on">
 											<span class="badge-item top-number">
-												<a href="https://www.oliveyoung.co.kr/store/mypage/getReviewerLounge.do">TOP \${data.rnk}</a>
+												<a href="<c:url value='/store/getReviewer'/>">TOP \${data.rnk}</a>
 											</span>							
 										</div>
 									</div>
@@ -209,7 +229,7 @@
 										for (var i = 0; i < data.reviewimg.length; i++) {
 											reviewDetailContent += '<li>';
 											reviewDetailContent += '<span>';
-											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="" onload="common.imgLoads(this,76);" onerror="common.errorResizeImg(this,76)">`;											
+											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="">`;											
 											reviewDetailContent += '</span>';
 											reviewDetailContent += '</li>';
 										}
@@ -220,7 +240,7 @@
 									}
 									
 								reviewDetailContent += `
-									<div class="bimg" style="top: 180.2px; display: none;"><!-- 확대되는 부분은 따로 분리 - position: absolute -->
+									<div class="bimg" style="top: 180.2px; display: none;">
 										<div class="thumb"><img src="" alt=""></div>
 									</div>
 									<p class="rw-box__description">
@@ -245,7 +265,7 @@
 										</button>
 										<input type="hidden" name="recommCnt_24029311" value="132">
 									</div>
-									<button type="button" class="rw-box__help-btn" onclick="mypage.reviewerInfo.goDclPop('24029311', 'A000000188875', '001', 'N');">신고하기</button>
+									<button type="button" class="rw-box__help-btn" onclick="reviewReport('\${data.reviewId}');">신고하기</button>
 								</div>
 							</div>
 						</div>
@@ -363,26 +383,28 @@
 				return;
 			}
 			
-			let type = $(checked).next().text();	// 신고사유
+			let reviewReportType = $(checked).next().text();	// 신고사유
 			let reviewReportContent = $(".txtArea textarea").val(); // 신고 내용
+			let reviewId = $("#reviewId").val();
 			
-			/* $.ajax({
+			$.ajax({
 				url: "/store/reviewReport"
-				, method:"PUT"
+				, method:"POST"
 				, cache:false
 				, dataType : "text"
 				, data:{
 					reviewId : reviewId
-					
+					, reviewReportContent : reviewReportContent
+					, reviewReportType : reviewReportType
 					, '${_csrf.parameterName }' : '${_csrf.token }'
 				}
 				, success: function (data) {
-					console.log(data);		
+					//console.log(data);		
 					
 					if(data === 'success') {
-						$(btn).find(".num").text(function(index, currentText) {
-							return parseInt(currentText) + likePlus;
-						});
+						alert("신고 내용이 접수되었습니다.");
+						$('#layerWrap680').hide();
+						$('#layerWrap920').css('z-index', '999');
 					}
 				}
 				, error : function (xhr, data, textStatus) {
@@ -390,11 +412,32 @@
 						location.href = '<c:url value="/auth/login"/>';
 					}
 		        } // success , error
-			}) // ajax */
+			}) // ajax 
 		})
 		
 	});
 </script>
+
+	<script>
+	// 리뷰 상세 이미지 확대 기능
+	$(function() {
+		let bimg = $(".bimg");
+		
+		$("#layerWrap920").on("mouseover", ".review-detail-thumb ul li span", function() {
+		    // 마우스 오버 시 실행되는 코드
+		    $(".bimg").find('img').attr("src", $(this).find('img').attr('src'))
+		    	.css({
+		    		"height" : "100%"
+		    		, "width" : "80%"
+		    	});
+		    $(".bimg").show();
+		}).on("mouseout", ".review-detail-thumb ul li span", function() {
+		    // 마우스 아웃 시 실행되는 코드
+		    $(".bimg").hide();
+		});
+	});
+		
+	</script>	
 
 <div id="Wrapper">
 	<!-- #Container -->
@@ -585,40 +628,12 @@
 	
 	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>
 
-	<script>
-	$(window).ready(function(){
 	
-		//이미지 상세 보기
-		var _thum_list = $('.review-detail-thumb'),
-		_big_thum_list = $('.review-detail-thumb ul li'),
-		_thum_img = _thum_list.find('span');
-		_bimg = $('.review-detail-view__content .bimg');
-	
-		_thum_img.on('mouseover', function(){
-			_src = $(this).find('img').attr('src');
-			_index = $(this).parent().index();
-			_big_src =  _big_thum_list.eq(_index).find('img').attr('src');
-			if(_big_src.indexOf("?RS=") > -1){
-			    var temp= _big_src.substring(0,_big_src.indexOf("?RS="));
-			    _big_src = temp;
-			}
-			_thum_top = _thum_list.position().top;
-			_thum_pos = $(this).position().top;
-			_top = _thum_top+_thum_pos-101;
-			_bimg.find('img').attr('src',_big_src);
-			_bimg.css('top', _top).show();
-		}).on('mouseout', function(){
-			_bimg.hide();
-		});
-	
-		//2022-04-20 리뷰상세팝업 영역에 유효하지 않은 버튼으로 삭제처리
-	});
-	
-	</script>	
-	</div>
+</div>
 	
 	
-	<div class="layer_pop_wrap w680" id="layerWrap680" style="z-index: 999; display: block;">
+	<div class="layer_pop_wrap w680" id="layerWrap680" style="z-index: 999; display: none;">
+		<input type="hidden" id="reviewId" value="">
 		<div class="popup-contents">
 			<div class="pop-conts type40">
 				<h1 class="ptit">리뷰 신고하기</h1>
@@ -642,38 +657,17 @@
 						</ul>
 						<h3 class="tit_type01 mgT40">신고 상세사유를 입력해주세요 (선택)</h3>
 						<div class="txtArea">
-							<textarea placeholder="신고하시는 상세이유를 입력해주세요(최대글자는 1,000자입니다)" onkeyup="goods.gdas.dcl.chkTxtCnt(this, 1000)" maxlength="1000"></textarea>
+							<textarea placeholder="신고하시는 상세이유를 입력해주세요(최대글자는 1,000자입니다)" maxlength="1000"></textarea>
 						</div>
 						<div class="area1sButton pdT30">
 							<a href="#none" class="btnGreen" id="regBtn">신고하기</a>
-							<a href="#none" class="btnGray" onclick="closePop();">취소</a>
+							<a href="#none" class="btnGray" onclick="javascript:$('#layerWrap680').hide();$('#layerWrap920').css('z-index', '999')">취소</a>
 						</div>
 					</div>
 				</div>
-				<button type="button" class="ButtonClose" onclick="javascript:$('#layerWrap680').hide(); $('.dimm').remove()">팝업창 닫기</button>
+				<button type="button" class="ButtonClose" onclick="javascript:$('#layerWrap680').hide();$('#layerWrap920').css('z-index', '999')">팝업창 닫기</button>
 			</div>
 		</div>
-		<form name="gdasDclForm" id="gdasDclForm">
-			<input type="hidden" name="gdasSeq" id="gdasSeq" value="24093625">	
-			<input type="hidden" name="goodsNo" id="goodsNo" value="A000000192752">	
-			<input type="hidden" name="gdasItemNo" id="gdasItemNo" value="001">	
-			<input type="hidden" name="dclCausCd" id="dclCausCd">	
-			<input type="hidden" name="dclCont" id="dclCont">
-		</form>
-	<script>
-	setTimeout(function() {
-		goods.gdas.dcl.init();
-	},500);
-	
-	function closePop(){
-		fnLayerSet('layerWrap680', 'close');
-		// 리뷰 상세팝업 노출된 경우
-		if($('#layerWrap920').css("display") === "block") {
-			$('#layerWrap920').css("z-index", 999).css("border","1px solid #fff");
-			$('body').append('<div class="dimm" style="z-index: 990;"></div>');
-		}
-	}
-	</script>
 	</div>
 	
 	<!-- 브랜드 찜 확인 레이어 -->

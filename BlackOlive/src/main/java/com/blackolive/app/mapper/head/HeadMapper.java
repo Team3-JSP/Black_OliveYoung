@@ -15,6 +15,7 @@ import com.blackolive.app.domain.head.MsgCardDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewDetailDTO;
+import com.blackolive.app.domain.review.ReviewReportDTO;
 
 public interface HeadMapper {
 
@@ -57,5 +58,8 @@ public interface HeadMapper {
 
 	// 리뷰 좋아요 업데이트
 	int updateReviewLike(@Param("reviewId") String reviewId, @Param("likePlus") int likePlus) throws SQLException;
+
+	// 리뷰 신고 인설트
+	int insertReviewReport(ReviewReportDTO reviewReportDTO) throws SQLException;
 	
 } // interface

@@ -3,6 +3,8 @@ package com.blackolive.app.controller.brandPage;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ public class BrandPageController {
 	 */
 	// 브랜드 페이지로 이동
 	@GetMapping
-	public String brandPage(@RequestParam("brandId") String brandId,Model model) {
+	public String brandPage(@RequestParam("brandId") String brandId,Model model	) {
 		 log.info("brandId : " + brandId );
 		 
 		BrandPageDTO brand = null; 

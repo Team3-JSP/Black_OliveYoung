@@ -34,6 +34,8 @@
 			<typeAlias type="com.blackolive.app.domain.productdetail.QnAListDTO" alias="QnAListDTO" />
 			<typeAlias type="com.blackolive.app.domain.review.ReviewDTO" alias="ReviewDTO"/>
 			
+			<typeAlias type="com.blackolive.app.domain.productdetail.GiftDTO" alias="GiftDTO" />
+			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.EventDTO" alias="EventDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.GiftCardDTO" alias="GiftCardDTO"/>
@@ -43,6 +45,13 @@
 			<typeAlias type="com.blackolive.app.domain.review.ReviewImgDTO" alias="ReviewImgDTO"/>
 			<typeAlias type="com.blackolive.app.domain.review.ReviewDetailDTO" alias="ReviewDetailDTO"/>
 			
+			<!-- exhibition -->
+			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionBannerDTO" alias="ExhibitionBannerDTO"/>
+			
+			
+			<!-- adminpage -->
+			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerMonthDTO" alias="SalesPerMonthDTO"/>
+			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerDayDTO" alias="SalesPerDayDTO"/>
 			
 	</typeAliases>
 	
@@ -68,6 +77,11 @@
 		<mapper resource="com/blackolive/app/mapper/productdetail/QnARestMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/review/ReviewMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/exhibition/ExhibitionMapper.xml"/>
+		
+		<mapper resource="com/blackolive/app/mapper/adminpage/AdminPageIndexMapper.xml"/>
+		
+		<mapper resource="com/blackolive/app/mapper/mypage/MypagePersonalAskMapper.xml"/>
 		
 	</mappers>
 	

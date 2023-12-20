@@ -13,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.service.productdetail.ProductDetailService;
+import com.blackolive.app.service.productdetail.QnARestService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -21,7 +22,11 @@ public class DetailRestTest {
 	
 	@Autowired
 	private ProductDetailService productDetailService;
+	
+	@Autowired
+	private QnARestService qnaRestService;
 
+	/* 테스트 완료
 	@Test
 	public void test() {
 		
@@ -30,5 +35,27 @@ public class DetailRestTest {
 		List<QnAListDTO> qnaList = this.productDetailService.getProductQnaService(productDisplayId, currentPages, 10);
 		assertNotNull(qnaList);
 	} // test
+	*/
+	/* 테스트 완료
+	@Test
+	public void modifyTest() {
+		
+		String qnaId = "qna_18";
+		String qnaQuestion = "modify TEst";
+		
+		int rowCnt = this.qnaRestService.modifyQnAService(qnaId, qnaQuestion);
+		System.out.println(rowCnt);
+		
+		assertEquals(1, this.qnaRestService.modifyQnAService(qnaId, qnaQuestion));
+	}
+	*/
+	/*테스트 완료
+	@Test
+	public void deleteTest() {
+		String qnaId = "qna_17";
+		
+		assertEquals(1, this.qnaRestService.deleteQnAService(qnaId));
+	}
+	*/
 
 }

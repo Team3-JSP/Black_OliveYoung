@@ -69,6 +69,7 @@ $(function() {
             type: 'get',
             async: true, // 비동기 호출
             cache: false,
+            contentType : "application/json; charset:UTF-8", 
             url: '/getSortBrands',
             data: {
                 brandId: brandId,
@@ -103,35 +104,217 @@ $(function() {
     }
 });
 </script>
+
 <script>
-$(window).ready(function(){
-
-	//이미지 상세 보기
-	var _thum_list = $('.review-detail-thumb'),
-	_big_thum_list = $('.review-detail-thumb ul li'),
-	_thum_img = _thum_list.find('span');
-	_bimg = $('.review-detail-view__content .bimg');
-
-	_thum_img.on('mouseover', function(){
-		_src = $(this).find('img').attr('src');
-		_index = $(this).parent().index();
-		_big_src =  _big_thum_list.eq(_index).find('img').attr('src');
-		if(_big_src.indexOf("?RS=") > -1){
-		    var temp= _big_src.substring(0,_big_src.indexOf("?RS="));
-		    _big_src = temp;
+//리뷰 상세 보기 Ajax
+function reviewDetail(reviewId) {
+	$.ajax({
+		url: "/store/getReviewDetail"
+		, method:"GET"
+		, cache:false
+		, dataType : "json"
+		, data:{
+			reviewId : reviewId
 		}
-		_thum_top = _thum_list.position().top;
-		_thum_pos = $(this).position().top;
-		_top = _thum_top+_thum_pos-101;
-		_bimg.find('img').attr('src',_big_src);
-		_bimg.css('top', _top).show();
-	}).on('mouseout', function(){
-		_bimg.hide();
-	});
-
-
-});
-
+		, success: function (data) {
+			// console.log(data);
+			var date = new Date(data.reviewRegdate);
+			var formattedDate =
+				  date.getFullYear() + '.' +
+				  ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+				  ('0' + date.getDate()).slice(-2);
+			
+			let grade = data.gradeName;
+			let grade_rate;
+			switch (grade) {
+			case "BABY OLIVE":
+				grade_rate = "rate_05";
+				break;
+			case "PINK OLIVE":
+				grade_rate = "rate_04";
+				break;
+			case "GREEN OLIVE":
+				grade_rate = "rate_03";
+				break;
+			case "BLACK OLIVE":
+				grade_rate = "rate_02";
+				break;
+			case "GOLD OLIVE":
+				grade_rate = "rate_01";
+				break;
+			}
+			
+			// 태그 만들기 시작
+			let reviewDetailContent = `
+			<div class="review-detail-view">
+				<p class="review-detail-view__tit">리뷰 상세보기 <button type="button" class="rw-popup-layer-close" onclick="javascript:$('#layerWrap920').hide(); $('.dimm').remove()"></button></p>
+				<div class="reviewer-profile-wrap clrfix">
+				<div class="reviewer-profile-info profile-top-reviewer-v1 ">
+					<div class="top-reviewer-inner">
+						<div class="top-reviewer-profile">
+							<div class="profile-top-content">
+								<div class="reviewer-profile-img thum">
+									<div class="reviewer-profile-img__inner" onclick="common.link.commonMoveUrl('mypage/getReviewerProfile.do?key=Q0hyeXVNazc3bWVpL3JPODE4UjRtdz09');">
+										<span class="reviewer-profile-img--active" style="background-image: url('\${data.profileImg}')"><span class="review-text-hidden">프로필 사진</span></span>		
+									</div>
+								</div>
+								<div class="new-profile-info">
+									<div class="user-id-area \${grade_rate}">	
+										<p class="id my-profile on">
+											<strong>\${data.nickname}</strong>
+											<span class="badge-img"><span class="blind">멤버십 등급별 이미지</span></span>
+										</p>	
+									</div>
+									<div class="profile-badge on">
+										<span class="badge-item top-number">
+											<a href="<c:url value='/store/getReviewer'/>">TOP \${data.rnk}</a>
+										</span>							
+									</div>
+								</div>
+							</div>
+							<div class="profile-info-content">	
+								<div class="profile-keyword-area">
+									<ul class="profile-keyword-list on">`;
+									
+									if(data.skintoneName != null) {
+										reviewDetailContent += `<li class="list-item">\${data.skintoneName}</li>`;
+									}
+									if(data.skintypeName != null) {
+										reviewDetailContent += `<li class="list-item">\${data.skintypeName}</li>`;
+									}
+									
+									for (var i = 0; i < data.skinTrouble.length; i++) {
+										reviewDetailContent += `<li class="list-item">\${data.skinTrouble[i].skintroubleName}</li>`;
+									}
+						reviewDetailContent += `</ul></div>`;
+			
+			// 프로필 내용 여부
+			if(`\${data.profileContent}` != 'null') {
+				reviewDetailContent += `
+								<p class="top-review-info on">
+									\${data.profileContent}
+								<p>`;	
+			}			
+								
+								
+			reviewDetailContent +=	`
+							</div>
+						</div>
+						<ul class="reviewer-profile-info__bottom reviewer-data-info">
+							<li class="reviewer-data-info__list">
+								<span>\${data.reviewCnt}</span>
+								<span>리뷰</span>
+							</li>
+							<li class="reviewer-data-info__list">
+								<span>\${data.reviewLike}</span>
+								<span>도움</span>
+							</li>
+							<li class="reviewer-data-info__list">
+								<span>\${data.rnk}</span>
+								<span>랭킹</span>
+							</li>
+						</ul>	
+					</div>
+				</div>
+				<div class="reviewer-profile-content">
+					<div class="reviewer-profile-content__body">
+						<div class="rw-box">
+							<a href="#;" class="rw-box__link" onclick="location.href='https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188875&amp;trackingCd=Best_Reviewbest';">
+								<div class="rw-box-figure">
+									<div class="rw-box-figure__img">
+										<img src="\${data.productImgSrc}" alt="">
+									</div>
+									<div class="rw-box-figcaption">
+										<p class="rw-box-figcaption__brand">\${data.brandName}</p>
+										<p class="rw-box-figcaption__name">\${data.productName}</p>
+										<p class="rw-box-figcaption__price">
+											<span class="price">\${data.productPrice}원</span>
+										</p>
+										<p class="rw-box-figcaption__etc">
+											<span class="today">오늘드림</span>
+										</p>	
+									</div>
+								</div>
+							</a>
+							<div class="review-detail-view__content scrbar">
+								<div class="rw-box__first-line">
+									<span class="review_point"><!-- 리뷰 포인트 누적 리뷰에서와 같음. width 값으로 제어-->
+										<span class="point" style="width:\${data.reviewGrade*20}%">5점만점에 5점</span>
+									</span>
+									<span class="review_point_text">
+										<span>작성일자 \${formattedDate}</span>
+									</span>
+								</div>
+								<div class="rw-box__second-line"></div>`;
+								
+								// 리뷰 이미지가 있으면 
+								if(data.reviewimg.length > 0) {
+									
+									reviewDetailContent += '<div class="review-detail-thumb">';
+									reviewDetailContent += '<ul>';
+									
+									for (var i = 0; i < data.reviewimg.length; i++) {
+										reviewDetailContent += '<li>';
+										reviewDetailContent += '<span>';
+										reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="">`;											
+										reviewDetailContent += '</span>';
+										reviewDetailContent += '</li>';
+									}
+									
+									reviewDetailContent += '</ul>';
+									reviewDetailContent += '</div>';
+									
+								}
+								
+							reviewDetailContent += `
+								<div class="bimg" style="top: 180.2px; display: none;">
+									<div class="thumb"><img src="" alt=""></div>
+								</div>
+								<p class="rw-box__description">
+									\${data.reviewContent}
+								</p>
+								<div class="review-detail-fixed">
+									<dl class="review-detail-fixed__list clrfix">
+										<dt>피부타입</dt>
+										<dd>지성에 좋아요</dd>
+										<dt>피부고민</dt>
+										<dd>보습에 좋아요</dd>
+										<dt>자극도</dt>
+										<dd>자극없이 순해요</dd>	
+									</dl>
+								</div>
+							</div>
+							<div class="rw-box__bottom">
+								<div class="rw-box__help">
+									<button type="button" class="common-event-help unlike" id="gdas_24029311" onclick="udpReviewLike('\${data.reviewId}', this)">
+										<span>도움이 돼요</span>
+										<span class="num">\${data.reviewLike}</span>
+									</button>
+									<input type="hidden" name="recommCnt_24029311" value="132">
+								</div>
+								<button type="button" class="rw-box__help-btn" onclick="reviewReport('\${data.reviewId}');">신고하기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>`;
+		// 태그 만들기 끝
+	
+			$("#layerWrap920").html(reviewDetailContent);
+			$("#layerWrap920").show();
+			popupCenter($("#layerWrap920"));
+			$("body").append(dimm);
+		}
+		, error : function (xhr, data, textStatus) {
+			
+			console.log(xhr);
+			console.log(data);
+			console.log(textStatus);
+			console.log('error');
+        } // success , error
+	}); // ajax
+}
 </script>
 
 
@@ -1449,7 +1632,7 @@ $(window).ready(function(){
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162318&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;1&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="openReviewModal('23251131');display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
+																onclick="reviewDetail('${review.reviewId}');display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">${ review.reviewGrade }</span>
@@ -1492,7 +1675,7 @@ $(window).ready(function(){
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;2&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000168705', '[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++', '1'); mypage.reviewerLounge.goReviewDetail('23033813', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'1'});">
+																onclick="reviewDetail('${review.reviewId}')">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1823,7 +2006,7 @@ $(window).ready(function(){
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;12&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000168705', '[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++', '1'); mypage.reviewerLounge.goReviewDetail('23033813', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'1'});">
+																onclick="reviewDetail('${review.reviewId}')">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1869,252 +2052,7 @@ $(window).ready(function(){
 				</div>
 				
 	<!-- 리뷰어 프로필 전체 부분 시작 -->
-		<div class="review-detail-view">
-	<div id="myModal" class="modal" style=" display: none;position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4); ">
-  
-	<div class="modal-content" style=" background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 70%;">
-  <span class="close" style="  color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
-	<!-- reviewer-profile-info :: 리뷰어 프로필 시작 -->
-		<div class="reviewer-profile-info profile-top-reviewer-v1 ">
-		
-			<div class="top-reviewer-inner">
-					<!-- 탑리뷰어언서 UI추가 -->
-				<div class="top-reviewer-profile">
-					<div class="profile-top-content">
-						<div class="reviewer-profile-img thum">
-							<!-- 프로필 이미지 -->
-							<div class="reviewer-profile-img__inner" onclick="common.link.commonMoveUrl('mypage/getReviewerProfile.do?key=L2xpNEhpWGd6WU4rVFJ0aWE2OVVEdz09');">
-								
-									<span class="reviewer-profile-img--active" style="background-image: url('https://image.oliveyoung.co.kr/uploads/images/mbrProfile/2023/11/14/1699924371453.png')"><span class="review-text-hidden">프로필 사진</span></span>
-								
-							</div>
-						</div>
-
-						<div class="new-profile-info">
-							<div class="user-id-area rate_01">
-								
-									
-										<p class="id my-profile on">
-											<strong>comejuliet</strong>
-											<span class="badge-img">
-													<span class="blind">멤버십 등급별 이미지</span>
-									</span>
-										</p>
-								
-							</div>
-
-							<div class="profile-badge on">
-								
-								
-										<span class="badge-item top-number">
-											<a href="https://www.oliveyoung.co.kr/store/mypage/getReviewerLounge.do">TOP 96</a>
-										</span>								
-							</div>
-
-						</div>
-					</div>
-
-					<div class="profile-info-content">
-						
-							<div class="profile-keyword-area">								
-									<ul class="profile-keyword-list on">
-												<li class="list-item">건성</li>
-										
-												<li class="list-item">겨울쿨톤</li>
-											
-												<li class="list-item">블랙헤드</li>
-												<li class="list-item">주름</li>
-											
-									</ul>
-								
-									<p class="top-reviewer-text on">
-										
-											<!-- span태그로 분리 | 추가, 마지막 요소에는 제거 -->
-											
-												
-													<span>메이크업 분야 탑리뷰어</span>
-												
-									</p>
-								
-							</div>
-								<p class="top-reviewer-info on">
-									
-									
-										🥀 겨울딥톤/가울딥톤 22호 메이크업 추천 🥀
-										
-										<br>
-									
-										인스타: @deep_motd 
-										
-										<br>
-										<br>
-									
-										스트레스 해소를 위해 반짝이는 화장품을 사재기하는 대학생 ✨
-										
-										<br>
-								</p>
-					</div>
-				</div>
-				<!-- // 탑리뷰어언서 UI추가 -->
-				
-					<ul class="reviewer-profile-info__bottom reviewer-data-info">
-						<li class="reviewer-data-info__list">
-											<span>242</span>
-							<span>리뷰</span>
-						</li>
-						<li class="reviewer-data-info__list">
-											<span>1,787</span>
-							<span>도움</span>
-						</li>
-						<li class="reviewer-data-info__list">
-											<span>96</span>
-							<span>랭킹</span>
-						</li>
-					</ul>
-				
-			</div>
-
-			
-		</div>
-	<!-- reviewer-profile-info :: 리뷰어 프로필 끝 -->
-	
- <div class="review-detail-view">
-		<div class="reviewer-profile-content">
-			<div class="reviewer-profile-content__body">
-				
-				<!-- rw-box :: 누적 리뷰 부분에서 반복되었던 부분  시작 -->
-				<div class="rw-box">
-			 
-					<a href="#;" class="rw-box__link"  onclick="location.href='https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;trackingCd=Best_Reviewbest'; gtm.goods.callGoodsGtmInfo('A000000162323', null, 'ee-productClick', '랭킹_리뷰베스트_리뷰상세', 1);" data-attr="랭킹^리뷰베스트_리뷰상세^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획">
-						<div class="rw-box-figure">
-							<div class="rw-box-figure__img">
-							<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0016/A00000016232329ko.jpg?l=ko" alt="" onerror="common.errorImg(this);">
-							
-							</div>
-							<div class="rw-box-figcaption">
-								
-								<p class="rw-box-figcaption__brand">구달</p>								
-								<p class="rw-box-figcaption__name">[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획</p>
-								
-									<p class="rw-box-figcaption__price">									
-									<span class="price">34,400원</span>
-										<del>43,000원</del>
-							
-									</p>
-
-									<p class="rw-box-figcaption__etc">									
-										<span>증정</span>									
-										<span class="today">오늘드림</span>
-									
-									</p>
-								
-							</div>
-						</div>
-					</a>				
-					<!-- 추가 :: s -->
-					<!-- 스크롤 부분 :: s -->
-					<div class="review-detail-view__content scrbar">
-						<div class="rw-box__first-line">
-							<span class="review_point"><!-- 리뷰 포인트 누적 리뷰에서와 같음. width 값으로 제어-->
-								<span class="point" style="width:100%">5점만점에 5점</span>
-							</span>
-							<span class="review_point_text">
-								<span>작성일자 2023.10.23</span>
-						
-							</span>
-						</div>												
-						<div class="rw-box__second-line">
-						
-								<span>한달이상사용</span>
-							
-						</div>
-					
-							<!-- 썸네일 리스트 - 확대 가능 :: 시작 -->
-							
-                        <div class="review-detail-thumb">
-                            <ul>
-                                
-                                <li>
-                                    <span>
-                                        <img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/10/23/1698023327691.png?RS=76x76&amp;CS=76x76" alt="" onload="common.imgLoads(this,76);" onerror="common.errorResizeImg(this,76)">
-                                    </span>
-                                </li>
-                                
-                                <li>
-                                    <span>
-                                        <img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/10/23/1698023355981.png?RS=76x76&amp;CS=76x76" alt="" onload="common.imgLoads(this,76);" onerror="common.errorResizeImg(this,76)">
-                                    </span>
-                                </li>
-                                
-                                <li>
-                                    <span>
-                                        <img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/10/23/1698023419902.png?RS=76x76&amp;CS=76x76" alt="" onload="common.imgLoads(this,76);" onerror="common.errorResizeImg(this,76)">
-                                    </span>
-                                </li>
-                                
-                            </ul>
-                        </div>
-						<div class="bimg" style="top: 229px; display: none;"><!-- 확대되는 부분은 따로 분리 - position: absolute -->
-							<div class="thumb"><img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2023/10/23/1698023327691.png" alt="" onerror="common.errorImg(this);"></div>
-						</div>
-						<!-- 썸네일 리스트 - 확대 가능 :: 끝 -->
-						
-								<p class="rw-box__description">
-									5⭐️/5 <br>이 세럼은 필수품입니다! <br><br>🍋 지난 1년간 매일 아침 종교적으로 바르고 있습니다. 이 세럼 덕분에, 제 피부는 항상 빛나고, 피곤하고 스트레스를 받을 때도 결코 칙칙해 보이지 않습니다!<br>🍋 이 세럼은 흉터와 흑점 제거에도 많은 도움을 주며, 사용을 시작한 후 피부 톤이 훨씬 균일해졌다는 것을 알게 되었습니다! <br>🍋 질감은 제가 항상 세럼에서 찾는 텍스처입니다: 두껍고 약간 끈적거려서 이 세럼을 바르면 하루 종일 제 피부를 보호해주는 장벽이 생기는 것처럼 느껴집니다. <br>🍋 제 피부가 매우 건조하고, 이 세럼은 피부에 기름기를 남기지 않고 완벽하게 흡수됩니다! <br>🍋 이 세럼의 귤냄새가 너무 좋아요! 상쾌한 아침향으로 제격입니다 :) <br><br>이건 절대 포기하지 않을 제품이에요, 찐짜 제 피부를 바뀌었어요 🥰
-								</p>
-	                 		<div class="review-detail-fixed">
-	
-							<dl class="review-detail-fixed__list clrfix">
-								
-								<dt>피부타입</dt>
-								<dd>건성에 좋아요</dd>
-								
-								<dt>피부고민</dt>
-								<dd>보습에 좋아요</dd>
-								
-								<dt>자극도</dt>
-								<dd>자극없이 순해요</dd>
-								
-							</dl>
-						
-						</div>
-
-					</div>
-					<!-- 스크롤 부분 :: e -->
-					<div class="rw-box__bottom">
-						<div class="rw-box__help">
-							<button type="button" class="common-event-help unlike" id="gdas_23102015" onclick="goods.gdas.setRecommGdasToggle('23102015',  'N');">
-								<span>도움이 돼요</span>
-								<span class="num">
-                                 30
-							</span>
-							</button>
-							<input type="hidden" name="recommCnt_23102015" value="30">
-						</div>
-						<button type="button" class="rw-box__help-btn" onclick="mypage.reviewerInfo.goDclPop('23102015', 'A000000162323', '001', 'N');">신고하기</button>
-					</div>
-					<!-- 추가 :: e -->
-				</div>
-				<!-- rw-box :: 누적 리뷰 부분에서 반복되었던 부분  끝 -->
-			</div>
-		</div>
-	
-	</div>
-	<!-- 리뷰어 프로필 전체 부분 끝 -->
-</div>
-</div>
-</div>
+	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>	
 				
 				
 				
@@ -2172,74 +2110,7 @@ $(window).ready(function(){
 							id="goodsTrackingCd" name="goodsTrackingCd" value="">
 
 						<ul class="prod-list goodsProd">
-							<c:forEach items="${ jsonObject }" var="dto" varStatus="status">
-
-
-								<li data-goods-idx="1">
-									<div class="prod">
-										<a
-											href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
-											name="BrandA001436_PROD" class="thumb goodsList"
-											data-ref-goodsno="A000000162323" data-ref-dispcatno="9000002"
-											data-ref-itemno="001"
-											data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-											onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
-											<img src="${ dto.pro_displ_src }"
-											alt="[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-											class="pic-thumb" onerror="common.errorImg(this);"> <span
-											class="flag-badge best">베스트</span>
-										</a>
-										<div class="prod-info"
-											onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
-											<div class="prod-brand">
-												<strong class="exclusive"></strong>
-											</div>
-											<a
-												href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_전체_상품상세&amp;t_number=1"
-												class="goodsList" data-ref-goodsno="A000000162323"
-												data-ref-dispcatno="9000002" data-ref-itemno="001"
-												data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획">
-												<span class="prod-name double-line">${dto.pro_displ_name }</span>
-											</a>
-											<div class="price-info">
-												<div class="discount">
-													<span class="origin"><fmt:formatNumber
-															value="${dto.pro_price }" groupingUsed="true" />원</span>
-												</div>
-												<div class="price">
-													<strong class="total">30,960<span class="won">원</span></strong>
-													<span class="oneday">오늘드림</span>
-												</div>
-												<div class="rating">
-													<span class="point">4.7</span><span class="num">(999+)</span>
-												</div>
-												<div class="rating_type">
-													<div class="rating_point star5">
-														<span class="oyblind">별점 5점 만점에 4.7점</span>
-													</div>
-													<span>(999+)</span>
-												</div>
-											</div>
-											<div class="flags">
-												<span class="flag sale">세일</span><span class="flag coupon">쿠폰</span>
-											</div>
-										</div>
-										<div class="prod-func">
-											<button type="button" class="favorite"
-												data-ref-goodsno="A000000162323">
-												<span>찜하기</span>
-											</button>
-											<button type="button" class="cart"
-												onclick="common.gf_regCart(this); return false;"
-												data-goods-no="A000000162323" data-item-no="001">
-												<span>장바구니</span>
-											</button>
-										</div>
-									</div>
-								</li>
-
-
-							</c:forEach>
+							
 						</ul>
 						<div class="pageing">
 							<strong title="현재 페이지">1</strong> <a href="javascript:void(0);"

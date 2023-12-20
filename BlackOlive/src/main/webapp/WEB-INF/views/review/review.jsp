@@ -187,17 +187,18 @@
 						<div class="align_sort">
 							<!-- 리뷰 고도화 1차 : 항목 변경 -->
 							<ul id="gdasSort">
-								<li class="is-layer on"><a href="javascript:;"
-									data-value="01" data-sort-type-code="useful"
+							<c:out value="${gdasSort}"></c:out>
+								<li class="is-layer <c:if test='${gdasSort eq 0}'> on</c:if>"><a href="javascript:;"
+									data-value="0" data-sort-type-code="useful"
 									data-attr="상품상세^리뷰정렬^유용한순">유용한순</a>
 									<button type="button" class="btn-open-layer">
 										<span>자세히 보기</span>
 									</button>
 									<div class="comment-layer">리뷰의 글자수, '도움이 돼요'수 , 등록된 사진,
 										최신 작성일등을 점수화하여 올리브영이 추천하는 리뷰를 정렬합니다.</div></li>
-								<li><a href="javascript:;" data-value="01"
+								<li class = "<c:if test='${gdasSort eq 1}'> on</c:if>" ><a href="javascript:;" data-value="1"
 									data-sort-type-code="help" data-attr="상품상세^리뷰정렬^도움순">도움순</a></li>
-								<li><a href="javascript:;" data-value="02"
+								<li <c:if test="${gdasSort eq 2}">class = "on"</c:if>><a href="javascript:;" data-value="2"
 									data-sort-type-code="latest" data-attr="상품상세^리뷰정렬^최신순">최신순</a></li>
 							</ul>
 							<!-- // 리뷰 고도화 1차 : 항목 변경 -->
@@ -206,7 +207,7 @@
 						<!--## 리뷰고도화 2차 ## 추가 S -->
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_1"
-								checked="checked" value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
+								<c:if test="${searchType_1 eq 'Y'}">checked="checked"</c:if> value="100" data-attr="상품상세^리뷰검색필터_유형^포토리뷰"><label>포토리뷰</label>
 						</div>
 						<div class="review_N2 checkbox_wrap">
 							<input type="checkbox" name="searchType" id="searchType_2"
@@ -442,7 +443,7 @@
 													
 
 														
-															<li><a href="#" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
+															<li><a href="javascript:;" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
 																		src="${img.reviewImgSrc }" data-value="23082403_1"
 																		class="thum" alt=""></span></a></li>
 														
@@ -504,4 +505,200 @@
 						<!-- <strong title="현재 페이지">1</strong> -->
 					</div>
 				</div>
+				<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+			<script>
+			 $(".pageing a").on("click",function(){
+				 event.preventDefault(); // 앵커의 기본 동작을 막습니다.
+				
+				 let currentPage = $(this).text()
+				 let productId = $(".prd_option_box.box_select > a").attr("id");
+				 let productDisplayId = $("#goodsNo").val();
+				 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
+				 //alert(currentpage+"/"+pro_id+"/"+displ+"/"+type)
+				 
+				 let data = {
+					 currentPage: currentPage,
+					 productId: productId,
+					 gdasSort: gdasSort,
+					 productDisplayId: productDisplayId
+				    };
+				 
+				 $.ajax({
+						url: "/getReview",
+						data:data,
+						cache: false,
+						success:function( response ) {
+				              $("#review").empty();
+				              $("#review").append( response );
+					           		              
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+					
+					
+				 
+			 })
+			 
+			 
+		$("#gdasSort li a").on("click",function(){
+		 $("#gdasSort li").removeClass("on")
+		 $(this).closest("li").addClass("on")
+		 let gdasSort = $(this).attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
 			
+			
+	 })
+	 
+	  $("#searchType_1").on("click",function(){
+		  let searchType1 = ''
+		 if ($(this).is(':checked')) {
+			searchType1 = 'Y'
+		}else{
+			searchType1 = 'N'
+		}
+		
+		 let gdasSort = $("#gdasSort li.on > a").attr("data-value")
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 let productDisplayId = $("#goodsNo").val();
+		 alert(searchType1)
+		 
+		 let data = {
+				 productId: productId,
+				 gdasSort: gdasSort,
+			 	productDisplayId: productDisplayId,
+			 	searchType1: searchType1
+		    };
+		 $.ajax({
+				url: "/getReview",
+				data:data,
+				cache: false,
+				success:function( response ) {
+		              $("#review").empty();
+		              $("#review").append( response );
+		          }
+		        , error		: function() {
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		        }
+			})
+	 })
+	 
+	 $(function(){
+$(".more").click(function(){
+			$("#layerWrap850.photo").show()
+		})
+		$(".photo li").click(function(){
+			var index = $(".photo li").index($(this));
+			let reviewId = $(this).find("img").data("value")
+			var productDisplayId = $("#goodsNo").val();
+			let productId = $(".prd_option_box.box_select > a").attr("id");
+			console.log(index);
+			
+			let data = {
+					reviewId: reviewId,
+					 index: index,
+					 productDisplayId: productDisplayId,
+					 productId: productId
+				    };
+				 
+					
+					$.ajax({
+						url: "/reviewimgpopup",
+						data:data,
+						cache: false,
+						success:function( response ) {
+							 $(".photo").hide()
+				              $("#layerWrap850:not(.photo)").empty();
+				              $("#layerWrap850:not(.photo)").append( response );
+				              $("#layerWrap850:not(.photo)").show()
+				              
+				     		
+				                         
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+		})
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
+	 })
+	$(function(){
+		$(document).on("click", ".review_thum:not(.type1) > .inner.clrfix li:not(.more)", function() {
+		 let reviewId = $(this).find("img").data("value")
+		 var index = $(".review_thum > .inner.clrfix li").index($(this));
+		 var productDisplayId = $("#goodsNo").val();
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 console.log(index)
+		 
+		 let data = {
+				 reviewId: reviewId,
+				 index: index,
+				 productDisplayId: productDisplayId,
+				 productId: productId
+			    };
+			 
+				
+				$.ajax({
+					url: "/reviewimgpopup",
+					data:data,
+					cache: false,
+					success:function( response ) {
+						$("#layerWrap850:not(.photo)").empty();
+			              $("#layerWrap850:not(.photo)").append( response );
+			              $("#layerWrap850:not(.photo)").show()
+			     		 
+			              console.log("t: "+index)  		              
+			          }
+			        , error		: function() {
+			            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+			        }
+				})
+		 //alert(value)
+				
+	 })
+	 
+	 $(".ButtonClose").click(function(){
+		 $("#layerWrap850").empty()
+	 })
+							})
+							
+							
+							
+	$(function(){
+
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
+	 })
+	 
+	 function slide(index) {
+			$('.slider-nav').slick('slickGoTo', index);
+		}
+			</script>
+		

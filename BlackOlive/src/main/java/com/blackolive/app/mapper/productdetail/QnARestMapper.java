@@ -12,5 +12,11 @@ public interface QnARestMapper {
 	
 	// Qna 수정하기 위해 QnaDTO를 갖고오는 작업 getQnA
 	public QnAListDTO getQnA(@Param("qnaId")String qnaId);
+	
+	// qna 수정하는 작업 modifyQnA
+	public int modifyQnA(@Param("qnaId") String qnaId, @Param("qnaQuestion")String qnaQuestion);
+	
+	// qna 삭제하는 작업 deleteQna
+	public int deleteQnA(@Param("qnaId") String qnaId);
 
 } // interface

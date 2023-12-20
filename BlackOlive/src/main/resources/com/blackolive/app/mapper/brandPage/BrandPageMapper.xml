@@ -19,44 +19,42 @@
 
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기 -->
 	<select id="getSortBrands" resultType="BrandPageDTO">
-		SELECT *
-		FROM productcontainer2
-		WHERE brand_Id = #{brandId}
-		<choose>
-			<when
-				test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
-				AND (category_Large_Id IN ('0001', '0002', '0004'))
-			</when>
-			<when test="dispcatno.equals('cate_02')">
-				AND category_Large_Id = '0001'
-			</when>
-			<when test="dispcatno.equals('cate_03')">
-				AND category_Large_Id = '0002'
-			</when>
-			<when test="dispcatno.equals('cate_04')">
-				AND category_Large_Id = '0004'
-			</when>
-		</choose>
-		<if test="sort != null">
-			<choose>
-				<when test="sort.equals('p')">
-					ORDER BY product_Display_Like DESC
-				</when>
-				<when test="sort.equals('n')">
-					ORDER BY product_Reg DESC
-				</when>
-				<when test="sort.equals('s')">
-					ORDER BY ordercnt DESC
-				</when>
-				<when test="sort.equals('l')">
-					ORDER BY ProductPrice ASC
-				</when>
-				<when test="sort.equals('d')">
-					ORDER BY (minprice - afterprice) / minprice * 100
-					DESC
-				</when>
-			</choose>
-		</if>
+	    SELECT *
+        FROM productcontainer2
+        WHERE brand_id = #{brandId}
+        <choose>
+            <when test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
+                AND (category_Large_Id IN ('0001', '0002', '0004'))
+            </when>
+            <when test="dispcatno.equals('cate_02')">
+                AND category_Large_Id = '0001'
+            </when>
+            <when test="dispcatno.equals('cate_03')">
+                AND category_Large_Id = '0002'
+            </when>
+            <when test="dispcatno.equals('cate_04')">
+                AND category_Large_Id = '0004'
+            </when>
+        </choose>
+        <if test="sort != null">
+            <choose>
+                <when test="sort.equals('p')">
+                    ORDER BY product_Display_Like DESC
+                </when>
+                <when test="sort.equals('n')">
+                    ORDER BY product_Reg DESC
+                </when>
+                <when test="sort.equals('s')">
+                    ORDER BY ordercnt DESC
+                </when>
+                <when test="sort.equals('l')">
+                    ORDER BY ProductPrice ASC
+                </when>
+                <when test="sort.equals('d')">
+                    ORDER BY (minprice - afterprice) / minprice * 100 DESC
+                </when>
+            </choose>
+        </if>
 	</select>
 
 	<!-- 베스트상품 4개(술라이드바용) -->

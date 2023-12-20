@@ -3,6 +3,9 @@ package com.blackolive.app.service.brandPage;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,42 +33,46 @@ public class BrandPageServiceImpl implements BrandPageService  {
 	}
 
 	@Override
-	public String createBrandPageHtml(String brandId, String sort, String dispcatno)throws Exception {
+	public String createBrandPageHtml(String brandId, String sort, String dispcatno 
+			)throws Exception {
+ 
+		
 		log.info("> BRAND PAGE HTML......");
 		
 		StringBuilder html = new StringBuilder();
 	    List<BrandPageDTO> brandPageList = getSortBrands(brandId, sort, dispcatno);
+	    
         System.out.println(" brandPageList.size(): " + brandPageList );
 		for ( int i = 0; i < brandPageList.size(); i++) {
 			BrandPageDTO product = brandPageList.get(i);
+			
 			System.out.println(">DDD");
+			
 		      if (i % 4 == 0) {
-		            if (i > 0) {
-		                html.append("</div>"); // 첫 번째 행을 제외하고 이전 행을 닫습니다.
-		            }
+		          
 		            html.append("<div class=\"row\">");
 		        }
 
 		        html.append("<div class=\"prod\">");
-		        html.append("<a href=\"#\" class=\"thumb goodsList\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">");
-		        html.append("<img src=\"" + product.getProductDisplaySrc() + "\" alt=\"" + product.getProductDisplayName() + "\" class=\"pic-thumb\" onerror=\"common.errorImg(this);\">");
+		        html.append("<a href=\"#\" class=\"thumb goodsList\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">\r\n");
+		        html.append("<img src=\"" + product.getProductDisplaySrc() + "\" alt=\"" + product.getProductDisplayName() + "\" class=\"pic-thumb\" onerror=\"common.errorImg(this);\">\r\n");
 		        html.append("<span class=\"flag-badge best\">베스트</span>");
 		        html.append("</a>");
 		        html.append("<div class=\"prod-info\">");
 		        html.append("<div class=\"prod-brand\"><strong class=\"exclusive\"></strong></div>");
-		        html.append("<a href=\"#\" class=\"goodsList\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">");
-		        html.append("<span class=\"prod-name double-line\">" + product.getProductDisplayName() + "</span>");
+		        html.append("<a href=\"#\" class=\"goodsList\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">\r\n");
+		        html.append("<span class=\"prod-name double-line\">" + product.getProductDisplayName() + "</span>\r\n");
 		        html.append("</a>");
 		        html.append("</div>");
 		        html.append("<div class=\"prod-func\">");
-		        html.append("<button type=\"button\" class=\"favorite\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">");
+		        html.append("<button type=\"button\" class=\"favorite\" data-ref-goodsno=\"" + product.getProductDisplayId() + "\">\r\n");
 		        html.append("<span>찜하기</span>");
 		        html.append("</button>");
-		        html.append("<button type=\"button\" class=\"cart\" onclick=\"common.gf_regCart(this); return false;\" data-goods-no=\"" + product.getProductDisplayId() + "\" data-item-no=\"001\">");
+		        html.append("<button type=\"button\" class=\"cart\" onclick=\"common.gf_regCart(this); return false;\" data-goods-no=\"" + product.getProductDisplayId() + "\" data-item-no=\"001\">\r\n");
 		        html.append("<span>장바구니</span>");
 		        html.append("</button>");
-		        html.append("</div>");
-		        html.append("</div>");
+		        html.append("</div>\r\n");
+		        html.append("</div>\r\n");
 
 		        if ((i + 1) % 4 == 0 || (i + 1) == brandPageList.size()) {
 		            html.append("</div>");

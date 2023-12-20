@@ -99,51 +99,86 @@ public class UsermodifyController {
 	// 회원정보수정 휴대폰인증 완료_POST (팝업>부모창 이동)
 	// modify_phlast > name_update
 	@PostMapping("/modify_phlast")
-	public String newInfoOk( Principal principal
+	public String newInfoOk( Principal principal, Model model, HttpSession session
 									, @RequestParam ("userName") String newName
 									, @RequestParam ("userTel") String newTel
-									, HttpSession session) throws SQLException, ClassNotFoundException{
+									) throws SQLException, ClassNotFoundException{
 		log.info("newInfoOk_POST..." + newName + newTel );
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
+    
+		userDto.setUserName(newName);
+		userDto.setUserTel(newTel.substring(0, 3)+"-"+newTel.substring(3,7)+"-"+newTel.substring(7));
 		session.setAttribute("userDto", userDto);
-		session.setAttribute("newName", newName);
-		session.setAttribute("newTel", newTel);		
-		return "redirect:/usermodify/name_update";
+		log.info(userDto);
+		//model.addAttribute("newName", );
+		//model.addAttribute("newTel", inputTel);
+
+		return "usermodify.name_update";
 	}
 	 
 	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
 	@PostMapping("/info_modification")
-	public String infoModify(Principal principal, Model model
-			, @RequestParam ("newName") String newName
-			, @RequestParam ("newTel") String newTel ) throws SQLException, ClassNotFoundException{
-		log.info( "infoModify_POST..." +principal.getName());
-		log.info(newTel +"/"+ newName);
+	public String infoModify( Principal principal, OliveUserDTO userDto, Model model
+								, HttpSession session ) throws SQLException, ClassNotFoundException{
+		log.info( "infoModify_POST...");
+		log.info(userDto.getUserName() +"/"+ userDto.getUserTel());
+		//로그인 회원 정보
 		String userId = principal.getName();
-		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
-		String userTel = newTel.substring(0, 3)+"-"+newTel.substring(3,6)+"-"+newTel.substring(7);
-		model.addAttribute("userDto", userDto);
-		model.addAttribute("newName", newName);
-		model.addAttribute("newTel", newTel);
+		userDto = this.usermodifyService.getUser(userId);
 
+		model.addAttribute(session.getAttribute("userDto"));
+		//model.addAttribute("newName", newName);
+		//model.addAttribute("newTel", newTel);	
+    
 		return "usermodify.info_modification";
 	}
 //	
 
 	// 회원정보수정 완료_POST
-//	@PostMapping("/info_modification")
-//	public String infoModifyOk( Principal principal, Model model
-//									, @RequestParam ("userName") String newName
-//									, @RequestParam ("userTel") String inputTel ) throws SQLException, ClassNotFoundException{
-//		log.info("infoModifyOk_POST..." + newName + inputTel );
-//		String userId = principal.getName();
-//		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
-//		String newTel = inputTel.substring(0, 3)+"-"+inputTel.substring(3,6)+"-"+inputTel.substring(7);
-//		model.addAttribute("userDto", userDto);
-//		model.addAttribute("newName", newName);
-//		model.addAttribute("newTel", newTel);
-//
-//		return "usermodify.info_modification";
-//	}
+
+	@PostMapping("/info_modification_ok")
+	public String infoModifyOk( Principal principal, OliveUserDTO userDto
+			 , @RequestParam("email_addr1") String email1
+			 , @RequestParam("email_addr2") String email2
+						) throws SQLException, ClassNotFoundException{
+		log.info("infoModifyOk_POST..." );
+		log.info(userDto);
+		// 로그인 회원 정보
+		String userId = principal.getName();
+		OliveUserDTO currentUser = this.usermodifyService.getUser(userId);
+		//
+		String inputEmail = email1+"@"+email2;
+		// 사용자 정보 업데이트
+		// 이름
+		if ( userDto.getUserName() !=null ) {
+			currentUser.setUserName(userDto.getUserName());
+		} else {
+			userDto.setUserName(currentUser.getUserName());
+		}
+		// 전화번호
+		if ( userDto.getUserTel() != null ) {
+			currentUser.setUserTel(userDto.getUserTel());
+		} else {
+			userDto.setUserTel(currentUser.getUserTel());
+		}
+		// 이메일
+		if ( !inputEmail.isEmpty() ) {
+			currentUser.setUserEmail(inputEmail);
+		} else {
+			userDto.setUserEmail(currentUser.getUserEmail());
+		}
+		// 비밀번호
+		if ( userDto.getUserPassword() !=null ) {
+			currentUser.setUserPassword( passwordEncoder.encode(userDto.getUserPassword()) );
+		} else {
+			userDto.setUserPassword(currentUser.getUserPassword());
+		}
+		
+		this.usermodifyService.infoModify(currentUser);
+
+		return "usermodify.info_modification_ok";
+	}
+
 
 }

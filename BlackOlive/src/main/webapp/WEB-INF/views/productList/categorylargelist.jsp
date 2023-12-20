@@ -836,14 +836,8 @@ function showTab(tabName) {
 
 $(function () {
 	$('#ctTheme').slick({
-		   dots: false,
-		   arrows: true,
-		   fade: true,
-		   infinite: true,
-		   speed: 100,
-		   slidesToShow: 5,
-		   slidesToScroll: 3,
-		   draggable: true
+		slidesToShow: 5,
+		slidesToScroll: 3
 		}); 
 })
 </script>

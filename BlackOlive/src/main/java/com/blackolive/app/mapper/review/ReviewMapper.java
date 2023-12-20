@@ -14,8 +14,9 @@ public interface ReviewMapper {
 
 	// 리뷰 페이징
 	List<ReviewDTO> reviewList(@Param("productDisplayId") String productDisplayId, 
-			@Param("gdasSort") String gdasSort, @Param("productId") String productId, 
-			@Param("currentPage") int currentPage, @Param("numberPerPage") int numberPerPage);
+			@Param("gdasSort") int gdasSort, @Param("productId") String productId, 
+			@Param("currentPage") int currentPage, @Param("numberPerPage") int numberPerPage,
+			@Param("searchType_1")String searchType_1);
 	// 리뷰 전체
 	List<ReviewDTO> reviewListAll(@Param("productDisplayId") String productDisplayId,@Param("productId") String productId);
 	//리뷰 이미지

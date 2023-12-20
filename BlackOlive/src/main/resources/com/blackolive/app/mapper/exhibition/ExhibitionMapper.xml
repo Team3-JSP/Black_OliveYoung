@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.exhibition.ExhibitionMapper">
+
+<!-- // 배너정보 갖고오는 작업 getExhibitionBanner
+	public List<ExhibitionBannerDTO> getExhibitionBanner(String exhibitionCategory) throws SQLException; -->
+	<select id="getExhibitionBanner" resultType="ExhibitionBannerDTO">
+		SELECT ex.exhibition_id, EXHIBITION_BANNER_IMG_SRC, EXHIBITION_BANNER_SUMMARY, EXHIBITION_BANNER_SUMMARY2, EXHIBITION_BANNER_KEYWORD, ex.EXHIBITION_CATEGORY
+		FROM exhibition_banner eb
+		JOIN exhibition ex ON eb.exhibition_id = ex.exhibition_id
+		WHERE exhibition_end_day > SYSDATE AND ex.EXHIBITION_CATEGORY = #{exhibitionCategory}
+	</select>
+
+	
+
+</mapper>

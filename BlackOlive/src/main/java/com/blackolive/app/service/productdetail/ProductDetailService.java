@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
+import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
@@ -46,6 +47,8 @@ public interface ProductDetailService {
 	// QnA 총 페이지수 갖고오기
 	int getQnATotalPagesService(String productDisplayId);
 	
+	// 해당 상품의 증정품 가져오기
+	GiftDTO getGiftService(String productDisplayId);
 
 	
 } // interface

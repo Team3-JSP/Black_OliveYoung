@@ -10,7 +10,10 @@ import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.ProductQnAVO;
 import com.blackolive.app.mapper.mypage.MypageMainMapper;
 
+import lombok.extern.log4j.Log4j;
+
 @Service
+@Log4j
 public class MypageMainServiceImpl implements MypageMainService {
 	
 	@Autowired
@@ -24,14 +27,14 @@ public class MypageMainServiceImpl implements MypageMainService {
 
 	@Override
 	public List<ProductQnAVO> productQnAservice(String userid) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		log.info(">> productQnA  service");
 		return this.mapper.getproductQnA(userid);
 	}
 
 	@Override
 	public List<ProductQnAVO> productQnAwithDateservice(String userid, String startdate, String enddate)
 			throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		log.info(">> productQnA Date service");
 		return this.mapper.getproductQnAwithDate(userid, startdate, enddate);
 	}
 

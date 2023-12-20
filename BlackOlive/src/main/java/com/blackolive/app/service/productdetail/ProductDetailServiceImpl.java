@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
+import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
@@ -112,6 +113,13 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 	public int getQnATotalPagesService(String productDisplayId) {
 		log.info("ProductDetailServiceImpl getQnATotalPages call...");
 		return this.productMapper.getQnATotalPages(productDisplayId);
+	}
+
+	// 해당 상품의 증정품 가져오기
+	@Override
+	public GiftDTO getGiftService(String productDisplayId) {
+		log.info("증정품 서비스...");
+		return this.productMapper.getGift(productDisplayId);
 	} 
 	
 	
