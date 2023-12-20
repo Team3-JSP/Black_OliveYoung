@@ -359,7 +359,7 @@
 		 setTimeout(() => {
 			window.location.href="${pageContext.request.contextPath}/usermodify/modify_phlast";
 			close();
-		}, 100); 
+		}, 0); 
 		return true;
 	});
 	$("#btnCancel").on("click", function () {
