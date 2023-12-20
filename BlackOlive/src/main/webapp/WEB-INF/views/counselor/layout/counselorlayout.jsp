@@ -10,9 +10,17 @@
 <title><tiles:getAsString name="title"></tiles:getAsString> </title>
 <link href='${pageContext.request.contextPath}<tiles:getAsString name="css" />' rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<c:if test="${ askCategoryMinor eq 'TOP10' }">
-<link href='${pageContext.request.contextPath}<tiles:getAsString name="css2" />' rel="stylesheet">
-</c:if>
+<c:choose>
+	<c:when test="${ not empty askCategoryMajor }">
+		<c:if test="${ askCategoryMinor eq 'TOP10' }">
+			<link href='${pageContext.request.contextPath}<tiles:getAsString name="css2" />' rel="stylesheet">
+		</c:if>
+		
+	</c:when>
+	<c:otherwise>
+	<link href='${pageContext.request.contextPath}<tiles:getAsString name="css2" />' rel="stylesheet">
+	</c:otherwise>
+</c:choose>
 </head>
 <body>
 

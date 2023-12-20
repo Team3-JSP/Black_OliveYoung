@@ -45,7 +45,7 @@
 		<put-attribute name="content" value="/WEB-INF/views/counselor/{1}.jsp"/>
 		<put-attribute name="title" value="블랙 올리브영"/>
 		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
-		<put-attribute name="css2" value="/resources/cdn-main/counselor.css"/>		
+		<put-attribute name="css2" value="/resources/cdn-main/{1}.css"/>		
 	</definition>
 
 	<definition name="*.*" template="/WEB-INF/views/layout/layout.jsp">

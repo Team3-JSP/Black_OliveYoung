@@ -17,7 +17,7 @@
 			<ul class="comm1sTabs threeSet customer">
 				<li id="tabFaq" class="on"><a href="<%=contextPath%>/counselor/faq" title="선택됨">FAQ</a></li>
 				<li id="tab1on1"><a href="<%-- 1:1문의 페이지 이동 --%>">1:1문의</a></li>
-				<li id="tabNotice"><a href="<%-- 공지사항 페이지 이동 --%>">공지사항</a></li>
+				<li id="tabNotice"><a href="<%=contextPath%>/counselor/notice">공지사항</a></li>
 			</ul>
 			
 			
@@ -25,57 +25,54 @@
 				
 				<fieldset class="search-faq">
 					<legend>FAQ 검색</legend>
-<!-- 					<label for="inqTitNm">FAQ 검색</label> -->
+
 					<div class="input" id="sch_field2">
 						<input type="text" id="inqTitNm" name="inqTitNm" title="질문 키워드를 입력해주세요." placeholder="질문 키워드를 입력해주세요." value="">
 						<a href="javascript:;" class="btn_sch_del"><span class="blind">검색어 삭제</span></a>
 						<input type="submit" id="searchFaq" value="검색">
 					</div>
 				</fieldset>
-				<input type="hidden" id="faqLrclCd" name="faqLrclCd" value="">
+				<!-- <input type="hidden" id="faqLrclCd" name="faqLrclCd" value="">
 				<input type="hidden" id="faqMdclCd" name="faqMdclCd" value="">
-				<input type="hidden" id="tagYn" name="tagYn" value="">
+				<input type="hidden" id="tagYn" name="tagYn" value=""> -->
 				<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }">
     		  	<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }">
-    		  	<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }">    		  	    		  	
+    		  	<input type="hidden" name="keyword" value="">    		  	    		  	
 			</form>
-			
-			
-			
 			
 				<div class="tag_list_wrap">
                     <span class="tag_list_tit">인기키워드</span>
 					<div class="tag_list" style="margin-left: -87.3469px;">
 						
-							<a href="javascript:faq.list.searchFaqTagList('배송');">배송</a>
+							<a href="#">배송</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('반품');">반품</a>
+							<a href="#">반품</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('오늘드림');">오늘드림</a>
+							<a href="#">오늘드림</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('픽업');">픽업</a>
+							<a href="#">픽업</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('매장반품');">매장반품</a>
+							<a href="#">매장반품</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('기프트카드');">기프트카드</a>
+							<a href="#">기프트카드</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('올리브 멤버스');">올리브 멤버스</a>
+							<a href="#">올리브 멤버스</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('결제');">결제</a>
+							<a href="#">결제</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('교환');">교환</a>
+							<a href="#">교환</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('탑리뷰어체험단');">탑리뷰어체험단</a>
+							<a href="#">탑리뷰어체험단</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('매장');">매장</a>
+							<a href="#">매장</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('선물하기');">선물하기</a>
+							<a href="#">선물하기</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('리뷰');">리뷰</a>
+							<a href="#">리뷰</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('빠른결제');">빠른결제</a>
+							<a href="#">빠른결제</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList(' 리뷰');"> 리뷰</a>
+							<a href="#"> 리뷰</a>
 						
 					</div>
 				</div>
@@ -210,7 +207,6 @@
 			<c:forEach begin="${ pageMaker.startPage }"
 				end="${ pageMaker.endPage }" step="1" var="num">
 			
-			<!-- <strong title="현재 페이지">1</strong> -->
 				
 			<c:choose>
 				<c:when test="${ num eq pageMaker.criteria.pageNum }">
@@ -222,10 +218,10 @@
 			</c:choose>
 
 			</c:forEach>
-<!-- 		<a href="javascript:void(0);" data-page-no="2">2</a> -->
+
 
 			<c:if test="${ pageMaker.next }">
-				<a href="${ pageMaker.endPage -1 }">&raquo;</a>
+				<a href="${ pageMaker.endPage + 1 }">&raquo;</a>
 			</c:if>
 	
 	
@@ -255,6 +251,13 @@
 		</div>
 	</div>
 
+<form id="actionForm" action="/counselor/faq" method="get">
+	<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }"> 
+	<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }"> 
+	<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }"> 
+	<input type="hidden" name="askCategoryMajor" value="${ askCategoryMajor }">
+	<input type="hidden" name="askCategoryMinor" value="${ askCategoryMinor }">	
+</form>
 
 <script>
 	
@@ -273,8 +276,7 @@
 			$("ul.twoTabs li button:contains('${ askCategoryMinor }')").parent().addClass("on");
 		}
 		
-	 	
-	 
+	
 	    $("a.tit").click(function() {
 	        var $parent = $(this).parent();
 	        var $siblingContents = $(this).siblings("ul.conts");
@@ -320,23 +322,85 @@
 </script>
 <script>
 	var sForm = $("#sForm");
-	$("#searchFaq").submit(function() {
+	var actionForm = $("#actionForm");
+	
+	$("#inqTitNm").keyup(function (event) {
 		
-		if (!sForm.find("input[name=inqTitNm]").val()) {
-			alert("검색어를 입력해주세요.");
-			return false;
+		if (event.keyCode == 13) {
+			
+			event.preventDefault();
+			
+			if (!sForm.find("input[name=inqTitNm]").val()) {
+				alert("검색어를 입력해주세요.");
+				return false;
+			}
+			sForm.find("input[name=pageNum]").val("1");
+			actionForm.find("input[name=pageNum]").val("1");
+
+			sForm.submit();
+			
 		}
-		sForm.find("input[name='pageNum']").val("1");
-		event.preventDefault();
-		sForm.submit();
 		
 	})
 	
 	$("div.tag_list a").on("click", function() {
 		var tag = $(this).text();
-		alert(tag);
+		
 		$("input#inqTitNm").val(tag);
-		$("#sForm").submit();
+		sForm.find("input[name=keyword]").val(tag);
+		sForm.find("input[name=pageNum]").val("1");
+		actionForm.find("input[name=pageNum]").val("1");
+		sForm.submit();
 	})
 	
+	
+	//페이징 번호로 넘어가기
+	$("div.pageing a").on("click", function() {
+		
+		event.preventDefault();
+		let pageNum = $(this).attr("href");
+		actionForm.find("input[name=pageNum]").val(pageNum);
+		
+		
+		
+		actionForm.submit();
+			
+	})
+	
+	
+</script>
+<script>
+// 키워드 움직이는 스크립트
+	var $bl = $(".tag_list_wrap"),
+    $th = $(".tag_list_wrap .tag_list"),
+    blW = $bl.outerWidth(),
+    blSW = $bl[0].scrollWidth,
+    wDiff = (blSW / blW) - 1, // widths difference ratio
+    mPadd = 20, // Mousemove Padding
+    damp = 20, // Mousemove response softness
+    mX = 20, // Real mouse position
+    mX2 = 30, // Modified mouse position
+    posX = 30,
+    mmAA = blW - (mPadd * 2), // The mousemove available area
+    mmAAr = (blW / mmAA),
+    totalWith = 0;
+
+
+	$th.find("a").each(function(){
+		totalWith += $(this).innerWidth() + 4;
+	})
+	
+	if($bl.width() < (totalWith + 90)){
+	    $bl.mousemove(function (e) {
+	        mX = e.pageX - this.offsetLeft;
+	        mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
+	    });
+	
+	    setInterval(function () {
+	        posX += (mX2 - posX) / damp;
+	        $th.css({
+	            marginLeft: -posX * wDiff
+	        });
+	    }, 10);
+	}
 </script>

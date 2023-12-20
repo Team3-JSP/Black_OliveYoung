@@ -75,7 +75,8 @@
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM faq
-		WHERE REGEXP_LIKE( FAQ_TITLE , #{ keyword }, 'i')
+		WHERE REGEXP_LIKE( FAQ_TITLE , #{ criteria.keyword }, 'i')
+		OR REGEXP_LIKE( faq_content , #{ criteria.keyword }, 'i') 
 	</select>	
 		
 	
@@ -96,7 +97,8 @@
 						        faq_content AS faqContent
 						FROM faq f
 						    LEFT JOIN ask_category ac on f.ask_category_id = ac.ask_category_id
-						WHERE REGEXP_LIKE( FAQ_TITLE , #{keyword}, 'i')
+						WHERE REGEXP_LIKE( FAQ_TITLE , #{ criteria.keyword }, 'i') 
+						OR REGEXP_LIKE( faq_content , #{ criteria.keyword }, 'i') 
 				        )
 				WHERE rowNumber <= #{ criteria.pageNum } * #{ criteria.amount }
 			)

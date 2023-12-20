@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.blackolive.app.domain.counselor.Criteria;
 import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PageDTO;
+import com.blackolive.app.domain.counselor.noticeVO;
 import com.blackolive.app.service.counselor.CounselorService;
 
 import lombok.extern.log4j.Log4j;
@@ -39,7 +40,7 @@ public class CounselorController {
 			criteria.setKeyword("TOP10");
 			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor, criteria);
 			model.addAttribute("faqVO", faqVO);
-			total = this.counselorService.getTotalservice(criteria);
+			total = this.counselorService.getMinorTagTotalservice(askCategoryMajor, askCategoryMinor);
 			
 		} else if (askCategoryMinor == null || askCategoryMinor == "") {
 			List<FaqVO> faqVO = this.counselorService.faqlistwithMajorservice(askCategoryMajor, criteria);
@@ -64,17 +65,24 @@ public class CounselorController {
 	
 	@GetMapping("/faqlist")
 	public String postfaqcontroller(
-				Criteria criteria,
+				@RequestParam("pageNum") int pageNum,
+				@RequestParam("amount") int amount,
+				@RequestParam("keyword") String keyword,
 				Model model				
 			) throws ClassNotFoundException, SQLException {
+		
 		log.info(">> faqlist get ");
+		
+		Criteria criteria = new Criteria(pageNum, amount, keyword);
+		
 		model.addAttribute("faqVO", this.counselorService.faqlistsearchwithpagingservice(criteria));
 		
-		int total = this.counselorService.getTotalservice(criteria);
+		int searchtotal = this.counselorService.getTotalservice(criteria);
+		model.addAttribute("searchtotal", searchtotal);
+		log.info(">> total add " + searchtotal);
+		model.addAttribute("pageMaker", new PageDTO(criteria, searchtotal));
 		
-		model.addAttribute("pageMaker", new PageDTO(criteria, total));
-		
-		return "counselor.faq";
+		return "counselor.faqlist";
 	}
 	
 	@GetMapping("/personalAsk")
@@ -84,9 +92,34 @@ public class CounselorController {
 	}
 	
 	@GetMapping("/notice")
-	public String noticecontroller() {
+	public String noticecontroller(
+			Model model,
+			Criteria criteria
+			) throws ClassNotFoundException, SQLException {
+		
+		log.debug(">> notice get ");
+		
+		List<noticeVO> noticeVO = this.counselorService.getNoticeListservice(criteria);
+		model.addAttribute("noticeVO", noticeVO);
+		
+		int noticetotal = this.counselorService.noticetotal(criteria);
+		model.addAttribute("pageMaker", new PageDTO(criteria, noticetotal));
+		
+		log.info(">> notice model add");
 		
 		return "counselor.notice";
+	}
+	
+	@GetMapping("/noticedetail")
+	public String noticedetailcontroller(
+			@RequestParam("noticeId") String noticeId,	
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		
+		noticeVO vo = this.counselorService.getNoticeDetailservice(noticeId);
+		model.addAttribute("vo", vo);
+		
+		return "counselor.noticedetail";
 	}
 	
 	
