@@ -1442,16 +1442,9 @@
 
 		</div>
 		<!--  리뷰 팝업 창 -->
-		<style>
-		.layer_pop_wrap {
-    position: fixed;
-    top: 80%;
-    left: 80%;
-    transform: translate(-50%, -50%);
-}
-		</style>
+		
 		<div class="layer_pop_wrap w850" id="layerWrap850"
-			style="z-index: 999; display: none; left: 80%; margin-left: -425px; top: 80%; margin-top: -371px;">
+			style="z-index: 999; display: none; margin-left: -425px; margin-top: -371px;">
 
 
 
@@ -1939,6 +1932,68 @@
 	</div>
 </div>
 
+
+<div class="layer_pop_wrap w490" id="basketOption"
+		style="z-index: 999; display: none; left: 50%; margin-left: -245px; top: 492px;"
+		data-quick-yn="N">
+
+		<div class="popup-contents"
+			style="top: 50%; width: 534px; margin: -365px 0 0 -268px;">
+			<div class="pop-conts">
+				<h1 class="ptit">선택완료</h1>
+
+				<div class="popCont contPd01">
+					<p class="txt_onbag">
+					<p class="txt_onbag">장바구니에 추가되었습니다.</p>
+					</p>
+				</div>
+
+				<div class="area2sButton pdTz">
+					<button class="btnlG01 pdzero w130">
+						<span>쇼핑계속하기</span>
+					</button>
+					<button class="btnG01 pdzero w130" id="basketgo">
+						<span>장바구니 확인</span>
+					</button>
+				</div>
+
+				<button type="button" class="ButtonClose">팝업창 닫기</button>
+			</div>
+		</div>
+
+	</div>
+
+<!-- 상품 좋아요 -->
+<div class="layerAlim zzimOn wishPrd" style="display: none;">
+		<span class="icon"></span>
+		<p class="one">
+			<strong>좋아요</strong>
+		</p>
+	</div>
+
+	<div class="layerAlim zzimOff wishPrd" style="display: none;">
+		<span class="icon"></span>
+		<p class="one">
+			<strong>좋아요</strong>
+		</p>
+	</div>
+<!-- 브랜드 좋아요 -->
+<div class="laytoast on" id="brandOn" style="display: none;">
+		<div class="inner">
+			<p class="txt_recom txt_01">
+				브랜드<br> <em>좋아요</em>
+			</p>
+		</div>
+	</div>
+	
+<div class="laytoast" id="brandOff" style="display: none;">
+		<div class="inner">
+			<p class="txt_recom txt_01">
+				브랜드<br> <em>좋아요</em>
+			</p>
+		</div>
+	</div>
+	
 <script>
 /* 상품 등록 함수 */
 $(function() {
@@ -2313,7 +2368,7 @@ $(function() {
 			var currentValue = parseInt(inputElement.val());
 			if (currentValue < 10) {
 		        inputElement.val(currentValue + 1);
-		        
+		        $("#totalCnt").val(currentValue + 1);
 		        var div = $(this).closest('.prd_cnt_box');
 		        var price = $(div).find('.option_price > .tx_num').text();
 		        price = parseInt(price.replace(/,/g, ''), 10);
@@ -2341,6 +2396,7 @@ $(function() {
 		    var currentValue = parseInt(inputElement.val());
 		    if (currentValue > 1) {
 		        inputElement.val(currentValue - 1);
+		        $("#totalCnt").val(currentValue - 1);
 		        var div = $(this).closest('.prd_cnt_box');
 		        var price = $(div).find('.option_price > .tx_num').text();
 		        price = parseInt(price.replace(/,/g, ''), 10);
@@ -2510,6 +2566,7 @@ $(function(){
 					$(	"#layerWrap850:not(.photo)").hide();
 				})`
 
+
 				$(	"#layerWrap850:not(.photo)").html(content);
 				$(	"#layerWrap850:not(.photo)").show();
 			},
@@ -2517,10 +2574,14 @@ $(function(){
 				alert('서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.');
 			}
 		})
+		popupCenter($('#layerWrap850:not(.photo)'));
 	})
 })
 $(function(){
-	
+	$("#layerWrap850").on("click",".layer_close.type2",function(){
+		$(	"#layerWrap850:not(.photo)").empty();
+		$(	"#layerWrap850:not(.photo)").hide();
+	})
 
 
 })
@@ -2530,4 +2591,229 @@ function close(){
 }
 				
 </script>
+<script>
+// 장바구니 추가
+	$(function() {
+		// 장바구니 추가 버튼 클릭 처리
+		$("#btnBasket").on("click", function() {
+			let flag = false;
+			
+			let sm = $(".option_add_area.pkg_goods_n").length; // 상품이 싱글인지 다중인지
 
+			let params = ""; 
+			console.log(sm)
+			if(sm != 0) {
+				let products = $(".option_add_area > div");
+				
+				for (var i = 0; i < products.length; i++) {
+					if($(products[i]).css("display") == "block") {
+						let product_id = $(products[i]).attr("id");
+						let cnt = $("#input_" + product_id).val();
+						params += "products=" + product_id + "-" + cnt + "&" ;
+						flag = true;
+					}
+				}
+				
+				params = params.substr(0, params.length-1);
+				
+				if(!flag) {
+					alert("상품을 선택해주세요.");
+					return;
+				}
+			} else {
+				params = "products=" + $("#pro_id").val() + "-" + $('#totalCnt').val();
+			}
+			
+			
+			
+			if($("#deliveDay").prop("checked")) {
+				params += "&quickyn=Y";
+			} else {
+				params += "&quickyn=N";
+			}
+			let url = window.location.href;
+			params += '&url='+url;
+			
+			
+			$.ajax({
+				url:"/basketitemadd",
+				method:"GET",
+				
+				cache:false,
+				dataType : 'text',
+				data:params,
+				success: function (result) {
+					$("#basketOption").show(); 		
+			         
+				} , error		: function(xhr, textStatus, error) {
+					 if (xhr.status == 401) {
+		                   alert("로그인 후 이용가능 합니다.");
+		                         window.location.href = "/auth/login";   
+		               }else{
+		            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+		               }
+		        }
+	            
+			}) // ajax
+			
+		});
+		
+		$(".btnlG01.pdzero.w130").click(function(){
+			$("#basketOption").hide();
+		})
+		$(".ButtonClose").click(function(){
+			$("#basketOption").hide();
+		})
+		$("#basketgo").click(function(){
+			location.href = "/basket";
+		})
+		
+	});
+</script>
+	<script>
+// 브랜드 좋아요 체크 처리(ajax)
+
+$(function () {
+	
+	 checkLikeStatus();
+	 checkLikeItemStatus();
+
+     // 좋아요 버튼 클릭 이벤트 처리
+     $("#brnd_wish").click(function () {
+    	 /* alert('brnd_wish'); */
+         toggleLikeStatus();
+     });
+     // 상품 좋아요 클릭 이벤트
+     $(".btnZzim.goods_wish").click(function () {
+    	 /* alert('brnd_wish'); */
+         toggleLikeItemStatus();
+     });
+     	
+}) // function
+
+	function checkLikeStatus() {
+	
+		$.ajax({
+			url:"/checkLikeBrand",
+			method:"GET",
+			cache:false,
+			dataType : 'text',
+			data:{brandId:"${productBrandInfo.brandId }"},
+			success: function (result) {
+				console.log(result);
+				if (result === "false") {
+					 	
+		               $("#brnd_wish").addClass("on");
+		         } else {
+		               $("#brnd_wish").removeClass("on");
+		           }
+			} , error : function (data, textStatus) {
+				console.log('error');
+            } // success , error
+            
+		}) // ajax
+	} // checkLikeStatus
+	
+    function toggleLikeStatus() {
+    let url = window.location.href;
+	$.ajax({
+		url: "/brandLikeToggle",
+		cache:false,
+		dataType : 'text',
+		data:{brandId:"${productBrandInfo.brandId }"
+			, url: url},
+		beforeSend: function(xmlHttpRequest) {
+		        xmlHttpRequest.setRequestHeader("AJAX", "true");
+		    },
+		success: function (result) {
+
+			if (result === "true" ) {
+				console.log('toggleLikeStatus:');
+				$("#brandOn").show();
+				$("#brandOn").fadeOut(2000);   
+				
+                $("#brnd_wish").addClass("on");
+            } else {
+            	console.log('toggleLikeStatus: ' + result);
+            	$("#brandOff").show();
+            	$("#brandOff").fadeOut(2000);
+                $("#brnd_wish").removeClass("on");
+            } //if
+		}, error : function (xhr, data, textStatus) {
+			if (xhr.status == 401) {
+                alert("로그인 후 이용가능 합니다.");
+                      window.location.href = "/auth/login";   
+            }else{
+                 alert("서버 에러") 
+            }
+        } // success , error
+	}) // ajax
+	} // toggleLikeStatus
+	
+	
+	// 상품 좋아요
+	
+	function checkLikeItemStatus() {
+		let productDisplayId = "<%=request.getParameter("productDisplayId")%>"
+		let url = window.location.href
+		let data = {
+				productDisplayId: productDisplayId,
+				url: url
+		}
+		$.ajax({
+			url:"/checkLikeItem",
+			method:"GET",
+			cache:false,
+			data: data,
+			success: function (result) {
+				console.log("checkLikeItemStatus:" +result);
+				if (result === "false") {
+					 	
+		               $(".btnZzim.goods_wish").addClass("zzimOn");
+		         } else {
+		               $(".btnZzim.goods_wish").removeClass("zzimOn");
+		           }
+			} , error : function (data, textStatus) {
+				console.log('error');
+            } // success , error
+            
+		}) // ajax
+	} // checkLikeItemStatus
+	
+	function toggleLikeItemStatus() {
+		let url = window.location.href;
+		$.ajax({
+			url: "/productLikeToggle",
+			cache:false,
+			dataType : 'text',
+			data:{productDisplayId:"<%=request.getParameter("productDisplayId")%>"
+				, url: url},
+				beforeSend: function(xmlHttpRequest) {
+			        xmlHttpRequest.setRequestHeader("AJAX", "true");
+			    },
+			success: function (result) {
+
+				if (result === "true" ) {
+					console.log('toggleLikeStatus:');
+					$(".layerAlim.zzimOn.wishPrd").show();
+					$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
+					
+	                $(".btnZzim.goods_wish").addClass("zzimOn");
+	            } else {
+	            	console.log('toggleLikeStatus: ' + result);
+	            	$(".layerAlim.zzimOff.wishPrd").show();
+	            	$(".layerAlim.zzimOff.wishPrd").fadeOut(2000);
+	                $(".btnZzim.goods_wish").removeClass("zzimOn");
+	            } //if
+			}, error : function (xhr, data, textStatus) {
+				if (xhr.status == 401) {
+	                   alert("로그인 후 이용가능 합니다.");
+	                         window.location.href = "/auth/login";   
+	               }else{
+	                    alert("서버 에러") 
+	               }
+	        } // success , error
+		}) // ajax
+		} // toggleLikeItemStatus
+	
+</script>

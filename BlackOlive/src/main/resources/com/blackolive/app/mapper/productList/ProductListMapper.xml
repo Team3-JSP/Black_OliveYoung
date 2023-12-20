@@ -228,6 +228,28 @@
         FROM product_like
         WHERE user_id = #{userId} and product_display_id = #{productDisplayId}
     </select>
+    <!-- 브랜드 좋아요 관련 -->
+    <!-- // 좋아요 버튼을 누르면 데이터에 추가하는 작업
+	public boolean addBrandLike( @Param("userId") String userId,  @Param("brandId")String brandId) throws Exception; -->
+	<insert id="addBrandLike" parameterType="java.util.Map">
+        INSERT INTO brand_like
+        VALUES ( 'brl_' || brand_like_seq.NEXTVAL, #{userId}, #{brandId} )
+    </insert>
+
+	<!-- // 좋아요 버튼을 한번 더 누르면 데이터에 삭제하는 작업
+	public boolean removeBrandLike( @Param("userId") String userId, @Param("brandId")String brandId) throws Exception; -->
+	<delete id="removeBrandLike">
+		DELETE FROM brand_like
+		WHERE user_id = #{userId} and brand_id = #{brandId}
+	</delete>
+
+	<!-- // 좋아요 상태 확인
+	public boolean isBrandLiked( @Param("userId") String userId,  @Param("brandId")String brandId) throws Exception; -->
+	<select id="isBrandLiked" resultType="String" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM brand_like
+        WHERE user_id = #{userId} and brand_id = #{brandId}
+    </select>
     
 <!--     // 그 카테고리에 많이 본 상품아이디 20개 갖고오는 작업 getTopviewProductId
 	public List<String> getTopviewProductId (@Param("largeId") String largeId); -->

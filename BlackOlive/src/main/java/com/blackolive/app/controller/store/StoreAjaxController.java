@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
+import com.blackolive.app.domain.store.StoreDetailDTO;
 import com.blackolive.app.service.store.StoreService;
 
 import lombok.AllArgsConstructor;
@@ -61,5 +62,10 @@ public class StoreAjaxController {
 	@GetMapping("/getProductName/{keyword}")
 	public ResponseEntity<List<ProductContainer>> getProductName(@PathVariable String keyword) {
 		return new ResponseEntity<>(this.storeService.getProductNameList(keyword), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getStoreDetail")
+	public ResponseEntity<StoreDetailDTO> getStoreDetail(String storeId) {
+		return new ResponseEntity<>(this.storeService.getStoreDetail(storeId), HttpStatus.OK);
 	}
 }

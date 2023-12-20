@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
@@ -50,5 +51,7 @@ public interface ProductDetailService {
 	// 해당 상품의 증정품 가져오기
 	GiftDTO getGiftService(String productDisplayId);
 
+	// 쿠키용
+	ProductContainer cookieService(String productDisplayId);
 	
 } // interface

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.head.AllCategoryDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
@@ -120,6 +121,12 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 	public GiftDTO getGiftService(String productDisplayId) {
 		log.info("증정품 서비스...");
 		return this.productMapper.getGift(productDisplayId);
+	}
+
+	@Override
+	public ProductContainer cookieService(String productDisplayId) {
+		// TODO Auto-generated method stub
+		return this.productMapper.cookie(productDisplayId);
 	} 
 	
 	

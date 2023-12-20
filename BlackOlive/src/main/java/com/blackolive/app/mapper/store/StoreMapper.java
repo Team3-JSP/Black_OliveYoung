@@ -8,6 +8,7 @@ import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
+import com.blackolive.app.domain.store.StoreDetailDTO;
 
 public interface StoreMapper {
 	
@@ -34,4 +35,6 @@ public interface StoreMapper {
 	int selectStoreCnt(); // 검색 된 매장 전체 수
 
 	List<ProductContainer> selectProductName(String keyword); // 해당 키워드 상품 이름 리스트
+
+	StoreDetailDTO selectOneStoreDetail(@Param("storeId") String storeId); // 매장 상세 얻기
 }

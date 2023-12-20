@@ -617,8 +617,10 @@ $(".more").click(function(){
 						cache: false,
 						success:function( response ) {
 							 $(".photo").hide()
+							 
 				              $("#layerWrap850:not(.photo)").empty();
 				              $("#layerWrap850:not(.photo)").append( response );
+				              popupCenter($('#layerWrap850:not(.photo)'));
 				              $("#layerWrap850:not(.photo)").show()
 				              
 				     		
@@ -657,6 +659,7 @@ $(".more").click(function(){
 					success:function( response ) {
 						$("#layerWrap850:not(.photo)").empty();
 			              $("#layerWrap850:not(.photo)").append( response );
+			              popupCenter($('#layerWrap850:not(.photo)'));
 			              $("#layerWrap850:not(.photo)").show()
 			     		 
 			              console.log("t: "+index)  		              
@@ -670,7 +673,7 @@ $(".more").click(function(){
 	 })
 	 
 	 $(".ButtonClose").click(function(){
-		 $("#layerWrap850").empty()
+		 $("#layerWrap850:not(.photo)").empty()
 	 })
 							})
 							
