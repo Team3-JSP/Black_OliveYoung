@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PersonalAskVO;
 
 public interface CounselorPersonalAskService {
@@ -19,5 +20,5 @@ public interface CounselorPersonalAskService {
 	// 문의 카테고리 소분류
 	List<String> selectminCategory(@Param("askCategoryMajor") String askCategoryMajor) throws ClassNotFoundException, SQLException;
 	// 문의 키워드
-	//List<FaqDTO> faqKeyword(String faq_title) throws ClassNotFoundException, SQLException;
+	List<FaqVO> faqKeyword(String faqKeyword) throws ClassNotFoundException, SQLException;
 }

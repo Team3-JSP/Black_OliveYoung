@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blackolive.app.domain.counselor.Criteria;
 import com.blackolive.app.domain.counselor.FaqVO;
+
 import com.blackolive.app.domain.signin.OliveUserDTO;
+
+import com.blackolive.app.domain.counselor.PageDTO;
+
 import com.blackolive.app.service.counselor.CounselorService;
 import com.blackolive.app.service.usermodify.UsermodifyService;
 
@@ -35,34 +38,50 @@ public class CounselorController {
 	public String getfaqcontroller(
 				@RequestParam(name = "askCategoryMinor", required = false) String askCategoryMinor,
 				@RequestParam(name = "askCategoryMajor", required = false) String askCategoryMajor,
-				Model model				
+				Model model,
+				Criteria criteria
 			) throws ClassNotFoundException, SQLException {
-		
+		int total = 0;
 		if (askCategoryMinor == null && askCategoryMajor == null) {
 			askCategoryMinor = "TOP10";
 			askCategoryMajor = "TOP10";
-			
-			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor);
+			criteria.setKeyword("TOP10");
+			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor, criteria);
 			model.addAttribute("faqVO", faqVO);
-
-		} else if (askCategoryMinor == null) {
-			List<FaqVO> faqVO = this.counselorService.faqlistwithMajorservice(askCategoryMajor);
-			model.addAttribute("faqVO", faqVO);
+			total = this.counselorService.getTotalservice(criteria);
 			
-					
+		} else if (askCategoryMinor == null || askCategoryMinor == "") {
+			List<FaqVO> faqVO = this.counselorService.faqlistwithMajorservice(askCategoryMajor, criteria);
+			model.addAttribute("faqVO", faqVO);
+			total = this.counselorService.getMajorTagTotalservice(askCategoryMajor);
+							
 		} else {
-			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor);
+			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor, criteria);
 			model.addAttribute("faqVO", faqVO);
-
+			total = this.counselorService.getMinorTagTotalservice(askCategoryMajor, askCategoryMinor);
+			
 		}
+		log.info(">> model adding..");
 		model.addAttribute("askCategoryMajor", askCategoryMajor);
 		model.addAttribute("askCategoryMinor", askCategoryMinor);
 		
+		model.addAttribute("pageMaker", new PageDTO(criteria, total));
+		
+		log.info(">> model add complete");
 		return "counselor.faq";
 	}
 	
-	@PostMapping("/faq")
-	public String postfaqcontroller() {
+	@GetMapping("/faqlist")
+	public String postfaqcontroller(
+				Criteria criteria,
+				Model model				
+			) throws ClassNotFoundException, SQLException {
+		log.info(">> faqlist get ");
+		model.addAttribute("faqVO", this.counselorService.faqlistsearchwithpagingservice(criteria));
+		
+		int total = this.counselorService.getTotalservice(criteria);
+		
+		model.addAttribute("pageMaker", new PageDTO(criteria, total));
 		
 		return "counselor.faq";
 	}
@@ -77,10 +96,12 @@ public class CounselorController {
 	
 	// 1:1문의하기 이동
 	@GetMapping("/personalAsk")
-	public String personalAskcontroller( Principal principal ) throws ClassNotFoundException, SQLException {
+	public String personalAskcontroller( Principal principal, Model model ) throws ClassNotFoundException, SQLException {
 		log.info("personalAskcontroller_GET....");
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
+		log.info(userDto);
+		model.addAttribute("userDto", userDto);
 		return "counselor.personalAsk";
 	}
 	

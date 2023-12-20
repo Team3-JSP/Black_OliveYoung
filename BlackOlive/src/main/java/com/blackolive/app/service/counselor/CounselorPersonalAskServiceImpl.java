@@ -7,10 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PersonalAskVO;
-import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.mapper.counselor.CounselorPersonalAskMapper;
-import com.blackolive.app.mapper.mypage.MypageListMapper;
 @Service
 public class CounselorPersonalAskServiceImpl implements CounselorPersonalAskService {
 
@@ -39,6 +38,11 @@ public class CounselorPersonalAskServiceImpl implements CounselorPersonalAskServ
 	@Override
 	public List<String> selectminCategory(@Param("askCategoryMajor")String askCategoryMajor) throws ClassNotFoundException, SQLException {
 		return this.personalAskMapper.getminCategory(askCategoryMajor);
+	}
+
+	@Override
+	public List<FaqVO> faqKeyword(String faqKeyword) throws ClassNotFoundException, SQLException {
+		return this.personalAskMapper.faqKeyword(faqKeyword);
 	}
 
 

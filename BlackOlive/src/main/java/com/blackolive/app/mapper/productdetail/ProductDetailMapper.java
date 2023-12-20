@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailDTO;
@@ -43,6 +44,9 @@ public interface ProductDetailMapper {
 	
 	// productView 기록 insertProductView
 	public void insertProductView(@Param("largeId")String largeId, @Param("productDisplayId") String productDisplayId);
+	
+	// 증정품 가져오기
+	GiftDTO getGift(@Param("productDisplayId")String productDisplayId);
 	
 
 	

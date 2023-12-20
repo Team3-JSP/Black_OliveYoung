@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script type="text/javascript"
-	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 					<!-- [D] 리뷰작성 영역 제거 review-write-delete 클래스 추가 -->
 					<div id="ajax">
 						<div class="product_rating_area review-write-delete">
@@ -431,7 +430,7 @@
 													
 
 														
-															<li><a href="#" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
+															<li><a href="javascript:;" data-attr="상품상세^포토리뷰^포토 클릭^1"><span><img
 																		src="${img.reviewImgSrc }" data-value="23082403_1"
 																		class="thum" alt=""></span></a></li>
 														
@@ -493,7 +492,8 @@
 						<!-- <strong title="현재 페이지">1</strong> -->
 					</div>
 				</div>
-				
+				<script type="text/javascript"
+	src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 			<script>
 			 $(".pageing a").on("click",function(){
 				 event.preventDefault(); // 앵커의 기본 동작을 막습니다.
@@ -591,6 +591,101 @@
 		        }
 			})
 	 })
-	
+	 
+	 $(function(){
+$(".more").click(function(){
+			$("#layerWrap850.photo").show()
+		})
+		$(".photo li").click(function(){
+			var index = $(".photo li").index($(this));
+			let reviewId = $(this).find("img").data("value")
+			var productDisplayId = $("#goodsNo").val();
+			let productId = $(".prd_option_box.box_select > a").attr("id");
+			console.log(index);
+			
+			let data = {
+					reviewId: reviewId,
+					 index: index,
+					 productDisplayId: productDisplayId,
+					 productId: productId
+				    };
+				 
+					
+					$.ajax({
+						url: "/reviewimgpopup",
+						data:data,
+						cache: false,
+						success:function( response ) {
+							 $(".photo").hide()
+				              $("#layerWrap850:not(.photo)").empty();
+				              $("#layerWrap850:not(.photo)").append( response );
+				              $("#layerWrap850:not(.photo)").show()
+				              
+				     		
+				                         
+				          }
+				        , error		: function() {
+				            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+				        }
+					})
+		})
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
+	 })
+	$(function(){
+		$(document).on("click", ".review_thum:not(.type1) > .inner.clrfix li:not(.more)", function() {
+		 let reviewId = $(this).find("img").data("value")
+		 var index = $(".review_thum > .inner.clrfix li").index($(this));
+		 var productDisplayId = $("#goodsNo").val();
+		 let productId = $(".prd_option_box.box_select > a").attr("id");
+		 console.log(index)
+		 
+		 let data = {
+				 reviewId: reviewId,
+				 index: index,
+				 productDisplayId: productDisplayId,
+				 productId: productId
+			    };
+			 
+				
+				$.ajax({
+					url: "/reviewimgpopup",
+					data:data,
+					cache: false,
+					success:function( response ) {
+						$("#layerWrap850:not(.photo)").empty();
+			              $("#layerWrap850:not(.photo)").append( response );
+			              $("#layerWrap850:not(.photo)").show()
+			     		 
+			              console.log("t: "+index)  		              
+			          }
+			        , error		: function() {
+			            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+			        }
+				})
+		 //alert(value)
+				
+	 })
+	 
+	 $(".ButtonClose").click(function(){
+		 $("#layerWrap850").empty()
+	 })
+							})
+							
+							
+							
+	$(function(){
+
+		
+		 $(".ButtonClose.photoClose").click(function(){
+		 $(".photo").hide()
+	 })
+	 })
+	 
+	 function slide(index) {
+			$('.slider-nav').slick('slickGoTo', index);
+		}
 			</script>
 		

@@ -74,4 +74,37 @@ public class ReviewAjaxController {
 		
 		return "/review/reviewimg";
 	}
+	
+	@GetMapping("reviewimgpopup")
+	public String reviewimgpopup(@RequestParam(value="reviewId")String reviewId
+			,@RequestParam(value ="productDisplayId")String productDisplayId,
+			@RequestParam(value = "gdasSort", defaultValue = "0")int gdasSort,
+			@RequestParam(value="productId", defaultValue = "ALL")String productId,
+			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
+			@RequestParam(value="index",defaultValue = "1")int index,
+			Model model) {
+		
+		
+			// 리뷰 리스트 불러오기
+		List<ReviewDTO> reviewlistall = this.reviewService.reviewListAllService(productDisplayId, productId);
+		// 리뷰 점수
+		ReviewScoreDTO reviewScoreDTO = this.reviewService.reviewScoreService(productDisplayId, productId);
+		model.addAttribute("reviewScore",reviewScoreDTO);
+		// 리뷰 이미지
+		List<ReviewImgDTO> reviewimglist = null;
+		List<List<ReviewImgDTO>> reviewimg = new ArrayList<List<ReviewImgDTO>>();
+		
+		model.addAttribute("reviewlistall",reviewlistall);
+		model.addAttribute("reviewimg",reviewimg);
+		
+		List<ProductDetailDTO> productList = this.productDetailService.getProductService(productDisplayId);
+		model.addAttribute("productList",productList);
+		List<ProductDetailIMGDTO> productDisplayImgs = this.productDetailService.getProductDisplayImgService(productDisplayId);
+		model.addAttribute("productDisplayImgs", productDisplayImgs);
+		System.out.println(gdasSort);
+		model.addAttribute("gdasSort",gdasSort);
+		model.addAttribute("searchType_1",searchType_1);
+		model.addAttribute("index",index);
+		return "/review/reviewimgpopup";
+	}
 }

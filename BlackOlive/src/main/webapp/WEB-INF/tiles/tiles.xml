@@ -54,5 +54,16 @@
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp"/>
 		<put-attribute name="title" value="블랙 올리브영"/>
 		<put-attribute name="css" value="/resources/cdn-main/style.css"/>
-	</definition> 
+	</definition>
+	
+	<!-- adminpage -->
+	
+	<definition name="adminpage/*" template="/WEB-INF/views/adminpage/layout/layout.jsp">
+		<put-attribute name="sidebar" value="/WEB-INF/views/adminpage/layout/sidebar.jsp"/>
+		<put-attribute name="logoutmodal" value="/WEB-INF/views/adminpage/layout/logoutmodal.jsp"/>
+		<put-attribute name="content" value="/WEB-INF/views/adminpage/{1}.jsp"/>
+		<put-attribute name="title" value="관리자페이지"/>
+	
+	</definition>
+	
 </tiles-definitions>

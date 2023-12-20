@@ -3,8 +3,10 @@ package com.blackolive.app.mapper.counselor;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PersonalAskVO;
-import com.blackolive.app.domain.signin.OliveUserDTO;
 
 public interface CounselorPersonalAskMapper {
 	//1:1문의 등록
@@ -16,7 +18,7 @@ public interface CounselorPersonalAskMapper {
 	// 문의 카테고리 major
 	List<String> getmajCategory() throws ClassNotFoundException, SQLException;
 	// 문의 카테고리 minor
-	List<String> getminCategory(String askCategoryMajor) throws ClassNotFoundException, SQLException;
+	List<String> getminCategory( @Param("askCategoryMajor") String askCategoryMajor) throws ClassNotFoundException, SQLException;
 	// 문의 키워드
-	//List<FaqDTO> faqKeyword(String faq_title) throws ClassNotFoundException, SQLException;
+	List<FaqVO> faqKeyword(@Param("faqKeyword") String faqKeyword) throws ClassNotFoundException, SQLException;
 }
