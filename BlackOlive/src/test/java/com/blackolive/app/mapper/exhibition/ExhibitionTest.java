@@ -20,11 +20,25 @@ public class ExhibitionTest {
 	private ExhibitionService exhibitionService;
 	
 //	 배너 정보 갖고오는 테스트 - 확인 완료
-	@Test
-	public void test() {
-		
-		assertNotNull(this.exhibitionService.getExhibitionBannerService(2));
+//	@Test
+//	public void test() {
+//		
+//		assertNotNull(this.exhibitionService.getExhibitionBannerService(2));
+//	
+//	}
 	
-	}
+	@Test
+	public void getBannerNProduct() {
+		
+		//assertNotNull(this.exhibitionService.getExhibitionBannerNProduct(null).get(0).getGetproductcontainer().toString() );
+		
+		//System.out.println(">>>>>>"+this.exhibitionService.getExhibitionBannerNProduct(null).get(0).getGetproductcontainer().toString());
+		
+		// assertNotNull(this.exhibitionService.getExhibitionInfoService("pe_00000001"));
+		
+		// assertNotNull(this.exhibitionService.getExhibitionImgService("pe_00000001"));
+		
+		assertNotNull(this.exhibitionService.getExhibitionCategoryService("le_00000001"));
+	} // getBannerNProduct
 
 }

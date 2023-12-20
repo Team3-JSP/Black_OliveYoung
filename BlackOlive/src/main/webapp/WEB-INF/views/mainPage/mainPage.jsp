@@ -580,54 +580,54 @@
 					</h3>
 					<div class="banner_wrap">
 						<div id="mainPlanSlider" class="slick_slider">
-						<c:if test="${not empty getPopBanner }">
-							<c:forEach items="${getPopBanner }" var="gpb">
+						<c:if test="${not empty bannerNProduct }">
+							<c:forEach items="${bannerNProduct }" var="bnp">
 								<div class="slider_unit">
 									<div class="plan_top">
-										<div class="plan_banner" style="background-image: url('${gpb.key.psSrc}')">
-											<a href="<%=contextPath%>/olive/planshop.do?eventId=${gpb.key.psId}">
+										<div class="plan_banner" style="background-image: url('${bnp.exhibitionBannerImgSrc}')">
+											<a href="/store/getExhibition?eventId=${bnp.exhibitionId}">
 												<p>
-													<strong class="tit" style="color: #000000;">${gpb.key.psSumm}</strong>
-													<strong class="tit" style="color: #000000;">${gpb.key.psSecSumm}</strong>
-													<span class="desc" style="color: #000000;">${gpb.key.pskeyword}</span>
+													<strong class="tit" style="color: #000000;">${bnp.exhibitionBannerSummary}</strong>
+													<strong class="tit" style="color: #000000;">${bnp.exhibitionBannerSummary2}</strong>
+													<span class="desc" style="color: #000000;">${bnp.exhibitionBannerKeyword}</span>
 												</p>
 											</a>
 										</div>
 									</div>
 									<ul class="cate_prd_list">
-										<c:forEach items="${gpb.value}" var="value">
+										<c:forEach items="${bnp.getproductcontainer}" var="value">
 										<li>
 											<div class="prd_info ">
-												<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${value.displId}&displNum=${value.lid}${value.sid}" onclick="addCookie('${value.displId}');" name="Home_Planshop3" class="prd_thumb goodsList">
+												<a href="/store/goods?goodsNo=${value.productDisplayId}&displNum=${value.categoryLargeId}${value.categoryMidId}${value.categorySmallId}" onclick="addCookie('${value.productDisplayId}');" name="Home_Planshop3" class="prd_thumb goodsList">
 													<span class="thumb_flag best">베스트</span>
-													<img src="${value.displImgSrc}"/>
+													<img src="${value.productDisplaySrc}"/>
 												</a>
 													<div class="prd_name">
 														<a href="#" name="Home_Planshop3" class="goodsList">
 														<span class="tx_brand">${value.brandName}</span>
-															<p class="tx_name"> ${value.displProName}</p>
+															<p class="tx_name"> ${value.productDisplayName}</p>
 														</a>
 													</div>
 													<button class="btn_zzim jeem"
-														data-ref-goodsno="A000000188808" tabindex="0">
+														tabindex="0">
 														<span>찜하기전</span>
 													</button>
 													<p class="prd_price">
-														<span class="tx_org"><span class="tx_num">${value.proPrice}</span>원
-														</span><span class="tx_cur"><span class="tx_num">${value.afterPrice}</span>원
+														<span class="tx_org"><span class="tx_num">${value.minprice}</span>원
+														</span><span class="tx_cur"><span class="tx_num">${value.afterprice}</span>원
 														</span>
 													</p>
 													<p class="prd_flag">
-													<c:if test="${value.pdc eq 1}">
+													<c:if test="${value.discountflag eq 1}">
 														<span class="icon_flag sale">세일</span>
 													</c:if>
-													<c:if test="${value.prc eq 1}">
+													<c:if test="${value.couponflag eq 1}">
 														<span class="icon_flag coupon">쿠폰</span>
 													</c:if>
-													<c:if test="${value.pmp eq 1}">
+													<c:if test="${value.presentflag eq 1}">
 														<span class="icon_flag gift">증정</span>
 													</c:if>
-													<c:if test="${value.stock eq 1}">
+													<c:if test="${value.todaypickupflag eq 1}">
 														<span class="icon_flag delivery">오늘드림</span>
 													</c:if>
 													</p>
@@ -636,9 +636,7 @@
 															style="width: 96.0%">10점만점에 5.5점</span></span>(999+)
 													</p>
 													<p class="prd_btn_area">
-														<button class="cartBtn" data-ref-goodsno="A000000188808"
-															data-ref-dispcatno="90000010001" data-ref-itemno="001"
-															tabindex="0">장바구니</button>
+														<button class="cartBtn">장바구니</button>
 														<button class="btn_new_pop goodsList" tabindex="0">새창보기</button>
 													</p>
 												
