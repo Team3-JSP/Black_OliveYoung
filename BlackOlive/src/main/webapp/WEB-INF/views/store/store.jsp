@@ -12,7 +12,6 @@
 <link href="https://cdn.jsdelivr.net/npm/swiper@11.0.5/swiper-bundle.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="/resources/cdn-main/jquery.mCustomScrollbar.css" />
-<script src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <title>블랙올리브영 온라인몰</title>
 <style>
@@ -58,16 +57,44 @@
 				<h1>매장안내 <span>가까운 매장을 등록해 보세요.</span></h1>
 			</div>
 			<div class="store_area">
-					<div class="api_mapArea" id="map" style="overflow: hidden;">
-					<div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;"><div style="position: absolute; left: 1201px; top: 1305px;"><div style="position: absolute; z-index: 1; left: 0px; top: 0px;">
-					</div><div style="position: absolute; z-index: 1;"></div><div style="position: absolute; z-index: 1; width: 630px; height: 715px;"></div><div style="position: absolute; z-index: 1;"><svg version="1.1" style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; left: -2461px; top: -2735px; width: 3150px; height: 3575px;" viewBox="0 0 3150 3575"><defs></defs></svg></div><div style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);"><div style="position: absolute; margin: -41px 0px 0px -13px; z-index: 0; left: -1071px; top: -1100px; display: block;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1064px; top: -1266px; display: block;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1126px; top: -1224px; display: block;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1152px; top: -1206px; display: block;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1063px; top: -1286px; display: block;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1231px; top: -1152px; display: none;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1122px; top: -1275px; display: block;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1228px; top: -1187px; display: none;">
-					</div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1078px; top: -1324px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="고양삼송점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1236px; top: -1216px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="화정로데오점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1226px; top: -1301px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="고양원당점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1043px; top: -1462px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="고양동점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1346px; top: -1250px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="일산벨라시타점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1363px; top: -1259px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="백석역점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1356px; top: -1302px; display: none;"><img draggable="false" src="https://static.oliveyoung.co.kr/pc-static-root/image/store/point_way_gray.png" alt="" role="presentation" title="일산백마점" style="min-width: 0px; min-height: 0px; max-width: 99999px; max-height: none; border: 0px; display: block; position: absolute; user-select: none; -webkit-user-drag: none; clip: rect(0px, 23px, 34px, 0px); top: 0px; left: 0px; width: 23px; height: 34px;"></div><div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -1071px; top: -1100px;"><div class="store_wayP mapMessage">    </div></div><div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -735px; top: -723px;"></div><div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -733px; top: -705px;"></div><div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -735px; top: -723px;"></div></div></div></div><div style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);"><div style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left;"><div style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s ease 0s; border-top: none rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0); border-image: initial; width: 58px;"></div><div style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">2km</div></div><div style="margin: 0px 4px; float: left;"><a target="_blank" href="http://map.kakao.com/" title="Kakao 지도로 보시려면 클릭하세요." style="float: left; width: 32px; height: 10px;"><img src="https://t1.daumcdn.net/mapjsapi/images/2x/m_bi_b.png" alt="Kakao 지도로 이동" style="float: left; width: 32px; height: 10px; border: none;"></a><div style="font: 11px / 11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div></div></div><div style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div></div>
+				<div class="api_mapArea" id="map" style="overflow: hidden;">
+					<div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; touch-action: none; cursor: url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;) 7 5, url(&quot;https://t1.daumcdn.net/mapjsapi/images/2x/cursor/openhand.cur.ico&quot;), default;">
+						<div style="position: absolute; left: 1201px; top: 1305px;">
+							<div style="position: absolute; z-index: 1; left: 0px; top: 0px;"></div>
+							<div style="position: absolute; z-index: 1;"></div>
+							<div style="position: absolute; z-index: 1; width: 630px; height: 715px;"></div>
+							<div style="position: absolute; z-index: 1;">
+								<svg version="1.1" style="stroke: none; stroke-dashoffset: 0.5; stroke-linejoin: round; fill: none; transform: translateZ(0px); position: absolute; left: -2461px; top: -2735px; width: 3150px; height: 3575px;" viewBox="0 0 3150 3575"><defs></defs></svg>
+							</div>
+							<div style="position: absolute; z-index: 1; width: 100%; height: 0px; transform: translateZ(0px);">
+								<div style="position: absolute; margin: -41px 0px 0px -13px; z-index: 0; left: -1071px; top: -1100px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1064px; top: -1266px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1126px; top: -1224px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1152px; top: -1206px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1063px; top: -1286px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1231px; top: -1152px; display: none;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1122px; top: -1275px; display: block;"></div>
+								<div style="position: absolute; margin: -33px 0px 0px -11px; z-index: 0; left: -1228px; top: -1187px; display: none;"></div>
+								<div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -735px; top: -723px;"></div>
+								<div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -733px; top: -705px;"></div>
+								<div style="position: absolute; z-index: 9999; white-space: nowrap; margin: 0px; left: -735px; top: -723px;"></div>
+							</div>
+						</div>
+					</div>
+					<div style="position: absolute; cursor: default; z-index: 1; margin: 0px 6px; height: 19px; line-height: 14px; left: 0px; bottom: 0px; color: rgb(0, 0, 0);">
+						<div style="color: rgb(0, 0, 0); text-align: center; font-size: 10px; float: left;">
+							<div style="float: left; margin: 2px 3px 0px 4px; height: 6px; transition: width 0.1s ease 0s; border-top: none rgb(0, 0, 0); border-right: 2px solid rgb(0, 0, 0); border-bottom: 2px solid rgb(0, 0, 0); border-left: 2px solid rgb(0, 0, 0); border-image: initial; width: 58px;"></div>
+							<div style="float: left; margin: 0px 4px 0px 0px; font-family: AppleSDGothicNeo-Regular, 돋움, dotum, sans-serif; font-weight: bold; color: rgb(0, 0, 0);">2km</div>
+						</div>
+						<div style="margin: 0px 4px; float: left;">
+							<a target="_blank" href="http://map.kakao.com/" title="Kakao 지도로 보시려면 클릭하세요." style="float: left; width: 32px; height: 10px;">
+								<img src="https://t1.daumcdn.net/mapjsapi/images/2x/m_bi_b.png" alt="Kakao 지도로 이동" style="float: left; width: 32px; height: 10px; border: none;">
+							</a>
+							<div style="font: 11px / 11px Arial, Tahoma, Dotum, sans-serif; float: left;"></div>
+						</div>
+					</div>
+					<div style="cursor: auto; position: absolute; z-index: 2; left: 0px; top: 0px;"></div>
+				</div>
 					<!-- 매장 검색 영역 -->
 					<div class="store_side">
 						<div class="store_tab">
@@ -97,26 +124,71 @@
 										<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
 									</dl>
 								</div>
-								<div class="sroll_store scrbar mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="overflow: auto;"><div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px;" dir="ltr">
-									<ul class="mlist-reStore" id="wordStoreList">	
-										<c:forEach items="${storeList}" var="list">
-											<li class="${list.storeId }">
-											<div class="li_Pc_reInner">
-												<h4 class="tit">
-													<a href="javascript:;">${list.storeName }</a>
-												</h4>
-												<p class="addr">${list.storeAddress }</p> 
-												<div class="area">
-													<div class="call">${list.storeTel }</div>
-													<div class="time on">영업중</div>	
+								
+								<div class="sroll_store scrbar">
+								    <div id="mCSB_3">
+								        <div id="mCSB_3_container">
+								            <ul class="mlist-reStore" id="wordStoreList">
+								            	<c:forEach items="${storeList}" var="list">
+													<li class="${list.storeId }">
+														<div class="li_Pc_reInner">
+															<h4 class="tit">
+																<a href="javascript:;">${list.storeName }</a>
+															</h4>
+															<p class="addr">${list.storeAddress }</p> 
+																<div class="area">
+																	<div class="call">${list.storeTel }</div>
+																	<div class="time on">영업중</div>	
+																</div>
+																<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
+																<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
+														</div>
+													</li>
+												</c:forEach>
+								            </ul>
+								        </div>
+								        <div id="mCSB_3_scrollbar_vertical" >
+								            <div>
+								                <div id="mCSB_3_dragger_vertical" >
+								                    <div></div>
+								                </div>
+								                <div></div>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+								<%-- <div class="sroll_store scrbar mCustomScrollbar _mCS_2 mCS_no_scrollbar" style="overflow: auto;">
+									<div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside"  tabindex="0">
+										<div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position: relative; top: 0px; left: 0px;" dir="ltr">
+											<ul class="mlist-reStore" id="wordStoreList">	
+												<c:forEach items="${storeList}" var="list">
+													<li class="${list.storeId }">
+														<div class="li_Pc_reInner">
+															<h4 class="tit">
+																<a href="javascript:;">${list.storeName }</a>
+															</h4>
+															<p class="addr">${list.storeAddress }</p> 
+																<div class="area">
+																	<div class="call">${list.storeTel }</div>
+																	<div class="time on">영업중</div>	
+																</div>
+																<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
+																<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
+														</div>
+													</li>
+												</c:forEach>
+											</ul>
+										</div>
+										<div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
+											<div class="mCSB_draggerContainer">
+												<div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 98px; top: 0px; display: block; max-height: 450px;">
+													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
 												</div>
-												<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
-												<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
+												<div class="mCSB_draggerRail"></div>
 											</div>
-											</li>
-										</c:forEach>
-									</ul>
-								</div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 98px; top: 0px; display: block; max-height: 450px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+										</div>
+									</div>
+								</div> --%>
 							</div>
 						</div>
 						<!--직접검색 영역 E  -->
@@ -160,34 +232,36 @@
 						<!-- 지역검색 영역 E  -->
 						
 						<!-- 관심매장 영역 S  -->
-						<sec:authorize access="isAnonymous()">
-							<div class="no_store" id="noLoginInfo" style="">
-								<dl class="no_login">
-									<dt>로그인하시면 자주가는 매장을<br>관심 매장으로 설정 할수 있습니다.</dt>
-									<dd><a href="<c:url value='/auth/login'/>">로그인</a></dd>
-								</dl>
-							</div>
-						</sec:authorize>
-						<sec:authorize access="isAuthenticated()">
-							<div class="tab_area" id="searchFavorDiv" style="display: none;">
-								<h4 class="hide">관심매장</h4>
-								<div class="store_favInner" id="favorStoreInfo" style="display: none;">
-							</div>
-							<!-- :: 관심매장이 없는 경우 :: -->
-							<div class="no_store" id="noFavorStoreInfo" style="display: none">
-								<dl class="no_list"></dl>
-							</div>
-							<div class="no_store" id="noSearchFavorInfo" style="display: none">
-								<dl class="no_list">
-									<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
-								</dl>
-							</div>
-							<div class="sroll_store scrbar mCustomScrollbar _mCS_4 mCS_no_scrollbar" style="max-height:100%; overflow: auto;"><div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-								<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
-							</div>
-							<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
-							</div>
-						</sec:authorize>
+						<div class="tab_area" id="searchFavorDiv" style="display: none;">
+							<sec:authorize access="isAnonymous()">
+								<div class="no_store" id="noLoginInfo" style="">
+									<dl class="no_login">
+										<dt>로그인하시면 자주가는 매장을<br>관심 매장으로 설정 할수 있습니다.</dt>
+										<dd><a href="<c:url value='/auth/login'/>">로그인</a></dd>
+									</dl>
+								</div>
+							</sec:authorize>
+							<sec:authorize access="isAuthenticated()">
+								
+									<h4 class="hide">관심매장</h4>
+									<div class="store_favInner" id="favorStoreInfo" style="display: none;">
+								</div>
+								<!-- :: 관심매장이 없는 경우 :: -->
+								<div class="no_store" id="noFavorStoreInfo" style="display: none">
+									<dl class="no_list"></dl>
+								</div>
+								<div class="no_store" id="noSearchFavorInfo" style="display: none">
+									<dl class="no_list">
+										<dt>매장 검색 옵션에 해당하는<br>매장이 없습니다.</dt>
+									</dl>
+								</div>
+								<div class="sroll_store scrbar mCustomScrollbar _mCS_4 mCS_no_scrollbar" style="max-height:100%; overflow: auto;"><div id="mCSB_4" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 100%;" tabindex="0"><div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+									<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
+								</div>
+								<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+								
+							</sec:authorize>
+						</div>
 						<!-- 관심매장 영역 E  -->					
 						<!-- 판매매장 찾기 영역 S  -->
 						<div class="tab_area" id="searchItemDiv" style="display:none">
@@ -249,16 +323,6 @@
 				</div>
 		</div>
 	</div>
-
-<!-- 매장 검색옵션 -->
-<!-- 영업중인 매장만 보기 -->
-<input type="hidden" id="openYn" value="N">
-<!-- 취급카테고리 -->
-<input type="hidden" id="tcCd" value="">
-<!-- 제공서비스 -->
-<input type="hidden" id="psCd" value="">
-
-
 	<!-- 2017-02-23 수정 : TOP 바로가기 버튼 추가 -->
 	<div id="directTop" style="display: none;">
 		<button><span></span>TOP</button>
@@ -266,11 +330,7 @@
 	<!--/ㅁ 2017-02-23 수정 : TOP 바로가기 버튼 추가 -->
 
 </div>
-
-
-<!-- 201912 PC 매장 상세 팝업 -->
-<div class="layer_pop_wrap w850" id="store_viewPop_renew" style="z-index: 100; display: none; width: 560px; max-height: 1000px;"></div>
-
+<script src="/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=36d928ed3fda62efe8373b73be2275c2"></script>
 <script>
 	// 지도 
@@ -311,6 +371,8 @@
 
 <script>
 let dimm = $("<div>").addClass("dimm").css("z-index", "990px");
+
+$(".sroll_store ").mCustomScrollbar();
 
 // 매장 상세 Ajax
 function storeDetail(storeId) {
@@ -596,6 +658,7 @@ function storeDetail(storeId) {
 			  });
 			
 			$(".content").mCustomScrollbar();
+			
 			
         }
 		, 
@@ -1152,6 +1215,7 @@ $(function() {
 			    // 지도 중심을 이동 시킵니다
 			    map.setCenter(latLngs[0].latlng);
 			    map.setLevel(3);
+			    $("#mCSB_2_container").css("top", "0");
 				
 				
                 
@@ -1700,4 +1764,5 @@ $(function() {
 
 </body>
 <script src="/resources/js/swiper.js"></script>
+
 </html>
