@@ -39,7 +39,7 @@ public class CounselorController {
 			criteria.setKeyword("TOP10");
 			List<FaqVO> faqVO = this.counselorService.faqlistwithMinorservice(askCategoryMajor, askCategoryMinor, criteria);
 			model.addAttribute("faqVO", faqVO);
-			total = this.counselorService.getTotalservice(criteria);
+			total = this.counselorService.getMinorTagTotalservice(askCategoryMajor, askCategoryMinor);
 			
 		} else if (askCategoryMinor == null || askCategoryMinor == "") {
 			List<FaqVO> faqVO = this.counselorService.faqlistwithMajorservice(askCategoryMajor, criteria);

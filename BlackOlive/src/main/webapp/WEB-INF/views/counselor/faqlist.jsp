@@ -189,8 +189,9 @@
 	 
 	 history.replaceState({}, null, null);
 	 
+	 //검색어 하이라이트 처리
 	 function highlightWord(word) {
-		    // 문서에서 해당 단어를 포함하는 요소 찾기
+		 
 		    var contentElements = $("a.tit");
 			console.log( 'some log : ',word);
 		    contentElements.each(function() {
@@ -293,3 +294,38 @@
 	
 </script>
 
+<script>
+// 키워드 움직이는 스크립트
+	var $bl = $(".tag_list_wrap"),
+    $th = $(".tag_list_wrap .tag_list"),
+    blW = $bl.outerWidth(),
+    blSW = $bl[0].scrollWidth,
+    wDiff = (blSW / blW) - 1, // widths difference ratio
+    mPadd = 20, // Mousemove Padding
+    damp = 20, // Mousemove response softness
+    mX = 20, // Real mouse position
+    mX2 = 30, // Modified mouse position
+    posX = 30,
+    mmAA = blW - (mPadd * 2), // The mousemove available area
+    mmAAr = (blW / mmAA),
+    totalWith = 0;
+
+
+	$th.find("a").each(function(){
+		totalWith += $(this).innerWidth() + 4;
+	})
+	
+	if($bl.width() < (totalWith + 90)){
+	    $bl.mousemove(function (e) {
+	        mX = e.pageX - this.offsetLeft;
+	        mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
+	    });
+	
+	    setInterval(function () {
+	        posX += (mX2 - posX) / damp;
+	        $th.css({
+	            marginLeft: -posX * wDiff
+	        });
+	    }, 10);
+	}
+</script>
