@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blackolive.app.mapper.counselor.CounselorNoticeMapper">
+	
+	<resultMap type="com.blackolive.app.domain.counselor.noticeVO" id="noticeMap">
+		<result property="noticeId" column="noticeId"/>
+		<result property="noticeNum" column="noticeNum"/>
+		<result property="noticeTitle" column="noticeTitle"/>
+		<result property="noticeCategory" column="noticeCategory"/>
+		<result property="noticeContent" column="noticeContent"/>
+		<result property="noticeDate" column="noticeDate"/>
+	</resultMap>
+	<!-- public List<noticeVO> getnoticeList(@Param("criteria") Criteria criteria) throws ClassNotFoundException, SQLException; -->
+	<select id="getnoticeList" resultMap="noticeMap">
+	<![CDATA[
+		SELECT
+		    ron,
+		    notice_id AS noticeId,
+		    TO_NUMBER(SUBSTR(notice_id, -4)) AS noticeNum,
+		    notice_title AS noticeTitle,
+		    notice_category AS noticeCategory,
+		    notice_content AS noticeContent,
+		    notice_date AS noticeDate
+		FROM (
+		    SELECT
+		        ROWNUM AS ron,
+		        notice_id,
+		        notice_title,
+		        notice_category,
+		        notice_content,
+		        notice_date
+		    FROM notice
+		    WHERE ROWNUM <= #{ criteria.pageNum } * #{ criteria.amount }
+		)
+		WHERE ron > (#{ criteria.pageNum } - 1) * #{ criteria.amount }
+		]]>
+	</select>
+	
+	<!-- public noticeVO getnoticedetail(String noticeId) throws ClassNotFoundException, SQLException; -->	
+	<select id="getnoticedetail" resultMap="noticeMap">
+		SELECT 
+		    notice_id AS noticeId,
+		    TO_NUMBER(SUBSTR(notice_id, -4)) AS noticeNum,
+		    notice_title AS noticeTitle,
+		    notice_category AS noitceCategory,
+		    notice_content AS noticeContent,
+		    notice_date AS noticeDate
+		FROM notice
+		WHERE notice_id = #{ noticeId }
+	</select>
+	
+</mapper>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.blackolive.app.domain.counselor.Criteria;
 import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PageDTO;
+import com.blackolive.app.domain.counselor.noticeVO;
 import com.blackolive.app.service.counselor.CounselorService;
 
 import lombok.extern.log4j.Log4j;
@@ -91,9 +92,29 @@ public class CounselorController {
 	}
 	
 	@GetMapping("/notice")
-	public String noticecontroller() {
+	public String noticecontroller(
+			Model model,
+			Criteria criteria
+			) throws ClassNotFoundException, SQLException {
+		
+		log.info(">> notice get ");
+		
+		List<noticeVO> noticeVO = this.counselorService.getNoticeListservice(criteria);
+		model.addAttribute("noticeVO", noticeVO);
 		
 		return "counselor.notice";
+	}
+	
+	@GetMapping("/noticedetail")
+	public String noticedetailcontroller(
+			@RequestParam("noticeId") String noticeId,	
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		
+		noticeVO vo = this.counselorService.getNoticeDetailservice(noticeId);
+		model.addAttribute("vo", vo);
+		
+		return "counselor.noticedetail";
 	}
 	
 	

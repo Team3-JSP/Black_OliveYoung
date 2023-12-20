@@ -18,10 +18,7 @@ public interface CounselorFaqMapper {
 	
 	//메이져 카테고리로 불러오기		//카테고리명
 	public List<FaqVO> faqlistwithMajor(@Param("askCategoryMajor")String askCategoryMajor, @Param("criteria") Criteria criteria) throws ClassNotFoundException, SQLException;
-	/*
-	//키워드로 불러오기 == 검색 POST방식
-	public List<FaqVO> faqlistsearch(String searchword) throws ClassNotFoundException, SQLException;
-	*/
+
 	//총 페이지 수 불러오기
 	public int getTotal(String keyword) throws ClassNotFoundException, SQLException;
 	
