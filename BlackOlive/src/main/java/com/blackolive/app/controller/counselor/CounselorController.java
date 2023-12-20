@@ -64,17 +64,24 @@ public class CounselorController {
 	
 	@GetMapping("/faqlist")
 	public String postfaqcontroller(
-				Criteria criteria,
+				@RequestParam("pageNum") int pageNum,
+				@RequestParam("amount") int amount,
+				@RequestParam("keyword") String keyword,
 				Model model				
 			) throws ClassNotFoundException, SQLException {
+		
 		log.info(">> faqlist get ");
+		
+		Criteria criteria = new Criteria(pageNum, amount, keyword);
+		
 		model.addAttribute("faqVO", this.counselorService.faqlistsearchwithpagingservice(criteria));
 		
-		int total = this.counselorService.getTotalservice(criteria);
+		int searchtotal = this.counselorService.getTotalservice(criteria);
+		model.addAttribute("searchtotal", searchtotal);
+		log.info(">> total add " + searchtotal);
+		model.addAttribute("pageMaker", new PageDTO(criteria, searchtotal));
 		
-		model.addAttribute("pageMaker", new PageDTO(criteria, total));
-		
-		return "counselor.faq";
+		return "counselor.faqlist";
 	}
 	
 	@GetMapping("/personalAsk")

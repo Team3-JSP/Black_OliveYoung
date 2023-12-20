@@ -8,9 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.blackolive.app.domain.counselor.Criteria;
 import com.blackolive.app.domain.counselor.FaqVO;
 
-import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
+
 
 public interface CounselorFaqMapper {
 	
@@ -28,7 +26,7 @@ public interface CounselorFaqMapper {
 	public int getTotal(String keyword) throws ClassNotFoundException, SQLException;
 	
 	//키워드로 검색결과 보기
-	public List<FaqVO> faqlistsearchwithpaging(Criteria criteria) throws ClassNotFoundException, SQLException;
+	public List<FaqVO> faqlistsearchwithpaging(@Param("criteria") Criteria criteria) throws ClassNotFoundException, SQLException;
 	
 	public int getMinorTagTotal(@Param("askCategoryMajor") String askCategoryMajor, @Param("askCategoryMinor") String askCategoryMinor) throws ClassNotFoundException, SQLException;
 
