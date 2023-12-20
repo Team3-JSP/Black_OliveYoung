@@ -83,6 +83,8 @@
 		
 		<mapper resource="com/blackolive/app/mapper/mypage/MypagePersonalAskMapper.xml"/>
 		
+		<mapper resource="com/blackolive/app/mapper/search/SearchMapper.xml"/>
+		
 	</mappers>
 	
 </configuration>

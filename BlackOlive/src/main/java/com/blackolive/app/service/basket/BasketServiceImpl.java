@@ -86,7 +86,7 @@ public class BasketServiceImpl implements BasketService{
 	@Override
 	public int addService(String quickyn, String userId, int productCnt, String productId) {
 		if (checkService(userId, productId, quickyn).equals("N")) {
-			return this.basketMapper.add(userId, productId, quickyn, 1);
+			return this.basketMapper.add(userId, productId, quickyn, productCnt);
 		}else {
 			return this.basketMapper.update(quickyn, userId, productCnt, productId);
 		}

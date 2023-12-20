@@ -1240,4 +1240,11 @@ function logout(){
 
 }
 
+$(function(){
+	$("#searchSubmit").on("click",function(){
+		let searchWord = $("#query").val()
+		window.location.href = "/search?searchWord="+searchWord;
+	})
+})
+
 </script>
