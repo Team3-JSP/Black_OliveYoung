@@ -97,10 +97,15 @@ public class CounselorController {
 			Criteria criteria
 			) throws ClassNotFoundException, SQLException {
 		
-		log.info(">> notice get ");
+		log.debug(">> notice get ");
 		
 		List<noticeVO> noticeVO = this.counselorService.getNoticeListservice(criteria);
 		model.addAttribute("noticeVO", noticeVO);
+		
+		int noticetotal = this.counselorService.noticetotal(criteria);
+		model.addAttribute("pageMaker", new PageDTO(criteria, noticetotal));
+		
+		log.info(">> notice model add");
 		
 		return "counselor.notice";
 	}

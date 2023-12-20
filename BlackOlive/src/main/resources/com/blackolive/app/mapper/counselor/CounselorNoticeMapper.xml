@@ -36,6 +36,7 @@
 		    WHERE ROWNUM <= #{ criteria.pageNum } * #{ criteria.amount }
 		)
 		WHERE ron > (#{ criteria.pageNum } - 1) * #{ criteria.amount }
+		order by ron desc
 		]]>
 	</select>
 	
@@ -50,6 +51,12 @@
 		    notice_date AS noticeDate
 		FROM notice
 		WHERE notice_id = #{ noticeId }
+	</select>
+	
+	<!-- public int getnoticetotal(@Param("criteria") Criteria criteria ) throws ClassNotFoundException, SQLException; -->
+	<select id="getnoticetotal" resultType="int">
+		SELECT COUNT(*)
+		FROM notice
 	</select>
 	
 </mapper>

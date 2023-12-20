@@ -12,6 +12,7 @@ public interface CounselorNoticeMapper {
 	
 	public List<noticeVO> getnoticeList(@Param("criteria") Criteria criteria) throws ClassNotFoundException, SQLException;
 	
+	public int getnoticetotal(@Param("criteria") Criteria criteria ) throws ClassNotFoundException, SQLException;
 	
 	public noticeVO getnoticedetail(String noticeId) throws ClassNotFoundException, SQLException;
 }

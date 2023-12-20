@@ -153,19 +153,31 @@
 		
 	</div>
 	
+	<form id="actionForm" action="/counselor/notice" method="get">
+		<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }"> 
+		<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }"> 
+		<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }"> 
+	</form>
+	
+	
 <script>
 
-//페이징 번호로 넘어가기
-$("div.pageing a").on("click", function() {
-	
-	event.preventDefault();
-	let pageNum = $(this).attr("href");
-	actionForm.find("input[name=pageNum]").val(pageNum);
-	
-	
-	
-	actionForm.submit();
+
+var actionForm = $("#actionForm");
+
+	//페이징 번호로 넘어가기
+	$("div.pageing a").on("click", function() {
 		
-});
+		event.preventDefault();
+		
+		let pageNum = $(this).attr("href");
+		actionForm.find("input[name=pageNum]").val(pageNum);
+		
+		
+		
+		actionForm.submit();
+			
+	});
+
 
 </script>

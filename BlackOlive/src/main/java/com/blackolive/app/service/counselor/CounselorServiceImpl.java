@@ -70,6 +70,13 @@ public class CounselorServiceImpl implements CounselorService {
 		
 		return this.noticeMapper.getnoticeList(criteria);
 	}
+	
+	
+	@Override
+	public int noticetotal(Criteria criteria) throws ClassNotFoundException, SQLException {
+		
+		return this.noticeMapper.getnoticetotal(criteria);
+	}
 
 	@Override
 	public noticeVO getNoticeDetailservice(String noticeId) throws ClassNotFoundException, SQLException {

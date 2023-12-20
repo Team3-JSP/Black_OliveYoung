@@ -35,6 +35,9 @@ public interface CounselorService {
 	//공지사항 목록 가져오기
 	public List<noticeVO> getNoticeListservice(Criteria criteria) throws ClassNotFoundException, SQLException;
 	
+	//공지사항 개수 세기
+	public int noticetotal(Criteria criteria) throws ClassNotFoundException, SQLException;
+	
 	//공지사항 상세보기
 	public noticeVO getNoticeDetailservice(String noticeId) throws ClassNotFoundException, SQLException;	
 	
