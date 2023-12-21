@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <link rel="stylesheet" href="/resources/cdn-main/brand.css">
 
 
@@ -64,7 +66,7 @@ $(function() {
     // 상품 목록을 로드하는 함수
     function loadProducts(dispcatno, sort,numOfItems) {
         let brandId = '<%=request.getParameter("brandId")%>';
-    
+       
         $.ajax({
             type: 'get',
             async: true, // 비동기 호출
@@ -78,7 +80,7 @@ $(function() {
                 numOfItems: numOfItems
             },
             success: function (response) {
-            	
+            	console.log(response);
             	
             	 $("#allGoodsList").empty(); // 기존 상품 리스트 비우기
                  let htmlElement = $("#allGoodsList");
@@ -107,8 +109,7 @@ $(function() {
 
 <script>
 //리뷰 상세 보기 Ajax
-function reviewDetail(reviewId) {
-	$.ajax({
+function reviewDetail(reviewId) {c
 		url: "/store/getReviewDetail"
 		, method:"GET"
 		, cache:false
@@ -1654,6 +1655,8 @@ function reviewDetail(reviewId) {
 
 													</ul>
 												</div>
+											
+												
 												<div
 													class="reviewList slick-slide slick-current slick-active"
 													data-slick-index="0" aria-hidden="false"
@@ -2053,7 +2056,6 @@ function reviewDetail(reviewId) {
 				
 	<!-- 리뷰어 프로필 전체 부분 시작 -->
 	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>	
-				
 				
 				
 				<!-- brandBox line -->

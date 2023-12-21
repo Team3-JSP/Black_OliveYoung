@@ -48,7 +48,7 @@
                     ORDER BY ordercnt DESC
                 </when>
                 <when test="sort.equals('l')">
-                    ORDER BY ProductPrice ASC
+                    ORDER BY afterPrice ASC
                 </when>
                 <when test="sort.equals('d')">
                     ORDER BY (minprice - afterprice) / minprice * 100 DESC
