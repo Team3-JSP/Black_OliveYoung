@@ -15,7 +15,7 @@
 
 			<ul class="comm1sTabs threeSet customer">
 				<li id="tabFaq"><a href="<%=contextPath%>/counselor/faq">FAQ</a></li>
-				<li id="tab1on1"><a href="javascript:common.link.moveQnaList();">1:1문의</a></li>
+				<li id="tab1on1"><a href="<%=contextPath%>/counselor/personalAskList">1:1문의</a></li>
 				<li id="tabNotice" class="on"><a href="<%=contextPath%>/counselor/notice" title="선택됨">공지사항</a></li>
 			</ul>
 			

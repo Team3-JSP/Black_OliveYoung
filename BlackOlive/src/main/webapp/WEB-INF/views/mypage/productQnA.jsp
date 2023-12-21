@@ -150,23 +150,24 @@
 	</table>
 	<!-- //내역 -->
 
+
 <script>
-	//<div class="threeDv">이거 클릭 시 
-	
-	$(document).ready(function(){
-    $("div.threeDv").click(function() {
-        // "ul.conts" 요소의 가시성을 토글
-        $("ul.conts").toggle();
-
-        // "tbody.qna tr td" 요소의 "open" 클래스를 관리
-        if ($("ul.conts").css("display") === "block") {
-            $("tbody.qna tr td").addClass("open");
-        } else {
-            $("tbody.qna tr td").removeClass("open");
-        }
-    });
-});
-
+	$("div.threeDv").on("click", function () {
+		var content =  $(this).parent().siblings("ul.conts");
+		var parent = $(this).parents("td");
+		
+		
+		if (content.css("display") === "none") {
+			parent.addClass("open");
+			content.show();
+		} else {
+			parent.removeClass("open");
+			content.hide();
+		}
+		
+		parent.siblings().removeClass("open").find("ul.conts").hide();
+		
+	});
 	
 </script>
 			

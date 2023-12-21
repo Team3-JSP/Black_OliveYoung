@@ -10,12 +10,12 @@
 			<h2 class="tit">
 				주문/배송 조회<em>(최근 1개월)</em>
 			</h2>
-			<a class="btnMore" id="orderListMore" href="<%=contextPath %>/olive/orderDelivery.do"
+			<a class="btnMore" id="orderListMore" href="<%=contextPath %>/mypage/orderdelivery"
 				data-attr="마이페이지^주문배송조회_더보기^더보기">더보기</a>
 		</div>
 		<div class="layer_pop_wrap" id="service_survey" style=""></div>
 
-		<a href="${pageContext.request.contextPath}/mypage/orderDelivery" class="order_view"
+		<a href="${pageContext.request.contextPath}/mypage/orderdelivery" class="order_view"
 			data-attr="마이페이지^주문배송조회_요약건수">
 			<ul class="mypage-step">
 			
@@ -107,7 +107,7 @@
 				<div class="title-area">
 					<h2 class="tit">1 : 1 문의내역</h2>
 					<a class="btnMore" id="qnaListMore"
-						href="${pageContext.request.contextPath}/olive/pAskList.do">더보기</a>
+						href="${pageContext.request.contextPath}/counselor/personalAskList">더보기</a>
 				</div>
 				<div class="list-customer">
 					<ul>

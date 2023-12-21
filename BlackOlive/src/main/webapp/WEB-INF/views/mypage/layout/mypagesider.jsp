@@ -33,7 +33,7 @@
 				</ul>
 				<ul class="line">
 					<li class="subMenu">
-						<a href="${pageContext.request.contextPath}<%-- 장바구니 페이지 --%>"
+						<a href="${pageContext.request.contextPath}/basket"
 							mymenuid="0201"
 							data-ref-linkurl="https://www.oliveyoung.co.kr/store/cart/getCart.do"
 							data-attr="마이페이지^메뉴^장바구니"
@@ -99,7 +99,7 @@
 						data-tracking-properties="t_page=마이페이지&amp;t_click=문의현황_1대1문의">1:1문의내역</a></li>
 
 					<c:set var="revc" value="${ requestScope.userRevCount }" />
-					<li class="subMenu"><a href=" ${pageContext.request.contextPath}<%-- 쿠폰 페이지 --%>"
+					<li class="subMenu"><a href=" ${pageContext.request.contextPath}/mypage/review"
 						mymenuid="0402"
 						data-ref-linkurl="https://www.oliveyoung.co.kr/store/mypage/getGdasList.do"
 						data-attr="마이페이지^메뉴^리뷰"
