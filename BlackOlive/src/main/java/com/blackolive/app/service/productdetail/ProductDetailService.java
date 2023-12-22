@@ -54,4 +54,7 @@ public interface ProductDetailService {
 	// 쿠키용
 	ProductContainer cookieService(String productDisplayId);
 	
+	// 상품 정보 하나 가져오기
+	ProductDetailDTO getOneProduct(String productDisplayId);
+	
 } // interface

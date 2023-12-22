@@ -26,7 +26,9 @@ public class StoreDetailDTO {
 	private String saturday;
 	private String sunday;
 	private String holiday;
+	
 	private String openYN = "N"; // 영업 여부
+	private String favYN; // 유저의 관심 매장 체크
 	
 	private List<StoreCategoryDTO> storeCategory;
 	private List<OliveServiceDTO> oliveService;

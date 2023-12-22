@@ -31,13 +31,21 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/getStoreList")
-	public ResponseEntity<List<StoreDTO>> getDistrict(String[] tcs, String[] pss, String city, String district) {
-		return new ResponseEntity<>(this.storeService.getStoreService(tcs, pss, city, district), HttpStatus.OK);
+	public ResponseEntity<List<StoreDTO>> getDistrict(String[] tcs, String[] pss, String city, String district, Principal principal) {
+		String userId = null;
+		if (principal != null) {
+			userId = principal.getName();
+		}
+		return new ResponseEntity<>(this.storeService.getStoreService(tcs, pss, city, district, userId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getStoreKeyword")
-	public ResponseEntity<List<StoreDTO>> getStoreKeyword(String[] tcs, String[] pss, String keyword) {
-		return new ResponseEntity<>(this.storeService.getStoreService(tcs, pss, keyword), HttpStatus.OK);
+	public ResponseEntity<List<StoreDTO>> getStoreKeyword(String[] tcs, String[] pss, String keyword, Principal principal) {
+		String userId = null;
+		if (principal != null) {
+			userId = principal.getName();
+		}
+		return new ResponseEntity<>(this.storeService.getStoreService(tcs, pss, keyword, userId), HttpStatus.OK);
 	}
 	
 	@PostMapping("/setStoreFavorite")

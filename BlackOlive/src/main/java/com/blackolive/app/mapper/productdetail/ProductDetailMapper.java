@@ -52,4 +52,7 @@ public interface ProductDetailMapper {
 	// 쿠키용
 	ProductContainer cookie(@Param("productDisplayId")String productDisplayId);
 	
+	// 상품 하나 가져오기
+	public ProductDetailDTO selectOneProduct(@Param("productDisplayId")String productDisplayId);
+	
 } // interface

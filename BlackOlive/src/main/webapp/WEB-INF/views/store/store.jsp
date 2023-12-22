@@ -141,7 +141,7 @@
 																<div class="time ${list.openYN == 'Y' ? 'on' : ''}">${list.openYN == 'Y' ? '영업중' : '영업 준비중'}</div>	
 															</div>
 															<div class="fv_reShop_in"><span>${list.storeFavorite }</span>명이 관심매장으로 등록했습니다.</div>
-															<button class="star active" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
+															<button class="star ${list.favYN == 'Y' ? 'on' : 'active'}" onclick="favBtnClick(this)" title="관심매장 해제됨">관심매장</button>
 														</div>
 													</li>
 												</c:forEach>
@@ -890,7 +890,6 @@ $(function() {
 						$("#searchWordDiv .reShop_result > dt > span").text("0");
 						return;
 					}
-					// console.log(data);
 					
 					$("#noSearchWordInfo").hide();
 					$("#searchWordDiv .reShop_result > dt > span").text(data.length);
@@ -906,11 +905,13 @@ $(function() {
 						let time = data[i].openYN === 'Y' 
 							? $("<div>").addClass(["time", "on"]).text("영업중")
 							: $("<div>").addClass("time").text("영업 준비중");
+							
+						let favYN = data[i].favYN ? "on" : "active";
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${data[i].storeFav}</span>명이 관심매장으로 등록했습니다.`);
-						let button = $("<button>").addClass(["star", "active"]).on("click", function() {
+											.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
+						let button = $("<button>").addClass(["star", favYN]).on("click", function() {
 							favBtnClick(this);
 						});
 						
@@ -986,11 +987,13 @@ $(function() {
 					let time = data[i].openYN === 'Y' 
 							? $("<div>").addClass(["time", "on"]).text("영업중")
 							: $("<div>").addClass("time").text("영업 준비중");
+							
+					let favYN = data[i].favYN ? "on" : "active";
 					
 					let fv_reShop_in = $("<div>")
 										.addClass("fv_reShop_in")
 										.html(`<span>\${data[i].storeFav}</span>명이 관심매장으로 등록했습니다.`);
-					let button = $("<button>").addClass(["star", "active"]).on("click", function() {
+					let button = $("<button>").addClass(["star", favYN]).on("click", function() {
 						favBtnClick(this);
 					});
 					
@@ -1164,7 +1167,9 @@ $(function() {
 					// 로그인 했는지 체크 후
 					// db에도 +1 하기
 					// ~명이 관심매장으로 등록했습니다. 업데이트
-					let button = $("<button>").addClass(["star", "active"]).on("click", function() {
+					let favYN = data[i].favYN ? "on" : "active";
+					
+					let button = $("<button>").addClass(["star", favYN]).on("click", function() {
 						favBtnClick(this);
 					});
 					
@@ -1181,7 +1186,7 @@ $(function() {
 						+ '  </div>'
 						+ '</div>'
 						+ `<a class="store_btn" onclick="storeDetail('\${data[i].storeId}')">상세정보보기</a>`
-						+ '<button class="star active" onclick="favBtnClick(this)"/> '
+						+ `<button class="star \${favYN}" onclick="favBtnClick(this)"/> `
 						+ `<button class="wayClose" onclick="closeOverlay(\${i})"/> `;
 					
 					contents.push(content);
@@ -1726,12 +1731,13 @@ $(function() {
 					// console.log(data);
 					
 					if(data.length > 0 ) {
+						$(store_schInner).find(".auto_reSch").remove();
 						$(store_schInner).addClass("on");
 						let div = $("<div>").addClass("auto_reSch");
 						let ul = $("<ul>").addClass("ul_auto_reSch scrbar");
 						let li;
 						$(data).each(function(i) {
-							li = $("<li>").html(`<a href="javascript:;" id="\${this.productId}" data-productId="\${this.productId}">`
+							li = $("<li>").html(`<a href="javascript:;" id="\${this.productDisplayId}" data-productDisplayId="\${this.productDisplayId}">`
 									+ this.productDisplayName.replace(keyword, '<span>'+keyword+'</span>')
 									+ `</a>`);
 							$(ul).append(li);
@@ -1749,7 +1755,64 @@ $(function() {
 			});
 		} else {
 			$(store_schInner).find(".auto_reSch").remove();
+			$(store_schInner).removeClass("on");
 		}
+	});
+	
+	$(".store_schInner").on("click", ".auto_reSch a", function() {
+		let store_schInner = $("#searchItemDiv > div > div.store_sch > div.store_schInner");
+		$(store_schInner).find(".auto_reSch").remove();
+		$(store_schInner).removeClass("on");
+		$("#searchItem").val("");
+		
+		$.ajax({
+			type : 'get'
+			, cache: false
+			, url : '/store/getProduct/' + $(this).data("productdisplayid")
+			, dataType : 'json'
+			, success : function(data) {
+				// console.log(data);
+				
+				$(".store_sch .store_schInner").nextAll().remove();
+				
+				let content = `
+					<div class="store_pdTit">
+						<a href="javascript:window.open('<c:url value='/store/goods?productDisplayId=\${data.productDisplayId}'/>', '_blank')" id="\${data.productDisplayId}" class="go_detail">
+							<dt>
+								<div class="imgArea">
+									<img src="\${data.productDisplaySrc}" alt="">
+								</div>
+							</dt>
+							<dd>
+								<p class="brand">\${data.brandName}</p>
+								<p class="tit">\${data.productDisplayName}</p>
+							</dd>
+						</a>
+					</div>
+					<p class="reShop_msg">실제 수량과 다를 수 있어 정확한 재고는 매장으로 확인해 주세요.</p>
+				`;
+				
+				$(".store_schInner").after(content);
+            }
+			, error : function (data, textStatus) {
+                console.log('error');
+            }
+		});
+		
+		$.ajax({
+			type : 'get'
+			, cache: false
+			, url : '/store/getStoreList/' + $(this).data("productdisplayid")
+			, dataType : 'json'
+			, success : function(data) {
+				console.log(data);
+				
+				
+            }
+			, error : function (data, textStatus) {
+                console.log('error');
+            }
+		});
 	});
 	
 })

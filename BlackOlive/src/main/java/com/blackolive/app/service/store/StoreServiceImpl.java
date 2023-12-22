@@ -21,8 +21,8 @@ public class StoreServiceImpl implements StoreService {
 	private StoreMapper storeMapper;
 	
 	@Override
-	public List<StoreDTO> getStoreService() {
-		return this.storeMapper.selectAllStore();
+	public List<StoreDTO> getStoreService(String userId) {
+		return this.storeMapper.selectAllStore(userId);
 	}
 
 	@Override
@@ -31,26 +31,26 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<DistrictDTO> getDistrictService(String city_id) {
-		return this.storeMapper.selectAllDistrict(city_id);
+	public List<DistrictDTO> getDistrictService(String cityId) {
+		return this.storeMapper.selectAllDistrict(cityId);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String city, String district) {
-		return this.storeMapper.selectStoreList(tcs, pss, city, district);
+	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String city, String district, String userId) {
+		return this.storeMapper.selectStoreList(tcs, pss, city, district, userId);
 	}
 
 	//@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int udpStoreFavorService(String store_id, String user_id, int clickCheck) {
+	public int udpStoreFavorService(String storeId, String userId, int clickCheck) {
 		int rowCount = 0;
 		
-		this.storeMapper.updateStoreFavorite(store_id, clickCheck);
+		this.storeMapper.updateStoreFavorite(storeId, clickCheck);
 		
 		if(clickCheck == 1) {
-			rowCount = this.storeMapper.insertInterestShop(user_id, store_id);
+			rowCount = this.storeMapper.insertInterestShop(userId, storeId);
 		} else {
-			rowCount = this.storeMapper.deleteInterestShop(user_id, store_id);
+			rowCount = this.storeMapper.deleteInterestShop(userId, storeId);
 		}
 		
 		return rowCount;
@@ -62,8 +62,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword) {
-		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword);
+	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword, String userId) {
+		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword, userId);
 	}
 
 	@Override

@@ -62,7 +62,7 @@
 		}
 		, dataType : 'json'
 		, success : function(data) {
-			console.log(data);
+			// console.log(data);
 			if(data.length > 0) {
 				let storeNames = []
 				for (var i = 0; i < data.length; i++) {
