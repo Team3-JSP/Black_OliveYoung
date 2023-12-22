@@ -9,4 +9,46 @@
 		SELECT * FROM example	
 	</select>
 
+
+<select id="selectUserInfo" resultType="OliveUserDTO">
+	select * from olive_user u join userprofile uf on u.user_id = uf.user_id where u.user_id = #{userId}
+</select>
+
+<select id="similarUser" resultType="String">
+	SELECT ou.user_id 
+				 FROM olive_user ou 
+			 JOIN userprofile up ON ou.user_id = up.user_id
+			 WHERE user_gender = #{gender} 
+			 AND skintone_id = #{skintoneId} AND skintype_id = #{skintypeId}
+			 AND user_birth BETWEEN #{beforeBirth} AND #{afterBirth}
+</select>
+
+<select id="similarProduct" resultType="String">
+SELECT product_display_id, total_product_cnt FROM ( 
+				 SELECT pd.product_display_id , SUM(op.product_cnt) AS total_product_cnt 
+				    FROM olive_order oo 
+				   JOIN olive_user ou ON oo.user_id = ou.user_id 
+				   JOIN order_product op ON oo.order_id = op.order_id 
+				    JOIN product p ON p.product_id = op.product_id 
+				    JOIN product_display pd ON p.product_display_id = pd.product_display_id 
+                    where ou.user_id in 
+                    <foreach collection="userList" item="userList" open="("
+					close=")" separator=",">
+					#{userList}
+				</foreach>
+                    
+				   GROUP BY  pd.product_display_id 
+				    ORDER BY SUM(op.product_cnt) desc 
+				 ) 
+				 WHERE ROWNUM &lt;= 32
+</select>
+
+<select id="similardispl" resultType="ProductContainer">
+select * from productcontainer where product_display_id in
+<foreach collection="displList" item="displList" open="("
+					close=")" separator=",">
+					#{displList}
+				</foreach>
+</select>
+
 </mapper>

@@ -12,6 +12,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 <%--<%@ include file="/WEB-INF/inc/session_auth.jspf"%> --%>
 <%
@@ -31,47 +32,15 @@
 %>
 <script src="/resources/js/head.js"></script>
 	<script>
+	
+	
 	$(function() {
 		let mainurl = window.location.href
 		console.log(mainurl)
-		if (mainurl.includes('/Black_OY/olive/main.do')) {
+		if (mainurl ==='http://localhost/') {
 			$('.main_cate_wrap').css("display",'block');
 		}
-		let storesNames = [];
 		
-		// 로그인이 되어 있을 시
-		// 관심매장 이름 리스트 얻어오기
-		if(${not empty logOn}) {
-			$.ajax({
-				type : 'post'
-				, async : false
-				, cache: false
-				, url : '/Black_OY/olive/attShopAjax.do'
-				, dataType : 'json'
-				, data : { user_id : '${logOn.user_id}' }
-				, success : function(data) {
-					if(data.storeNames != "no") {
-						let storeNames = []
-						for (var i = 0; i < data.storeNames.length; i++) {
-							storeNames.push(data.storeNames[i]);
-						}
-						$(".store .alim_box").html(`<p class="store_desc"><span>${logOn.u_name}</span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
-										+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
-					} else {
-						$(".store .alim_box").html('<p class="store_desc"><span>${logOn.u_name}</span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
-								+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/getStoreMain.do'";>관심매장 등록하기</button>`)
-					}
-					 //console.log(data);
-	            }
-				, error : function (data, textStatus) {
-					console.log(data);
-	                console.log('error');
-	            }
-			});
-		} else {
-			$(".store .alim_box").html('<p class="store_desc"><span>로그인</span>하시면 자주가는 매장을<br>관심 매장으로 설정 할 수 있습니다.</p>'
-					+ `<button class="mymenu_btn" onclick="javascript:location.href='/Black_OY/olive/LogOn.do';">로그인</button>`);
-		}
 		
 	})
 </script>
@@ -80,6 +49,39 @@
 <input type="hidden" id="skinTorn" name="skinTorn" value="" />
 <input type="hidden" id="skinIssue" name="skinIssue" value="" />
 -->
+<sec:authorize access="isAuthenticated()">
+	<script>
+	let storesNames = [];
+	// 관심매장 이름 리스트 얻어오기
+	$.ajax({
+		type : 'post'
+		, cache: false
+		, url : '/store/getInterestShopList'
+		, data : {
+			'${_csrf.parameterName }' : '${_csrf.token }'
+		}
+		, dataType : 'json'
+		, success : function(data) {
+			// console.log(data);
+			if(data.length > 0) {
+				let storeNames = []
+				for (var i = 0; i < data.length; i++) {
+					storeNames.push(data[i].storeName);
+				}
+				$(".store .alim_box").html(`<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님께서 등록하신 관심매장<br><span>\${storeNames.join(",")}</span>의 <br> 최근 행사공지가 없습니다.</p>` 
+								+ '<button class="mymenu_btn" onclick="javascript:;">다른매장 소식보기</button>')
+			} else {
+				$(".store .alim_box").html('<p class="store_desc"><span><sec:authentication property="principal.member.userName"/></span>님의 관심매장을 등록해 주세요.<br>새로운 이벤트와 세일행사를 빠르게 알려드립니다.</p>'
+						+ `<button class="mymenu_btn" onclick="javascript:location.href='<c:url value='store/getStoreMain'/>'";>관심매장 등록하기</button>`)
+			}
+        } 
+		, error : function (data, textStatus) {
+     		console.log(data);
+     		console.log('error');
+        }
+	});
+	</script>							
+</sec:authorize>
 	<div class="infoUpgr" style="display: none;">
 		<p>
 			<a class="ie"
@@ -276,32 +278,33 @@
 		<div id="Header">
 			<div class="top_util">
 				<ul class="menu_list" id="menu_list_header">
-					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
-							<li class="join"><a href="<%=contextPath%>/olive/joinStart.do" data-attr="공통^헤더^회원가입">회원가입</a></li>
-							<li class="login"><a href="<%=contextPath%>/olive/LogOn.do"
+					
+						<sec:authorize access="isAnonymous()">
+							<li class="join"><a href="/adminpage/" data-attr="공통^헤더^회원가입">관리자 페이지</a></li>
+							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
+							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
-						</c:when>
-						<c:otherwise>
-
-							<li class="logout"><strong>${sessionScope.logOn.grade_id}&nbsp;
-									${sessionScope.logOn.u_name}</strong> <a
-								href="<%=contextPath%>/olive/Logout.do" data-attr="공통^헤더^로그아웃">로그아웃</a></li>
+						</sec:authorize>
+						
+						<sec:authorize access="isAuthenticated()">
+							<li class="logout"><strong><sec:authentication property="principal.member.gradeName"/>&nbsp;
+									<sec:authentication property="principal.member.userName"/></strong> <a
+								href="javascript:logout()"  data-attr="공통^헤더^로그아웃">로그아웃</a></li>
 							<li class="mypage"><a onclick=""
-								href="<%=contextPath%>/olive/mypageMain.do"
+								href="<%=contextPath%>/mypage/main"
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
-						</c:otherwise>
-					</c:choose>
+						</sec:authorize>
+
 
 					<c:choose>
-						<c:when test="${empty sessionScope.logOn }">
+						<c:when test="${empty sessionScope.principal }">
 							<li class="cart"><a href="<%=contextPath%>/basket"
-								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
+								data-attr="공통^헤더^장바구니">장바구니1 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="cart"><a href="<%=contextPath%>/olive/basket.do"
+							<li class="cart"><a href="<%=contextPath%>/basket"
 								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt">
 										(${sessionScope.basketlistcnt[0] + sessionScope.basketlistcnt[1]})
 								</span>
@@ -311,9 +314,9 @@
 
 
 
-					<li class="order"><a onclick="" href="#"
+					<li class="order"><a onclick="" href="<%=contextPath%>/mypage/orderdelivery"
 						data-attr="공통^헤더^주문배송">주문배송</a></li>
-					<li class="customer"><a onclick="" href="#"
+					<li class="customer"><a onclick="" href="<%=contextPath%>/counselor/faq"
 						data-attr="공통^헤더^고객센터">고객센터</a></li>
 					<li class="store"><a onclick=""
 						href="<c:url value='/store/getStoreMain'/>"
@@ -385,66 +388,14 @@
 							<div class="search_tab_cont sharp_rise" id="w_pop_cont"
 								style="display: none;">
 								<ul id="mainPopword">
-									<li class="top"><a href="#"
-										onclick="javascript:popwordSearchdo('틴트','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^틴트"> <span>1</span> <strong>틴트</strong>
+								<c:forEach items="${keywords}" var="list" varStatus="loop">
+									<li class=" <c:if test="${loop.index < 3}">top</c:if>"><a href="/search?searchWord=${list}"
+										data-attr="공통^통합검색_급상승검색어^틴트"> <span>${loop.index +1}</span> <strong>${list}</strong>
 											<span class="rate "> <span>&nbsp;</span>
 										</span>
 									</a></li>
-									<li class="top"><a href="#"
-										onclick="javascript:popwordSearchdo('쿠션','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^쿠션"> <span>2</span> <strong>쿠션</strong>
-											<span class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class="top"><a href="#"
-										onclick="javascript:popwordSearchdo('블프','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^블프"> <span>3</span> <strong>블프</strong>
-											<span class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('셀러버','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^셀러버"> <span>4</span> 셀러버 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('롬앤','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^롬앤"> <span>5</span> 롬앤 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('블러셔','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^블러셔"> <span>6</span> 블러셔 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('립밤','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^립밤"> <span>7</span> 립밤 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('마스크팩','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^마스크팩"> <span>8</span> 마스크팩 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('아이라이너','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^아이라이너"> <span>9</span> 아이라이너 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
-									<li class=""><a href="#"
-										onclick="javascript:popwordSearchdo('마스카라','Pop_PROD');"
-										data-attr="공통^통합검색_급상승검색어^마스카라"> <span>10</span> 마스카라 <span
-											class="rate "> <span>&nbsp;</span>
-										</span>
-									</a></li>
+									</c:forEach>
+									
 								</ul>
 								<div class="search_set_area">
 									<a href="#" class="sch_pop_close">닫기</a>
@@ -520,11 +471,15 @@
 					<li class="store "><a onclick="" href="#" class="mymenu_layer"
 						title="관심 매장소식 자세히보기 열기/닫기">관심 매장소식</a>
 						<div class="alim_box">
-							<p class="store_desc">
+							<sec:authorize access="isAnonymous()">
+								<p class="store_desc">
 								<span>로그인</span>하시면 자주가는 매장을 <br>관심 매장으로 설정 할 수 있습니다.
-							</p>
-							<button class="mymenu_btn"
-								onclick="javascript:location.href='<%=contextPath%>/olive/LogOn.do'">로그인</button>
+								</p>
+								<button class="mymenu_btn"
+									onclick="javascript:location.href='<c:url value="/auth/login"/>'">로그인</button>
+							</sec:authorize>
+									
+							
 						</div></li>
 					<li class="recent"><a onclick="recProductView()" href="#"
 						class="mymenu_layer" title="최근 본 상품 자세히보기 열기/닫기">최근 본 상품</a>
@@ -537,12 +492,12 @@
 						<c:if test="${fn:length(sessionScope.productHistory) > 0}">
 						<c:set var="i" value="${0 }" />
 						<c:forEach items="${productHistory }" var="history">
-						<c:if test="${not empty history.PRO_DISPL_ID }">
+						<c:if test="${not empty history.productDisplayId }">
 						<c:set var="i" value="${i + 1 }" />
 								<li data-ref-recentgoodsidx="${i }">
 									<div class="prd_info ">
 										<a
-											href="/Black_OY/olive/productDetail.do?goodsNo=${history.PRO_DISPL_ID }&displNum=${history.CAT_L_ID}${history.CAT_M_ID}"
+											href="/store/goods?productDisplayId=${history.productDisplayId }&displNum=${history.categoryLargeId}${history.categoryMidId}"
 											name="Common_Recent" class="prd_thumb goodsList"
 											data-ref-goodsno="A000000165598"
 											data-attr="공통^최근본상품^[단독기획] 토리든 다이브인 저분자 히알루론산 수딩크림 더블기획 (100ml+100ml)^1"
@@ -550,7 +505,7 @@
 											data-impression="null"
 											onclick="javascript: gtm.goods.callGoodsGtmInfo(&quot;A000000165598&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;공통_최근본상품&quot;, &quot;1&quot;);"><span
 											class="thumb_flag best">베스트</span><img
-											src="${history.PRO_DISPL_SRC }"
+											src="${history.productDisplaySrc }"
 											alt="[단독기획] 토리든 다이브인 저분자 히알루론산 수딩크림 더블기획 (100ml+100ml)"
 											onerror="common.errorImg(this);"></a>
 										<div class="prd_name">
@@ -559,15 +514,15 @@
 												data-attr="공통^최근본상품^[단독기획] 토리든 다이브인 저분자 히알루론산 수딩크림 더블기획 (100ml+100ml)^1"
 												data-ref-dispcatno="" data-ref-itemno="001" data-trk="null"
 												onclick="javascript: gtm.goods.callGoodsGtmInfo(&quot;A000000165598&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;공통_최근본상품&quot;, &quot;1&quot;);"><span
-												class="tx_brand">${history.BRAND_NAME }</span>
-											<p class="tx_name">${history.PRO_DISPL_NAME }</p></a>
+												class="tx_brand">${history.brandName }</span>
+											<p class="tx_name">${history.productDisplayName }</p></a>
 										</div>
 										<button class="btn_zzim jeem" data-ref-goodsno="A000000165598">
 											<span>찜하기전</span>
 										</button>
 										<p class="prd_price">
-											<span class="tx_org"><span class="tx_num">${history.PROPRICE }</span>원
-											</span><span class="tx_cur"><span class="tx_num">${history.AFTERPRICE }</span>원
+											<span class="tx_org"><span class="tx_num">${history.minprice }</span>원
+											</span><span class="tx_cur"><span class="tx_num">${history.afterprice }</span>원
 											</span>
 										</p>
 										<p class="prd_flag">
@@ -595,7 +550,7 @@
 										</button>
 									</p> -->
 
-									<button type="button" id="${history.PRO_DISPL_ID}" class="btnDelete cookiedel">삭제</button>
+									<button type="button" id="${history.productDisplayId}" class="btnDelete cookiedel">삭제</button>
 								</li>
 							</c:if>
 							</c:forEach>
@@ -699,27 +654,18 @@
 					<li style=""><a onclick="" href="#"
 						data-ref-linkurl="main/getHotdealList.do" data-attr="공통^GNB^오특"><span>오특</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/ranking.do"
-						data-ref-linkurl="main/getBestList.do" data-attr="공통^GNB^랭킹"><span>랭킹</span>
+					<li style=""><a onclick="" href='<c:url value="/store/getRanking"/>'><span>랭킹</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath %>/olive/planshop.do?eventId=le_00000001"
-						data-attr="공통^GNB^LUXE EDIT"><span>LUXE EDIT</span> </a></li>
-
-					<li style=""><a onclick="" href="#"
-						data-ref-linkurl="main/getPlanShopList.do" data-attr="공통^GNB^기획전"><span>기획전</span>
+					<li style=""><a href="/store/getExhibition?eventId=le_00000001"><span>LUXE EDIT</span> </a></li>
+					<li style=""><a href="/store/main/getExhibition" data-ref-linkurl="/store/main/getExhibition" ><span>기획전</span>
 					</a></li>
-					<li style=""><a onclick="" href="#"
+					<li style=""><a  href="#"
 						data-ref-linkurl="main/getSaleList.do" data-attr="공통^GNB^세일"><span>세일</span>
 					</a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/giftCardMain.do"
-						data-ref-linkurl="giftCardGuide/getGiftCardGuide.do"
-						data-attr="공통^GNB^기프트카드"><span>기프트카드</span> </a></li>
-					<li style=""><a onclick="" href="<%=contextPath%>/olive/membership.do"
-						data-ref-linkurl="main/getMembership.do" data-attr="공통^GNB^멤버십/쿠폰"><span>멤버십/쿠폰</span>
+					<li style=""><a href="<c:url value='/store/getGiftCard'/>"><span>기프트카드</span> </a></li>
+					<li style=""><a href='<c:url value="/store/getMembership"/>'><span>멤버십/쿠폰</span>
 					</a></li>
-					<li style=""><a onclick=""
-						href="<%=contextPath%>/olive/event.do"
-						data-ref-linkurl="main/getEventList.do" data-attr="공통^GNB^이벤트"><span>이벤트</span>
+					<li style=""><a href="<c:url value='/store/getEvent'/>"><span>이벤트</span>
 					</a></li>
 				</ul>
 
@@ -1077,8 +1023,21 @@
 
 	<script>
 	$(document).ready(function(){
-		$("#query").click(function(){
+		$("#query").keyup(function(event){
 			var val =$('#query').val();
+			if (val.length < 2) {
+				return
+				console.log(val)
+			}
+			
+			if(val.length >=2 && event.keyCode == 13){
+				searchInsert(val)
+				window.location.href = "/search?searchWord="+val;
+			}else if(val.length <2 && event.keyCode == 13){
+				alert("검색은 2글자 이상 부터 가능합니다")
+				return
+			}
+			
 			console.log(val)
 		if (val) {
 			$("#w_search_box > div.placeholder_area > label").text("");
@@ -1090,7 +1049,7 @@
 			$("#ark_w").css("display","block");
 			$.ajax({ //ajax를 활용하여 서블릿으로 키워드 전달 
 				type: 'get',
-				url : "<%=contextPath%>/olive/search.do",
+				url : "/searchAjax",
 				dataType: 'text',
 				data : {word : val},
 				success : function(response){ //통신 성공 시  기능 
@@ -1104,33 +1063,7 @@
 		}
 		
 	})
-		$('#query').keyup(function(){
-			var val =$('#query').val();
-			
-			if (val) {
-				$("#w_search_box > div.placeholder_area > label").text("");
-				$("#searchPop").removeClass("on");
-				$("#w_pop_cont").css("display","none");
-				$("#searchRecent").removeClass("on");
-				$("#recent_cont").css("display","none");
-				$(".search_tab").css("display","none");
-				$("#ark_w").css("display","block");
-				$.ajax({ //ajax를 활용하여 서블릿으로 키워드 전달 
-					type: 'get',
-					url : "<%=contextPath%>/olive/search.do",
-					dataType: 'text',
-					data : {word : val},
-					success : function(response){ //통신 성공 시  기능 
-						$("#output").empty();
-						$("#output").append(response);
-					}
-				})
-			}else{
-				$("#output").empty();
-				$("#ark_w").css("display","none");
-			}
-			
-		})
+		
 	})
 	</script>
 
@@ -1220,4 +1153,48 @@ $(function(){
 		event.preventDefault();
 	})
 })
+
+function logout(){
+     let f = document.createElement('form');
+
+    let obj;
+    obj = document.createElement('input');
+    obj.setAttribute('type', 'hidden');
+    obj.setAttribute('name', '${_csrf.parameterName }');
+    obj.setAttribute('value', '${_csrf.token }');
+    
+    f.appendChild(obj);
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/auth/logout');
+    document.body.appendChild(f);
+    f.submit();
+
+}
+
+$(function(){
+	$("#searchSubmit").on("click",function(){
+		let searchWord = $("#query").val()
+		if (searchWord.length < 2) {
+			alert("검색은 2글자 이상 부터 가능합니다")
+			return
+		}
+		searchInsert(searchWord)
+		window.location.href = "/search?searchWord="+searchWord;
+	})
+})
+
+function searchInsert(searchWord){
+	 $.ajax({
+			url: "/searchInsert",
+			data:{searchWord:searchWord},
+			cache: false,
+			success:function( response ) {
+				
+	          }
+	        , error		: function() {
+	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+	        }
+		})
+}
+
 </script>

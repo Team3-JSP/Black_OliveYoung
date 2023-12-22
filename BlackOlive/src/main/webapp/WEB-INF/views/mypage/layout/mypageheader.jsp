@@ -26,10 +26,10 @@
 				</p>
 				<ul class="mem_opt">
 	
-					<li id="membershipBenefit"><a href="${pageContext.request.contextPath}/olive/membership.do"
+					<li id="membershipBenefit"><a href="${pageContext.request.contextPath}/store/getMembership"
 						onclick="<%-- 맴버십페이지 연결스크립트 --%>">올리브 멤버스 라운지</a></li>
 	
-					<li id="profileModify"><a href="${pageContext.request.contextPath}/olive/profile.do"
+					<li id="profileModify"><a href="${pageContext.request.contextPath}/profile/myprofile"
 						onclick="<%-- 나의 프로필 연결스크립트 --%>">나의 프로필</a></li>
 				</ul>
 			</div>

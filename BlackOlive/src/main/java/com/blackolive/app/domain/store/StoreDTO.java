@@ -1,14 +1,12 @@
 package com.blackolive.app.domain.store;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import java.util.Calendar;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class StoreDTO {
 	private String storeId;
 	private String districtId;
@@ -25,4 +23,33 @@ public class StoreDTO {
 	private String saturday;
 	private String sunday;
 	private String holiday;
+	
+	private String openYN = "N"; // 영업 여부 체크
+	private String favYN; // 유저의 관심 매장 체크
+	
+	public StoreDTO(String storeId, String weekday, String saturday, String sunday) {
+		this.storeId = storeId;
+		this.weekday = weekday;
+		this.saturday = saturday;
+		this.sunday = sunday;
+		
+		// 매장 오픈 여부
+		Calendar today = Calendar.getInstance();
+		int dayOfWeek = today.get(Calendar.DAY_OF_WEEK);
+		String currTime = today.get(Calendar.HOUR_OF_DAY) + ":" + today.get(Calendar.MINUTE);
+		String[] times = null;
+
+		if(dayOfWeek == 1) {
+			times = sunday.split(" - ");
+		} else if(dayOfWeek == 2) {
+			times = sunday.split(" - ");
+		} else {
+			times = weekday.split(" - ");
+		}
+
+		if(currTime.compareTo(times[0]) >= 0 && currTime.compareTo(times[1]) < 0) 
+			this.openYN = "Y";
+	}
+	
+	
 }

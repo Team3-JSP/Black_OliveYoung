@@ -1,9 +1,9 @@
 package com.blackolive.app.service.basket;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.basket.BasketDTO;
@@ -72,6 +72,25 @@ public class BasketServiceImpl implements BasketService{
 		}
 		
 		return cnt;
+	}
+	// 장바구니 중복체크
+	@Override
+	public String checkService(String userId, String productId, String quickyn) {
+		String flag = "N";
+		if (this.basketMapper.check(userId, productId, quickyn) == 1) {
+			flag = "Y";
+		}
+		return flag;
+	}
+// 장바구니에 같은 상품이 있으면 update 없으면 insert
+	@Override
+	public int addService(String quickyn, String userId, int productCnt, String productId) {
+		if (checkService(userId, productId, quickyn).equals("N")) {
+			return this.basketMapper.add(userId, productId, quickyn, productCnt);
+		}else {
+			return this.basketMapper.update(quickyn, userId, productCnt, productId);
+		}
+		
 	}
 
 }

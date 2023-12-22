@@ -1,5 +1,6 @@
 package com.blackolive.app.controller.store;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,11 @@ public class StoreController {
 	private StoreServiceImpl storeService;
 	
 	@GetMapping("/getStoreMain")
-	public String getStoreMain(Model model) {
-		List<StoreDTO> storeList = storeService.getStoreService();
+	public String getStoreMain(Model model, Principal principal) {
+		String userId = null;
+		if(principal != null) userId = principal.getName();
+		
+		List<StoreDTO> storeList = storeService.getStoreService(userId);
 		List<CityDTO> cityList = storeService.getCityService();
 		model.addAttribute("storeList", storeList);
 		model.addAttribute("cityList", cityList);

@@ -2,13 +2,13 @@ package com.blackolive.app.service.store;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
+import com.blackolive.app.domain.store.StoreDetailDTO;
 import com.blackolive.app.mapper.store.StoreMapper;
 
 import lombok.AllArgsConstructor;
@@ -21,8 +21,8 @@ public class StoreServiceImpl implements StoreService {
 	private StoreMapper storeMapper;
 	
 	@Override
-	public List<StoreDTO> getStoreService() {
-		return this.storeMapper.selectAllStore();
+	public List<StoreDTO> getStoreService(String userId) {
+		return this.storeMapper.selectAllStore(userId);
 	}
 
 	@Override
@@ -31,43 +31,48 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<DistrictDTO> getDistrictService(String city_id) {
-		return this.storeMapper.selectAllDistrict(city_id);
+	public List<DistrictDTO> getDistrictService(String cityId) {
+		return this.storeMapper.selectAllDistrict(cityId);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String city, String district) {
-		return this.storeMapper.selectStoreList(city, district);
+	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String city, String district, String userId) {
+		return this.storeMapper.selectStoreList(tcs, pss, city, district, userId);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
+	//@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int udpStoreFavorService(String store_id, String user_id, int clickCheck) {
+	public int udpStoreFavorService(String storeId, String userId, int clickCheck) {
 		int rowCount = 0;
 		
-		this.storeMapper.updateStoreFavorite(store_id, clickCheck);
+		this.storeMapper.updateStoreFavorite(storeId, clickCheck);
 		
 		if(clickCheck == 1) {
-			rowCount = this.storeMapper.insertInterestShop(user_id, store_id);
+			rowCount = this.storeMapper.insertInterestShop(userId, storeId);
 		} else {
-			rowCount = this.storeMapper.deleteInterestShop(user_id, store_id);
+			rowCount = this.storeMapper.deleteInterestShop(userId, storeId);
 		}
 		
 		return rowCount;
 	}
 
 	@Override
-	public List<StoreDTO> getInterestShopService(String userId) {
-		return this.storeMapper.selectInterestShop(userId);
+	public List<StoreDTO> getInterestShopService(String[] tcs, String[] pss, String userId) {
+		return this.storeMapper.selectInterestShop(tcs, pss, userId);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String keyword) {
-		return this.storeMapper.selectStoreKeyword(keyword);
+	public List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword, String userId) {
+		return this.storeMapper.selectStoreKeyword(tcs, pss, keyword, userId);
 	}
 
 	@Override
-	public List<StoreDTO> getStoreService(String[] tcs, String[] pcs, String keyword) {
-		return this.storeMapper.selectStoreCondition(tcs, pcs, keyword);
+	public List<ProductContainer> getProductNameList(String keyword) {
+		return this.storeMapper.selectProductName(keyword);
+	}
+
+	@Override
+	public StoreDetailDTO getStoreDetail(String storeId) {
+		return this.storeMapper.selectOneStoreDetail(storeId);
 	}
 }

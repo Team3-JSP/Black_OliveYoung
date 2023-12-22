@@ -12,6 +12,7 @@ $(document).ready(function() {
 	if (error == "true") {
 		alert("아이디 또는 패스워드가 일치하지 않습니다.");
 	};
+	
 });
 </script>
 <div id="Container" class="bgf6">
@@ -92,7 +93,7 @@ $(document).ready(function() {
 							
 								
 								
-									<a href="#" class="btnCjone" id="memberJoin" data-attr="로그인^회원가입^cjone통합회원가입">CJ ONE 통합 가입</a>
+									<a href="../join/joinCheck" class="btnCjone" id="memberJoin" data-attr="로그인^회원가입^cjone통합회원가입">CJ ONE 통합 가입</a>
 								
 							
 						</div>
