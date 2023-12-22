@@ -16,8 +16,8 @@
 				<!-- 고객센터 페이지 선택 태그 -->
 			<ul class="comm1sTabs threeSet customer">
 				<li id="tabFaq" class="on"><a href="<%=contextPath%>/counselor/faq" title="선택됨">FAQ</a></li>
-				<li id="tab1on1"><a href="<%-- 1:1문의 페이지 이동 --%>">1:1문의</a></li>
-				<li id="tabNotice"><a href="<%-- 공지사항 페이지 이동 --%>">공지사항</a></li>
+				<li id="tab1on1"><a href="<%=contextPath%>/counselor/personalAskList">1:1문의</a></li>
+				<li id="tabNotice"><a href="<%=contextPath%>/counselor/notice">공지사항</a></li>
 			</ul>
 			
 			
@@ -47,35 +47,35 @@
                     <span class="tag_list_tit">인기키워드</span>
 					<div class="tag_list" style="margin-left: -87.3469px;">
 						
-							<a href="javascript:faq.list.searchFaqTagList('배송');">배송</a>
+							<a href="#">배송</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('반품');">반품</a>
+							<a href="#">반품</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('오늘드림');">오늘드림</a>
+							<a href="#">오늘드림</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('픽업');">픽업</a>
+							<a href="#">픽업</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('매장반품');">매장반품</a>
+							<a href="#">매장반품</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('기프트카드');">기프트카드</a>
+							<a href="#">기프트카드</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('올리브 멤버스');">올리브 멤버스</a>
+							<a href="#">올리브 멤버스</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('결제');">결제</a>
+							<a href="#">결제</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('교환');">교환</a>
+							<a href="#">교환</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('탑리뷰어체험단');">탑리뷰어체험단</a>
+							<a href="#">탑리뷰어체험단</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('매장');">매장</a>
+							<a href="#">매장</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('선물하기');">선물하기</a>
+							<a href="#">선물하기</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('리뷰');">리뷰</a>
+							<a href="#">리뷰</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList('빠른결제');">빠른결제</a>
+							<a href="#">빠른결제</a>
 						
-							<a href="javascript:faq.list.searchFaqTagList(' 리뷰');"> 리뷰</a>
+							<a href="#"> 리뷰</a>
 						
 					</div>
 				</div>

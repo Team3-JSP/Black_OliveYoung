@@ -84,5 +84,12 @@ public class CounselorServiceImpl implements CounselorService {
 		return this.noticeMapper.getnoticedetail(noticeId);
 	}
 
+	@Override
+	public List<noticeVO> getNoticewithcategoryservice(Criteria criteria, String tabs)
+			throws ClassNotFoundException, SQLException {
+		
+		return this.noticeMapper.getnoticewithcategory(criteria, tabs);
+	}
+
 
 }

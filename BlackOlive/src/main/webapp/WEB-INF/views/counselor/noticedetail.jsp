@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 
 
@@ -14,7 +15,7 @@
 
 			<ul class="comm1sTabs threeSet customer">
 				<li id="tabFaq"><a href="<%=contextPath%>/counselor/faq">FAQ</a></li>
-				<li id="tab1on1"><a href="javascript:common.link.moveQnaList();">1:1문의</a></li>
+				<li id="tab1on1"><a href="<%=contextPath%>/counselor/personalAskList">1:1문의</a></li>
 				<li id="tabNotice" class="on"><a href="<%=contextPath%>/counselor/notice" title="선택됨">공지사항</a></li>
 			</ul>
 			
@@ -27,39 +28,95 @@
 				<tbody>
 					<tr>
 						<td>
-							<strong class="FG01"><%-- 카테고리 --%></strong>
-							<span class="tit"><%-- 공지사항 제목 --%></span>
+							
+							<c:choose>
+								<c:when test="${ notice.noticeCategory eq '일반' }">
+									<strong class="FG01">${ notice.noticeCategory }</strong>
+								</c:when>
+								<c:when test="${ notice.noticeCategory eq '매장' }">
+									<strong class="FG02">${ notice.noticeCategory }</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="FG03">${ notice.noticeCategory }</strong>
+								</c:otherwise>
+							</c:choose>
+							
+							<span class="tit">${ notice.noticeTitle }</span>
 						</td>
-						<td class="data"><%-- 공지사항 작성일 --%></td>
+						<td class="data">
+						<fmt:formatDate value="${ notice.noticeDate }" pattern="yyyy-MM-dd" var="noticedate"/>
+						${ noticedate }</td>
 					</tr>
 					<tr>
 						<td class="textus" colspan="2">
 							<div class="contEditor">&nbsp;<br>
-								<%-- 공지사항 내용 --%>
+								${ notice.noticeContent }
 							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<ul class="prev-next">
-				<li onclick="<%-- 다음글로 가는 스크립트 --%>">
-					<button type="button">다음글</button>
-
+				<c:choose>
+					<c:when test="${ notice.noticeCategorynext eq '0' }">
+						<li>
+							<button type="button">다음글</button>
+		
+							<a>없음</a>
 	
-	
-					<strong class="FG03"><%-- 다음글 카테고리 --%></strong><a href="<%-- 다음글 링크 --%>" data-ntc-seq="45461"><%-- 다음글 제목 --%></a>
-						
-
-				</li>
-				<li onclick="<%-- 이전글로 가는 스크립트 --%>">
-					<button type="button">이전글</button>
-
-	
-	
-					<strong class="FG01"><%-- 이전글 카테고리 --%> </strong><a href="<%-- 이전글 링크 --%>" data-ntc-seq="41900"><%-- 이전글 제목 --%></a>
-						
-
-				</li>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<button type="button">다음글</button>
+		
+							<c:choose>
+								<c:when test="${ notice.noticeCategorynext eq '일반' }">
+									<strong class="FG01">${ notice.noticeCategorynext }</strong>
+								</c:when>
+								<c:when test="${ notice.noticeCategorynext eq '매장' }">
+									<strong class="FG02">${ notice.noticeCategorynext }</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="FG03">${ notice.noticeCategorynext }</strong>
+								</c:otherwise>
+							</c:choose>	
+							<a href="/counselor/noticedetail?noticeId=${ notice.noticeIdnext }" data-ntc-seq="45461">${ notice.noticeTitlenext }</a>
+								
+		
+						</li>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${ notice.noticeCategoryprev eq '0' }">
+						<li>
+							<button type="button">이전글</button>
+		
+							<a>없음</a>
+			
+						</li>
+					</c:when>
+					<c:otherwise>					
+						<li>
+							<button type="button">이전글</button>
+		
+			
+							<c:choose>
+								<c:when test="${ notice.noticeCategoryprev eq '일반' }">
+									<strong class="FG01">${ notice.noticeCategoryprev }</strong>
+								</c:when>
+								<c:when test="${ notice.noticeCategoryprev eq '매장' }">
+									<strong class="FG02">${ notice.noticeCategoryprev }</strong>
+								</c:when>
+								<c:otherwise>
+									<strong class="FG03">${ notice.noticeCategoryprev }</strong>
+								</c:otherwise>
+							</c:choose>	
+							<a href="/counselor/noticedetail?noticeId=${ notice.noticeIdprev }" data-ntc-seq="41900">${ notice.noticeTitleprev }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+				
 			</ul>
 			
 
@@ -70,3 +127,16 @@
 		</div>
 		
 	</div>
+	
+	<form id="detailForm" action="/counselor/notice" method="get">
+		<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }"> 
+		<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }"> 
+	</form>
+	
+	<script>
+		$("div.area1sButton a.btnGreen").on("click", function(event) {
+			event.preventDefault();
+			
+			$("#detailForm").submit();
+		});
+	</script>

@@ -5,9 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 
-
-
-
 <div id="Container">
 		
 		<div id="Contents">
@@ -17,7 +14,7 @@
 
 			<ul class="comm1sTabs threeSet customer">
 				<li id="tabFaq"><a href="<%=contextPath%>/counselor/faq">FAQ</a></li>
-				<li id="tab1on1"><a href="javascript:common.link.moveQnaList();">1:1문의</a></li>
+				<li id="tab1on1"><a href="<%=contextPath%>/counselor/personalAskList">1:1문의</a></li>
 				<li id="tabNotice" class="on"><a href="<%=contextPath%>/counselor/notice" title="선택됨">공지사항</a></li>
 			</ul>
 
@@ -26,10 +23,10 @@
 				<div class="area-customer">
 					<ul class="comm2sTabs fourSet pdB30">
 					
-						<li data-ref-ntcclsscd="00" class="on"><button type="button" onclick="counsel.noticeList.goNoticeList();" title="선택됨">전체</button></li>
-						<li data-ref-ntcclsscd="01"><button type="button" onclick="counsel.noticeList.goNoticeList('01');">일반</button></li>
-						<li data-ref-ntcclsscd="02"><button type="button" onclick="counsel.noticeList.goNoticeList('02');">매장</button></li>
-						<li data-ref-ntcclsscd="03"><button type="button" onclick="counsel.noticeList.goNoticeList('03');">이벤트</button></li>
+						<li data-ref-ntcclsscd="00"><button type="button" >전체</button></li>
+						<li data-ref-ntcclsscd="01"><button type="button" >일반</button></li>
+						<li data-ref-ntcclsscd="02"><button type="button" >매장</button></li>
+						<li data-ref-ntcclsscd="03"><button type="button" >이벤트</button></li>
 
 					</ul>
 				</div>
@@ -62,11 +59,27 @@
 	
 			<tr class="notice_fix">
 			<%-- 중요 표시한 게시글 고정 --%>
+			
 								<td>중요</td>
 			
 											
-								<td class="subject"><strong class="FG01">일반 </strong><a href="<%=contextPath%>/counselor/noticedetail">기상악화로 인한 일부지역 오늘드림 서비스 제한 안내</a></td>
-								<td>2023.12.19</td>
+								<td class="subject">
+								<c:choose>
+									<c:when test="${ importantNotice.noticeCategory eq '일반' }">
+										<strong class="FG01">${ importantNotice.noticeCategory }</strong>
+									</c:when>
+									<c:when test="${ importantNotice.noticeCategory eq '매장' }">
+										<strong class="FG02">${ importantNotice.noticeCategory }</strong>
+									</c:when>
+									<c:otherwise>
+										<strong class="FG03">${ importantNotice.noticeCategory }</strong>
+									</c:otherwise>
+								</c:choose>
+								<a href="<%=contextPath%>/counselor/noticedetail?noticeId=${ importantNotice.noticeId }" data-notice="${ importantNotice.noticeId }">${ importantNotice.noticeTitle }</a></td>
+								<td>
+								<fmt:formatDate value="${ importantNotice.noticeDate }" pattern="yyyy-MM-dd" var="importantnoticedate"/>
+								${ importantnoticedate }
+								</td>
 							</tr>
 							
 			<%-- 게시글 출력 --%>
@@ -76,7 +89,19 @@
 			
 								<td>${ notice.noticeNum }</td>
 											
-								<td class="subject"><strong class="FG03">${ notice.noticeCategory }</strong><a href="<%=contextPath%>/counselor/noticedetail?noticeId=${ notice.noticeId }">${ notice.noticeTitle }</a></td>
+								<td class="subject">
+								<c:choose>
+									<c:when test="${ notice.noticeCategory eq '일반' }">
+										<strong class="FG01">${ notice.noticeCategory }</strong>
+									</c:when>
+									<c:when test="${ notice.noticeCategory eq '매장' }">
+										<strong class="FG02">${ notice.noticeCategory }</strong>
+									</c:when>
+									<c:otherwise>
+										<strong class="FG03">${ notice.noticeCategory }</strong>
+									</c:otherwise>
+								</c:choose>
+								<a href="<%=contextPath%>/counselor/noticedetail?noticeId=${ notice.noticeId }" data-notice="${ notice.noticeId }">${ notice.noticeTitle }</a></td>
 								<td>
 								<fmt:formatDate value="${ notice.noticeDate }" pattern="yyyy-MM-dd" var="noticedate"/>
 								${ noticedate }
@@ -154,15 +179,23 @@
 	</div>
 	
 	<form id="actionForm" action="/counselor/notice" method="get">
+		<input type="hidden" name="tabs" value="">
 		<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }"> 
 		<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }"> 
 		<input type="hidden" name="keyword" value="${ pageMaker.criteria.keyword }"> 
 	</form>
 	
+	<form id="detailForm" action="/counselor/noticedetail" method="get">
+		<input type="hidden" name="noticeId" value="">
+		<input type="hidden" name="pageNum" value="${ pageMaker.criteria.pageNum }"> 
+		<input type="hidden" name="amount" value="${ pageMaker.criteria.amount }"> 
+	</form>
+	
+	
 	
 <script>
 
-
+var detailForm = $("#detailForm");
 var actionForm = $("#actionForm");
 
 	//페이징 번호로 넘어가기
@@ -173,11 +206,44 @@ var actionForm = $("#actionForm");
 		let pageNum = $(this).attr("href");
 		actionForm.find("input[name=pageNum]").val(pageNum);
 		
-		
-		
 		actionForm.submit();
 			
 	});
+	
+	//태그 선택 스크립트
+	$("div.area-customer ul.comm2sTabs li button").on("click", function () {
+				
+		if ($(this).text() == "전체") {
+			actionForm.submit();
+		} else{
+			var tabs = $(this).text()
+			
+			actionForm.find("input[name=tabs]").val(tabs)
+			
+			actionForm.find("input[name=pageNum]").val("1");
+			
+			actionForm.submit();
+		}
+	});
+	
 
+	$(document).ready(function(){
+		
+		$("ul.comm2sTabs li button").parent().removeClass("on");
+		
+		$("ul.comm2sTabs li button:contains('${ tabs }')").parent().addClass("on");
+		
+		$("ul.comm2sTabs li button:contains('${ tabs }')").attr("title", "선택됨");
 
+	})
+	
+	$("tbody tr td.subject a").on("click", function(event) {
+		event.preventDefault();
+		
+		var idid = $(this).attr("data-notice")
+		detailForm.find("input[name=noticeId]").val(idid);
+		
+		detailForm.submit();
+	})
+	
 </script>
