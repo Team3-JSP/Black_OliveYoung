@@ -153,17 +153,31 @@ public class CounselorController {
 
 	@GetMapping("/notice")
 	public String noticecontroller(
+			@RequestParam(name = "tabs", required = false) String tabs,
 			Model model,
 			Criteria criteria
 			) throws ClassNotFoundException, SQLException {
-		
 		log.debug(">> notice get ");
+		String importantNotice = "NO_00000039";
 		
-		List<noticeVO> noticeVO = this.counselorService.getNoticeListservice(criteria);
-		model.addAttribute("noticeVO", noticeVO);
+		if (tabs == null || tabs.equals("")) {
+			List<noticeVO> noticeVO = this.counselorService.getNoticeListservice(criteria);
+			model.addAttribute("noticeVO", noticeVO);
+			tabs = "전체";
+			
+		} else {
+			
+			List<noticeVO> noticeVO = this.counselorService.getNoticewithcategoryservice(criteria, tabs);
+			model.addAttribute("noticeVO", noticeVO);
+		}
+				
+		//중요표시 게시글
+		noticeVO vo = this.counselorService.getNoticeDetailservice(importantNotice);
+		model.addAttribute("importantNotice", vo);
 		
 		int noticetotal = this.counselorService.noticetotal(criteria);
 		model.addAttribute("pageMaker", new PageDTO(criteria, noticetotal));
+		model.addAttribute("tabs", tabs);
 		
 		log.info(">> notice model add");
 		
@@ -173,11 +187,15 @@ public class CounselorController {
 	@GetMapping("/noticedetail")
 	public String noticedetailcontroller(
 			@RequestParam("noticeId") String noticeId,	
-			Model model
+			Model model,
+			Criteria criteria
 			) throws ClassNotFoundException, SQLException {
 		
-		noticeVO vo = this.counselorService.getNoticeDetailservice(noticeId);
-		model.addAttribute("vo", vo);
+		noticeVO notice = this.counselorService.getNoticeDetailservice(noticeId);
+		model.addAttribute("notice", notice);
+		
+		int noticetotal = this.counselorService.noticetotal(criteria);
+		model.addAttribute("pageMaker", new PageDTO(criteria, noticetotal));
 		
 		return "counselor.noticedetail";
 	}

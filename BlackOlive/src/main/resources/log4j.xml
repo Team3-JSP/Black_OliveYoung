@@ -11,12 +11,12 @@
 	</appender>
 	
 	<!-- Application Loggers -->
- 	<logger name="com.blackolive.app">
+ 	<!-- <logger name="com.blackolive.app">
 		<level value="debug" />
 	</logger> 
-	
+	 -->
 	<!-- 3rdparty Loggers -->
-
+<!-- 
  	<logger name="org.springframework.core">
 		<level value="debug" />
 
@@ -37,9 +37,9 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
+ -->	<!-- Root Logger -->
 	 <root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root> 
 	

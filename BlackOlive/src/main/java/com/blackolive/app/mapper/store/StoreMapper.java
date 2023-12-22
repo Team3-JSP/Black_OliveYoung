@@ -18,7 +18,7 @@ public interface StoreMapper {
 	
 	List<StoreDTO> selectAllStore(); // 매장 리스트
 	
-	List<StoreDTO> selectStoreList(@Param("tcs") String tcs, @Param("pss") String pss, @Param("city") String city, @Param("district") String district); // 지역으로 검색
+	List<StoreDTO> selectStoreList(@Param("tcs") String[] tcs, @Param("pss") String[] pss, @Param("city") String city, @Param("district") String district); // 지역으로 검색
 	
 	int updateStoreFavorite(@Param("storeId") String storeId, @Param("clickCheck") int clickCheck); // 매장 좋아요 수 업데이트
 	
@@ -26,9 +26,9 @@ public interface StoreMapper {
 	
 	int deleteInterestShop(String user_id, String store_id);  // 관심 매장 삭제
 
-	List<StoreDTO> selectInterestShop(@Param("tcs") String tcs, @Param("pss") String pss, @Param("userId") String userId); // 로그인 시 관심매장 리스트
+	List<StoreDTO> selectInterestShop(@Param("tcs") String tcs[], @Param("pss") String pss[], @Param("userId") String userId); // 로그인 시 관심매장 리스트
 
-	List<StoreDTO> selectStoreKeyword(@Param("tcs") String tcs, @Param("pss") String pss, @Param("keyword") String keyword); // 키워드로 매장 검색
+	List<StoreDTO> selectStoreKeyword(@Param("tcs") String tcs[], @Param("pss") String pss[], @Param("keyword") String keyword); // 키워드로 매장 검색
 
 	// List<StoreDTO> selectStoreCondition(@Param("tcs") String tcs, @Param("pss") String pss, @Param("keyword") String keyword); // 매장 검색 옵션 + 키워드
 	

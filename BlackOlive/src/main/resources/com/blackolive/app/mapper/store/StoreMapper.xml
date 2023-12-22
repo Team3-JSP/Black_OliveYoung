@@ -4,9 +4,14 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.blackolive.app.mapper.store.StoreMapper">
-
-	<resultMap type="com.blackolive.app.domain.store.StoreDetailDTO" id="storeDetailMap">
-		<id property="storeId" column="store_id"/>
+	
+	<resultMap type="com.blackolive.app.domain.store.StoreDTO" id="storeMap">
+		<constructor>
+			<idArg column="store_id" javaType="string"/>
+			<arg column="weekday"  javaType="string"/>
+			<arg column="saturday"  javaType="string"/>
+			<arg column="sunday"  javaType="string"/>
+		</constructor>
 		<result property="districtId" column="district_id"/>
 		<result property="storeName" column="store_name"/>
 		<result property="storeTel" column="store_tel"/>
@@ -17,10 +22,30 @@
 		<result property="storeFavorite" column="store_favorite"/>
 		<result property="lat" column="lat"/>
 		<result property="lng" column="lng"/>
-		<result property="weekday" column="weekday"/>
-		<result property="saturday" column="saturday"/>
-		<result property="sunday" column="sunday"/>
 		<result property="holiday" column="holiday"/>
+	</resultMap>
+	
+	<resultMap type="com.blackolive.app.domain.store.StoreDetailDTO" id="storeDetailMap">
+		
+		<constructor>
+			<idArg column="store_id" javaType="string"/>
+			<arg column="weekday"  javaType="string"/>
+			<arg column="saturday"  javaType="string"/>
+			<arg column="sunday"  javaType="string"/>
+		</constructor>
+		
+		<result property="districtId" column="district_id"/>
+		<result property="storeName" column="store_name"/>
+		<result property="storeTel" column="store_tel"/>
+		<result property="storeAddress" column="store_address"/>
+		<result property="storeDirection" column="store_direction"/>
+		<result property="storeParking" column="store_parking"/>
+		<result property="storeSignificant" column="store_significant"/>
+		<result property="storeFavorite" column="store_favorite"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="holiday" column="holiday"/>
+		
 		<collection property="storeThumbnail" resultMap="storeThumbnailMap"/>
 		<collection property="storeCategory" resultMap="storeCategoryMap"/>
 		<collection property="oliveService" resultMap="oliveServiceMap"/>
@@ -56,12 +81,12 @@
 		WHERE city_id = #{city_id}
 	</select>
 
-	<select id="selectAllStore" resultType="StoreDTO">
+	<select id="selectAllStore" resultMap="storeMap">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 	</select>
 	
-	<select id="selectStoreList" resultType="StoreDTO">
+	<select id="selectStoreList" resultMap="storeMap">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		<trim prefix="where" prefixOverrides="AND | OR">
@@ -69,18 +94,24 @@
 				AND store_address LIKE '%' || #{city} || ' ' || #{district} || '%'
 			</if>
 			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-				<if test="tcs != null and tcs != ''">
+				<if test="tcs != null and tcs.length > 0">
 					OR s.store_id IN ( 
 				        SELECT DISTINCT(store_id)
 				        FROM handling_store
-				        WHERE category_id IN (${tcs})
+				        WHERE category_id IN 
+				        <foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+				        	#{tcs}
+				        </foreach>
 					)
 				</if>
-				<if test="pss != null and pss != ''">
+				<if test="pss != null and pss.length > 0">
 					OR s.store_id IN (
 				        SELECT DISTINCT(store_id)
 				        FROM store_service
-				        WHERE olive_service_id IN (${pss})
+				        WHERE olive_service_id IN 
+						<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				        	#{pss}
+				        </foreach>
 					)
 				</if>
 			</trim>
@@ -109,31 +140,46 @@
 		JOIN interest_shop i ON s.store_id = i.store_id
 		WHERE user_id = #{userId}
 		<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-			<if test="tcs != null and tcs != ''">
+			<if test="tcs != null and tcs.length != 0">
 				OR s.store_id IN ( 
 					SELECT DISTINCT(store_id)
 				    FROM handling_store
-				    WHERE category_id IN (${tcs})
+				    WHERE category_id IN 
+					<foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+				        #{tcs}
+				    </foreach>
 				)
 			</if>
-			<if test="pss != null and pss != ''">
+			<if test="pss != null and pss.length != 0">
 				OR s.store_id IN (
 					SELECT DISTINCT(store_id)
 				    FROM store_service
-				    WHERE olive_service_id IN (${pss})
+				    WHERE olive_service_id IN 
+					<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				    	#{pss}
+				    </foreach>
 				)
 			</if>
 		</trim>
 		
 	</select>
 	
-	<!-- <select id="selectStoreKeyword" resultType="StoreDTO">
-		SELECT *
-		FROM store s JOIN store_time st ON s.store_id = st.store_id
-		WHERE store_address LIKE '%'||#{param1}||'%' OR store_name LIKE '%'||#{param1}||'%'
-	</select> -->
+	<!-- 
+	SELECT *
+	FROM store s JOIN store_time st ON s.store_id = st.store_id
+	WHERE (s.store_id IN ( 
+	        SELECT DISTINCT(store_id)
+	        FROM handling_store
+	        WHERE category_id IN (1, 2)
+	    ) OR s.store_id IN (
+	        SELECT DISTINCT(store_id)
+	        FROM store_service
+	        WHERE olive_service_id IN (1, 2)
+	    ))
+	    AND store_address LIKE '%가평%' OR store_name LIKE '%가평%' 
+	    -->
 
-	<select id="selectStoreKeyword" resultType="StoreDTO">
+	<select id="selectStoreKeyword" resultMap="storeMap">
 		SELECT *
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		<trim prefix="where" prefixOverrides="AND | OR">
@@ -141,18 +187,24 @@
 				AND (store_address LIKE '%' || #{keyword}  ||'%' OR store_name LIKE '%' || #{keyword} || '%')
 			</if>
 			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-				<if test="tcs != null and tcs != ''">
+				<if test="tcs != null and tcs.length != 0">
 					OR s.store_id IN ( 
 				        SELECT DISTINCT(store_id)
 				        FROM handling_store
-				        WHERE category_id IN (${tcs})
+				        WHERE category_id IN 
+						<foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+					    	#{tcs}
+					    </foreach>
 					)
 				</if>
-				<if test="pss != null and pss != ''">
+				<if test="pss != null and pss.length != 0">
 					OR s.store_id IN (
 				        SELECT DISTINCT(store_id)
 				        FROM store_service
-				        WHERE olive_service_id IN (${pss})
+				        WHERE olive_service_id IN
+						<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				        	#{pss}
+				        </foreach>
 					)
 				</if>
 			</trim>

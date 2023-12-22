@@ -36,6 +36,7 @@ public class SearchController {
 			, @RequestParam(value="perPage", defaultValue = "24") int perPage
 			, @RequestParam(value = "minPrice", defaultValue = "0")int minPrice
 			, @RequestParam(value = "maxPrice", defaultValue = "9999999")int maxPrice
+			, @RequestParam(value="quickyn",defaultValue = "N") String quickyn
 			, Model model
 			, Principal principal) {
 		
@@ -57,7 +58,7 @@ public class SearchController {
 		List<BrandDTO> brandList = this.searchService.searchBrandListService(searchWord, categorySmallId);
 		model.addAttribute("brandList", brandList);
 		
-		List<ProductContainer> productList = this.searchService.searchProductListService(searchWord, categorySmallId, sort, brandId, currentPage, perPage, userId, minPrice, maxPrice);
+		List<ProductContainer> productList = this.searchService.searchProductListService(searchWord, categorySmallId, sort, brandId, currentPage, perPage, userId, minPrice, maxPrice,quickyn);
 		model.addAttribute("productList", productList);
 		
 		model.addAttribute("searchWord", searchWord);

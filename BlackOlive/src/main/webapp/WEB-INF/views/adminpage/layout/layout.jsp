@@ -7,70 +7,57 @@
 <head>
 <meta charset="UTF-8">
 
+  <!-- Favicons -->
+  <link href="/resources/adminpage/assets/img/favicon.png" rel="icon">
+  <link href="/resources/adminpage/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-<link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
- 
-    <link href="/resources/cdn-main/adminpage/sb-admin-2.min.css" rel="stylesheet">
-    
-    
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
+  <!-- Vendor CSS Files -->
+  <link href="/resources/adminpage/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/resources/adminpage/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/resources/adminpage/assets/css/style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <title> <tiles:getAsString name="title"></tiles:getAsString> </title>
 </head>
-<body id="page-top">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>	
-	<div id="wrapper">
+<body>
 	
-	<!-- Sidebar -->
+	<tiles:insertAttribute name="topbar"></tiles:insertAttribute>
+	
+
 	<tiles:insertAttribute name="sidebar"></tiles:insertAttribute>
-	<!-- End of Sidebar -->
 	
-	<div id="content-wrapper"class="d-flex flex-column">
-		<div class="content">
-		
-		<tiles:insertAttribute name="topbar"></tiles:insertAttribute>
-		
-		<!-- Content Wrapper -->
-		<tiles:insertAttribute name="content"></tiles:insertAttribute>
-		<!-- End of Content Wrapper -->
+	<!-- Content Wrapper -->
+	<tiles:insertAttribute name="content"></tiles:insertAttribute>
+	<!-- End of Content Wrapper -->
 		
 		
-		<tiles:insertAttribute name="footer"></tiles:insertAttribute>
+	<tiles:insertAttribute name="footer"></tiles:insertAttribute>
 		
-		</div>
-	</div>
-	
 
-	
-	</div>
-	
-	<!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     
-    <!-- Logout Modal-->
-    <tiles:insertAttribute name="logoutmodal"></tiles:insertAttribute>
-    
-     <!-- Bootstrap core JavaScript-->
-    <script src="/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Vendor JS Files -->
+  <script src="/resources/adminpage/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/resources/adminpage/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/resources/adminpage/assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="/resources/adminpage/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="/resources/adminpage/assets/vendor/quill/quill.min.js"></script>
+  <script src="/resources/adminpage/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/resources/adminpage/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/resources/adminpage/assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/resources/js/adminpage/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="/resources/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/js/adminpage/chart-area-demo.js"></script>
-    <script src="/resources/js/adminpage/chart-pie-demo.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
-    <script src="/resources/js/bootstrap-datepicker.ko.min.js"></script>
+  <!-- Template Main JS File -->
+  <script src="/resources/adminpage/assets/js/main.js"></script>
 
 
 </body>

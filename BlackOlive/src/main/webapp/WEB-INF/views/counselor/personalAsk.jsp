@@ -328,8 +328,6 @@ $(function() {
 </script>
 
 
-
-
 <!-- popup -->
 <div class="popup-contents" id="pop_cont" tabindex="0" style="top: 15%; margin-top: 0px; width: 800px; display:none;">
 
@@ -338,13 +336,17 @@ $(function() {
 
 	
 <!-- 팝업창 script 영역 -->
+
+	<!-- 기간설정 -->
+
 <script>
+
 $(function () {
 	//팝업창 띄우기
 	$(".ButtonSubmit").on("click", function () {
+
 		$("#pop_cont").css("display", "block");
 		$("#dim").css("display", "block");
-		
 		let conts = `<div class="pop-conts">
 			<h1 class="ptit">문의상품 선택</h1>
 			
@@ -367,139 +369,144 @@ $(function () {
 					
 				</ul>
 				<div class="select-range">
-					<select id="cal-start-year" title="년도를 선택하세요" style="width:76px;"><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023" selected="selected">2023</option></select>
+					<select id="cal-start-year" title="년도를 선택하세요" style="width:76px;"></select>
 					<label for="cal-start-year">년</label>
-					<select id="cal-start-month" title="달월을 선택하세요" style="width:60px;">
-						<option value="01">1</option>
-						<option value="02">2</option>
-						<option value="03">3</option>
-						<option value="04">4</option>
-						<option value="05">5</option>
-						<option value="06">6</option>
-						<option value="07">7</option>
-						<option value="08">8</option>
-						<option value="09">9</option>
-						<option value="10">10</option>
-						<option value="11" selected="selected">11</option>
-						<option value="12">12</option>
-					</select>
+					<select id="cal-start-month" title="달월을 선택하세요" style="width:60px;"></select>
 					<label for="cal-start-month">월</label>
-					<select id="cal-start-day" title="날일을 선택하세요" style="width:60px;">
-					<option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22" selected="selected">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option></select>
+					<select id="cal-start-day" title="날일을 선택하세요" style="width:60px;"></select>
 					<label for="cal-start-day">일</label>
 					<span class="des">~</span>
-					<select id="cal-end-year" title="년도를 선택하세요" style="width:76px;"><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023" selected="selected">2023</option></select>
+					<select id="cal-end-year" title="년도를 선택하세요" style="width:76px;"></select>
 					<label for="cal-end-year">년</label>
-					<select id="cal-end-month" title="달월을 선택하세요" style="width:60px;">
-						<option value="01">1</option>
-						<option value="02">2</option>
-						<option value="03">3</option>
-						<option value="04">4</option>
-						<option value="05">5</option>
-						<option value="06">6</option>
-						<option value="07">7</option>
-						<option value="08">8</option>
-						<option value="09">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12" selected="selected">12</option>
-					</select>
+					<select id="cal-end-month" title="달월을 선택하세요" style="width:60px;"></select>
 					<label for="cal-end-month">월</label>
-					<select id="cal-end-day" title="날일을 선택하세요" style="width:60px;">
-					<option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22" selected="selected">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+					<select id="cal-end-day" title="날일을 선택하세요" style="width:60px;"></select>
 					<label for="cal-end-day">일</label>
 				</div>
 			  </div>
-			  <!-- //오프라인 리뷰 -->
-			  <!-- 2016-12-23 수정 -->
+
 			<button type="button" class="btnLookup" id="do-search-period">조회</button>
 		</fieldset>
-
 			<!-- //기간설정 조회 -->
+			
 			<!-- 데이터 목록 -->
 			<div class="result-board pdTz mgT20">
 				<span class="num">
-					총 <em>0</em>건이 조회 되었습니다.
+					총 <em>${myOrderlist.size()}</em>건이 조회 되었습니다.
 				</span>
 				<input type="hidden" id="totCnt" value="0">
 			</div>
 			<div class="listup-data" id="orderGoodsList">
 				<ul>
-		
-
-								<li class="nodata">조회 된 주문 건수가 없습니다.</li><!-- 2017-01-10 추가 -->		
-					
+				<c:choose>
+				<c:when test="${ not empty myOrderlist}">
+				<c:forEach items="${myOrderlist}" var="list">
+					<!-- 구매내역 있을 시 -->
+				<li class="ordList" id="Y2311037571226">
+					<div class="listup-main-data">
+						<input type="radio" id="DataListUp1_0" name="DataListUp">
+						<input type="hidden" class="nm" value="">
+						<label class="clicks" for="DataListUp1_0">
+							<span class="data">
+							 <fmt:formatDate value="${list.orderDate}" pattern="yyyy.MM.dd" var="orderdate"/> 
+								${orderdate}
+							</span> 
+							<span class="txt"><em>(주문번호: ${list.orderId}) ${list.productDisplayName} ${list.productCnt}개</em></span>							
+						</label>
+						<a href="#" class="btn-arrow">주문선택</a>
+				</div>
+				<div class="area-drop">
+					<ul>
+						<li>
+							<input type="radio" name="DataListUp" id="DataListUp3s1_0" value="A000000163041" seq="1"/>
+							<input type="hidden" class="nm" value="">
+							<label for="DataListUp3s1_0">요
+								<span class="state">${list.orderStatus }</span>
+								<em> ${list.productDisplayName}</em>
+								<span>${list.productName}</span>
+						</label>								
+					</li>
 				</ul>
 			</div>
-			<!-- pageing star -->
-			
+		</li>
 				
-
+			<!--// 구매내역 있을 시 -->
+			</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<li class="nodata">조회 된 주문 건수가 없습니다.</li>
+			</c:otherwise>
+			</c:choose>
+			<!--  -->
+				</ul>
+			</div>
+			
+			<!-- pageing star -->
 		<div class="pageing">
 		
-		
-		
 		</div>
-	 
 			<!-- //pageing end -->
+			
 			<div class="area1sButton">
-				<a href="javascirpt:;" class="btnGreen" onclick="javascript:counsel.goods.selectGoods();return false;">선택</a>
-				<a href="javascirpt:;" class="btnGray" >취소</a>
+				<a href="#" class="btnGreen">선택</a>
+				<a href="#" class="btnGray" >취소</a>
 			</div>
 			<!-- //데이터 목록 -->
-			<button type="button" class="ButtonClose" onclick="javascript:counsel.list.cnslPopupClose();return false;">팝업창 닫기</button>
+			<button type="button" class="ButtonClose">팝업창 닫기</button>
 		</div>`;
-		
+		//
 		$("#pop_cont").html(conts);
 	});
+});
 
 //팝업창 닫기
-	// 선택버튼 클릭
-	$(".area1sButton .ButtonClose").on("click", function () {
-		if ( $('#DataListUp1_0').hasClass('selected') ||  $('#DataListUp3s1_0').hasClass('selected') ) {
-	        $("input").val("");
-			$("#goodsInquiry").val( $(this).val() );
-			$("#pop_cont").css("display", "none");
-			$("#dim").css("display", "none");
-	    } else{
-	    	alert("문의 상품을 선택하세요.")	;
-	    }
+// 선택버튼 클릭
 
-	});
-	// 취소버튼 클릭
-	$("#pop_cont").on("click", ".btnGray", function(e) {
-	
-		if ( $('#DataListUp1_0').hasClass('selected') ||  $('#DataListUp3s1_0').hasClass('selected') ) {
-			alert("조회 및 선택된 문의상품정보는 저장되지 않습니다.");
-	    } 
-	    $("#pop_cont").css("display", "none");
+$("#pop_cont").on("click", ".btnGreen", function () {
+ 	$("#goodsInquiry").val("");
+ 	if( !$("input[type='radio']:checked").length ){
+    	alert("문의 상품을 선택하세요.")	;
+    } else{ 
+    	var checkedValue = $("input:radio:checked").siblings().find('label  span.txt em').text();
+    	
+    	console.log($("input:radio:checked").find('label').text() );
+    	$("#goodsInquiry").val(checkedValue);
+		$("#pop_cont").css("display", "none");
 		$("#dim").css("display", "none");
-	    
-	});
+    }
+});
+// 취소버튼 클릭
+$("#pop_cont").on("click", ".btnGray", function(e) {
+
+	if ( $('#DataListUp1_0').hasClass('selected') ||  $('#DataListUp3s1_0').hasClass('selected') ) {
+		alert("조회 및 선택된 문의상품정보는 저장되지 않습니다.");
+    } 
+    $("#pop_cont").css("display", "none");
+	$("#dim").css("display", "none");
+    
 });
 
-// 주문조회 리스트
+
+//주문조회 리스트
 $(function () {
-    $('.btn-arrow').on('click', function () {
-        event.preventDefault();
-        var parentLi = $('.ordList');
-        var clickedLi = $(this).closest('.ordList');
-        
-        parentLi.not(clickedLi).removeClass('open');
-        clickedLi.toggleClass('open');
-        
-        $('.ordList').each(function() {
-            var isOpen = $(this).hasClass('open');
-            var text = isOpen ? '상품선택' : '주문선택';
-            $(this).find('.btn-arrow').text(text);
-            $(this).find('.listup-main-data').toggleClass('disabled', isOpen);
-            $(this).find("#DataListUp1_0").prop('disabled', isOpen);
-        });
+$('#pop_cont').on('click', '.btn-arrow', function () {
+    event.preventDefault();
+    var parentLi = $('.ordList');
+    var clickedLi = $(this).closest('.ordList');
+    
+    parentLi.not(clickedLi).removeClass('open');
+    clickedLi.toggleClass('open');
+    
+    $('.ordList').each(function() {
+        var isOpen = $(this).hasClass('open');
+        var text = isOpen ? '상품선택' : '주문선택';
+        $(this).find('.btn-arrow').text(text);
+        $(this).find('.listup-main-data').toggleClass('disabled', isOpen);
+        $(this).find("#DataListUp1_0").prop('disabled', isOpen);
     });
 });
-
+});
 </script>
-
 
 <!-- script 영역 -->
 <script>
