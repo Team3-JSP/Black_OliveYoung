@@ -122,7 +122,7 @@
 			        RIGHT JOIN product p ON q.product_display_id = p.product_display_id
 			        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id
 			        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
-			    WHERE user_id = #{user_id}
+			    WHERE user_id = #{userid}
 			    AND qna_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
 			) subquery
 		WHERE rn = 1 
@@ -167,7 +167,7 @@
 			        RIGHT JOIN product p ON q.product_display_id = p.product_display_id
 			        LEFT JOIN category_small cs ON p.category_small_id = cs.category_small_id
 			        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
-			    WHERE user_id = #{user_id}
+			    WHERE user_id = #{userid}
 			    AND qna_date between to_date( #{ startdate } ,'YYYY-MM-DD' ) and to_date( #{enddate} , 'YYYY-MM-DD')
 			) subquery
 		WHERE rn = 1 
