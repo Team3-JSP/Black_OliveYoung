@@ -20,8 +20,12 @@ public class ProfileController {
 		//회원 id 가져오기
 		String userid = principal.getName();
 		
+		//프로필 정보 
 		
+		//관심카테고리
 		
+		//피부트러블
+				
 		
 		return "profile.myprofile";
 	}
