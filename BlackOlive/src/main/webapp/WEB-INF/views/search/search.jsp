@@ -17,6 +17,10 @@ if (request.getParameter("brandId") != null) {
 <script>
 $(function(){
 	
+	if (${param.quickyn eq 'Y'}) {
+		$("#check_view").prop('checked',true);
+	}
+	
 	if (${param.plusButtonFlag eq 'Y'}) {
 		$('.search_box.brand').addClass("on")
 	}
@@ -62,53 +66,56 @@ $(function(){
 	};
 	
 	var urlParams = new URLSearchParams(window.location.search);
-    var checkboxes = document.querySelectorAll('input[name="brandId"]');
- // 브랜드 체크 처리
-    if (urlParams.has('brandId')) {
-        var selectedBrands = urlParams.getAll('brandId');
-        
-        checkboxes.forEach(function(checkbox) {
-            var brandID = checkbox.value;
-            if (selectedBrands.includes(brandID)) {
-                checkbox.checked = true; // 파라미터에 해당하는 값이 있으면 체크박스를 체크함
-            }
-        });
-    }
- 
-    $('input[name="brandId"]').on('change', function() {
-    	
-   	 var url = "/search?searchWord=${param.searchWord}"+''+"&sort=${param.sort}&currentpage=1&categorySmallId=${param.categorySmallId}<%=s%>"; 
-   	<%-- var url = window.location.href+''+"<%=s%>"; --%>
-       var brandID = $(this).val();
-		var plusButtonFlag = "&plusButtonFlag=Y";
-		const brandBox = $('.search_box.brand');
-       if ($(this).is(':checked')) {
-           // 체크박스가 체크되었을 때
-           if (url.indexOf('brandId=' + brandID) === -1) {
-               // 파라미터가 없으면 파라미터 추가
-               var separator = url.indexOf('?') !== -1 ? '&' : '?';
-               if (brandBox.hasClass('on')) {
-               	window.location.href = url + separator + 'brandId=' + brandID + plusButtonFlag;
-				}else{
-					window.location.href = url + separator + 'brandId=' + brandID;
+	 var checkboxes = document.querySelectorAll('input[name="brandId"]');
+	 // 브랜드 체크 처리
+	    if (urlParams.has('brandId')) {
+	        var selectedBrands = urlParams.getAll('brandId');
+	        
+	        checkboxes.forEach(function(checkbox) {
+	            var brandID = checkbox.value;
+	            if (selectedBrands.includes(brandID)) {
+	                checkbox.checked = true; // 파라미터에 해당하는 값이 있으면 체크박스를 체크함
+	            }
+	        });
+	    }
+	 
+	    $('input[name="brandId"]').on('change', function() {
+	    	var quickyn =''
+	    <c:if test="${not empty param.quickyn}">quickyn = '&quickyn='+'${param.quickyn}'</c:if>
+	     
+	    	
+	   	 var url = "/search?searchWord=${param.searchWord}"+''+"&sort=${param.sort}&currentpage=1&categorySmallId=${param.categorySmallId}<%=s%>"; 
+	   	<%-- var url = window.location.href+''+"<%=s%>"; --%>
+	       var brandID = $(this).val();
+			var plusButtonFlag = "&plusButtonFlag=Y";
+			const brandBox = $('.search_box.brand');
+	       if ($(this).is(':checked')) {
+	           // 체크박스가 체크되었을 때
+	           if (url.indexOf('brandId=' + brandID) === -1) {
+	               // 파라미터가 없으면 파라미터 추가
+	               var separator = url.indexOf('?') !== -1 ? '&' : '?';
+	               if (brandBox.hasClass('on')) {
+	               	window.location.href = url + separator + 'brandId=' + brandID + plusButtonFlag +quickyn;
+					}else{
+						window.location.href = url + separator + 'brandId=' + brandID+quickyn;
 
-				}
-               
-           }
-       } else {
-           // 체크박스가 해제되었을 때
-           if (url.indexOf('brandId=' + brandID) !== -1) {
-               // 파라미터가 있으면 파라미터 삭제
-               var newUrl = url.replace(new RegExp('[?&]brandId=' + brandID), '');
-               if (brandBox.hasClass('more_view')) {
-               	window.location.href = newUrl + plusButtonFlag;
-				}else{
-					window.location.href = newUrl;
-				}
-               
-           }
-       }
-   })   
+					}
+	               
+	           }
+	       } else {
+	           // 체크박스가 해제되었을 때
+	           if (url.indexOf('brandId=' + brandID) !== -1) {
+	               // 파라미터가 있으면 파라미터 삭제
+	               var newUrl = url.replace(new RegExp('[?&]brandId=' + brandID), '');
+	               if (brandBox.hasClass('more_view')) {
+	               	window.location.href = newUrl + plusButtonFlag+quickyn;
+					}else{
+						window.location.href = newUrl+quickyn;
+					}
+	               
+	           }
+	       }
+	   })   
    
    
    $("#price").on("click",function(){
@@ -2214,4 +2221,19 @@ $(function(){
 		})
 		
 	})
+	
+	function quickOnclick() {
+		var url = window.location.href;
+		const URLSearch = new URLSearchParams(location.search)
+		URLSearch.delete("quickyn");
+		if ($("#check_view").is(':checked')) {
+			window.location.href = url+"&quickyn=Y"
+		}else{
+			URLSearch.delete("quickyn");
+			const newParam = URLSearch.toString();
+			window.location.href = location.pathname + '?' + newParam
+		}
+		
+	}
+	
 </script>

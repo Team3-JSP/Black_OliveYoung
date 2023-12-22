@@ -22,7 +22,8 @@ public interface SearchMapper {
 			@Param("end") int end,
 			@Param("userId") String userId,
 			@Param("minPrice") int minPrice,
-			@Param("maxPrice") int maxPrice
+			@Param("maxPrice") int maxPrice,
+			@Param("quickyn") String quickyn
 			);
 	// 검색된 상품의 스몰 카테고리
 	public List<CategorySmallDTO> searchCategorySmall(@Param("searchWord") String searchWord);
