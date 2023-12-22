@@ -55,7 +55,7 @@
 					<div class="area">
 
 						<a class="thum"
-							href="<%-- 상품상세페이지 이동 --%>">
+							href="<%=contextPath%>/store/goods?productDisplayId=${ orderVO.productDisplayId }">
 							<img
 							src="${ orderVO.productDisplaySrc }"
 							alt="${ orderVO.productDisplayName }"

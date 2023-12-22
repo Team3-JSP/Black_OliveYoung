@@ -159,7 +159,7 @@
 	
 	
 									<a class="thum"
-										href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.productDisplayId}&displNum=${ol.categoryMidId}${ol.categorySmallId}">
+										href="<%= contextPath%>/store/goods?productDisplayId=${ol.productDisplayId}">
 										<img
 										src="${ ol.productDisplaySrc }"
 										alt="${ ol.productDisplayName }"
@@ -167,7 +167,7 @@
 									</a>
 									<div class="textus">
 										<a class=""
-											href="<%= contextPath%>/olive/productDetail.do?goodsNo=${ol.productDisplayId}&displNum=${ol.categoryMidId}${ol.categorySmallId}">
+											href="<%= contextPath%>/store/goods?productDisplayId=${ol.productDisplayId}">
 											<span class="tit">${ ol.brandName }</span> <span class="txt">${ ol.productDisplayName }</span>
 										</a> 
 										

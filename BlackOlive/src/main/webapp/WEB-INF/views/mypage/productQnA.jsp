@@ -81,11 +81,11 @@
 				<td colspan="3">
 					<div class="question">
 						<div class="area oneDv">
-							<a class="thum goodsList" href="javascript:;">
+							<a class="thum goodsList" href="<%= contextPath%>/store/goods?productDisplayId=${ qna.productDisplayId }">
 								<img src="${ qna.productDisplaySrc }" alt="${ qna.productDisplayName }" onerror="common.errorImg(this);">
 							</a>
 							<div class="textus">
-								<a class="goodsList" href="javascript:;">
+								<a class="goodsList" href="<%= contextPath%>/store/goods?productDisplayId=${ qna.productDisplayId }">
 									<span class="tit">${ qna.brandName }</span>
 									<span class="txt">${ qna.productDisplayName }</span>
 								</a>
