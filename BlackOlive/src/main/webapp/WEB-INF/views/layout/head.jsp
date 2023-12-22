@@ -389,7 +389,7 @@
 								style="display: none;">
 								<ul id="mainPopword">
 								<c:forEach items="${keywords}" var="list" varStatus="loop">
-									<li class=" <c:if test="${loop.index < 3}">top</c:if>"><a href="#"
+									<li class=" <c:if test="${loop.index < 3}">top</c:if>"><a href="/search?searchWord=${list}"
 										data-attr="공통^통합검색_급상승검색어^틴트"> <span>${loop.index +1}</span> <strong>${list}</strong>
 											<span class="rate "> <span>&nbsp;</span>
 										</span>
