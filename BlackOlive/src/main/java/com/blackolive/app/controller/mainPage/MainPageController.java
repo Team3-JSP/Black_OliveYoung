@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.blackolive.app.domain.exhibition.BannerNProductDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
@@ -23,9 +24,13 @@ import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewDetailDTO;
 import com.blackolive.app.domain.review.ReviewReportDTO;
 import com.blackolive.app.mapper.mainPage.MainPageMapper;
+import com.blackolive.app.service.exhibition.ExhibitionService;
 import com.blackolive.app.service.head.HeadServiceImpl;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
+@Log4j
 public class MainPageController {
 
 	@Autowired
@@ -34,10 +39,18 @@ public class MainPageController {
 	@Autowired
 	private HeadServiceImpl headServiceImpl;
 	
+	@Autowired
+	private ExhibitionService exhibitionService;
+	
 	@GetMapping(value ="/")
-	public String example() throws SQLException {
+	public String mainPage(Model model) throws SQLException {
 
-
+		log.info("MainPageController / call... ");
+		
+		List<BannerNProductDTO> bannerNProduct = this.exhibitionService.getExhibitionBannerNProduct(null);
+		model.addAttribute("bannerNProduct", bannerNProduct);
+		
+		
 		
 		return "mainPage.mainPage";
 	} // example

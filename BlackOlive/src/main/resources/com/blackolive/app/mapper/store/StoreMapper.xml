@@ -5,6 +5,46 @@
 
 <mapper namespace="com.blackolive.app.mapper.store.StoreMapper">
 
+	<resultMap type="com.blackolive.app.domain.store.StoreDetailDTO" id="storeDetailMap">
+		<id property="storeId" column="store_id"/>
+		<result property="districtId" column="district_id"/>
+		<result property="storeName" column="store_name"/>
+		<result property="storeTel" column="store_tel"/>
+		<result property="storeAddress" column="store_address"/>
+		<result property="storeDirection" column="store_direction"/>
+		<result property="storeParking" column="store_parking"/>
+		<result property="storeSignificant" column="store_significant"/>
+		<result property="storeFavorite" column="store_favorite"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="weekday" column="weekday"/>
+		<result property="saturday" column="saturday"/>
+		<result property="sunday" column="sunday"/>
+		<result property="holiday" column="holiday"/>
+		<collection property="storeThumbnail" resultMap="storeThumbnailMap"/>
+		<collection property="storeCategory" resultMap="storeCategoryMap"/>
+		<collection property="oliveService" resultMap="oliveServiceMap"/>
+	</resultMap>
+	
+	<resultMap type="com.blackolive.app.domain.store.StoreThumbnailDTO" id="storeThumbnailMap">
+		<result property="thumbnailId" column="thumbnail_id"/>
+		<result property="storeId" column="store_id"/>
+		<result property="thumbnailSrc" column="thumbnail_src"/>
+	</resultMap>
+	
+	<resultMap type="com.blackolive.app.domain.store.StoreCategoryDTO" id="storeCategoryMap">
+		<result property="categoryId" column="category_id"/>
+		<result property="categoryName" column="category_name"/>
+	</resultMap>
+	
+	<resultMap type="com.blackolive.app.domain.store.OliveServiceDTO" id="oliveServiceMap">
+		<result property="oliveServiceId" column="olive_service_id"/>
+		<result property="serviceName" column="service_name"/>
+		<result property="serviceContent" column="service_content"/>
+		<result property="serviceType" column="service_type"/>
+	</resultMap>
+	
+
 	<select id="selectAllCity" resultType="com.blackolive.app.domain.store.CityDTO">
 		SELECT *
 		FROM city
@@ -124,6 +164,18 @@
 		FROM productcontainer
 		WHERE product_display_name LIKE '%' || #{keyword} || '%'
 		ORDER BY LENGTH(product_display_name)
+	</select>
+
+	<select id="selectOneStoreDetail" resultMap="storeDetailMap">
+		SELECT *
+		FROM store s 
+		    JOIN store_time st ON s.store_id = st.store_id
+		    JOIN store_thumbnail sth ON s.store_id = sth.store_id
+		    JOIN handling_store hs ON s.store_id = hs.store_id
+		    JOIN store_category sc ON hs.category_id = sc.category_id 
+		    JOIN store_service ss ON s.store_id = ss.store_id
+		    JOIN olive_service os ON ss.olive_service_id = os.olive_service_id
+		WHERE s.store_id = #{storeId}
 	</select>
 
 </mapper>

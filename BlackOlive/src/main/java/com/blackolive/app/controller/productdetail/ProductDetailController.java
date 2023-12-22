@@ -1,7 +1,11 @@
 package com.blackolive.app.controller.productdetail;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.PageDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.productdetail.GiftDTO;
 import com.blackolive.app.domain.productdetail.ProductBuyinfoDTO;
 import com.blackolive.app.domain.productdetail.ProductDetailBrandDTO;
@@ -46,7 +51,8 @@ public class ProductDetailController {
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
-					Model model) {
+			HttpServletRequest request,
+					Model model) throws UnsupportedEncodingException {
 		//=======================  해당 상품의 모든 카테고리 ===========================
 		AllCategoryDTO allCategoryDTO = this.productDetailService.getTotalCategoryService(productDisplayId);
 		
@@ -140,6 +146,30 @@ public class ProductDetailController {
 		// ===================== 상품 추천
 		
 		// 쿠키 값확인
+		List<ProductContainer> history = new ArrayList<ProductContainer>();
+		ProductContainer historyDTO = null;
+		Cookie[] cookies = request.getCookies();
+
+		if (cookies != null) {
+		    for (Cookie cookie : cookies) {
+		        if (cookie.getName().equals("productItems")) {
+		            // 원하는 쿠키 가져오기
+		            String productItemsValue = cookie.getValue();
+		            productItemsValue = java.net.URLDecoder.decode(productItemsValue, "UTF-8");
+		            // 쿠키 값을 쉼표(,)를 기준으로 나누기
+		            String[] items = productItemsValue.split(",");
+		            // 각각의 값에 대해 작업하기
+		            for (String item : items) {
+		            	System.out.println(item);
+		                // 각각의 item에 대해 headService.productHistoryService() 호출하여 historyDTO 생성
+		                historyDTO = this.productDetailService.cookieService(item);
+		                history.add(historyDTO);
+		            }
+		        }
+		    }
+		}
+		request.getSession().setAttribute("productHistory", history);
+		
 		return "productDetail.productDetail";
 	}
 

@@ -17,7 +17,7 @@ public class AuthController {
 	public String login(HttpServletRequest request) throws Exception{
 		log.info("> AuthController /login");
 		String uri = request.getHeader("Referer");
-		if (!uri.contains("/login")) {
+		if (!uri.contains("/login") && !uri.contains("/join")) {
 			request.getSession().setAttribute("prevPage", request.getHeader("Referer"));
 		}
 		return "auth.login";

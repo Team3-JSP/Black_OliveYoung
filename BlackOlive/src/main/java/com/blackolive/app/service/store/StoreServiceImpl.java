@@ -8,6 +8,7 @@ import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
+import com.blackolive.app.domain.store.StoreDetailDTO;
 import com.blackolive.app.mapper.store.StoreMapper;
 
 import lombok.AllArgsConstructor;
@@ -68,6 +69,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<ProductContainer> getProductNameList(String keyword) {
 		return this.storeMapper.selectProductName(keyword);
+	}
+
+	@Override
+	public StoreDetailDTO getStoreDetail(String storeId) {
+		return this.storeMapper.selectOneStoreDetail(storeId);
 	}
 
 //	@Override
