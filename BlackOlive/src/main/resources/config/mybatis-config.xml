@@ -56,6 +56,7 @@
 			<!-- adminpage -->
 			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerMonthDTO" alias="SalesPerMonthDTO"/>
 			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerDayDTO" alias="SalesPerDayDTO"/>
+			<typeAlias type="com.blackolive.app.domain.adminpage.BuyInfoDTO" alias="BuyInfoDTO"/>
 			
 			<!-- counselor -->
 			<typeAlias type="com.blackolive.app.domain.counselor.FaqVO" alias="FaqVO"/>

@@ -31,6 +31,7 @@ public class AdminPageIndexTest {
 		
 		// assertNotNull(this.adminPageIndexMapper.getLargeCategory(1)); 성공
 		
+		assertNotNull(this.adminPageIndexMapper.getBuyInfo(1));
 		
 	}
 

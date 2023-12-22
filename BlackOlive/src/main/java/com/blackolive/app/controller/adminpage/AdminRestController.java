@@ -8,11 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blackolive.app.domain.adminpage.BuyInfoDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
+import com.blackolive.app.domain.head.CategoryMidDTO;
+import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.service.adminpage.AdminPageIndexService;
 import com.blackolive.app.service.adminpage.AdminPageIndexServiceImpl;
 import com.blackolive.app.service.adminpage.AdminPageRestService;
@@ -20,7 +24,7 @@ import com.blackolive.app.service.adminpage.AdminPageRestService;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping("/adminpage/*")
+@RequestMapping("/adminrest")
 @Log4j
 public class AdminRestController {
 	
@@ -52,12 +56,54 @@ public class AdminRestController {
 	} // getSalesPerDay
 	
 	@GetMapping("/getLargeCategory")
+	@ResponseBody
 	public ResponseEntity<List<CategoryLargeDTO>> getLargeCategory(@RequestParam("totalId")int totalId){
 		log.info(" AdminRestController /adminpage/getLargeCategory call...");
 		
+		System.out.println(totalId);
+
 		List<CategoryLargeDTO> categoryLargeList = this.adminPageRestService.getLargeCategoryService(totalId);
+		
+		
 		
 		return categoryLargeList != null ? new ResponseEntity<List<CategoryLargeDTO>>(categoryLargeList, HttpStatus.OK) 
 				: new ResponseEntity<List<CategoryLargeDTO>>(categoryLargeList, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/getMidCategory")
+	@ResponseBody
+	public ResponseEntity<List<CategoryMidDTO>> getMidCategory(@RequestParam("largeId")String largeId){
+		log.info(" AdminRestController /adminrest/getMidCategory call...");
+		
+		
+
+		List<CategoryMidDTO> categoryMidList = this.adminPageRestService.getMidCategory(largeId);
+		
+		
+		
+		return categoryMidList != null ? new ResponseEntity<List<CategoryMidDTO>>(categoryMidList, HttpStatus.OK) 
+				: new ResponseEntity<List<CategoryMidDTO>>(categoryMidList, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/getSmallCategory")
+	@ResponseBody
+	public ResponseEntity<List<CategorySmallDTO>> getSmallCategory(@RequestParam("midId")String midId){
+		log.info(" AdminRestController /adminrest/getSmallCategory call...");
+
+		List<CategorySmallDTO> categorySmallList = this.adminPageRestService.getSmallCategory(midId);
+
+		return categorySmallList != null ? new ResponseEntity<List<CategorySmallDTO>>(categorySmallList, HttpStatus.OK) 
+				: new ResponseEntity<List<CategorySmallDTO>>(categorySmallList, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@GetMapping("/getBuyInfo")
+	@ResponseBody
+	public ResponseEntity<List<BuyInfoDTO>> getBuyInfo(@RequestParam("buyinfoCategory") int buyinfoCategory){
+		log.info(" AdminRestController /adminrest/getBuyInfo call...");
+		
+		List<BuyInfoDTO> buyInfoList = this.adminPageRestService.getBuyInfoService(buyinfoCategory);
+		
+		return buyInfoList != null ? new ResponseEntity<List<BuyInfoDTO>>(buyInfoList, HttpStatus.OK)
+									: new ResponseEntity<List<BuyInfoDTO>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
