@@ -1885,9 +1885,6 @@
 						</div>
 					</div>
 				</div>
-				
-<%-- 				<input type="hidden" name="username" value="${userDto.userName }" />
-				<input type="hidden" name="usertel" id="usertel" value="${userDto.userTel }"/> --%>
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 		</div>
@@ -1896,25 +1893,6 @@
 
 	<!--script 영역-->
 <script>
-
-
-/* $(function(){
-	 const accordionItems =$('[data-control="accordion"]');
-
-	 accordionItems.each(function() {
-	    const title = $(this).find('.question_wrap .toggleBtn');
-        const content = $(this).find('.answer_wrap');
-        title.on('click', function() {
-           const isActive = $(this).closest('[data-control="accordion"]').hasClass('active');
-            // 모든 아코디언 아이템을 닫음
-            accordionItems.removeClass('active');
-            if (!isActive) {
-              // 클릭된 아코디언 아이템을 열음
-              $(this).closest('[data-control="accordion"]').addClass('active');
-            }
-        });
-    });
-}); */
 
 $(document).ready(function () {
     $('.question_wrap').on('click', function () {

@@ -87,8 +87,6 @@
 </div>
 <!--//contents-->
 	
-	<input type="hidden" name="userName" value="${userDto.userName}" />
-    <input type="hidden" name="userTel" value="${userDto.userTel}" /> 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 

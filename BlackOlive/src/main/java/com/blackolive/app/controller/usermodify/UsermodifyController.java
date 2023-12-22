@@ -1,6 +1,5 @@
 package com.blackolive.app.controller.usermodify;
 
-import java.net.http.HttpRequest;
 import java.security.Principal;
 import java.sql.SQLException;
 
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,59 +115,49 @@ public class UsermodifyController {
 	 
 	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
 	@PostMapping("/info_modification")
-	public String infoModify( Principal principal, Model model, HttpSession session ) throws SQLException, ClassNotFoundException{
+	public String infoModify( Principal principal, OliveUserDTO userDto, HttpSession session ) throws SQLException, ClassNotFoundException{
 		log.info( "infoModify_POST...");
+		log.info(session.getAttribute("userDto") );
+		//로그인 회원 정보
+		
 		String userId = principal.getName();
-		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
+		userDto = this.usermodifyService.getUser(userId);
+		 
+		OliveUserDTO newInfo = (OliveUserDTO) session.getAttribute("userDto");
 
-	    model.addAttribute("userDto",  session.getAttribute("userDto"));
-	    log.info("인증정보출력"+userDto);
+	    log.info("인증정보출력"+newInfo);
+	    session.setAttribute("userDto", newInfo);
 		return "usermodify.info_modification";
 	}
-//	
+
 
 	// 회원정보수정 완료_POST
-
 	@PostMapping("/info_modification_ok")
-	public String infoModifyOk( Principal principal, OliveUserDTO userDto
+	public String infoModifyOk( Principal principal
 			 , @RequestParam("email_addr1") String email1
 			 , @RequestParam("email_addr2") String email2
+			 , HttpSession session
 						) throws SQLException, ClassNotFoundException{
-		log.info("infoModifyOk_POST..." );
-		log.info("수정완료"+userDto);
+		log.info("infoModifyOk_POST...");
+		log.info("수정완료"+ session.getAttribute("userDto"));
 		// 로그인 회원 정보
 		String userId = principal.getName();
-		OliveUserDTO currentUser = this.usermodifyService.getUser(userId);
-		//
+		OliveUserDTO currentUser  = this.usermodifyService.getUser(userId);
+		OliveUserDTO userDto = (OliveUserDTO) session.getAttribute("userDto");
 		String inputEmail = email1+"@"+email2;
-		// 사용자 정보 업데이트
-		// 이름
-		if ( userDto.getUserName() !=null ) {
-			currentUser.setUserName(userDto.getUserName());
-		} else {
-			userDto.setUserName(currentUser.getUserName());
-		}
-		// 전화번호
-		if ( userDto.getUserTel() != null ) {
-			currentUser.setUserTel(userDto.getUserTel());
-		} else {
-			userDto.setUserTel(currentUser.getUserTel());
-		}
-		// 이메일
-		if ( !inputEmail.isEmpty() ) {
-			currentUser.setUserEmail(inputEmail);
-		} else {
-			userDto.setUserEmail(currentUser.getUserEmail());
-		}
-		// 비밀번호
-		if ( userDto.getUserPassword() !=null ) {
-			currentUser.setUserPassword( passwordEncoder.encode(userDto.getUserPassword()) );
-		} else {
-			userDto.setUserPassword(currentUser.getUserPassword());
-		}
+		// 사용자정보 업데이트
+		currentUser.setUserName(userDto.getUserName());
+		currentUser.setUserTel(userDto.getUserTel());
+		currentUser.setUserEmail(inputEmail);
 		
-		this.usermodifyService.infoModify(currentUser);
+		String newPassword = userDto.getUserPassword();
+		currentUser.setUserPassword(passwordEncoder.encode(newPassword));
 
+
+		session.setAttribute("userDto", currentUser);
+		this.usermodifyService.infoModify(currentUser);
+		session.removeAttribute("userDto");
+		 
 		return "usermodify.info_modification_ok";
 	}
 

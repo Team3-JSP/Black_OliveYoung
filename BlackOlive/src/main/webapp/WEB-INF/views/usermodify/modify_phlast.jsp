@@ -236,7 +236,7 @@
 						<ul class="btn_area2 bt2">
 							<li><button type="button" id="btnCancel"
 									class="btn_r btn_type6">취소</button></li>
-							<li><button type="submit" id="btnSubmit"
+							<li><button type="button" id="btnSubmit"
 									class="btn_r btn_type btn_type3">확인</button></li>
 						</ul>
 					</div>
@@ -359,7 +359,7 @@
 		 setTimeout(() => {
 			window.location.href="${pageContext.request.contextPath}/usermodify/modify_phlast";
 			close();
-		}, 0); 
+		}, 500); 
 		return true;
 	});
 	$("#btnCancel").on("click", function () {

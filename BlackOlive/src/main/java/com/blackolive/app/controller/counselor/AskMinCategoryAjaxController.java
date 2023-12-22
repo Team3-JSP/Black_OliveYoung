@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.blackolive.app.domain.counselor.PersonalAskVO;
-import com.blackolive.app.service.counselor.CounselorPersonalAskService;
+import com.blackolive.app.service.counselor.PersonalAskService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -22,7 +22,7 @@ import lombok.extern.log4j.Log4j;
 public class AskMinCategoryAjaxController {
 
 	@Autowired
-	private CounselorPersonalAskService personalAskService;
+	private PersonalAskService personalAskService;
 	
 	@GetMapping("/minCategory")
 	public ResponseEntity<List<String>> minorCategory( @Param("askCategoryMajor") String askCategoryMajor

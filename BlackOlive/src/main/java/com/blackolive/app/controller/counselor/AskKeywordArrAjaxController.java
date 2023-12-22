@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackolive.app.domain.counselor.FaqVO;
-import com.blackolive.app.service.counselor.CounselorPersonalAskService;
+import com.blackolive.app.service.counselor.PersonalAskService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j;
 public class AskKeywordArrAjaxController {
 
 	@Autowired
-	private CounselorPersonalAskService personalAskService;
+	private PersonalAskService personalAskService;
 	
 	@GetMapping( value="/askKeywordArr")
 	public ResponseEntity<List<FaqVO>> askKeywordArr( @RequestParam("faqKeywordArr") List<String> faqKeywordArr
