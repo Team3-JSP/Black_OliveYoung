@@ -23,7 +23,9 @@ public class StoreDTO {
 	private String saturday;
 	private String sunday;
 	private String holiday;
-	private String openYN = "N";
+	
+	private String openYN = "N"; // 영업 여부 체크
+	private String favYN; // 유저의 관심 매장 체크
 	
 	public StoreDTO(String storeId, String weekday, String saturday, String sunday) {
 		this.storeId = storeId;

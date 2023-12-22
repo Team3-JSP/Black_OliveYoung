@@ -127,6 +127,11 @@ public class ProductDetailServiceImpl implements ProductDetailService{
 	public ProductContainer cookieService(String productDisplayId) {
 		// TODO Auto-generated method stub
 		return this.productMapper.cookie(productDisplayId);
+	}
+
+	@Override
+	public ProductDetailDTO getOneProduct(String productDisplayId) {
+		return this.productMapper.selectOneProduct(productDisplayId);
 	} 
 	
 	

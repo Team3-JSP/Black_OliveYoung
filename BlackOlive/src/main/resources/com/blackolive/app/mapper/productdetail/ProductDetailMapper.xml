@@ -119,4 +119,10 @@
 	<select id="cookie" resultType="ProductContainer">
 		select * from productcontainer where product_display_id= #{productDisplayId}
 	</select>
+	
+	<!-- 상품 하나 가져오기
+	public ProductDetailDTO selectOneProduct(@Param("productDisplayId")String productDisplayId); -->
+	<select id="selectOneProduct" resultType="com.blackolive.app.domain.productdetail.ProductDetailDTO">
+		select * from PRODUCTCONTAINER2 where product_display_id = #{productDisplayId}
+	</select>
 </mapper>

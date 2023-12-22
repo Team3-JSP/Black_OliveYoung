@@ -23,6 +23,7 @@
 		<result property="lat" column="lat"/>
 		<result property="lng" column="lng"/>
 		<result property="holiday" column="holiday"/>
+		<result property="favYN" column="favYN"/>
 	</resultMap>
 	
 	<resultMap type="com.blackolive.app.domain.store.StoreDetailDTO" id="storeDetailMap">
@@ -45,6 +46,7 @@
 		<result property="lat" column="lat"/>
 		<result property="lng" column="lng"/>
 		<result property="holiday" column="holiday"/>
+		<result property="favYN" column="favYN"/>
 		
 		<collection property="storeThumbnail" resultMap="storeThumbnailMap"/>
 		<collection property="storeCategory" resultMap="storeCategoryMap"/>
@@ -78,16 +80,26 @@
 	<select id="selectAllDistrict" resultType="com.blackolive.app.domain.store.DistrictDTO">
 		SELECT *
 		FROM district
-		WHERE city_id = #{city_id}
+		WHERE city_id = #{cityId}
 	</select>
 
 	<select id="selectAllStore" resultMap="storeMap">
-		SELECT *
+		SELECT s.*, st.*
+		<if test="userId != null and userId != ''">
+			, (SELECT 'Y'
+	        	FROM interest_shop
+	        	WHERE store_id = s.store_id AND user_id = #{userId}) favYN
+		</if>
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 	</select>
 	
 	<select id="selectStoreList" resultMap="storeMap">
-		SELECT *
+		SELECT s.*, st.*
+		<if test="userId != null and userId != ''">
+			, (SELECT 'Y'
+	        	FROM interest_shop
+	        	WHERE store_id = s.store_id AND user_id = #{userId}) favYN
+		</if>
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		<trim prefix="where" prefixOverrides="AND | OR">
 			<if test="city != '' or district != ''">
@@ -180,7 +192,13 @@
 	    -->
 
 	<select id="selectStoreKeyword" resultMap="storeMap">
-		SELECT *
+		SELECT s.*, st.*
+		<if test="userId != null and userId != ''">
+			, (SELECT 'Y'
+	        	FROM interest_shop
+	        	WHERE store_id = s.store_id AND user_id = #{userId}) favYN
+		</if>
+		
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
 		<trim prefix="where" prefixOverrides="AND | OR">
 			<if test="keyword != ''">
