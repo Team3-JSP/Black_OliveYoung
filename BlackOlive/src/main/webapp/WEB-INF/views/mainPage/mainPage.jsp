@@ -15,7 +15,7 @@
 
 									<a
 										onclick=""
-										href=""
+										href="/store/getExhibition?eventId=${mainbanner.exhibitionId}"
 										class="banner_link" data-attr="홈^메인롤링배너^어워즈&nbsp;사전컴_우종웅^1"
 										data-trk="/" tabindex="-1">
 										<p class="banner_desc">
@@ -95,7 +95,7 @@
 															varStatus="innerLoop">
 
 															<li class="curation_item" data-idx="${innerLoop}"><a
-																href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pli.productDisplayId}"
+																href="/store/goods?productDisplayId=${pli.productDisplayId}"
 																name="Home_Curation1_1" class="item a_detail"
 																data-ref-goodsno="${pli.productDisplayId }" onclick="addCookie('${pli.productDisplayId}');"> <span
 																	class="thumb_flag best">베스트</span> <span
@@ -444,11 +444,11 @@
 								<c:forEach items="${getMdRecommend }" var="gmr">
 									<li class="flag">
 										<div class="prd_info">
-											<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${gmr.productDisplayId}&displNum=${gmr.categoryLargeId}${gmr.categoryMidId}" name="Home_MD_Recommand" class="prd_thumb goodsList" onclick="addCookie('${gmr.productDisplayId}');">
+											<a href="/store/goods?productDisplayId=${gmr.productDisplayId}&displNum=${gmr.categoryLargeId}${gmr.categoryMidId}" name="Home_MD_Recommand" class="prd_thumb goodsList" onclick="addCookie('${gmr.productDisplayId}');">
 												<img alt="상품이미지 준비중입니다." src="${gmr.productDisplaySrc}">
 											</a>
 											<div class="prd_name">
-											<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${gmr.productDisplayId}&displNum=${gmr.categoryLargeId}${gmr.categoryMidId}" name="Home_MD_Recommand" class="goodsList">
+											<a href="/store/goods?productDisplayId=${gmr.productDisplayId}&displNum=${gmr.categoryLargeId}${gmr.categoryMidId}" name="Home_MD_Recommand" class="goodsList">
 												<span class="tx_brand">${gmr.brandName}</span>
 												<p class="tx_name">${gmr.productDisplayName}</p>
 											</a>
@@ -621,7 +621,7 @@
 								
 								<c:forEach items="${mbrandlist }" var="mbl">
 									<li class="home-category-item swiper-slide" data-ref-brndno="A001712" data-attr="홈^주목브랜드^나이팅게일^1" role="group" aria-label="1 / 10" style="margin-right: 8px;">
-										<a onclick="common.reqAmplitude('주목하는_브랜드관 클릭', {entry_source: '홈', click_source: '주목브랜드_브랜드메뉴', brand_name: '나이팅게일', brand_number: '1'});" href="#" class="btn-category" data-attr="홈^주목브랜드^나이팅게일^1">
+										<a onclick="" href="/brandPage?brandId=${mbl.brandId}" class="btn-category" data-attr="홈^주목브랜드^나이팅게일^1">
 											${mbl.brandName } </a>
 									</li>
 								</c:forEach>
@@ -649,7 +649,7 @@
 									<div class="main_brand swiper-slide" data-ref-brndno="A001712" role="group" aria-label="1 / 10" style="width: 1020px;">
 										<!-- S : 인기브랜드 이미지 -->
 										<div class="brand-info-wrap">
-											<a onclick="common.reqAmplitude('주목하는_브랜드관 클릭', {entry_source: '홈', click_source: '주목브랜드_브랜드배너', banner_name: '나이팅게일', banner_number: '1'});" href="<%=contextPath %>/brand/product.do?brandId=${mbl.brandId }" class="link" data-attr="홈^주목브랜드_배너^나이팅게일">
+											<a onclick="" href="/brandPage?brandId=${mbl.brandId}" class="link" data-attr="홈^주목브랜드_배너^나이팅게일">
 												<div class="brand-info">
 													<strong class="brand-name">${mbl.brandName }</strong> <span class="desc"><i class="icon-like"></i>${mbl.brandLike }명이 좋아합니다.</span>
 												</div>
@@ -675,7 +675,7 @@
 													</div>
 												</div>
 												<div class="info">
-													<a href="/Black_OY/olive/productDetail.do?goodsNo=${mbi.productDisplayId }&displNum=${mbi.categoryLargeId}${mbi.categoryMidId}" onclick="addCookie('${mbi.productDisplayId}');" class="a_detail" data-ref-goodsno="A000000102967" data-egrank="null" data-egcode="null" data-attr="홈^주목브랜드^나이팅게일 데일리더마 클렌징패드 마일드 (70매)^1" data-tracking-param="t_page=홈&amp;t_click=주목브랜드_상품상세&amp;t_number=1" data-ref-dispcatno="90000010001" data-ref-itemno="001"><dl>
+													<a href="/store/goods?productDisplayId=${mbi.productDisplayId }&displNum=${mbi.categoryLargeId}${mbi.categoryMidId}" onclick="addCookie('${mbi.productDisplayId}');" class="a_detail" data-ref-goodsno="A000000102967" data-egrank="null" data-egcode="null" data-attr="홈^주목브랜드^나이팅게일 데일리더마 클렌징패드 마일드 (70매)^1" data-tracking-param="t_page=홈&amp;t_click=주목브랜드_상품상세&amp;t_number=1" data-ref-dispcatno="90000010001" data-ref-itemno="001"><dl>
 															<dt class="tit">${mbi.productDisplayName }</dt>
 															<dd class="price">
 																<del>${mbi.minprice }원</del>
@@ -1655,4 +1655,12 @@
     });
   });
 
+  $(function() {
+		$('#crt_more_p002').on('click', function() {
+			$('#crtPopWrap').show();
+		})
+		$('.layer_close.type4').on('click', function() {
+			$('#crtPopWrap').hide();
+		})
+  
 </script>

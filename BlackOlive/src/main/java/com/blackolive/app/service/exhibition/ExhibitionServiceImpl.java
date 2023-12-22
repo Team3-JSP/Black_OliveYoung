@@ -148,7 +148,7 @@ public class ExhibitionServiceImpl implements ExhibitionService{
 		OliveUserDTO userDTO = selectUserInfoService(userId);
 		LocalDate localDate = userDTO.getUserBirth();
 		LocalDate beforeBirth2 = localDate.minusYears(2);
-		LocalDate afterBirth2 = localDate.plusYears(2);
+		LocalDate afterBirth2 = localDate.plusYears(8);
 		Date sqlBefore = Date.valueOf(beforeBirth2);
 		Date sqlAfter = Date.valueOf(afterBirth2);
 		return this.mainPageMapper.similarUser(userDTO.getUserGender(), userDTO.getSkintoneId(), userDTO.getSkintypeId(), sqlBefore, sqlAfter);
