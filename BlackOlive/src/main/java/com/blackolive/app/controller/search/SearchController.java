@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.domain.productList.BrandDTO;
@@ -57,16 +58,22 @@ public class SearchController {
 		
 		List<BrandDTO> brandList = this.searchService.searchBrandListService(searchWord, categorySmallId);
 		model.addAttribute("brandList", brandList);
-		
+		model.addAttribute("brandId",brandId);
 		List<ProductContainer> productList = this.searchService.searchProductListService(searchWord, categorySmallId, sort, brandId, currentPage, perPage, userId, minPrice, maxPrice,quickyn);
 		model.addAttribute("productList", productList);
 		
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("categorySmallId",categorySmallId);
 		
-		this.searchService.addSearchWordService(searchWord);
+		
 		
 		return "search.search";
+	}
+	
+	@GetMapping("/searchInsert")
+	@ResponseBody
+	public void searchInsert(@RequestParam(value = "searchWord")String searchWord) {
+		this.searchService.addSearchWordService(searchWord);
 	}
 	
 	@GetMapping("/searchAjax")

@@ -1031,6 +1031,7 @@
 			}
 			
 			if(val.length >=2 && event.keyCode == 13){
+				searchInsert(val)
 				window.location.href = "/search?searchWord="+val;
 			}else if(val.length <2 && event.keyCode == 13){
 				alert("검색은 2글자 이상 부터 가능합니다")
@@ -1177,8 +1178,23 @@ $(function(){
 			alert("검색은 2글자 이상 부터 가능합니다")
 			return
 		}
+		searchInsert(searchWord)
 		window.location.href = "/search?searchWord="+searchWord;
 	})
 })
+
+function searchInsert(searchWord){
+	 $.ajax({
+			url: "/searchInsert",
+			data:{searchWord:searchWord},
+			cache: false,
+			success:function( response ) {
+				
+	          }
+	        , error		: function() {
+	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );
+	        }
+		})
+}
 
 </script>

@@ -52,6 +52,7 @@
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionImgDTO" alias="ExhibitionImgDTO"/>
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO" alias="ExhibitionCategoryDTO"/>
 			
+			<typeAlias type="com.blackolive.app.domain.productList.BrandTopDTO" alias="BrandTopDTO" />
 			
 			<!-- adminpage -->
 			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerMonthDTO" alias="SalesPerMonthDTO"/>

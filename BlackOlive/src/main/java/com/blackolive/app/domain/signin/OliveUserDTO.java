@@ -18,5 +18,7 @@ public class OliveUserDTO {
 	private  int userGender;
 	private String userEmail;
 	private String gradeId;
+	private String skintoneId;
+	private String skintypeId;
 	private int userPoint;
 }

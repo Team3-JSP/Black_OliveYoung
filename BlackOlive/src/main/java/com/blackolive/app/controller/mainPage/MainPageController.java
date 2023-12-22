@@ -20,6 +20,7 @@ import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
 import com.blackolive.app.domain.head.MsgCardDTO;
+import com.blackolive.app.domain.productList.BrandTopDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewDetailDTO;
@@ -44,7 +45,7 @@ public class MainPageController {
 	private ExhibitionService exhibitionService;
 	
 	@GetMapping(value ="/")
-	public String mainPage(Model model) throws SQLException {
+	public String mainPage(Principal principal, Model model) throws SQLException {
 
 		log.info("MainPageController / call... ");
 		
@@ -52,7 +53,26 @@ public class MainPageController {
 		model.addAttribute("bannerNProduct", bannerNProduct);
 		List<ExhibitionBannerDTO> mainfullbanner = this.exhibitionService.getExhibitionBannerService(6);
 		model.addAttribute("mainfullbanner", mainfullbanner);
+		List<ExhibitionBannerDTO> weekly = this.exhibitionService.getExhibitionBannerService(2);
+		model.addAttribute("weekly", weekly);
+		List<ExhibitionBannerDTO> magazine = this.exhibitionService.getExhibitionBannerService(3);
+		model.addAttribute("magazine", magazine);
+		List<ExhibitionBannerDTO> Onlyone = this.exhibitionService.getExhibitionBannerService(4);
+		model.addAttribute("Onlyone", Onlyone);
+		List<ProductContainer> getMdRecommend = this.exhibitionService.getMdRecommendService();
+		model.addAttribute("getMdRecommend",getMdRecommend);
+		List<ExhibitionBannerDTO> todayGoods = this.exhibitionService.getExhibitionBannerService(5);
+		model.addAttribute("todayGoods", todayGoods);
+		List<BrandTopDTO> mbrandlist = this.exhibitionService.getTopBrandService();
+		model.addAttribute("mbrandlist",mbrandlist);
 		
+		String userId="user1";
+		if (principal != null) {
+			userId = principal.getName();
+		} // if
+		
+		List<ProductContainer> pdList = this.exhibitionService.similardisplService(userId);
+		model.addAttribute("pdList",pdList);
 		return "mainPage.mainPage";
 	} // example
 	

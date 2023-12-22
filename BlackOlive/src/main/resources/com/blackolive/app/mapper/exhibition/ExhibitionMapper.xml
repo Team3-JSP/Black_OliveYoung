@@ -113,5 +113,43 @@
 		WHERE ex.exhibition_id = #{eventId}
 	</select>
 	
-
+	<select id="getMdRecommend" resultType="productContainer">
+	<![CDATA[
+	 SELECT * 
+				 FROM ( 
+				    SELECT * 
+				    FROM  productcontainer
+				    ORDER BY DBMS_RANDOM.VALUE 
+				 ) 
+				 WHERE ROWNUM <= 2 
+				 ]]> 
+	</select>
+	
+	<resultMap type="BrandTopDTO" id="getBrandTop">
+		<result property="brandId" column="brand_id"/>
+		<result property="brandName" column="brand_name"/>
+		<result property="brandLike" column="brand_like"/>
+		<result property="brandImgSrc" column="brand_img_src"/>
+		<collection property="productContainer" resultMap="productContainer"></collection>	
+	</resultMap>
+	
+<!-- 브랜드 상위 10개 + 상품2개 -->
+<select id="getTopBrand" resultMap="getBrandTop">
+<![CDATA[
+	 SELECT * FROM ( 
+				    SELECT b.brand_id, b.brand_name, brand_like, brand_img_src ,p.product_display_src, p.product_display_id,p.product_display_name,p.minprice,p.category_large_id,p.category_mid_id,p.category_small_id,p.afterprice,p.product_id,
+                    p.couponflag,p.discountflag,p.presentflag,p.todaypickupflag,ordercnt,product_stock,product_display_like,product_display_regdate
+				    FROM brand b 
+				    JOIN brand_img bi ON b.brand_id = bi.brand_id 
+                    JOIN ( SELECT *
+                            FROM (
+                                    SELECT productcontainer.*,
+                                            ROW_NUMBER() OVER (PARTITION BY brand_id ORDER BY product_display_like) AS row_num
+                                    FROM productcontainer
+                                ) ranked
+                            WHERE row_num <= 2)  p on b.brand_id = p.brand_id
+                            ORDER BY brand_like DESC 
+				) WHERE ROWNUM <= 20
+				]]> 
+</select>
 </mapper>
