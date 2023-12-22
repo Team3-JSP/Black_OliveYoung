@@ -1,7 +1,11 @@
 package com.blackolive.app.controller.brandPage;
 
+import java.net.http.HttpRequest;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 
-@Controller
+@RestController
 @RequestMapping
 @Log4j
 public class BrandPageAjaxController {
@@ -32,17 +36,26 @@ public class BrandPageAjaxController {
         this.brandPageService = brandPageService;
     }
 
-    @GetMapping("/getSortBrands")
-    @ResponseBody
+    // http://localhost/getSortBrands?brandId=br_00000107&dispcatno=cate_04&sort=p&_=1703051686107 
+    @GetMapping( value =  "/getSortBrands",   produces = "application/text; charset=UTF-8") 
+    //@ResponseBody
     public ResponseEntity<String> getSortBrands(
             @RequestParam("brandId") String brandId,
             @RequestParam String sort,
-            @RequestParam String dispcatno) {
-        log.info(">brandId:" + brandId);
+            @RequestParam String dispcatno ) {
+        log.info("> brandId:" + brandId);
+       // log.info("> dispcatno:" + dispcatno);
+       // log.info("> sort:" + sort);
+        
+        
 
         try {
             List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno);
+            
+            
+            
             String brandPageHtml = brandPageService.createBrandPageHtml(brandId, sort,dispcatno);
+            
             return new ResponseEntity<>(brandPageHtml, HttpStatus.OK);
         } catch (Exception e) {
             log.error("에러: " + e.getMessage());

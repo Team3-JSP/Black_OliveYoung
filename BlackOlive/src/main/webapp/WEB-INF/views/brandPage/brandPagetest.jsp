@@ -14,7 +14,7 @@
 				data-ref-itemno="001"
 				data-attr="브랜드관^구달_전체상품_전체^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
 				onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_전체&quot;, &quot;1&quot;);">
-				<img src="${ dto.pro_displ_src }"
+				<img src="${ dto.product_displ_src }"
 				alt="[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획" class="pic-thumb"
 				onerror="common.errorImg(this);"> <span
 				class="flag-badge best">베스트</span>
@@ -41,7 +41,7 @@
 							class="oneday">오늘드림</span>
 					</div>
 					<div class="rating">
-						<span class="point">4.7</span><span class="num">(999+)</span>
+						<span class="point">"${dto.product_ }</span><span class="num">(999+)</span>
 					</div>
 					<div class="rating_type">
 						<div class="rating_point star5">

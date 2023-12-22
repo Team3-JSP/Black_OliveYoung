@@ -20,7 +20,8 @@ public interface SearchService {
 				int perPage,
 				String userId,
 				int minPrice,
-				int maxPrice
+				int maxPrice,
+				String quickyn
 				);
 		// 검색된 상품의 스몰 카테고리
 		public List<CategorySmallDTO> searchCategorySmallService(String searchWord);

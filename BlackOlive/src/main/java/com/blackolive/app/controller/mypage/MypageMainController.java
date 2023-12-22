@@ -78,8 +78,8 @@ public class MypageMainController {
 		model.addAttribute("qnaVO", qnaVO);
 		
 		
-		return "mypage.mypage";//변경
-		// mypage/mainpage.jsp로 이동 예정
+		return "mypage.mypage";
+		
 	}
 	
 
@@ -278,6 +278,24 @@ public class MypageMainController {
 		}
 		
 		return "mypage.productQnA";
+	}
+	
+	@GetMapping("/review")
+	public String reviewcontroller(
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+				
+		
+		return "mypage.review";
 	}
 	
 }

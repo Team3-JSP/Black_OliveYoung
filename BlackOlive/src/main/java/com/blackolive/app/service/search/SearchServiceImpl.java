@@ -20,7 +20,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<ProductContainer> searchProductListService(String searchWord, String categorySmallId, String sort,
 			String[] brandId, int currentPage, int perPage, String userId, int minPrice,
-			int maxPrice) {
+			int maxPrice, String quickyn) {
 		
 		int begin = (currentPage -1) * perPage + 1;
 		int end = begin + perPage -1 ;
@@ -28,7 +28,7 @@ public class SearchServiceImpl implements SearchService {
 			userId ="0";
 		}//if
 		
-		return this.searchMapper.searchProductList(searchWord, categorySmallId, sort, brandId, currentPage, perPage, begin, end, userId, minPrice, maxPrice);
+		return this.searchMapper.searchProductList(searchWord, categorySmallId, sort, brandId, currentPage, perPage, begin, end, userId, minPrice, maxPrice,quickyn);
 	}
 
 	@Override
