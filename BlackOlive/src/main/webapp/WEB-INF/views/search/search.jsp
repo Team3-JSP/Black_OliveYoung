@@ -667,9 +667,9 @@ $(function(){
 						<h4 class="tit_th">가격대</h4>
 						<div class="priceSearch">
 							<input type="text" id="sale_below_price" name="sale_below_price"
-								placeholder="최저가" value="" title=""><span>~</span> <input
+								placeholder="최저가" value="${param.minPrice}" title=""><span>~</span> <input
 								type="text" id="sale_over_price" name="sale_over_price"
-								placeholder="최고가" value="" title=""> <input
+								placeholder="최고가" value="${param.maxPrice}" title=""> <input
 								type="submit" value="가격대 적용" title="가격대 적용"
 								onclick="return Price_Search()"
 								id="price">
@@ -685,11 +685,19 @@ $(function(){
 								<c:forEach items="${categorySmallList}" var="cat">
 									<c:if test="${cat.categorySmallId eq categorySmallId }">
 										<li><button class="btn_del"
-												onclick="doDelCate('10000010001');">${cat.categorySmallName}</button></li>
+												onclick="doDelCate('${cat.categorySmallId}');">${cat.categorySmallName}</button></li>
 									</c:if>
 								</c:forEach>
-								<c:if test="${not empty param.minPrice}">
-								<li><button class="btn_del" onclick="doDelprice('30,000 40,000');">${param.minPrice} ~ ${param.maxPrice}</button></li>
+								<c:forEach items="${brandId}" var="brandId">
+								<c:forEach items="${brandList }" var="brandList">
+								<c:if test="${brandList.brandId eq brandId}">
+								<li><button class="btn_del" onclick="doDelFilter('${brandId}');">${brandList.brandName}</button></li>
+								</c:if>
+								</c:forEach>
+								</c:forEach>
+								<c:if test="${not empty param.minPrice or not empty param.maxPrice}">
+								<li><button class="btn_del" onclick="doDelprice(${param.minPrice}
+								<c:if test="${empty param.minPrice}">0</c:if>,${param.maxPrice});">${param.minPrice} ~ ${param.maxPrice}</button></li>
 								</c:if>
 							</ul>
 						</dd>
@@ -2234,6 +2242,52 @@ $(function(){
 			window.location.href = location.pathname + '?' + newParam
 		}
 		
+	}
+	
+	function doDelCate(cateId){
+		const URLSearch = new URLSearchParams(location.search)
+		URLSearch.delete("categorySmallId");
+		const newParam = URLSearch.toString();
+		window.location.href = location.pathname + '?' + newParam
+	}
+	
+	function doDelFilter(brandId){
+		var id = 'brandId='+brandId
+		const URLSearch = new URLSearchParams(location.search)
+		URLSearch.delete(id);
+		const newParam = URLSearch.toString();
+		let param_string = newParam
+		// 파라미터를 '&' 기준으로 분할하여 배열로 변환
+		let params = param_string.split('&');
+
+		// 'br_00000134'를 포함하지 않는 파라미터들로 새 배열 생성
+		let filtered_params = params.filter(param => !param.includes(brandId));
+
+		// 배열을 '&'를 사용하여 문자열로 결합
+		let result_string = filtered_params.join('&');
+
+		window.location.href = location.pathname + '?' +  result_string	
+	}
+	
+	function doDelprice(min,max){
+		
+		var url = window.location.href;
+		const URLSearch = new URLSearchParams(location.search)
+		
+		
+		if (min !== undefined && max === undefined) {
+			URLSearch.delete("minPrice");
+	        
+	    } else if (max !== undefined && min === undefined) {
+	    	URLSearch.delete("maxPrice");
+	        
+	    } else if (min !== undefined && max !== undefined) {
+	    	URLSearch.delete("minPrice");
+	    	URLSearch.delete("maxPrice");
+	        
+	    }
+		const newParam = URLSearch.toString();
+		window.location.href = location.pathname + '?' + newParam
 	}
 	
 </script>

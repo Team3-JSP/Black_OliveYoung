@@ -1,6 +1,8 @@
 package com.blackolive.app.service.exhibition;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,11 @@ import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionImgDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionInfoDTO;
+import com.blackolive.app.domain.productList.BrandTopDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
+import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.mapper.exhibition.ExhibitionMapper;
+import com.blackolive.app.mapper.mainPage.MainPageMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -21,7 +27,8 @@ public class ExhibitionServiceImpl implements ExhibitionService{
 
 	@Autowired
 	private ExhibitionMapper exhibitionMapper;
-	
+	@Autowired
+	private MainPageMapper mainPageMapper;
 	
 	// 배너 정보 갖고오는 작업
 	@Override
@@ -110,6 +117,53 @@ public class ExhibitionServiceImpl implements ExhibitionService{
 			e.printStackTrace();
 		} // try_catch
 		return null;
+	}
+
+	@Override
+	public List<ProductContainer> getMdRecommendService() {
+		// TODO Auto-generated method stub
+		try {
+			return this.exhibitionMapper.getMdRecommend();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<BrandTopDTO> getTopBrandService() {
+		// TODO Auto-generated method stub
+		System.out.println("--------------------"+this.exhibitionMapper.getTopBrand().toString());
+		return this.exhibitionMapper.getTopBrand();
+	}
+
+	@Override
+	public OliveUserDTO selectUserInfoService(String userId) {
+		// TODO Auto-generated method stub
+		return this.mainPageMapper.selectUserInfo(userId);
+	}
+
+	@Override
+	public List<String> similarUserService(String userId) {
+		OliveUserDTO userDTO = selectUserInfoService(userId);
+		LocalDate localDate = userDTO.getUserBirth();
+		LocalDate beforeBirth2 = localDate.minusYears(2);
+		LocalDate afterBirth2 = localDate.plusYears(2);
+		Date sqlBefore = Date.valueOf(beforeBirth2);
+		Date sqlAfter = Date.valueOf(afterBirth2);
+		return this.mainPageMapper.similarUser(userDTO.getUserGender(), userDTO.getSkintoneId(), userDTO.getSkintypeId(), sqlBefore, sqlAfter);
+	}
+
+	@Override
+	public List<String> similarProductService(String userId) {
+		
+		return this.mainPageMapper.similarProduct(similarUserService(userId));
+	}
+
+	@Override
+	public List<ProductContainer> similardisplService(String userId) {
+		
+		return this.mainPageMapper.similardispl(similarProductService(userId));
 	}
 
 } // class

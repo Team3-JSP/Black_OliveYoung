@@ -10,6 +10,8 @@ import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionImgDTO;
 import com.blackolive.app.domain.exhibition.ExhibitionInfoDTO;
+import com.blackolive.app.domain.productList.BrandTopDTO;
+import com.blackolive.app.domain.productList.ProductContainer;
 
 public interface ExhibitionMapper {
 
@@ -30,5 +32,8 @@ public interface ExhibitionMapper {
 	// 기획전 내부카테고리와 상품 리스트 갖고오는 작업
 	public List<ExhibitionCategoryDTO> getExhibitionCategory(@Param("eventId")String eventId) throws SQLException;
 	
+	public List<ProductContainer> getMdRecommend()throws SQLException;
+	
+	public List<BrandTopDTO> getTopBrand();
 	
 } // interface
