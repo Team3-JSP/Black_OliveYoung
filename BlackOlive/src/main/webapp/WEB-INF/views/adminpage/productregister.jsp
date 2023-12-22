@@ -318,17 +318,22 @@ $(document).ready(function() {
 
   // 상품 옵션 추가 함수
   function addOption() {
-    var optionTemplate = '<div class="col-sm-4 mb-3">' +
+    var optionTemplate = '<div class="col-sm-12">'+
+      '<div class="col-sm-4">' +
       '<input type="text" class="form-control" placeholder="상품명">' +
       '</div>' +
-      '<div class="col-sm-4 mb-3">' +
+      '<div class="col-sm-2">' +
       '<input type="text" class="form-control" placeholder="상품가격">' +
       '</div>' +
-      '<div class="col-sm-3 mb-3">' +
+      '<div class="col-sm-2">' +
+      '<input type="text" class="form-control" placeholder="상품수량">' +
+      '</div>' +
+      '<div class="col-sm-2">' +
       '<input type="file" class="form-control-file">' +
       '</div>' +
-      '<div class="col-sm-1 mb-3">' +
+      '<div class="col-sm-1">' +
       '<button class="btn btn-danger remove-option-btn">&times;</button>' +
+      '</div>'+
       '</div>';
 
     // 동적으로 생성된 영역에 추가
@@ -336,7 +341,7 @@ $(document).ready(function() {
 
     // 삭제 버튼에 이벤트 바인딩
     $('.remove-option-btn').click(function() {
-      $(this).closest('.row').remove();
+      $(this).closest('.row.mt-3').remove();
     });
   }
 
