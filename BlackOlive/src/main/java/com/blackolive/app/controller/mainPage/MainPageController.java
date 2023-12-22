@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blackolive.app.domain.exhibition.BannerNProductDTO;
+import com.blackolive.app.domain.exhibition.ExhibitionBannerDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.head.EventDTO;
 import com.blackolive.app.domain.head.GiftCardDTO;
@@ -49,8 +50,8 @@ public class MainPageController {
 		
 		List<BannerNProductDTO> bannerNProduct = this.exhibitionService.getExhibitionBannerNProduct(null);
 		model.addAttribute("bannerNProduct", bannerNProduct);
-		
-		
+		List<ExhibitionBannerDTO> mainfullbanner = this.exhibitionService.getExhibitionBannerService(6);
+		model.addAttribute("mainfullbanner", mainfullbanner);
 		
 		return "mainPage.mainPage";
 	} // example

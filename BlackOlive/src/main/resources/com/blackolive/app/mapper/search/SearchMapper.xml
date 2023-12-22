@@ -38,7 +38,9 @@
                             #{brandId}
                         </foreach>
                     </if>
-
+					<if test='quickyn == "Y"'>
+						AND todaypickupflag = 1
+					</if>
                 <choose>
                     <when test='sort == "1"'>
                         ORDER BY product_display_like DESC
