@@ -19,44 +19,42 @@
 
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기 -->
 	<select id="getSortBrands" resultType="BrandPageDTO">
-		SELECT *
-		FROM productcontainer2
-		WHERE brand_Id = #{brandId}
-		<choose>
-			<when
-				test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
-				AND (category_Large_Id IN ('0001', '0002', '0004'))
-			</when>
-			<when test="dispcatno.equals('cate_02')">
-				AND category_Large_Id = '0001'
-			</when>
-			<when test="dispcatno.equals('cate_03')">
-				AND category_Large_Id = '0002'
-			</when>
-			<when test="dispcatno.equals('cate_04')">
-				AND category_Large_Id = '0004'
-			</when>
-		</choose>
-		<if test="sort != null">
-			<choose>
-				<when test="sort.equals('p')">
-					ORDER BY product_Display_Like DESC
-				</when>
-				<when test="sort.equals('n')">
-					ORDER BY product_Reg DESC
-				</when>
-				<when test="sort.equals('s')">
-					ORDER BY ordercnt DESC
-				</when>
-				<when test="sort.equals('l')">
-					ORDER BY ProductPrice ASC
-				</when>
-				<when test="sort.equals('d')">
-					ORDER BY (minprice - afterprice) / minprice * 100
-					DESC
-				</when>
-			</choose>
-		</if>
+	    SELECT *
+        FROM productcontainer2
+        WHERE brand_id = #{brandId}
+        <choose>
+            <when test="dispcatno == null or dispcatno.equals('') or dispcatno.equals('cate_01')">
+                AND (category_Large_Id IN ('0001', '0002', '0004'))
+            </when>
+            <when test="dispcatno.equals('cate_02')">
+                AND category_Large_Id = '0001'
+            </when>
+            <when test="dispcatno.equals('cate_03')">
+                AND category_Large_Id = '0002'
+            </when>
+            <when test="dispcatno.equals('cate_04')">
+                AND category_Large_Id = '0004'
+            </when>
+        </choose>
+        <if test="sort != null">
+            <choose>
+                <when test="sort.equals('p')">
+                    ORDER BY product_Display_Like DESC
+                </when>
+                <when test="sort.equals('n')">
+                    ORDER BY product_Reg DESC
+                </when>
+                <when test="sort.equals('s')">
+                    ORDER BY ordercnt DESC
+                </when>
+                <when test="sort.equals('l')">
+                    ORDER BY afterPrice ASC
+                </when>
+                <when test="sort.equals('d')">
+                    ORDER BY (minprice - afterprice) / minprice * 100 DESC
+                </when>
+            </choose>
+        </if>
 	</select>
 
 	<!-- 베스트상품 4개(술라이드바용) -->
@@ -75,20 +73,24 @@
 	</select>
 
 	<!-- 리뷰가져오기 -->
-	<select id="getReviews" resultType="BrandPageDTO">
-		SELECT r.review_Id,
-		pdi.product_Display_Src, r.review_Like, r.review_Grade,
-		r.review_Content, pd.product_Display_Id
-		FROM Product_Display pd
-		JOIN
-		product_Display_IMG pdi ON pd.product_Display_Id =
-		pdi.product_Display_Id
-		JOIN review r ON pd.product_Display_Id =
-		r.product_Display_Id
-		WHERE pd.product_Display_Id = #{ productDisplayId
-		}
-	</select>
-
+<select id="getReviews" resultType="BrandPageDTO">
+    <![CDATA[
+    SELECT * FROM ( 
+        SELECT r.review_Id,
+               pd.brand_id,
+               pdi.product_Display_Src,
+               r.review_Like,
+               r.review_Grade,
+               r.review_Content,
+               pd.product_Display_Id
+        FROM Product_Display pd
+        JOIN product_Display_IMG pdi ON pd.product_Display_Id = pdi.product_Display_Id
+        JOIN review r ON pd.product_Display_Id = r.product_Display_Id
+        WHERE pd.brand_Id = #{brandId}
+        ORDER BY r.review_Like DESC
+    ) WHERE ROWNUM <= 3
+    ]]>
+</select>
 	<!-- 상품 -->
 
 
