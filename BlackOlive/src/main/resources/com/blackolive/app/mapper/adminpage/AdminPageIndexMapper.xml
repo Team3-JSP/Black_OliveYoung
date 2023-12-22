@@ -57,5 +57,16 @@
 				]]>
 	</select>
 	
+	
+	<!-- ================= Rest Mapper ======================= -->
+	<!-- // 대분류 카테고리 갖고오는 작업 getLargeCategory
+	public List<CategoryLargeDTO> getLargeCategory(@Param("categoryTotalId") int categoryTotalId) throws SQLException; -->
+	
+	<select id="getLargeCategory" resultType="categoryLarge">
+		SELECT * FROM category_large
+		WHERE category_total_id = #{categoryTotalId}
+	</select>
+	
+	
 
 </mapper>

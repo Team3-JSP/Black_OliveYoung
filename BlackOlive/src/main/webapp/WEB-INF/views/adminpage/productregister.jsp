@@ -25,35 +25,26 @@
                 <form>
                   <div class="row mb-3">
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="All Category">
+                      <select class="form-select" aria-label="Total Category" id="totalCategory">
                         <option selected disabled>총 분류</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">뷰티</option>
+                        <option value="2">헬스 푸드</option>
+                        <option value="3">라이프</option>
                       </select>
                     </div>
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="Big Category">
+                      <select class="form-select" aria-label="Big Category" id="bigCategory">
                         <option selected disabled>대분류</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
                       </select>
                     </div>
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="Middle Category">
+                      <select class="form-select" aria-label="Middle Category" id="midCategory">
                         <option selected disabled>중분류</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
                       </select>
                     </div>
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="Small Category">
+                      <select class="form-select" aria-label="Small Category" id="smallCategory">
                         <option selected disabled>소분류</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
                       </select>
                     </div>
                   </div>
@@ -296,4 +287,32 @@
       }
     }
   </script>
+  
+ <script>
+ // 카테고리 바꾸는 스크립트
+ $(function() {
+	$('#totalCategory').on('change', function() {
+		
+		var totalValue = $(this).val();
+		
+		$.ajax({
+			uri: "/adminPage/getLargeCategory",
+			dataType: "json",
+			data : {
+				totalId: totalValue
+			},
+			cache: false,
+			success : function(data) {
+				alert(data);
+			}
+			,error: function(data) {
+				alert('시스템 에러');
+			} // error close
+			
+		}); // ajax close
+		
+	}) // change close
+}); //ready function
+ 
+ </script>
 
