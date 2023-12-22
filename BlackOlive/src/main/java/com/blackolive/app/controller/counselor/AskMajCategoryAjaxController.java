@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.blackolive.app.domain.counselor.PersonalAskVO;
-import com.blackolive.app.service.counselor.CounselorPersonalAskService;
+import com.blackolive.app.service.counselor.PersonalAskService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 public class AskMajCategoryAjaxController {
 
 	@Autowired
-	private CounselorPersonalAskService personalAskService;
+	private PersonalAskService personalAskService;
 	@GetMapping("/majCategory")
 	public ResponseEntity<List<String>> majorCategory(PersonalAskVO askVo) throws ClassNotFoundException, SQLException {
 		return new ResponseEntity<>(this.personalAskService.selectmajCategory(), HttpStatus.OK);
