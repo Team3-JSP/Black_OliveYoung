@@ -3944,7 +3944,7 @@ ol, ul, li {
 
 });
 
- 	function checkAgreement() {
+/*  	function checkAgreement() {
  	    const isRequired = $('#required');
  	    if (isRequired) {
  	        alert('필수약관에 동의해주세요.');
@@ -3962,7 +3962,7 @@ ol, ul, li {
  	    });
 
  	    return isChecked;
- 	}
+ 	} */
 </script>
 <script>
 	$("#btn_prev").click(goCancel);
@@ -3972,8 +3972,7 @@ ol, ul, li {
 	}
 
 	$("#btn_agree").on("click", function () {
-		if (checkAgreement()) {
 	        $("#form1").attr("action", "/join/join").submit();
-	    }
+	   
 	});
 </script>

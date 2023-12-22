@@ -11,5 +11,6 @@ public class BrandDTO {
 	
 	private String brandId;
 	private String brandName;
+	private String brandLogoSrc;
 
 }

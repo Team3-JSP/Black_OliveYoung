@@ -2,13 +2,16 @@ package com.blackolive.app.domain.counselor;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @ToString
+@AllArgsConstructor
 public class Criteria {
 	
 	private int pageNum;	//현재 페이지 번호

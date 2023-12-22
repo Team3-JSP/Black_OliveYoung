@@ -1,4 +1,4 @@
-package com.blackolive.app.domain.mypage;
+package com.blackolive.app.domain.counselor;
 
 import java.util.Date;
 

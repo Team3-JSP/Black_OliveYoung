@@ -92,9 +92,9 @@
 			<li>
 			<h2>마이 활동</h2>
 				<ul>
-					<li class="subMenu"><a href="${pageContext.request.contextPath}/olive/pAskList.do"
+					<li class="subMenu"><a href="${pageContext.request.contextPath}/counselor/personalAskList"
 						mymenuid="0401"
-						data-ref-linkurl="${pageContext.request.contextPath}/olive/pAskList.do"
+						data-ref-linkurl="${pageContext.request.contextPath}/counselor/personalAskList"
 						data-attr="마이페이지^메뉴^1:1문의내역" data-tracking-name="1대1문의 클릭"
 						data-tracking-properties="t_page=마이페이지&amp;t_click=문의현황_1대1문의">1:1문의내역</a></li>
 

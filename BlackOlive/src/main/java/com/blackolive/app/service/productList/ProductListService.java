@@ -50,6 +50,16 @@ public interface ProductListService {
 	// 좋아요 상태 확인
 	public boolean isProductLikedSerivce(String userId, String productDisplayId);
 	
+	// 브랜드 좋아요
+	// 좋아요 버튼을 누르면 데이터에 추가하는 작업
+	public boolean addBrandLikeSerivce(String userId, String brandId);
+
+		// 좋아요 버튼을 한번 더 누르면 데이터에 삭제하는 작업
+	public boolean removeBrandLikeSerivce(String userId, String brandId);
+
+		// 좋아요 상태 확인
+	public boolean isBrandLikedSerivce(String userId, String brandId);
+	
 	// 상품 아이디를 가지고 상품 정보 객체 갖고오기
 	public List<ProductContainer> getTopviewProductService(String largeId, String userId);
 	

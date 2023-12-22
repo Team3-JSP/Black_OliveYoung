@@ -72,7 +72,7 @@
 
 											<tr>
 												<th scope="row">아이디</th>
-												<td><span id="mbr_id_area">${userDto.userId}</span></td>
+												<td><span id="mbr_id_area" name="userId">${userDto.userId}</span></td>
 											</tr>
 
 											<tr class="input">
@@ -109,7 +109,7 @@
 												<th scope="row"><label for="mob_no_1">휴대전화번호</label></th>
 												<td>
 													<div>
-														<span class="input_txt w100 phon_write" id="mobileNoInfo" name="u_tel">
+														<span class="input_txt w100 phon_write" id="mobileNoInfo" name="userTel">
 <%-- 														<c:choose>
 														<c:when test= "${not empty param.newTel}">
 																${newTel}
@@ -1886,8 +1886,6 @@
 					</div>
 				</div>
 				
-				<input type="hidden" name = "newtel" id="newTel" value = "${newTel }"/>
-				<input type="hidden" name = "newname" value="${newName }"/>
 <%-- 				<input type="hidden" name="username" value="${userDto.userName }" />
 				<input type="hidden" name="usertel" id="usertel" value="${userDto.userTel }"/> --%>
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
@@ -2100,22 +2098,14 @@ $(document).ready(function () {
 		var userTel = 	"${userDto.userTel}";
 		var newTel = "${newTel}";
 		var mobileNoText =  $("#mobileNoInfo").text(); 
-			/* if(mobileNoText===userTel ){ */
+
 			var arr = userTel.split('-', 3);
 			var tel1 = arr[0];
 			var tel2 = arr[1];
 			var tel3 = arr[2];
 			$("#usertel").val(tel1+"-"+tel2+"-"+tel3);
 			$("#mobileNoInfo").text(tel1+"-"+"****"+"-"+tel3);
-	 	/*  } else if (mobileNoText===newTel ){
-			var newTel1 = newTel.substring(0, 3);
-			var newTel2 = newTel.substring(3, newTel.length - 4); // 국번 부분의 길이를 설정합니다.
-			var newTel3 = newTel.substring(newTel.length - 4);
-			
-			$("#newTel").val(newTel1 + "-" + newTel2 + "-" + newTel3);
-			$("#mobileNoInfo").text(newTel1 + "-" + "****" + "-" + newTel3);
-			
-		}   */
+
 	});
 
 	</script>

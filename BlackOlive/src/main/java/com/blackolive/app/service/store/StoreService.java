@@ -6,6 +6,7 @@ import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.CityDTO;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
+import com.blackolive.app.domain.store.StoreDetailDTO;
 
 public interface StoreService {
 	
@@ -24,6 +25,8 @@ public interface StoreService {
 	List<StoreDTO> getStoreService(String tcs, String pss, String keyword); // 오버로딩
 
 	List<ProductContainer> getProductNameList(String keyword);
+
+	StoreDetailDTO getStoreDetail(String storeId);
 
 	// List<StoreDTO> getStoreService(String tcs, String pss, String keyword); // 오버로딩
 

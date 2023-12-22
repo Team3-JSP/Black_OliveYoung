@@ -99,7 +99,7 @@ public class UsermodifyController {
 	// 회원정보수정 휴대폰인증 완료_POST (팝업>부모창 이동)
 	// modify_phlast > name_update
 	@PostMapping("/modify_phlast")
-	public String newInfoOk( Principal principal, Model model, HttpSession session
+	public String newInfoOk( Principal principal, HttpSession session
 									, @RequestParam ("userName") String newName
 									, @RequestParam ("userTel") String newTel
 									) throws SQLException, ClassNotFoundException{
@@ -110,27 +110,20 @@ public class UsermodifyController {
 		userDto.setUserName(newName);
 		userDto.setUserTel(newTel.substring(0, 3)+"-"+newTel.substring(3,7)+"-"+newTel.substring(7));
 		session.setAttribute("userDto", userDto);
-		log.info(userDto);
-		//model.addAttribute("newName", );
-		//model.addAttribute("newTel", inputTel);
+		log.info("인증완료"+userDto);
 
 		return "usermodify.name_update";
 	}
 	 
 	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
 	@PostMapping("/info_modification")
-	public String infoModify( Principal principal, OliveUserDTO userDto, Model model
-								, HttpSession session ) throws SQLException, ClassNotFoundException{
+	public String infoModify( Principal principal, Model model, HttpSession session ) throws SQLException, ClassNotFoundException{
 		log.info( "infoModify_POST...");
-		log.info(userDto.getUserName() +"/"+ userDto.getUserTel());
-		//로그인 회원 정보
 		String userId = principal.getName();
-		userDto = this.usermodifyService.getUser(userId);
+		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
 
-		model.addAttribute(session.getAttribute("userDto"));
-		//model.addAttribute("newName", newName);
-		//model.addAttribute("newTel", newTel);	
-    
+	    model.addAttribute("userDto",  session.getAttribute("userDto"));
+	    log.info("인증정보출력"+userDto);
 		return "usermodify.info_modification";
 	}
 //	
@@ -143,7 +136,7 @@ public class UsermodifyController {
 			 , @RequestParam("email_addr2") String email2
 						) throws SQLException, ClassNotFoundException{
 		log.info("infoModifyOk_POST..." );
-		log.info(userDto);
+		log.info("수정완료"+userDto);
 		// 로그인 회원 정보
 		String userId = principal.getName();
 		OliveUserDTO currentUser = this.usermodifyService.getUser(userId);

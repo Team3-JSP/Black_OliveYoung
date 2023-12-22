@@ -151,55 +151,52 @@
 			<!-- //pageing end -->
 
 			<div class="area1sButton pdT30">
-				<a href="<%=contextPath %>/olive/pAsk.do" class="btnGreen" data-attr="고객센터^FAQ^1:1문의">1:1문의하기</a>
+				<a href="<%=contextPath %>/counselor/personalAsk" class="btnGreen" data-attr="고객센터^FAQ^1:1문의">1:1문의하기</a>
 			</div>
 		</div>
 		<!-- //#Contents -->
 
-	<script>
+<script>
 	$(function() {
 		
-		$.ajax({
-			type : 'get',
-			async : false,
-			cache : false,
-			url : '/Black_OY/olive/paskList.do',
-			dataType : 'json',
-			data : {},
-			success : function(data) {
-				console.log(data);
-				
-			},
-			error : function(data, textStatus) {
-				console.log('error');
-			}
-		});//maj 카테고리
-	</script>
-	<script>
-	
-		$("#btnAnsCont").on("click", function (event) {
-			//a태그 이벤트 막기
-			event.preventDefault();
-			var conts = $(".conts");
-			if( conts.css('display') === 'block' ){
-				conts.css('display', 'none');
-			} else
-				conts.css('display', 'block');
+	$.ajax({
+		type : 'get',
+		async : false,
+		cache : false,
+		url : '/Black_OY/olive/paskList.do',
+		dataType : 'json',
+		data : {},
+		success : function(data) {
+			console.log(data);
+		},
+		error : function(data, textStatus) {
+			console.log('error');
 		}
-		
-		});
-
+	});//maj 카테고리
+</script>
+<script>
 	
-	</script>
-	<script>
+	$("#btnAnsCont").on("click", function (event) {
+	//a태그 이벤트 막기
+		event.preventDefault();
+		var conts = $(".conts");
+		if( conts.css('display') === 'block' ){
+			conts.css('display', 'none');
+		} else
+			conts.css('display', 'block');
+		}	
+	});
+	
+</script>
+<script>
 	//답변대기
 	
 	//답변중
 	
 	//답변완료
 	</script>
-	<script>
+<script>
 	$("#regForm1on1").on("click", function () {
-		location.href = "<%=contextPath %>/olive/pAsk.do";
+		location.href = "<%=contextPath %>/counselor/personalAsk";
 	});
-	</script>
+</script>

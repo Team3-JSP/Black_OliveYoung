@@ -149,6 +149,27 @@ public class ProductListServiceImpl implements ProductListService{
 		return this.listMapper.getTopviewProduct(getProductIds, userId);
 	}
 
+	@Override
+	public boolean addBrandLikeSerivce(String userId, String brandId) {
+		// TODO Auto-generated method stub
+		return this.listMapper.addBrandLike(userId, brandId);
+	}
+
+	@Override
+	public boolean removeBrandLikeSerivce(String userId, String brandId) {
+		// TODO Auto-generated method stub
+		return this.listMapper.removeBrandLike(userId, brandId);
+	}
+
+	@Override
+	public boolean isBrandLikedSerivce(String userId, String brandId) {
+		boolean isLiked = false;
+		if ( this.listMapper.isBrandLiked(userId, brandId).equals("1") ) {
+			isLiked = true;
+		}
+		return isLiked;
+	}
+
 	
 	
 	

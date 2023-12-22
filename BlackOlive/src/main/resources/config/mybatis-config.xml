@@ -37,6 +37,7 @@
 			<typeAlias type="com.blackolive.app.domain.productdetail.GiftDTO" alias="GiftDTO" />
 			
 			<typeAlias type="com.blackolive.app.domain.store.StoreDTO" alias="StoreDTO"/>
+			<typeAlias type="com.blackolive.app.domain.store.StoreDetailDTO" alias="StoreDetailDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.EventDTO" alias="EventDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.GiftCardDTO" alias="GiftCardDTO"/>
 			<typeAlias type="com.blackolive.app.domain.head.MsgCardDTO" alias="MsgCardDTO"/>
@@ -47,11 +48,18 @@
 			
 			<!-- exhibition -->
 			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionBannerDTO" alias="ExhibitionBannerDTO"/>
+			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionInfoDTO" alias="ExhibitionInfoDTO"/>
+			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionImgDTO" alias="ExhibitionImgDTO"/>
+			<typeAlias type="com.blackolive.app.domain.exhibition.ExhibitionCategoryDTO" alias="ExhibitionCategoryDTO"/>
 			
 			
 			<!-- adminpage -->
 			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerMonthDTO" alias="SalesPerMonthDTO"/>
 			<typeAlias type="com.blackolive.app.domain.adminpage.SalesPerDayDTO" alias="SalesPerDayDTO"/>
+			
+			<!-- counselor -->
+			<typeAlias type="com.blackolive.app.domain.counselor.FaqVO" alias="FaqVO"/>
+			<typeAlias type="com.blackolive.app.domain.counselor.PersonalAskVO" alias="PersonalAskVO"/>
 			
 	</typeAliases>
 	
@@ -81,7 +89,9 @@
 		
 		<mapper resource="com/blackolive/app/mapper/adminpage/AdminPageIndexMapper.xml"/>
 		
-		<mapper resource="com/blackolive/app/mapper/mypage/MypagePersonalAskMapper.xml"/>
+		<mapper resource="com/blackolive/app/mapper/counselor/CounselorPersonalAskMapper.xml"/>
+		
+		<mapper resource="com/blackolive/app/mapper/search/SearchMapper.xml"/>
 		
 	</mappers>
 	

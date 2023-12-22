@@ -422,10 +422,11 @@
 				url: "/selectUserId"
 				, dataType: "text"
 				, type:"POST"
-				, data: {userId:userId}
+				, data: {userId:userId
+					, "${_csrf.parameterName}" :"${_csrf.token}"}
 				, cache: false
 				, success: function (data) {
-				//	alert(data);
+					//alert(data);
 					if (data ==="Y" ) {
 						alert("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
 						$("#alert_mbr_id").text("이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.");
@@ -605,15 +606,4 @@ var length = inputVal.length;
 		}
 	});
 
- 	$("#userName").val("${userName}");
-	$("#popupDataBirth").val("${userBirth}");
-	/* $("#popupDataGender").val("${userGender}"); */
-	$("#popupDataTel").val("${userTel}");
-	 
-	 var email = $("#email_addr1").val()+"@"+$("#email_addr2").val() ; 
-	console.log(email);
-	console.log($("#userName").val());
-	console.log($("#popupDataGender").val());
-	console.log($("#popupDataTel").val());
-	
 </script>
