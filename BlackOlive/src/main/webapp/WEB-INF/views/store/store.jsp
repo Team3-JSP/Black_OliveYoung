@@ -956,7 +956,6 @@ $(function() {
 		
 		$.ajax({
 			type : 'get'
-			, async : true
 			, cache: false
 			, url : '/store/getStoreKeyword'
 			, dataType : 'json'
@@ -1058,7 +1057,6 @@ $(function() {
 	});
 	
 	// 검색 눌렀을 때
-	// [개선] weekday로만 했음
 	$("#searchAreaButton").on("click", function() {
 		let city = $("#mainAreaList > option:selected").val() === "none" ? "" : $("#mainAreaList > option:selected").text();
 		let district = $("#subAreaList > option:selected").val() === "none" ? "" : $("#subAreaList > option:selected").text();
@@ -1078,7 +1076,6 @@ $(function() {
 		
 		$.ajax({
             type : 'get'
-			, async : true
 			, cache: false
 			, url : '/store/getStoreList'
 			, dataType : 'json'
@@ -1089,8 +1086,6 @@ $(function() {
 				, pss : pss.toString()
 			}
 			, success : function(data) {
-				// console.log(data);
-				
 				$("#areaStoreList").empty();
 				
 				if(data === "") {
@@ -1285,7 +1280,6 @@ $(function() {
 	        
 	        $.ajax({
 				type : 'post'
-				, async : true
 				, cache: false
 				, url : '/store/getInterestShopList'
 				, dataType : 'json'

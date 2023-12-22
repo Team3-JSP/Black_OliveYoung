@@ -52,17 +52,13 @@
 <sec:authorize access="isAuthenticated()">
 	<script>
 	let storesNames = [];
-	let tcs = [];
-	let pss = [];
 	// 관심매장 이름 리스트 얻어오기
 	$.ajax({
 		type : 'post'
 		, cache: false
 		, url : '/store/getInterestShopList'
 		, data : {
-			tcs : tcs.toString()
-			, pss : pss.toString()
-			, '${_csrf.parameterName }' : '${_csrf.token }'
+			'${_csrf.parameterName }' : '${_csrf.token }'
 		}
 		, dataType : 'json'
 		, success : function(data) {
