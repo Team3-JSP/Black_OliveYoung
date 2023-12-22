@@ -29,9 +29,10 @@ public class AdminPageIndexTest {
 	@Test
 	public void getDaylySales() {
 		
-		System.out.println( this.adminPageIndexMapper.getSalesPerDay(null).toString() );
+		// assertNotNull(this.adminPageIndexMapper.getLargeCategory(1)); 성공
 		
-		assertNotNull(this.adminPageIndexMapper.getSalesPerDay(null));
+		assertNotNull(this.adminPageIndexMapper.getBuyInfo(1));
+		
 	}
 
 }

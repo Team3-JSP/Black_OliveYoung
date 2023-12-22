@@ -13,4 +13,7 @@ public interface AdminPageIndexService {
 	// 일별 판매금액 갖고오기 getSalesPerDay
 	public List<SalesPerDayDTO> getSalesPerDayService(String brandId);
 	
+	// 상품 표시 id에 쓸 시퀀스 미리 갖고오기
+	public int getproductIdSeqService(); 
+	
 } // interface

@@ -57,5 +57,45 @@
 				]]>
 	</select>
 	
+	<!-- // 상품 표시 id에 쓸 시퀀스 미리 갖고오기
+	public int getproductIdSeq();  -->
+	
+	<select id="getproductIdSeq" resultType="int">
+		SELECT product_display_seq.nextval FROM dual;
+	</select>
+	
+	
+	<!-- ================= Rest Mapper ======================= -->
+	
+	<!-- // 대분류 카테고리 갖고오는 작업 getLargeCategory
+	public List<CategoryLargeDTO> getLargeCategory(@Param("categoryTotalId") int categoryTotalId) throws SQLException; -->
+	<select id="getLargeCategory" resultType="categoryLarge">
+		SELECT * FROM category_large
+		WHERE category_total_id = #{categoryTotalId}
+	</select>
+	
+	<!-- // 중분류 카테고리 갖고오는 작업
+	public List<CategoryMidDTO> getMidCategory (@Param("categoryLargeId") int categoryLargeId); -->
+	<select id="getMidCategory" resultType="categoryMid">
+		SELECT * FROM category_mid
+		WHERE category_large_Id = #{categoryLargeId} 
+	</select>
+	
+	<!-- // 소분류 카테고리 갖고오는 작업
+	public List<CategorySmallDTO> getSmallCategory (@Param("categoryMidId") int categoryMidId); -->
+	<select id="getSmallCategory" resultType="categorySmall">
+		SELECT * FROM category_small
+		WHERE category_Mid_Id = #{categoryMidId} 
+	</select>
+	
+	<!-- // 구매 정보 갖고오는 작업 getBuyInfo
+	public List<BuyInfoDTO> getBuyInfo (@Param("buyinfoCategory") int buyinfoCategory); -->
+	
+	<select id="getBuyInfo" resultType="BuyInfoDTO">
+		SELECT BUYINFO_TITLE_ID, BUYINFO_TITLE FROM buyinfo_title
+		WHERE BUYINFO_CATEGORY = #{buyinfoCategory}
+	</select>
+	
+	
 
 </mapper>

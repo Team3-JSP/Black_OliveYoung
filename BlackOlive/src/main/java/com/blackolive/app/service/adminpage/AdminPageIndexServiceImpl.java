@@ -34,6 +34,12 @@ public class AdminPageIndexServiceImpl implements AdminPageIndexService{
 		
 		return this.adminPageIndexMapper.getSalesPerDay(brandId);
 	}
+
+	@Override
+	public int getproductIdSeqService() {
+		log.info("AdminPageIndexServiceImpl getproductIdSeqService call..");
+		return this.adminPageIndexMapper.getproductIdSeq();
+	}
 	
 
 } // class
