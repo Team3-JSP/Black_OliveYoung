@@ -7,8 +7,60 @@
 
 
 <title>블랙올리브영 온라인몰</title>
-
-
+<style>
+.prod-list .point {
+    padding-left: 13px;
+    color: #555;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/brand/bul_star_24.png) 0 50%/12px auto no-repeat;
+}
+</style>
+<style>
+.review_stat.type2 .point.pt5 {
+    background-position: 0 -70px;
+}
+.review_stat.type2 .point {
+    display: inline-block;
+    margin-top: 2px;
+    width: 78px;
+    height: 14px;
+    text-indent: -9999px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point2.png) right 0/100% auto no-repeat;
+    background-image: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point2.png);
+    background-position-x: right;
+    background-position-y: 0px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    vertical-align: top;
+}
+</style>
+<style>
+.brandBox .reviewList .reviewCont .topinfo>span.like .icon {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 0 0 0 19px;
+    height: 14px;
+    font-size: 14px;
+    color: #0cc7b8;
+    line-height: 16px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/product/icon_recom_new.png) 0 -15px/15px auto no-repeat;
+}
+</style>
+<style>
+.review-detail-view {
+    padding: 30px;
+}
+</style>
+<style>
+.brand_like .brand .icon {
+    display: inline-block;
+    padding-left: 27px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon_like_brd_off.png) 1px 50%/22px 19px no-repeat;
+}
+</style>
 <script>
 $(function() {
     // 기본으로 보여지는 함수 
@@ -62,6 +114,8 @@ $(function() {
           $("#tab-panel3").addClass("active");
           
        })
+       
+       //컬럼형식 & 리스트 형식 
 
     // 상품 목록을 로드하는 함수
     function loadProducts(dispcatno, sort,numOfItems) {
@@ -2099,10 +2153,51 @@ function reviewDetail(reviewId) {c
 						</div>
 
 						<div class="type_sort" id="div_type_sort">
-							<button class="btn_thumb active">컬럼형식으로 보기</button>
-							<button class="btn_list">리스트형식으로 보기</button>
-						</div>
+							<button class="btn_thumb" onclick="toggleListView()">컬럼형식으로 보기</button>
+<button class="btn_list active" onclick="toggleListView()">리스트형식으로 보기</button>
+        </div>					
 					</div>
+					<script>
+  function toggleListView() {
+    var listView = document.querySelector('.prod-list');
+    var columnButton = document.querySelector('.btn_thumb');
+    var listButton = document.querySelector('.btn_list');
+
+    // 리스트 뷰 토글
+    listView.classList.toggle('list-type');
+
+    // 버튼 활성화 상태 토글
+    columnButton.classList.toggle('active');
+    listButton.classList.toggle('active');
+  }
+</script>
+          <!--  
+			<ul class="prod-list goodsProd list-type">
+	
+	
+		<li data-goods-idx="1">
+			<div class="prod">
+				<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000189175&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=1" name="BrandA001436_PROD" class="thumb goodsList" data-ref-goodsno="A000000189175" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[한정기획] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000189175&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;1&quot;);"><img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0018/A00000018917508ko.jpg?l=ko" alt="[한정기획] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획" class="pic-thumb" onerror="common.errorImg(this);"><span class="flag-badge best">베스트</span></a><div class="prod-info" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000189175&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;1&quot;);"><div class="prod-brand"><strong class="exclusive"></strong></div><a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000189175&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=1" class="goodsList" data-ref-goodsno="A000000189175" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[한정기획] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획"><span class="prod-name double-line">[한정기획] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획</span></a><div class="price-info"><div class="discount"> <span class="origin">38,000원</span></div><div class="price"><strong class="total">25,270<span class="won">원</span></strong> <span class="oneday">오늘드림</span></div><div class="rating"><span class="point">4.7</span><span class="num">(999+)</span></div><div class="rating_type"><div class="rating_point star5"><span class="oyblind">별점 5점 만점에 4.7점</span></div><span>(999+)</span></div></div><div class="flags"><span class="flag sale">세일</span><span class="flag coupon">쿠폰</span></div></div><div class="prod-func"><button type="button" class="favorite" data-ref-goodsno="A000000189175"><span>찜하기</span></button><button type="button" class="cart" onclick="common.gf_regCart(this); return false;" data-goods-no="A000000189175" data-item-no="001"><span>장바구니</span></button></div>
+			</div>
+		</li>
+	
+		<li data-goods-idx="2">
+			<div class="prod">
+				<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000187780&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=2" name="BrandA001436_PROD" class="thumb goodsList" data-ref-goodsno="A000000187780" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000187780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;2&quot;);"><img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0018/A00000018778007ko.jpg?l=ko" alt="[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)" class="pic-thumb" onerror="common.errorImg(this);"><span class="flag-badge best">베스트</span></a><div class="prod-info" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000187780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;2&quot;);"><div class="prod-brand"><strong class="exclusive"></strong></div><a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000187780&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=2" class="goodsList" data-ref-goodsno="A000000187780" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)"><span class="prod-name double-line">[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)</span></a><div class="price-info"><div class="discount"> <span class="origin">38,000원</span></div><div class="price"><strong class="total">26,500<span class="won">원</span></strong> <span class="oneday">오늘드림</span></div><div class="rating"><span class="point">4.7</span><span class="num">(999+)</span></div><div class="rating_type"><div class="rating_point star5"><span class="oyblind">별점 5점 만점에 4.7점</span></div><span>(999+)</span></div></div><div class="flags"><span class="flag sale">세일</span><span class="flag coupon">쿠폰</span></div></div><div class="prod-func"><button type="button" class="favorite" data-ref-goodsno="A000000187780"><span>찜하기</span></button><button type="button" class="cart" onclick="common.gf_regCart(this); return false;" data-goods-no="A000000187780" data-item-no="001"><span>장바구니</span></button></div>
+			</div>
+		</li>
+		<li data-goods-idx="3">
+			<div class="prod">
+				<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162321&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=3" name="BrandA001436_PROD" class="thumb goodsList" data-ref-goodsno="A000000162321" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^구달 청귤 비타C 잡티케어 세럼마스크 4매입" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162321&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;3&quot;);"><img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0016/A00000016232103ko.jpg?l=ko" alt="구달 청귤 비타C 잡티케어 세럼마스크 4매입" class="pic-thumb" onerror="common.errorImg(this);"></a><div class="prod-info" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162321&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;3&quot;);"><div class="prod-brand"><strong class="exclusive"></strong></div><a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162321&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=3" class="goodsList" data-ref-goodsno="A000000162321" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^구달 청귤 비타C 잡티케어 세럼마스크 4매입"><span class="prod-name double-line">구달 청귤 비타C 잡티케어 세럼마스크 4매입</span></a><div class="price-info"><div class="discount"> <span class="origin">8,000원</span></div><div class="price"><strong class="total">7,200<span class="won">원</span></strong> <span class="oneday">오늘드림</span></div><div class="rating"><span class="point">4.8</span><span class="num">(999+)</span></div><div class="rating_type"><div class="rating_point star5"><span class="oyblind">별점 5점 만점에 4.8점</span></div><span>(999+)</span></div></div><div class="flags"><span class="flag sale">세일</span></div></div><div class="prod-func"><button type="button" class="favorite" data-ref-goodsno="A000000162321"><span>찜하기</span></button><button type="button" class="cart" onclick="common.gf_regCart(this); return false;" data-goods-no="A000000162321" data-item-no="001"><span>장바구니</span></button></div>
+			</div>
+		</li>
+		<li data-goods-idx="4">
+			<div class="prod">
+				<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000169825&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=4" name="BrandA001436_PROD" class="thumb goodsList" data-ref-goodsno="A000000169825" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000169825&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;4&quot;);"><img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0016/A00000016982523ko.jpg?l=ko" alt="[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매" class="pic-thumb" onerror="common.errorImg(this);"></a><div class="prod-info" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000169825&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;4&quot;);"><div class="prod-brand"><strong class="exclusive"></strong></div><a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000169825&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=4" class="goodsList" data-ref-goodsno="A000000169825" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매"><span class="prod-name double-line">[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매</span></a><div class="price-info"><div class="discount"> <span class="origin">20,000원</span></div><div class="price"><strong class="total">16,000<span class="won">원</span></strong> <span class="oneday">오늘드림</span></div><div class="rating"><span class="point">4.6</span><span class="num">(999+)</span></div><div class="rating_type"><div class="rating_point star5"><span class="oyblind">별점 5점 만점에 4.6점</span></div><span>(999+)</span></div></div><div class="flags"><span class="flag sale">세일</span></div></div><div class="prod-func"><button type="button" class="favorite" data-ref-goodsno="A000000169825"><span>찜하기</span></button><button type="button" class="cart" onclick="common.gf_regCart(this); return false;" data-goods-no="A000000169825" data-item-no="001"><span>장바구니</span></button></div>
+			</div>
+		</li>	
+		</ul>	 -->
+								
 					<div id="allGoodsList">
 						<input type="hidden" id="strList" name="strList" value="">
 						<input type="hidden" id="lgcGoodsList" name="lgcGoodsList1"
@@ -2123,7 +2218,7 @@ function reviewDetail(reviewId) {c
 				</div>
 			</div>
 		</div>
-
+      
 
 		<form id="initForm" name="initForm" method="get">
 			<input type="hidden" id="dispCatNo" name="dispCatNo"
