@@ -16,19 +16,17 @@ public interface StoreService {
 	
 	List<DistrictDTO> getDistrictService(String city_id);
 
-	List<StoreDTO> getStoreService(String tcs, String pss, String city, String district); // 오버로딩
+	List<StoreDTO> getStoreService(String[] tcs, String[] pss, String city, String district); // 오버로딩
 	
 	int udpStoreFavorService(String store_id, String user_id, int clickCheck);
 
-	List<StoreDTO> getInterestShopService(String tcs, String pss, String userId);
+	List<StoreDTO> getInterestShopService(String[] tcs, String[] pss, String userId);
 
-	List<StoreDTO> getStoreService(String tcs, String pss, String keyword); // 오버로딩
+	List<StoreDTO> getStoreService(String[] tcs, String[] pss, String keyword); // 오버로딩
 
 	List<ProductContainer> getProductNameList(String keyword);
 
 	StoreDetailDTO getStoreDetail(String storeId);
-
-	// List<StoreDTO> getStoreService(String tcs, String pss, String keyword); // 오버로딩
 
 	
 }

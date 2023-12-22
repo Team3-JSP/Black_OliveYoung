@@ -94,18 +94,24 @@
 				AND store_address LIKE '%' || #{city} || ' ' || #{district} || '%'
 			</if>
 			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-				<if test="tcs != null and tcs != ''">
+				<if test="tcs != null and tcs.length > 0">
 					OR s.store_id IN ( 
 				        SELECT DISTINCT(store_id)
 				        FROM handling_store
-				        WHERE category_id IN (${tcs})
+				        WHERE category_id IN 
+				        <foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+				        	#{tcs}
+				        </foreach>
 					)
 				</if>
-				<if test="pss != null and pss != ''">
+				<if test="pss != null and pss.length > 0">
 					OR s.store_id IN (
 				        SELECT DISTINCT(store_id)
 				        FROM store_service
-				        WHERE olive_service_id IN (${pss})
+				        WHERE olive_service_id IN 
+						<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				        	#{pss}
+				        </foreach>
 					)
 				</if>
 			</trim>
@@ -134,18 +140,24 @@
 		JOIN interest_shop i ON s.store_id = i.store_id
 		WHERE user_id = #{userId}
 		<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-			<if test="tcs != null and tcs != ''">
+			<if test="tcs != null and tcs.length != 0">
 				OR s.store_id IN ( 
 					SELECT DISTINCT(store_id)
 				    FROM handling_store
-				    WHERE category_id IN (${tcs})
+				    WHERE category_id IN 
+					<foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+				        #{tcs}
+				    </foreach>
 				)
 			</if>
-			<if test="pss != null and pss != ''">
+			<if test="pss != null and pss.length != 0">
 				OR s.store_id IN (
 					SELECT DISTINCT(store_id)
 				    FROM store_service
-				    WHERE olive_service_id IN (${pss})
+				    WHERE olive_service_id IN 
+					<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				    	#{pss}
+				    </foreach>
 				)
 			</if>
 		</trim>
@@ -175,18 +187,24 @@
 				AND (store_address LIKE '%' || #{keyword}  ||'%' OR store_name LIKE '%' || #{keyword} || '%')
 			</if>
 			<trim prefix="AND (" prefixOverrides="OR" suffix=")">
-				<if test="tcs != null and tcs != ''">
+				<if test="tcs != null and tcs.length != 0">
 					OR s.store_id IN ( 
 				        SELECT DISTINCT(store_id)
 				        FROM handling_store
-				        WHERE category_id IN (${tcs})
+				        WHERE category_id IN 
+						<foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+					    	#{tcs}
+					    </foreach>
 					)
 				</if>
-				<if test="pss != null and pss != ''">
+				<if test="pss != null and pss.length != 0">
 					OR s.store_id IN (
 				        SELECT DISTINCT(store_id)
 				        FROM store_service
-				        WHERE olive_service_id IN (${pss})
+				        WHERE olive_service_id IN
+						<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				        	#{pss}
+				        </foreach>
 					)
 				</if>
 			</trim>
