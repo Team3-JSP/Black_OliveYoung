@@ -41,8 +41,8 @@ public class BrandPageAjaxController {
     //@ResponseBody
     public ResponseEntity<String> getSortBrands(
             @RequestParam("brandId") String brandId,
-            @RequestParam String sort,
-            @RequestParam String dispcatno ) {
+            @RequestParam("sort") String sort,
+            @RequestParam("dispcatno") String dispcatno ) {
         log.info("> brandId:" + brandId);
        // log.info("> dispcatno:" + dispcatno);
        // log.info("> sort:" + sort);

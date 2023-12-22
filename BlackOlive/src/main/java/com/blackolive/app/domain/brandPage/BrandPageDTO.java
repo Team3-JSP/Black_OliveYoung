@@ -26,7 +26,7 @@ public class BrandPageDTO {
 	private int reviewLike;
 	private String reviewContent;
 	private int reviewGrade;
-	private Date productReg;
+	private Date productDisplayRegdate;
 	private String categoryLargeId;
 	private String categoryLargeName;
 	private int afterPrice;

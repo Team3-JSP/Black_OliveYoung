@@ -68,7 +68,7 @@ public class BrandPageServiceImpl implements BrandPageService  {
 
  html.append( "    <li data-goods-idx=\"1\">\r\n");
  html.append( "        <div class=\"prod\">\r\n");
- html.append( "            <a href=\"https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000192385&dispCatNo=9000002&trackingCd=BrandA001436_PROD&t_page=브랜드관&t_click=전체상품_상품상세&t_number=1\" name=\"BrandA001436_PROD\" class=\"thumb goodsList\" data-ref-goodsNo=\"A000000192385\" data-ref-dispCatNo=\"9000002\" data-ref-itemNo=\"001\">\r\n");
+ html.append( "            <a href=\"https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo="+ product.getProductDisplayId() +"&dispCatNo=9000002&trackingCd=BrandA001436_PROD&t_page=브랜드관&t_click=전체상품_상품상세&t_number=1\" name=\"BrandA001436_PROD\" class=\"thumb goodsList\" data-ref-goodsNo=\"" + product.getProductDisplayId()+ "\" data-ref-dispCatNo=\"9000002\" data-ref-itemNo=\"001\">\r\n");
  html.append( "                <img src=\"" + product.getProductDisplaySrc() + "\" alt=\"[2023어워즈] 구달 청귤 비타C 잡티케어 세럼 50ml 어워즈 한정기획 (50ml+50ml리필)\" class=\"pic-thumb\" onerror=\"common.errorImg(this);\">\r\n");
  html.append( "                <span class=\"flag-badge best\">베스트</span>\r\n");
  html.append( "            </a>\r\n");
@@ -77,7 +77,7 @@ public class BrandPageServiceImpl implements BrandPageService  {
  html.append( "                    <strong class=\"exclusive\"></strong>\r\n");
  html.append( "                </div>\r\n");
  html.append( "                <a href=\"https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000192385&dispCatNo=9000002&trackingCd=BrandA001436_PROD&t_page=브랜드관&t_click=전체상품_상품상세&t_number=1\" class=\"goodsList\" data-ref-goodsNo=\"A000000192385\" data-ref-dispCatNo=\"9000002\" data-ref-itemNo=\"001\">\r\n");
- html.append( "                    <span class=\"prod-name double-line\">[2023어워즈] 구달 청귤 비타C 잡티케어 세럼 50ml 어워즈 한정기획 (50ml+50ml리필)</span>\r\n");
+ html.append( "                    <span class=\"prod-name double-line\">"+ product.getProductDisplayName() +"</span>\r\n");
  html.append( "                </a>\r\n");
  html.append( "                <div class=\"price-info\">\r\n");
  html.append( "                    <div class=\"discount\">\r\n");

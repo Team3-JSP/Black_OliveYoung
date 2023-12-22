@@ -5,7 +5,10 @@
 
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="logImpl" value="SLF4J" />
+		<setting name="logImpl" value="STDOUT_LOGGING" />
 	</settings>
+	
 	
 	<!-- 별칭 작성 부분 -->
 	<typeAliases>
