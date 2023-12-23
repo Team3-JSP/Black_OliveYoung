@@ -22,7 +22,8 @@
                 <h5 class="card-title">상품 등록</h5>
 
                 <!-- General Form Elements -->
-                <form>
+                <form action="/adminpage/product/registration" method="POST" id="productForm">
+                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                   <div class="row mb-3">
                     <div class="col-sm-3">
                       <select class="form-select" aria-label="Total Category" id="totalCategory">
@@ -50,7 +51,7 @@
                   </div>
                   <div class="row mb-3">
                     <label for="inputText" class="col-sm-2 col-form-label"
-                      >상품명 :
+                      >상품 표시명 :
                     </label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" name="productDisplayName" />
@@ -268,7 +269,7 @@
         '   <input type="text" class="form-control" placeholder="상품 가격" name="productPrice"/>' +
         "</div>" +
         '<div class="col-sm-2">' +
-        '   <input type="text" class="form-control" placeholder="재고 수량" name="stockQuantity" />' +
+        '   <input type="text" class="form-control" placeholder="재고 수량" name="productStock" />' +
         "</div>" +
         '<div class="col-sm-1">' +
         '   <button type="button" class="btn btn-primary deleteBtn">X</button>' +
@@ -491,24 +492,55 @@
 	
 	$('#submitBtn').on('click', function() {
 		
-		var productDisplayName = $('#productDisplayName').val();
+		var productDisplayName = $("input[name='productDisplayName']").val();
+		var categorySmallId = $('#smallCategory').val();
 		
-		var products = [];
+		var productDTO = [];
 
 		$("#productFormCollection").find(".row").each(function () {
 		    var product = {
+		    		productId: '1',
+		    		productDisplayId: '1',
+		    	categorySmallId: categorySmallId,
 		        productName: $(this).find("input[name='productName']").val(),
-		        productPrice: $(this).find("input[name='productPrice']").val(),
-		        stockQuantity: $(this).find("input[name='stockQuantity']").val(),
+		        productPrice: parseInt($(this).find("input[name='productPrice']").val(), 10),
+		        productStock: parseInt($(this).find("input[name='productStock']").val(), 10),
 		        productImg: $(this).find("input[name='productImg']").val()
 		    };
-		    products.push(product);
+		    productDTO.push(product);
 		});
 		
-	    alert(products)
-	    console.log(products);
+		console.log(productDTO);
+		console.log(productDisplayName);
+		
+		
+		$.ajax({
+			url: "/adminrest/product/registration",
+			method: "POST",
+			dataType: "Text",
+			contentType: "application/json",  // 추가된 부분
+			data :({
+				productDTO
+			}),
+			cache: false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+				console.log(xhr);
+			},
+			success: function(data) {
+				alert('성공');
+				alert(productDTO);
+				window.location.href ="localhost/adminpage/";
+			},
+			error: function(error) {
+				alert('실패');
+				console.log(error);
+				
+			}// error close
+		}); // ajax close
+		
 	    
-	}) // click close
+	}); // click close
 	 
 }) // ready close
  </script>

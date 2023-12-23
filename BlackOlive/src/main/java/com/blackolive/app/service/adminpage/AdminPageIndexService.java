@@ -2,6 +2,9 @@ package com.blackolive.app.service.adminpage;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 
@@ -15,5 +18,8 @@ public interface AdminPageIndexService {
 	
 	// 상품 표시 id에 쓸 시퀀스 미리 갖고오기
 	public int getproductIdSeqService(); 
+	
+	// 상품 표시 데이터 insert
+	public int insertProductDisplayService (ProductDisplayDTO productDisplay);
 	
 } // interface

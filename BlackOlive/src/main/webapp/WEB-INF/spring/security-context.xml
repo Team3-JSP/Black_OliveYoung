@@ -15,6 +15,7 @@
 	<security:intercept-url pattern="/mypage/**" access="isAuthenticated()"/>
 	<security:intercept-url pattern="/counselor/personalAsk" access="isAuthenticated()"/>
 	<security:intercept-url pattern="/basket/**" access="isAuthenticated()"/>	
+	<!-- <security:intercept-url pattern="/adminpage/**" access="isAuthenticated()"/>	 -->
 	<security:intercept-url pattern="/**" access="permitAll" />
 	
 	<!-- 접근 금지 발생시 -->

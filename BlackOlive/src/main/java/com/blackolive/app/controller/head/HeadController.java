@@ -34,6 +34,7 @@ public class HeadController {
 		Map<CategoryLargeDTO, List<CategoryMidDTO>> thirdTotalCategory = this.headServiceImpl.getHeadCategorySerivce(3);
 		List<String> keywords = this.searchService.searchWordService();
 		
+		
 		model.addAttribute("keywords",keywords);
 		 model.addAttribute("firstTotalCategory", firstTotalCategory);
 		model.addAttribute("secondTotalCategory", secondTotalCategory);

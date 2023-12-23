@@ -4,7 +4,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.blackolive.app.mapper.head.HeadMapper">
-
+	<!-- /* NOT_SQL_LOG */ -->
 	<!-- public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategory (int categoryTotalId); -->
 	
 	<!-- <resultMap type="com.blackolive.app.domain.head.TotalListDTO" id="TotalResultMap">
