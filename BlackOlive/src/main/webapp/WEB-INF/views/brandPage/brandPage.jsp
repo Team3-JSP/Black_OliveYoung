@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <link rel="stylesheet" href="/resources/cdn-main/brand.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <title>블랙올리브영 온라인몰</title>
 <style>
@@ -36,6 +36,12 @@
     background-color: initial;
     vertical-align: top;
 }
+.prod-list.list-type .rating_type .rating_point {
+    float: left;
+    width: 78px;
+    height: 14px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point2.png) no-repeat;
+}
 </style>
 <style>
 .brandBox .reviewList .reviewCont .topinfo>span.like .icon {
@@ -64,7 +70,7 @@
 <script>
 $(function() {
     // 기본으로 보여지는 함수 
-    loadProducts('cate_01', 'p',24);
+    loadProducts('cate_01', 'p',8);
 
     // 카테고리 클릭 이벤트 핸들러
     $("ul.cate_list_box > li").on("click", function(event) {
@@ -136,8 +142,19 @@ $(function() {
             success: function (response) {
             	console.log(response);
             	
-            	 $("#allGoodsList").empty(); // 기존 상품 리스트 비우기
+            	  // let responseData = JSON.parse(response);
+                 
+              // 전체 상품 개수와 현재 페이지 정보를 추출
+                // let totalItems = responseData.totalItems;
+                /*  let currentPage = responseData.currentPage;
+                 let totalPages = responseData.totalPages;
+                 
+                 // 페이징 UI 갱신
+                 updatePagingUI(currentPage, totalPages); 
+            	 */
+            	 // 기존 상품 리스트 비우기
                  let htmlElement = $("#allGoodsList");
+                 $("#allGoodsList").empty(); 
             	/*  
             	// 서버에서 받아온 상품 데이터 목록을 반복 처리
                 for (let i = 0; i < response.length; i++) {
@@ -160,15 +177,50 @@ $(function() {
     }
 });
 </script>
+ <script>
+//페이징 UI를 갱신하는 함수
+function updatePagingUI(currentPage, totalPages) {
+    // 페이징 UI를 갱신하는 코드를 여기에 작성
+    // 예: 페이지 번호를 생성하고, 현재 페이지를 강조하는 등의 작업
+    
+    // 기존 페이징 UI를 비우기
+    $(".pageing").empty();
+    
+    // "이전" 버튼 추가
+    if (currentPage > 1) {
+        $(".pageing").append('<a href="#" onclick="moveToPage(' + (currentPage - 1) + ')">이전</a>');
+    }
+
+    // 페이지 번호 생성 및 현재 페이지 강조
+    for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+        if (pageNum === currentPage) {
+            $(".pageing").append('<strong title="현재 페이지">' + pageNum + '</strong>');
+        } else {
+            $(".pageing").append('<a href="#" onclick="moveToPage(' + pageNum + ')">' + pageNum + '</a>');
+        }
+    }
+
+    // "다음" 버튼 추가
+    if (currentPage < totalPages) {
+        $(".pageing").append('<a href="#" onclick="moveToPage(' + (currentPage + 1) + ')">다음</a>');
+    }
+
+    // 콘솔에 현재 페이지와 전체 페이지 수 출력
+    console.log("현재 페이지: " + currentPage);
+    console.log("전체 페이지 수: " + totalPages);
+}
+
+</script> 
 
 <script>
 //리뷰 상세 보기 Ajax
-function reviewDetail(reviewId) {c
-		url: "/store/getReviewDetail"
-		, method:"GET"
-		, cache:false
-		, dataType : "json"
-		, data:{
+function reviewDetail(reviewId) {
+	
+		url: "/store/getReviewDetail",
+		method:"GET",
+		cache:false,
+		dataType : "json",
+		data:{
 			reviewId : reviewId
 		}
 		, success: function (data) {
@@ -386,9 +438,9 @@ function reviewDetail(reviewId) {c
 			<div class="page_location">
 				<a href="javascript:common.link.moveMainHome();" class="loc_home">홈</a>
 				<ul class="loc_history">
-					<li><a href="javascript:common.link.moveBrandPage();">브랜드</a>
+					<li><a href="brandList.jsp">브랜드</a>
 					</li>
-					<li><a href="javascript:;">구달</a></li>
+					<li><a href="javascript:;">${ brand.brandName }</a></li>
 				</ul>
 			</div>
 			<div class="brand">
@@ -399,7 +451,7 @@ function reviewDetail(reviewId) {c
 						data-ref-onlbrndcd="A001436" id="icobrand">
 						<p class="brand">
 							<span class="icon"><span class="fw400">${ brand.brandLike }</span>명이
-								구달을 좋아합니다.</span>
+								${ brand.brandName }을 좋아합니다.</span>
 						</p>
 					</a>
 				</div>
@@ -410,7 +462,7 @@ function reviewDetail(reviewId) {c
 						<div class="visual">
 							<img
 								data-original="https://image.oliveyoung.co.kr/uploads/images/display/90000020137/263/8950018296969934705.jpg"
-								alt="구달 이미지 배너입니다."
+								alt="${ brand.brandName } 이미지 배너입니다."
 								data-ref-link-url="https://www.oliveyoung.co.kr/store/"
 								class="completed-seq-lazyload" src="${ brand.brandImgSrc }">
 						</div>
@@ -423,7 +475,7 @@ function reviewDetail(reviewId) {c
 				<div class="brand" data-sort="5" id="dataSortBox" corner-no="267">
 					<div class="brandBox lineb">
 						<div class="head md">
-							<h3 class="tit">슬로-에이징 구달 스킨케어</h3>
+							<h3 class="tit">슬로-에이징 ${ brand.brandName } 스킨케어</h3>
 						</div>
 						<div class="mdSwiperBox">
 							<div class="mdSwiper" id="mdSwiper">
@@ -689,6 +741,7 @@ function reviewDetail(reviewId) {c
 						</div>
 					</div>
 				</div>
+			  <!-- 유튜브 링크  -->
 				<div class="brandBox" data-sort="7" id="dataSortBox" corner-no="266">
 					<div class="brand-promotion video_box">
 						<div class="brand-promotion-container">
@@ -774,11 +827,11 @@ function reviewDetail(reviewId) {c
 																	name="BrandA001436_Best" class="thumb goodsList"
 																	data-ref-goodsno="A000000165071"
 																	data-ref-dispcatno="9000002" data-ref-itemno="001"
-																	data-attr="브랜드관^구달_베스트^[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
+																	data-attr="${ pro.productDisplayName}"
 																	data-trk="/" tabindex="-1"
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000165071&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;1&quot;);"><img
 																	src="${pro.productDisplaySrc }"
-																	alt="[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
+																	alt="${ pro.productDisplayName}"
 																	class="pic-thumb" onerror="common.errorImg(this);"></a>
 																<div class="prod-info"
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000165071&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;1&quot;);">
@@ -787,7 +840,7 @@ function reviewDetail(reviewId) {c
 																		name="BrandA001436_Best" class="goodsList"
 																		data-ref-goodsno="A000000165071"
 																		data-ref-dispcatno="9000002" data-ref-itemno="001"
-																		data-attr="브랜드관^구달_베스트^[한정기획] 구달 맑은 어성초 진정 수분크림 75ml 기획(+세럼 20ml+화장솜 20매 증정)"
+																		data-attr="${ pro.productDisplayName}"
 																		data-trk="/" tabindex="-1"><div class="prod-brand">
 																			<strong class="exclusive"></strong>
 																		</div> <span class="prod-name double-line">${ pro.productDisplayName}</span>
@@ -2109,7 +2162,7 @@ function reviewDetail(reviewId) {c
 				</div>
 				
 	<!-- 리뷰어 프로필 전체 부분 시작 -->
-	<div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: none;"></div>	
+	<div class="layer_pop_wrap w920" id="layerWrap920" "></div>	
 				
 				
 				<!-- brandBox line -->
@@ -2146,33 +2199,69 @@ function reviewDetail(reviewId) {c
 						<div class="count_sort tx_num">
 							<span class="tx_view">VIEW</span>
 							<ul>
-								<li class=""><a href="javascript:;" title="24개씩 보기">24</a></li>
-								<li><a href="javascript:;" title="36개씩 보기">36</a></li>
-								<li><a href="javascript:;" title="48개씩 보기">48</a></li>
+								<li class=""><a href="javascript:;" title="8개씩 보기">8</a></li>
+								<li><a href="javascript:;" title="16개씩 보기">16</a></li>
+								<li><a href="javascript:;" title="24개씩 보기">24</a></li>
 							</ul>
 						</div>
 
 						<div class="type_sort" id="div_type_sort">
-							<button class="btn_thumb" onclick="toggleListView()">컬럼형식으로 보기</button>
-<button class="btn_list active" onclick="toggleListView()">리스트형식으로 보기</button>
-        </div>					
+					<button class="btn_thumb active" onclick="toggleView('allGoodsList')">컬럼형식으로 보기</button>
+					<button class="btn_list" onclick="toggleView('list-view')">리스트형식으로 보기</button>
+				</div>				
 					</div>
-					<script>
-  function toggleListView() {
-    var listView = document.querySelector('.prod-list');
-    var columnButton = document.querySelector('.btn_thumb');
-    var listButton = document.querySelector('.btn_list');
 
-    // 리스트 뷰 토글
-    listView.classList.toggle('list-type');
+       
+			
+<script>
+    $(document).ready(function() {
+        // 페이지 로드 시 컬럼 형식으로 초기화
+        toggleView('allGoodsList');
 
-    // 버튼 활성화 상태 토글
-    columnButton.classList.toggle('active');
-    listButton.classList.toggle('active');
-  }
+        // 이벤트 핸들러
+        $('.btn_thumb').on('click', function() {
+            console.log("Thumb button clicked");
+            toggleView('allGoodsList');
+        });
+
+        $('.btn_list').on('click', function() {
+            console.log("List button clicked");
+            toggleView('list-view');
+        });
+    });
+
+    function toggleView(viewType) {
+        if (viewType === 'allGoodsList') {
+            $('.btn_thumb').addClass('active');
+            $('.btn_list').removeClass('active');
+            $('#allGoodsList').show();
+            $('#list-view').hide();
+        } else if (viewType === 'list-view') {
+            $('.btn_list').addClass('active');
+            $('.btn_thumb').removeClass('active');
+            $('#allGoodsList').hide();
+            $('#list-view').show();
+        }
+    }
 </script>
-          <!--  
-			<ul class="prod-list goodsProd list-type">
+
+
+								
+					<div id="allGoodsList">
+						<input type="hidden" id="strList" name="strList" value="">
+						<input type="hidden" id="lgcGoodsList" name="lgcGoodsList1"
+							value=""> <input type="hidden" id="idx" name="idx"
+							value="1"> <input type="hidden" id="totCntFmt"
+							name="totCntFmt" value="29"> <input type="hidden"
+							id="goodsTrackingCd" name="goodsTrackingCd" value="">
+
+						<ul class="prod-list goodsProd">
+							
+						</ul>
+						
+					
+				</div>
+				<div class="prod-list goodsProd list-type" id="list-view">
 	
 	
 		<li data-goods-idx="1">
@@ -2196,27 +2285,38 @@ function reviewDetail(reviewId) {c
 				<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000169825&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=4" name="BrandA001436_PROD" class="thumb goodsList" data-ref-goodsno="A000000169825" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000169825&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;4&quot;);"><img src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0016/A00000016982523ko.jpg?l=ko" alt="[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매" class="pic-thumb" onerror="common.errorImg(this);"></a><div class="prod-info" onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000169825&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_전체상품_마스크팩&quot;, &quot;4&quot;);"><div class="prod-brand"><strong class="exclusive"></strong></div><a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000169825&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_PROD&amp;t_page=브랜드관&amp;t_click=전체상품_마스크팩_상품상세&amp;t_number=4" class="goodsList" data-ref-goodsno="A000000169825" data-ref-dispcatno="9000002" data-ref-itemno="001" data-attr="브랜드관^구달_전체상품_마스크팩^[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매"><span class="prod-name double-line">[2023어워즈] 구달 청귤 비타C 수분 아이패치 60매</span></a><div class="price-info"><div class="discount"> <span class="origin">20,000원</span></div><div class="price"><strong class="total">16,000<span class="won">원</span></strong> <span class="oneday">오늘드림</span></div><div class="rating"><span class="point">4.6</span><span class="num">(999+)</span></div><div class="rating_type"><div class="rating_point star5"><span class="oyblind">별점 5점 만점에 4.6점</span></div><span>(999+)</span></div></div><div class="flags"><span class="flag sale">세일</span></div></div><div class="prod-func"><button type="button" class="favorite" data-ref-goodsno="A000000169825"><span>찜하기</span></button><button type="button" class="cart" onclick="common.gf_regCart(this); return false;" data-goods-no="A000000169825" data-item-no="001"><span>장바구니</span></button></div>
 			</div>
 		</li>	
-		</ul>	 -->
-								
-					<div id="allGoodsList">
-						<input type="hidden" id="strList" name="strList" value="">
-						<input type="hidden" id="lgcGoodsList" name="lgcGoodsList1"
-							value=""> <input type="hidden" id="idx" name="idx"
-							value="1"> <input type="hidden" id="totCntFmt"
-							name="totCntFmt" value="29"> <input type="hidden"
-							id="goodsTrackingCd" name="goodsTrackingCd" value="">
+		</div>
+		<!-- brandPage.brandPage.html -->
 
-						<ul class="prod-list goodsProd">
-							
-						</ul>
-						<div class="pageing">
-							<strong title="현재 페이지">1</strong> <a href="javascript:void(0);"
-								data-page-no="2">2</a>
+<!-- 상품 목록 표시 -->
+<ul class="prod-list goodsProd">
+    <!-- 상품 목록 아이템들... -->
+</ul>
 
-						</div>
+<!-- 페이징 UI -->
+<div class="paging">
+    <c:if test="${currentPage > 1}">
+        <a href="?brandId=${brand.brandId}&page=${currentPage - 1}">이전</a>
+    </c:if>
+    
+    <c:forEach begin="1" end="${totalPages}" var="pageNum">
+        <c:if test="${pageNum == currentPage}">
+            <strong title="현재 페이지">${pageNum}</strong>
+        </c:if>
+        <c:if test="${pageNum != currentPage}">
+            <a href="?brandId=${brand.brandId}&page=${pageNum}">${pageNum}</a>
+        </c:if>
+    </c:forEach>
+
+    <c:if test="${currentPage < totalPages}">
+        <a href="?brandId=${brand.brandId}&page=${currentPage + 1}">다음</a>
+    </c:if>
+</div>
+
+
 					</div>
-				</div>
 			</div>
+			
 		</div>
       
 

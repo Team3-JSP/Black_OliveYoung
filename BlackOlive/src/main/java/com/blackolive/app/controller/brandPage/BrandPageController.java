@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,38 +32,55 @@ public class BrandPageController {
 	 * this.brandPageService = brandPageService; }
 	 */
 	// 브랜드 페이지로 이동
-	@GetMapping
-	public String brandPage(@RequestParam("brandId") String brandId,Model model	) {
-		 log.info("brandId : " + brandId );
-		 
-		BrandPageDTO brand = null; 
-		 
-		
-		try {
-			// 브랜드 정보 가져오기
-			brand = this.brandPageService.getBrands(brandId);
-			model.addAttribute("brand", brand);
-   
-			// 기본으로 보여줄 상품 목록 (인기순, 전체)
-			/*
-			 * List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p",
-			 * "cate_01"); model.addAttribute("brandList", brandList);
-			 */
-			// 베스트 상품 목록 가져오기 (슬라이드용)
-			List<BrandPageDTO> bestProducts = brandPageService.getsellProduct(brandId, "cate_01");
-			model.addAttribute("bestProducts", bestProducts);
-			
-			
-			//리뷰목록 가져오기 (
-			List<BrandPageDTO> reviewList = this.brandPageService.getReviews(brandId);
-			model.addAttribute("reviewList", reviewList);
+	
+	  @GetMapping("/brandList")
+	    public String brandListPage() {
+	        return "brandPageList";
+	    }
+	  
+	  @GetMapping
+	    public String brandPage(
+	            @RequestParam("brandId") String brandId,
+	            @RequestParam(value = "page", defaultValue = "1") int page,
+	            @RequestParam(value = "pageSize", defaultValue = "8") int pageSize,
+	            Model model) {
+	        log.info("brandId : " + brandId);
 
-			return "brandPage.brandPage"; // 해당 뷰로 이동
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-			return "error"; // 에러 페이지로 이동
-		}
-	}
+	        try {
+	            // 브랜드 정보 가져오기
+	            BrandPageDTO brand = this.brandPageService.getBrands(brandId);
+	            model.addAttribute("brand", brand);
+
+	            // 기본으로 보여줄 상품 목록 (인기순, 전체)
+	            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01",8);
+
+	            // 페이징을 위한 로직 추가
+	            int startIdx = (page - 1) * pageSize;
+	            int endIdx = Math.min(startIdx + pageSize, brandList.size());
+	            List<BrandPageDTO> pagedBrandList = brandList.subList(startIdx, endIdx);
+
+	            model.addAttribute("brandList", pagedBrandList);
+
+	            // 페이징 정보 전달
+	            model.addAttribute("currentPage", page);
+	            model.addAttribute("totalPages", (int) Math.ceil((double) brandList.size() / pageSize));
+
+	            // 베스트 상품 목록 가져오기 (슬라이드용)
+	            List<BrandPageDTO> bestProducts = brandPageService.getsellProduct(brandId, "cate_01");
+	            model.addAttribute("bestProducts", bestProducts);
+
+	            // 리뷰 목록 가져오기
+	            List<BrandPageDTO> reviewList = this.brandPageService.getReviews(brandId);
+	            model.addAttribute("reviewList", reviewList);
+
+	            return "brandPage.brandPage"; // 해당 뷰로 이동
+	        } catch (ClassNotFoundException | SQLException e) {
+	            log.error("Error occurred: " + e.getMessage());
+	            return "error"; // 에러 페이지로 이동
+	        }
+	    }
+	//페이징 처리 
+
 }    
 /*
  * @GetMapping() public BrandDTO getsort
