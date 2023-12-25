@@ -192,7 +192,7 @@
 					<div class="reviewer-profile-content">
 						<div class="reviewer-profile-content__body">
 							<div class="rw-box">
-								<a href="#;" class="rw-box__link" onclick="location.href='https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000188875&amp;trackingCd=Best_Reviewbest';">
+								<a href="<c:url value='/store/goods?productDisplayId=\${data.productDisplayId}'/>" class="rw-box__link">
 									<div class="rw-box-figure">
 										<div class="rw-box-figure__img">
 											<img src="\${data.productImgSrc}" alt="">
@@ -498,7 +498,7 @@
 						<c:forEach items="${productList }" var="list" varStatus="status">
 								<li class="flag">
 									<div class="prd_info ">
-										<a href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000160943&amp;dispCatNo=90000010009&amp;trackingCd=Best_Sellingbest&amp;t_page=랭킹&amp;t_click=판매랭킹_전체_상품상세&amp;t_number=1" name="Best_Sellingbest" class="prd_thumb goodsList" data-ref-goodsno="A000000160943" data-attr="랭킹^판매랭킹리스트_전체^[11/17 단하루 특가] 셀리맥스 시카 지우개패드 60매 (토너 패드)^1" data-ref-dispcatno="90000010009" data-ref-itemno="001" data-trk="/" data-impression="A000000160943^랭킹_판매랭킹리스트_전체^1" data-impression-visibility="1">
+										<a href="<c:url value='/store/goods?productDisplayId=${list.productDisplayId}'/>" name="Best_Sellingbest" class="prd_thumb goodsList">
 											<!-- <span class="newOyflag today"><em>오특</em></span>
 											<span class="newOyflag time" style="display:none;">
 												<div class="main-today">

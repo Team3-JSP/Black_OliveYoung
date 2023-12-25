@@ -12,6 +12,8 @@ public interface StoreService {
 	
 	List<StoreDTO> getStoreService(String userId); // 오버로딩
 	
+	List<StoreDTO> getStoreStockService(String[] tcs, String[] pss, String productId, String userId); // 오버로딩
+	
 	List<CityDTO> getCityService();
 	
 	List<DistrictDTO> getDistrictService(String cityId);
@@ -28,5 +30,5 @@ public interface StoreService {
 
 	StoreDetailDTO getStoreDetail(String storeId);
 
-	
+	List<ProductContainer> getStoreBestProduct(int userAge, int userGender, String categoryLargeId);
 }

@@ -12,6 +12,7 @@
 			<arg column="saturday"  javaType="string"/>
 			<arg column="sunday"  javaType="string"/>
 		</constructor>
+		
 		<result property="districtId" column="district_id"/>
 		<result property="storeName" column="store_name"/>
 		<result property="storeTel" column="store_tel"/>
@@ -24,6 +25,7 @@
 		<result property="lng" column="lng"/>
 		<result property="holiday" column="holiday"/>
 		<result property="favYN" column="favYN"/>
+		<result property="stockCnt" column="stock_cnt"/>
 	</resultMap>
 	
 	<resultMap type="com.blackolive.app.domain.store.StoreDetailDTO" id="storeDetailMap">
@@ -91,6 +93,43 @@
 	        	WHERE store_id = s.store_id AND user_id = #{userId}) favYN
 		</if>
 		FROM store s JOIN store_time st ON s.store_id = st.store_id
+	</select>
+	
+	<select id="selectAllStoreStock" resultMap="storeMap">
+		SELECT s.*, st.*
+		<if test="userId != null and userId != ''">
+			, (SELECT 'Y'
+	        	FROM interest_shop
+	        	WHERE store_id = s.store_id AND user_id = #{userId}) favYN
+		</if>
+			, NVL(( 
+		        SELECT amount
+		        FROM store_stock
+		        WHERE product_id = #{productId} AND store_id = s.store_id
+		    ), -1) stock_cnt
+		FROM store s JOIN store_time st ON s.store_id = st.store_id
+		<trim prefix="AND (" prefixOverrides="OR" suffix=")">
+			<if test="tcs != null and tcs.length != 0">
+				OR s.store_id IN ( 
+					SELECT DISTINCT(store_id)
+				    FROM handling_store
+				    WHERE category_id IN 
+					<foreach item="tcs" collection="tcs" open="(" close=")" separator=",">
+				        #{tcs}
+				    </foreach>
+				)
+			</if>
+			<if test="pss != null and pss.length != 0">
+				OR s.store_id IN (
+					SELECT DISTINCT(store_id)
+				    FROM store_service
+				    WHERE olive_service_id IN 
+					<foreach item="pss" collection="pss" open="(" close=")" separator=",">
+				    	#{pss}
+				    </foreach>
+				)
+			</if>
+		</trim>
 	</select>
 	
 	<select id="selectStoreList" resultMap="storeMap">
@@ -246,6 +285,41 @@
 		    JOIN store_service ss ON s.store_id = ss.store_id
 		    JOIN olive_service os ON ss.olive_service_id = os.olive_service_id
 		WHERE s.store_id = #{storeId}
+	</select>
+
+	<select id="selectStoreBestProduct" resultType="ProductContainer">
+		SELECT *
+		FROM productcontainer
+		WHERE product_id IN (
+		    SELECT product_id
+		    FROM (
+		        SELECT product_id, SUM(product_cnt) product_cnt
+		        FROM order_product op 
+		            JOIN olive_order oo ON op.order_id = oo.order_id
+		            JOIN olive_user ou ON oo.user_id = ou.user_id
+		            JOIN category_mid cm ON op.category_mid_id = cm.category_mid_id 
+		            <trim prefix="where" prefixOverrides="AND">
+		            	<if test="userGender != 0">
+		            		AND user_gender = #{userGender} 
+		            	</if>
+		            	<if test="categoryLargeId != ''">
+		            		AND category_large_id = #{categoryLargeId}
+		            	</if>
+		            	<if test="userAge != 0">
+		            		AND FLOOR((TO_CHAR(SYSDATE, 'yyyy') - TO_CHAR(user_birth, 'yyyy') +
+				                CASE SIGN(TO_CHAR(SYSDATE, 'mmdd') - TO_CHAR(user_birth, 'mmdd')) 
+				                WHEN 1 THEN -1
+				                ELSE 1
+				                END)/10) = #{userAge}
+		            	</if>
+		            </trim>
+		        GROUP BY product_id
+		        ORDER BY product_cnt DESC
+		    ) t
+		    <![CDATA[
+		    WHERE ROWNUM <= 10 AND product_cnt >= 3
+		    ]]>
+		)
 	</select>
 
 </mapper>
