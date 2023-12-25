@@ -11,6 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
 import com.blackolive.app.service.adminpage.AdminPageIndexService;
+import com.blackolive.app.service.adminpage.OrderCheckService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,6 +25,9 @@ public class AdminPageIndexTest {
 	
 	@Autowired
 	AdminPageIndexService adminPageIndexService;
+	
+	@Autowired
+	OrderCheckService orderCheckService;
 	
 	/*
 	@Test
@@ -39,14 +43,16 @@ public class AdminPageIndexTest {
 		
 		// assertNotNull(this.adminPageIndexMapper.getBuyInfo(1));
 		
-		int displayIdSeq = this.adminPageIndexService.getproductIdSeqService();
-		String productDisplayId = "pd_" + displayIdSeq;
-		//String brandId = principal.getName();
-		String brandId = "br_00000012";
+//		int displayIdSeq = this.adminPageIndexService.getproductIdSeqService();
+//		String productDisplayId = "pd_" + displayIdSeq;
+//		//String brandId = principal.getName();
+//		String brandId = "br_00000012";
+//		
+//		ProductDisplayDTO productDisplayDTO = new ProductDisplayDTO(productDisplayId, brandId, "test1", 'N'); 
+//		
+//		assertEquals(1, this.adminPageIndexService.insertProductDisplayService(productDisplayDTO));
 		
-		ProductDisplayDTO productDisplayDTO = new ProductDisplayDTO(productDisplayId, brandId, "test1", 'N'); 
-		
-		assertEquals(1, this.adminPageIndexService.insertProductDisplayService(productDisplayDTO));
+		assertNotNull(this.orderCheckService.getOrderList(1));
 		
 	}
 

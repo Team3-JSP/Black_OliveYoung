@@ -1,24 +1,19 @@
 package com.blackolive.app.controller.adminpage;
 
-import java.security.Principal;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blackolive.app.domain.adminpage.BuyInfoDTO;
-import com.blackolive.app.domain.adminpage.ProductDTO;
+import com.blackolive.app.domain.adminpage.OrderCheckDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -26,6 +21,7 @@ import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 import com.blackolive.app.service.adminpage.AdminPageIndexService;
 import com.blackolive.app.service.adminpage.AdminPageRestService;
+import com.blackolive.app.service.adminpage.OrderCheckService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -34,11 +30,15 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class AdminRestController {
 	
+	
 	@Autowired
 	private AdminPageIndexService adminPageIndexServiceImpl;
 	
 	@Autowired
 	private AdminPageRestService adminPageRestService;
+	
+	@Autowired
+	private OrderCheckService orderCheckService;
 
 	@GetMapping("/salesPerMonth")
 	public ResponseEntity<List<SalesPerMonthDTO>> getMoneyMonth(){
@@ -108,36 +108,53 @@ public class AdminRestController {
 									: new ResponseEntity<List<BuyInfoDTO>>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	/*
 	@PostMapping("/product/registration")
 	@ResponseBody
 	public ResponseEntity<Integer> adminProductRegist(Model model
 			, Principal principal
-			, @RequestBody List<ProductDTO> productDTO
+			, @RequestBody ProductJSONDTO form
 			, HttpServletRequest request) {
 	
 		// int displayIdSeq = this.adminPageIndexServiceImpl.getproductIdSeqService();
 		// String productDisplayId = "pd_" + displayIdSeq;
 		//String brandId = principal.getName();
 		String brandId = "br_00000012";
-		int rowCnt = 0;
+		int rowCnt = 1;
 		char productDisplayOption = 'N';
-		if (productDTO.size() >= 1) {
-			productDisplayOption = 'Y';
-			rowCnt = 1;
-		} // if
 		
 		String uri = request.getHeader("Referer");
-		
 		System.out.println(uri);
+
+		for (int i = 0; i < form.getProductDataList().size(); i++) {
+			ProductDTO dto = form.getProductDataList().get(i);
+			
+			MultipartFile file = dto.getProductImg();
+			
+			 System.out.println("Dynamic Group " + i + " - Uploaded file name: " + file.getOriginalFilename());
+			
+		}// for
+		
 		
 		
 		// ProductDisplayDTO productDisplayDTO = new ProductDisplayDTO("1", brandId, productDisplayName, productDisplayOption);
-		
-		//System.out.println(">>>> productDisplayDTO: " + productDisplayDTO);
-		System.out.println(">>>> productDTO: "+productDTO);
-		log.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+productDTO);
-		
+
 		
 		return rowCnt == 1 ? new ResponseEntity<Integer>(1,HttpStatus.OK) : new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
+	} // adminProductRegist
+	*/
+	
+	@PostMapping("/order/orderConfirm")
+	public ResponseEntity<Integer> orderConfirm(@RequestParam("selectedRows[]") String[] selectedRows ){
+		
+		System.out.println(">>>>>>>>>>>" + selectedRows.toString());
+		System.out.println();
+		int rowCnt = 0;
+		rowCnt = this.orderCheckService.orderConfirmService(selectedRows);
+		
+		//return rowCnt == 1 ? new ResponseEntity<Integer>(HttpStatus.OK) : new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR) ;
+		
+		return null;
+		
 	}
 } // class

@@ -51,7 +51,8 @@
   <script src="/resources/adminpage/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/resources/adminpage/assets/vendor/chart.js/chart.umd.js"></script>
   <script src="/resources/adminpage/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="/resources/adminpage/assets/vendor/quill/quill.min.js"></script>
+  <!-- <script src="/resources/adminpage/assets/vendor/quill/quill.min.js"></script> -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script src="/resources/adminpage/assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="/resources/adminpage/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="/resources/adminpage/assets/vendor/php-email-form/validate.js"></script>

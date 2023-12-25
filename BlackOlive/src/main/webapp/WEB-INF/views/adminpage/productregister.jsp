@@ -22,8 +22,9 @@
                 <h5 class="card-title">상품 등록</h5>
 
                 <!-- General Form Elements -->
-                <form action="/adminpage/product/registration" method="POST" id="productForm">
-                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <form action="/adminpage/product/reg" method="post" id="productForm" enctype="multipart/form-data">
+                  <!-- CSRF 토큰 추가 -->
+        		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                   <div class="row mb-3">
                     <div class="col-sm-3">
                       <select class="form-select" aria-label="Total Category" id="totalCategory">
@@ -59,12 +60,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <input
-                      class="form-control-file"
-                      type="file"
-                      id="formFileMultiple"
-                      multiple
-                    />
+                    <input class="form-control-file" type="file" id="formFileMultiple" name="formFileMultiple" multiple />
                     <hr>
                   </div>
 
@@ -193,6 +189,7 @@
                       class="form-control-file"
                       type="file"
                       id="formFileMultiple"
+                      name="multiInfoImgs"
                       multiple
                     />
                   	</div>
@@ -221,7 +218,7 @@
                    
                    </div>
                    <div class="row mb-3" id="buyInfoCollection">
-
+	
                   
                   </div>
                   <!-- 제출 버튼 -->
@@ -229,7 +226,7 @@
                   <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Submit Button</label>
                     <div class="col-sm-10">
-                      <button type="button" class="btn btn-primary" id="submitBtn">
+                      <button type="submit" class="btn btn-primary" id="submitBtn">
                         Submit Form
                       </button>
                     </div>
@@ -254,37 +251,44 @@
     <!-- End #main -->
     
     <script>
+    var productIndex = 0; // 상품 인덱스를 유지하기 위한 변수
+    
     $("#productAddBtn").on("click", function () {
       addOption();
     });
 
     function addOption() {
-      var optionTemplate =
-        '<div class="row mb-2" id="productForm"> ' +
-        '<label class="col-sm-2 col-form-label">상품</label> ' +
-        '<div class="col-sm-4">' +
-        '   <input type="text" class="form-control col-sm-2" placeholder="상품명" name= "productName" />' +
-        "</div>" +
-        '<div class="col-sm-3">' +
-        '   <input type="text" class="form-control" placeholder="상품 가격" name="productPrice"/>' +
-        "</div>" +
-        '<div class="col-sm-2">' +
-        '   <input type="text" class="form-control" placeholder="재고 수량" name="productStock" />' +
-        "</div>" +
-        '<div class="col-sm-1">' +
-        '   <button type="button" class="btn btn-primary deleteBtn">X</button>' +
-        "</div>" +
-        '<div class="col-sm-6 mt-2">' +
-        '   <input type="file" class="form-control-file" name="productImg"/>' +
-        "</div>" +
-        "<hr>" +
-        "</div>";
+    	 var optionTemplate =
+    	        '<div class="row mb-2" id="productForm">' +
+    	        '   <label class="col-sm-2 col-form-label">상품</label>' +
+    	        '   <div class="col-sm-4">' +
+    	        '       <input type="text"  style="display: none;" name="productId" value="1"/>' +
+    	        '       <input type="text"  style="display: none;" name="productDisplayId" value="1"/>' +
+    	        '       <input type="text"  style="display: none;" name="categorySmallId" value="1"/>' +
+    	        '       <input type="text" class="form-control col-sm-2" placeholder="상품명" name="productName" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-3">' +
+    	        '       <input type="text" class="form-control" placeholder="상품 가격" name="productPrice" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-2">' +
+    	        '       <input type="text" class="form-control" placeholder="재고 수량" name="productStock" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-1">' +
+    	        '       <button type="button" class="btn btn-primary deleteBtn">X</button>' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-6 mt-2">' +
+    	        '       <input type="file" class="form-control-file" name="productImg"/>' +
+    	        '   </div>' +
+    	        '   <hr>' +
+    	        '</div>';
 
       $("#productFormCollection").append(optionTemplate);
 
       $(".deleteBtn").click(function () {
         $(this).closest("#productForm").remove();
       });
+      
+      productIndex++;
     } // function
     $(function () {
       $(document).on("click", ".deleteBtn", function () {
@@ -486,62 +490,150 @@
 }) // ready close
  
  </script>
- 
  <script>
+ /*
  $(function() {
-	
-	$('#submitBtn').on('click', function() {
-		
-		var productDisplayName = $("input[name='productDisplayName']").val();
-		var categorySmallId = $('#smallCategory').val();
-		
-		var productDTO = [];
+	    $('#submitBtn').on('click', function() {
+	    	
+alert('상품 등록중');
+	    	
+	    	var productDisplayName = $("input[name='productDisplayName']").val();
+	    	var categorySmallId = $('#smallCategory').val();
+	    	
+	    	var formData = new FormData();
+	        var productDataList = [];
+	        var dynamicGroups = $('#productFormCollection .row');
+	        
+	        dynamicGroups.each(function(index) {
+	            var productId = '1';
+	            var productDisplayId = '1';
+	            var productName = $(this).find("input[name='productName']").val();
+	            var productPrice = parseInt($(this).find("input[name='productPrice']").val(), 10);
+	            var productStock = parseInt($(this).find("input[name='productStock']").val(), 10);
+	            var productImgInput = $(this).find("input[name='productImg']")[0];
+	            
+	            alert(productImgInput.files[0]);
+	            
+	            if (productImgInput.files && productImgInput.files.length > 0) {
+	                // 파일이 있는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock,
+	                    productImg: productImgInput.files[0]
+	                };
 
-		$("#productFormCollection").find(".row").each(function () {
-		    var product = {
-		    		productId: '1',
-		    		productDisplayId: '1',
-		    	categorySmallId: categorySmallId,
-		        productName: $(this).find("input[name='productName']").val(),
-		        productPrice: parseInt($(this).find("input[name='productPrice']").val(), 10),
-		        productStock: parseInt($(this).find("input[name='productStock']").val(), 10),
-		        productImg: $(this).find("input[name='productImg']").val()
-		    };
-		    productDTO.push(product);
-		});
-		
-		console.log(productDTO);
-		console.log(productDisplayName);
-		
-		
-		$.ajax({
-			url: "/adminrest/product/registration",
-			method: "POST",
-			dataType: "Text",
-			contentType: "application/json",  // 추가된 부분
-			data :({
-				productDTO
-			}),
-			cache: false,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
-				console.log(xhr);
-			},
-			success: function(data) {
-				alert('성공');
-				alert(productDTO);
-				window.location.href ="localhost/adminpage/";
-			},
-			error: function(error) {
-				alert('실패');
-				console.log(error);
-				
-			}// error close
-		}); // ajax close
-		
+	                productDataList.push(productData);
+	            } else {
+	                // 파일이 없는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock
+	                };
+
+	                productDataList.push(productData);
+	            } // else
+	            
+	            
+	        }); // for each
+	        formData.append('productDataList', JSON.stringify(productDataList));
+	        
+	        console.log("FormData Contents:");
+	        for (let pair of formData.entries()) {
+	            console.log(pair[0] + ', ' + (pair[1] instanceof File ? 'File' : pair[1]));
+	        };
+	        
+	        $('#productForm').submit();
+	    	
+	    }) // click function
 	    
-	}); // click close
-	 
-}) // ready close
+	    
+	    
+}); // ready function
+ */
+ </script>
+ <script>
+ /*
+ $(function() {
+	    $('#submitBtn').on('click', function() {
+	        var productDisplayName = $("input[name='productDisplayName']").val();
+	        var categorySmallId = $('#smallCategory').val();
+
+	        var formData = new FormData();
+	        var productDataList = [];
+	        var dynamicGroups = $('#productFormCollection .row');
+	        
+	        dynamicGroups.each(function(index) {
+	            var productId = '1';
+	            var productDisplayId = '1';
+	            var productName = $(this).find("input[name='productName']").val();
+	            var productPrice = parseInt($(this).find("input[name='productPrice']").val(), 10);
+	            var productStock = parseInt($(this).find("input[name='productStock']").val(), 10);
+	            var productImgInput = $(this).find("input[name='productImg']")[0];
+	            
+	            alert(productImgInput.files[0]);
+	            
+	            if (productImgInput.files && productImgInput.files.length > 0) {
+	                // 파일이 있는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock,
+	                    productImg: productImgInput.files[0]
+	                };
+
+	                productDataList.push(productData);
+	            } else {
+	                // 파일이 없는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock
+	                };
+
+	                productDataList.push(productData);
+	            }
+	            
+	            
+	        });
+	        formData.append('productDataList', JSON.stringify(productDataList));
+
+	        console.log("FormData Contents:");
+	        for (let pair of formData.entries()) {
+	            console.log(pair[0] + ', ' + (pair[1] instanceof File ? 'File' : pair[1]));
+	        };
+	        
+	        $.ajax({
+	            url: "/adminrest/product/registration",
+	            type: "POST",
+	            data: ({form:formData}),
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            beforeSend: function(xhr) {
+	                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+	            },
+	            success: function(data) {
+	                alert('성공');
+	                alert(productDTO);
+	                window.location.href = "localhost/adminpage/";
+	            },
+	            error: function(error) {
+	                alert('실패');
+	                console.log(error);
+	            }
+	        });
+	    });
+	});
+ */
  </script>
 

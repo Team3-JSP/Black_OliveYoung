@@ -66,7 +66,7 @@ public class MainPageController {
 		List<BrandTopDTO> mbrandlist = this.exhibitionService.getTopBrandService();
 		model.addAttribute("mbrandlist",mbrandlist);
 		
-		String userId="user1";
+		String userId="johndoe5";
 		if (principal != null) {
 			userId = principal.getName();
 		} // if
