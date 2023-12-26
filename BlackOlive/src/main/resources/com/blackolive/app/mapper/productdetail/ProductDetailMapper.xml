@@ -13,8 +13,8 @@
 	public ProductPromotionDTO getProductPromotion(@Param("productDisplayId") String productDisplayId); -->
 	<select id="getProductPromotion" resultType="ProductPromotionDTO">
 		<![CDATA[
-		SELECT prpr.promotion_discount_id, prd.promotion_discount_start_day, prd.promotion_discount_end_day, prd.promotion_discount_price
-			, prpr.promotion_coupon_id, prc.promotion_coupon_name, prc.promotion_coupon_start_day, prc.promotion_coupon_end_day
+		SELECT prpr.promotion_discount_id, to_char(prd.promotion_discount_start_day,'yyyy.mm.dd')AS promotion_discount_start_day, to_char(prd.promotion_discount_end_day,'yyyy.mm.dd')AS promotion_discount_end_day, prd.promotion_discount_price
+			, prpr.promotion_coupon_id, prc.promotion_coupon_name, to_char(prc.promotion_coupon_start_day,'yyyy.mm.dd')AS promotion_coupon_start_day, to_char(prc.promotion_coupon_end_day,'yyyy.mm.dd') AS promotion_coupon_end_day
 			, NVL(CASE  
 			WHEN prc.promotion_coupon_kind = 1 THEN prc.promotion_coupon_discount
 			WHEN prc.promotion_coupon_kind = 2 THEN p.product_price * prc.promotion_coupon_discount 

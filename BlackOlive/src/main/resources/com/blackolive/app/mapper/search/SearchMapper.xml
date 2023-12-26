@@ -23,8 +23,13 @@
 					 <if test="userId != null">
 						 AND pl.user_id = #{userId}
                     </if>
-                    <![CDATA[
-                    WHERE product_display_name Like '%${searchWord}%'
+                    
+                    WHERE
+                     <foreach collection="searchWord" item="searchWord" separator=" AND ">
+            				product_display_name Like '%${searchWord}%'
+        				</foreach>
+                     
+                     <![CDATA[
                     AND afterprice >= #{minPrice}
                     AND afterprice <= #{maxPrice}
                     ]]>
@@ -70,8 +75,11 @@
 	<select id="searchCategorySmall" resultType="categorySmall">
 	select Distinct p.category_small_id, cm.category_small_name 
 	from PRODUCTCONTAINER p 
-	join category_small cm on p.category_small_id = cm.category_small_id 
-	where product_display_name Like '%${searchWord}%'
+	join category_small cm on p.category_small_id = cm.category_small_id  
+	WHERE
+                     <foreach collection="searchWord" item="searchWord" separator=" AND ">
+            				product_display_name Like '%${searchWord}%'
+        				</foreach>
 	</select>
 	
 	<!-- // 검색된 상품의 브랜드 목록
@@ -83,7 +91,10 @@
 		JOIN product p ON pd.product_display_id = p.product_display_id
 		JOIN category_small cs ON p.category_small_id = cs.category_small_id
 		JOIN category_mid cm ON cm.category_mid_id = cs.category_mid_id
-        where product_display_name Like '%${searchWord}%'
+        WHERE
+                     <foreach collection="searchWord" item="searchWord" separator=" AND ">
+            				product_display_name Like '%${searchWord}%'
+        				</foreach>
         <if test="categorySmallId != null and categorySmallId.length > 0">
             AND    cs.category_small_id = #{categorySmallId}
         </if>
@@ -93,8 +104,12 @@
 		<select id="searchTotalRecords" resultType="int">
 			SELECT COUNT(*)
 		FROM productcontainer
-		<![CDATA[
-                    WHERE product_display_name Like '%${searchWord}%'
+		
+                   WHERE
+                     <foreach collection="searchWord" item="searchWord" separator=" AND ">
+            				product_display_name Like '%${searchWord}%'
+        				</foreach>
+        			<![CDATA[
                     AND afterprice >= #{minPrice}
                     AND afterprice <= #{maxPrice}
                     ]]>
@@ -116,8 +131,11 @@
 		<select id="searchTotalPages" resultType="int">
 		SELECT CEIL(COUNT(*) / #{perPage})
 		FROM productcontainer
-		<![CDATA[
-                    WHERE product_display_name Like '%${searchWord}%'
+		WHERE
+                     <foreach collection="searchWord" item="searchWord" separator=" AND ">
+            				product_display_name Like '%${searchWord}%'
+        				</foreach>
+        			<![CDATA[
                     AND afterprice >= #{minPrice}
                     AND afterprice <= #{maxPrice}
                     ]]>
