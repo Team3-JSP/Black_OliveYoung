@@ -24,4 +24,13 @@ public interface MainPageMapper {
 	
 	public List<ProductContainer> similardispl(@Param("displList") List<String> displList);
 	
+	int insertUserView(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	int checkUserVIew(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	int updateUserView(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	public List<ProductContainer> selectUserVIew(@Param("userId")String userId, @Param("categoryMidId")List<String> categoryMidId);
+	
+	public List<String> selectcategoryMidId(@Param("userId")String userId);
 } // class
