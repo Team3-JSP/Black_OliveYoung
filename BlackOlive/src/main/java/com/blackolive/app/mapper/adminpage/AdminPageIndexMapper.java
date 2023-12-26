@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.adminpage.BuyInfoDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -13,6 +14,8 @@ import com.blackolive.app.domain.head.CategoryMidDTO;
 import com.blackolive.app.domain.head.CategorySmallDTO;
 
 public interface AdminPageIndexMapper {
+	
+	// index페이지와 상품등록 Mapper
 	
 	// 월별 판매량 갖고오기 getSalesPerMonth
 	public List<SalesPerMonthDTO> getSalesPerMonth(@Param("brandId") String brandId);
@@ -23,6 +26,9 @@ public interface AdminPageIndexMapper {
 	// 상품 표시 id에 쓸 시퀀스 미리 갖고오기
 	public int getproductIdSeq(); 
 	
+	
+	// 상품 표시 데이터 insert insertProductDisplay
+	public int insertProductDisplay (@Param("productDisplay") ProductDisplayDTO productDisplay);
 	
 	
 	// ================= Rest Mapper ======================

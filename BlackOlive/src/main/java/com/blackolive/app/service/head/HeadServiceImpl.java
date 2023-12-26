@@ -24,8 +24,6 @@ import com.blackolive.app.mapper.head.HeadMapper;
 import lombok.extern.log4j.Log4j;
 
 @Service
-@Log4j
-
 public class HeadServiceImpl implements HeadService{
 
 	@Autowired
@@ -35,7 +33,7 @@ public class HeadServiceImpl implements HeadService{
 	public Map<CategoryLargeDTO, List<CategoryMidDTO>> getHeadCategorySerivce(int categoryTotalId) throws SQLException, ClassNotFoundException {
 		
 		
-		log.info(">>HeadService call...");
+		
 	
 			
 //		Map<CategoryLargeDTO, List<CategoryMidDTO>> list  = this.headMapper.getHeadCategory(categoryTotalId);

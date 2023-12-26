@@ -1,5 +1,7 @@
 package com.blackolive.app.domain.adminpage;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +17,7 @@ public class ProductDTO {
 	private String productName;
 	private int productPrice;
 	private int productStock;
+	
+	private CommonsMultipartFile productImg;
 
 }

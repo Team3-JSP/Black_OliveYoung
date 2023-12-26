@@ -61,8 +61,15 @@
 	public int getproductIdSeq();  -->
 	
 	<select id="getproductIdSeq" resultType="int">
-		SELECT product_display_seq.nextval FROM dual;
+		SELECT product_display_seq.nextval FROM dual
 	</select>
+	
+	<!-- // 상품 표시 데이터 insert insertProductDisplay
+	public int insertProductDisplay (@Param("productDisplay") ProductDisplayDTO productDisplay); -->
+	<insert id="insertProductDisplay">
+		INSERT INTO product_display (PRODUCT_DISPLAY_ID, BRAND_ID, PRODUCT_DISPLAY_NAME, PRODUCT_DISPLAY_LIKE, PRODUCT_DISPLAY_OPTION, PRODUCT_DISPLAY_REGDATE)
+		VALUES(#{productDisplay.productDisplayId}, #{productDisplay.brandId}, #{productDisplay.productDisplayName},0 ,#{productDisplay.productDisplayOption}, SYSDATE )
+	</insert>
 	
 	
 	<!-- ================= Rest Mapper ======================= -->

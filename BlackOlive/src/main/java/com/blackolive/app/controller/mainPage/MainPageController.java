@@ -69,7 +69,7 @@ public class MainPageController {
 		List<ExhibitionBannerDTO> midBanner = this.exhibitionService.getExhibitionBannerService(1);
 		model.addAttribute("midBanner",midBanner);
 		
-		String userId="user1";
+		String userId="johndoe5";
 		if (principal != null) {
 			userId = principal.getName();
 		} // if
