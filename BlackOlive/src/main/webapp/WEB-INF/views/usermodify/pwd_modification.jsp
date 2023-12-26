@@ -154,7 +154,8 @@ $("#btnCancel").on("click", function () {
 					if (data == 1) {
 						alert("현재 비밀번호와 동일한 비밀번호는 사용할 수 없습니다.");
 					} else {
-						if( newPwdChk() ){
+						var isValid = newPwdChk();
+						if( isValid){
 							$("#form1").submit();
 						}
 					}
@@ -201,9 +202,9 @@ $("#btnCancel").on("click", function () {
 			return false;
 		} else if (newPwd != newPwdChk) {
 			alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-			$("#msg_pwd_check").removeClass("hide");
-			$("#new_pwd").focus();
-			return false;
+		    $("#msg_pwd_check").removeClass("hide");
+		    $("#new_pwd").focus();
+
 		}
 		return true;
 	}

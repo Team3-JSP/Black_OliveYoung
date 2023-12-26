@@ -93,7 +93,7 @@
 								<script type="text/javascript">
 									setTimeout(() => {
 				    	  				window.location.href="<%=contextPath %>/mypage/usermodify";
-									}, 500000); 
+									}, 5000); 
 								</script>
 							</div>
 						</div>

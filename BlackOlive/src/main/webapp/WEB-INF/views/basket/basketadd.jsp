@@ -744,7 +744,7 @@ $(document).ready(function() {
 			params += "&quickYN="+"<%=quickyn%>";
 		
 		console.log(params)
-		location.href = "<%=contextPath%>/olive/orderForm.do?" + params + "&click=장바구니";
+		location.href = "<c:url value='/store/getOrderForm'/>?" + params + "&click=장바구니";
 	})
 	
 	$("button.btnOrangeW").click(function() {
@@ -764,7 +764,7 @@ $(document).ready(function() {
 			params += "&quickYN="+"<%=quickyn%>";
 		
 		console.log(params)
-		location.href = "<%=contextPath%>/olive/orderForm.do?" + params + "&click=장바구니";
+		location.href = "<c:url value='/store/getOrderForm'/>?" + params + "&click=장바구니";
 	})
 	
 	$("button.btnSmall.wGreen").click(function() {

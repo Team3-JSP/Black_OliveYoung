@@ -43,4 +43,15 @@ public OliveUserDTO selectUserInfoService(String userId);
 	
 	public List<ProductContainer> similardisplService(String userId);
 	
+	
+	//int insertUserViewService(String userId, String categoryMidId);
+	
+	int checkUserVIewService(String userId, String categoryMidId);
+	
+	//int updateUserViewService(String userId, String categoryMidId);
+	
+	public List<ProductContainer> selectUserVIewService(String userId, List<String> categoryMidId);
+	
+	public List<String> selectcategoryMidIdService(String userId);
+	
 } // interface
