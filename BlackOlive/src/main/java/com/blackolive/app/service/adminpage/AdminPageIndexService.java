@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.blackolive.app.domain.adminpage.BuyInfoDTO;
+import com.blackolive.app.domain.adminpage.OrderRegisterDTO;
 import com.blackolive.app.domain.adminpage.ProductDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayImgDTO;
@@ -38,4 +40,8 @@ public interface AdminPageIndexService {
 	public int insertProductImgs(List<ProductImgDTO> productImgDTOs);
 	
 	public int productSeq();
+	
+	public int insertPromotion(OrderRegisterDTO orderRegisterDTO, String productDisplayId);
+	
+	public int insertBuyInfo(String productDisplayId, List<BuyInfoDTO> buyInfoDTOs);
 } // interface

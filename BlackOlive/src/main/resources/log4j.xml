@@ -39,15 +39,15 @@
 
  -->	<!-- Root Logger -->
  
- <logger name="org.apache.mybatis" level="ERROR" additivity="false">
+ <logger name="org.apache.mybatis" level="OFF" additivity="false">
     <appender-ref ref="console" />
 </logger>
 
-<logger name="com.zaxxer.hikari" level="ERROR" additivity="false">
+<logger name="com.zaxxer.hikari" level="OFF" additivity="false">
     <appender-ref ref="console" />
 </logger>
 	 <root>
-	 	<level value="OFF"/>
+	 	<level value="info"/>
 		<appender-ref ref="console" />
 	</root> 
 	
