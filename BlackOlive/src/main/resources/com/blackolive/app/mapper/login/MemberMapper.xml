@@ -16,7 +16,7 @@
 		<collection property="authority" resultMap="authMap" />
 	</resultMap>
 	<resultMap type="com.blackolive.app.domain.login.AuthVO" id="authMap">
-		<result property="username" column="username"/>	
+		<result property="username" column="user_id"/>	
 		<result property="authority" column="auth"/>		
 	</resultMap>
 
