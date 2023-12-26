@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
@@ -16,16 +17,16 @@
 <title>블랙올리브영 온라인몰</title>
 <style>
 	.way_view:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    right: 0;
-    bottom: -12px;
-    width: 24px;
-    height: 12px;
-    margin-left: -12px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/store/ico_storeP_06.png) no-repeat;
-}
+	    content: "";
+	    position: absolute;
+	    left: 50%;
+	    right: 0;
+	    bottom: -12px;
+	    width: 24px;
+	    height: 12px;
+	    margin-left: -12px;
+	    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/store/ico_storeP_06.png) no-repeat;
+	}
 </style>
 </head>
 <body>
@@ -226,14 +227,7 @@
 										<div id="mCSB_4_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
 											<ul class="mlist-reStore" id="favorStoreList" style="display: none;"></ul>
 										</div>
-										<div id="mCSB_4_scrollbar_vertical" class="mCSB_scrollTools mCSB_4_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
-											<div class="mCSB_draggerContainer">
-												<div id="mCSB_4_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;">
-													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-												</div>
-												<div class="mCSB_draggerRail"></div>
-											</div>
-										</div>
+										
 									</div>
 								</div>
 								
@@ -248,7 +242,7 @@
 									<div class="store_schInner">
 										<input type="text" name="searchItem" id="searchItem" value="" title="상품명을 입력해주세요" placeholder="상품명을 입력해주세요">
 										<!-- 상품번호(goodsNo) -->
-										<input type="hidden" name="searchItemNo" id="searchItemNo" value="">
+										<input type="hidden" name="searchItemNo" id="searchProductId" value="">
 										<!-- 옵션번호(itemNo) -->
 										<input type="hidden" name="searchItemNo2" id="searchItemNo2" value="">
 										<input type="hidden" name="searchItemLgcNo" id="searchItemLgcNo" value="">
@@ -262,18 +256,11 @@
 									</dl>
 								</div>
 								<div class="sroll_store scrbar mCustomScrollbar _mCS_5 mCS_no_scrollbar" style="overflow: auto;">
-									<div id="mCSB_5" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0">
+									<div id="mCSB_5" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0">
 										<div id="mCSB_5_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
 											<ul class="mlist-reStore" id="itemStoreList"></ul>
 										</div>
-										<div id="mCSB_5_scrollbar_vertical" class="mCSB_scrollTools mCSB_5_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
-											<div class="mCSB_draggerContainer">
-												<div id="mCSB_5_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;">
-													<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-												</div>
-												<div class="mCSB_draggerRail"></div>
-											</div>
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -402,17 +389,19 @@ $(function() {
 		$("#strInfo").hide();
 		
 		$.ajax({
-			type : 'post'
+			type : 'get'
 			, cache: false
-			, url : '/store/setStoreFavorite'
-			, dataType : 'text'
-			, data : {
-				storeId : storeId
-				, clickCheck : clickCheck
-			}
+			, url : '/store/getCategoryLarge'
+			, dataType : 'json'
 			, success : function(data) {
 				console.log(data)
-				console.log("즐겨찾기 업데이트 완료~~")
+				$("#selCate").empty();
+				$("#selCate").append($("<option>").val("").text("전체"));
+				
+				$(data).each(function(i) {
+					$("#selCate").append($("<option>").val(data[i].categoryLargeId).text(data[i].categoryLargeName))
+				})
+				
 	        }
 			, 
 			error: function(xhr, textStatus, errorThrown) {
@@ -658,19 +647,19 @@ function storeDetail(storeId) {
 									<div class="topCate">					
 										<span class="bestSelect">
 											<select id="selAge" title="연령대">							
-													<option value="ALL">전체</option>							
-													<option value="10">10대</option>							
-													<option value="20">20대</option>						
-													<option value="30">30대</option>							
-													<option value="40">40대</option>
-													<option value="50">50대</option>
+													<option value="0">전체</option>							
+													<option value="1">10대</option>							
+													<option value="2">20대</option>						
+													<option value="3">30대</option>							
+													<option value="4">40대</option>
+													<option value="5">50대</option>
 											</select>
 										</span>
 										<span class="bestSelect">
 											<select id="selGen" title="성별">
-												<option value="ALL">전체</option>
-												<option value="B">여성</option>
-												<option value="A">남성</option>
+												<option value="0">전체</option>
+												<option value="2">여성</option>
+												<option value="1">남성</option>
 											</select>
 										</span>
 										<span class="bestSelect">
@@ -685,14 +674,6 @@ function storeDetail(storeId) {
 								</div>
 							</div>
 							<a href="javascript:;" class="store_btn" id="bottm_closeBtn" onclick="javascript:$('#store_viewPop_renew').hide();$('.dimm').remove();">닫기</a>
-						</div>
-						<div id="mCSB_7_scrollbar_vertical" class="mCSB_scrollTools mCSB_7_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;">
-							<div class="mCSB_draggerContainer">
-								<div id="mCSB_7_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 303px; max-height: 595px; top: 0px;">
-									<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-								</div>
-								<div class="mCSB_draggerRail"></div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -1091,7 +1072,7 @@ $(function() {
 			, success : function(data) {
 				$("#areaStoreList").empty();
 				
-				if(data === "") {
+				if(data.length == 0) {
 					$("#noSearchAreaInfo").show();
 					$(".reShop_result > dt > span").text("0");
 					return;
@@ -1147,10 +1128,13 @@ $(function() {
 					let li = $("<li>").addClass(data[i].storeId);
 					let div = $("<div>").addClass("li_Pc_reInner");
 					let h4 = $("<h4>").addClass("tit")
-					let a = $("<a>").text(data[i].storeName).on("click", function() {
-						map.setCenter(new kakao.maps.LatLng(data[i].lat, data[i].lng));
-						map.setLevel(2);
-					});
+					let a = $("<a>")
+						.text(data[i].storeName)
+						.attr("href", "javascript:;")
+						.on("click", function() {
+							map.setCenter(new kakao.maps.LatLng(data[i].lat, data[i].lng));
+							map.setLevel(2);
+						});
 					let span = $("<span>").addClass("store_nearWay").text(distance + 'km');
 					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
 					let area = $("<div>").addClass("area");
@@ -1406,7 +1390,7 @@ $(function() {
 	
 	// 로그인이 안 되어 있을 시 로그인 버튼을 눌렀을 때
 	$(".no_login a").on("click", function() {
-		location.href = '/Black_OY/olive/LogOn.do';
+		location.href = '<c:url value="/auth/login"/>';
 	})
 	
 	
@@ -1442,7 +1426,7 @@ $(function() {
 				, success : function(data) {
 					$("#wordStoreList").empty();
 					
-					if(data == "") {
+					if(data.length == 0) {
 						$(".choice_opSt").slideDown();
 						$("#noSearchWordInfo").show();
 						$("#searchWordDiv .reShop_result > dt > span").text("0");
@@ -1512,7 +1496,7 @@ $(function() {
 				, success : function(data) {
 					$("#areaStoreList").empty();
 					
-					if(data === "") {
+					if(data.length == 0) {
 						$("#noSearchAreaInfo").show();
 						$(".reShop_result > dt > span").text("0");
 						return;
@@ -1534,7 +1518,7 @@ $(function() {
 						
 						let fv_reShop_in = $("<div>")
 											.addClass("fv_reShop_in")
-											.html(`<span>\${data[i].store_fav}</span>명이 관심매장으로 등록했습니다.`);
+											.html(`<span>\${data[i].storeFavorite}</span>명이 관심매장으로 등록했습니다.`);
 						// 즐겨찾기 눌렀을 때
 						// 로그인 했는지 체크 후
 						// db에도 +1 하기
@@ -1713,11 +1697,81 @@ $(function() {
 			}
 				$(".choice_opSt").hide();
 		} else if(tabName == "판매매장 찾기") {
+			if(!$("#searchProductId").val()) {
+				return;
+			}
 			
+			$.ajax({
+				type : 'get'
+				, cache: false
+				, url : '/store/getStoreStockList/' + $("#searchProductId").val()
+				, dataType : 'json'
+				, data : {
+					tcs : tcs.toString()
+					, pss : pss.toString()
+				}
+				, success : function(data) {
+					// console.log(data);
+					
+					$("#itemStoreList").empty();
+					$("#mCSB_4_container").css("top", "0");
+					for(var i=0; i<data.length; i++) {
+						let li = $("<li>").addClass(data[i].storeId);
+						let div = $("<div>").addClass("li_Pc_reInner");
+						let h4 = $("<h4>").addClass("tit")
+						let a = $("<a>").text(data[i].storeName);
+						let p = $("<p>").addClass("addr").text(data[i].storeAddress);
+						let area = $("<div>").addClass("area");
+						let call = $("<div>").addClass("call").text(data[i].storeTel);
+						
+						let time = data[i].openYN === 'Y' 
+								? $("<div>").addClass(["time", "on"]).text("영업중")
+								: $("<div>").addClass("time").text("영업 준비중");
+								
+						let favYN = data[i].favYN ? "on" : "active";
+						
+						let store_amount = $("<div>")
+											.addClass("store_amount")
+											.html(function() {
+											let stock_info = `
+												<dl><dt class='amount_chk\${data[i].stockCheck}'>\${data[i].stockMessage}</dt></dl>
+											`;
+											if(data[i].stockCnt == 0) {
+												stock_info += `<dd><a href='javascript:;'>입고 알림 신청</a></dd>`
+											}
+											
+											return stock_info;
+										});
+						let button = $("<button>").addClass(["star", favYN]).on("click", function() {
+							favBtnClick(this);
+						});
+						
+						$(area).append(call);
+						$(area).append(time);
+						
+						$(h4).append(a);
+						$(div).append(h4);
+						$(div).append(p);
+						$(div).append(area);
+						$(div).append(store_amount);
+						$(div).append(button);
+						
+						$(li).append(div);
+						$("#itemStoreList").append(li);
+						
+					}
+					$(".choice_opSt").hide();
+					
+	            }
+				, error : function (data, textStatus) {
+	                console.log('error');
+	            }
+			});
 		}
 			
 	})
 	
+	// 검색어 입력했을 때
 	$("#searchItem").on("input", function() {
 		let store_schInner = $("#searchItemDiv > div > div.store_sch > div.store_schInner");
 		if($(this).val().length >= 2) {
@@ -1737,7 +1791,7 @@ $(function() {
 						let ul = $("<ul>").addClass("ul_auto_reSch scrbar");
 						let li;
 						$(data).each(function(i) {
-							li = $("<li>").html(`<a href="javascript:;" id="\${this.productDisplayId}" data-productDisplayId="\${this.productDisplayId}">`
+							li = $("<li>").html(`<a href="javascript:;" id="\${this.productDisplayId}" data-productId="\${this.productId}" data-productDisplayId="\${this.productDisplayId}">`
 									+ this.productDisplayName.replace(keyword, '<span>'+keyword+'</span>')
 									+ `</a>`);
 							$(ul).append(li);
@@ -1759,12 +1813,15 @@ $(function() {
 		}
 	});
 	
+	// 검색어 리스트를 눌렀을 때
 	$(".store_schInner").on("click", ".auto_reSch a", function() {
 		let store_schInner = $("#searchItemDiv > div > div.store_sch > div.store_schInner");
 		$(store_schInner).find(".auto_reSch").remove();
 		$(store_schInner).removeClass("on");
 		$("#searchItem").val("");
+		$("#searchProductId").val($(this).data("productid"));
 		
+		// 검색어 리스트 누른 상품 가져오기
 		$.ajax({
 			type : 'get'
 			, cache: false
@@ -1792,21 +1849,86 @@ $(function() {
 					<p class="reShop_msg">실제 수량과 다를 수 있어 정확한 재고는 매장으로 확인해 주세요.</p>
 				`;
 				
-				$(".store_schInner").after(content);
+				$("#searchItemDiv .store_schInner").after(content);
             }
 			, error : function (data, textStatus) {
                 console.log('error');
             }
 		});
 		
+		let tc = $("#tc_list button.on").next();
+		let ps = $("#ps_list button.on").next();
+		let tcs = [];
+		let pss = [];
+		
+		for(let i=0; i<tc.length; i++) {
+			tcs.push($(tc[i]).val());
+		}
+		
+		for(let i=0; i<ps.length; i++) {
+			pss.push($(ps[i]).val());
+		}
+		
+		// 매장 리스트 + 재고 여부
 		$.ajax({
 			type : 'get'
 			, cache: false
-			, url : '/store/getStoreList/' + $(this).data("productdisplayid")
+			, url : '/store/getStoreStockList/' + $(this).data("productid")
 			, dataType : 'json'
+			, data : {
+				tcs : tcs.toString()
+				, pss : pss.toString()
+			}
 			, success : function(data) {
-				console.log(data);
+				// console.log(data);
 				
+				$("#itemStoreList").empty();
+				$("#mCSB_4_container").css("top", "0");
+				for(var i=0; i<data.length; i++) {
+					let li = $("<li>").addClass(data[i].storeId);
+					let div = $("<div>").addClass("li_Pc_reInner");
+					let h4 = $("<h4>").addClass("tit")
+					let a = $("<a>").text(data[i].storeName);
+					let p = $("<p>").addClass("addr").text(data[i].storeAddress);
+					let area = $("<div>").addClass("area");
+					let call = $("<div>").addClass("call").text(data[i].storeTel);
+					
+					let time = data[i].openYN === 'Y' 
+							? $("<div>").addClass(["time", "on"]).text("영업중")
+							: $("<div>").addClass("time").text("영업 준비중");
+							
+					let favYN = data[i].favYN ? "on" : "active";
+					
+					let store_amount = $("<div>")
+										.addClass("store_amount")
+										.html(function() {
+											let stock_info = `
+												<dl><dt class='amount_chk\${data[i].stockCheck}'>\${data[i].stockMessage}</dt></dl>
+											`;
+											if(data[i].stockCnt == 0) {
+												stock_info += `<dd><a href='javascript:;'>입고 알림 신청</a></dd>`
+											}
+											
+											return stock_info;
+										});
+					let button = $("<button>").addClass(["star", favYN]).on("click", function() {
+						favBtnClick(this);
+					});
+					
+					$(area).append(call);
+					$(area).append(time);
+					
+					$(h4).append(a);
+					$(div).append(h4);
+					$(div).append(p);
+					$(div).append(area);
+					$(div).append(store_amount);
+					$(div).append(button);
+					
+					$(li).append(div);
+					$("#itemStoreList").append(li);
+					
+				}
 				
             }
 			, error : function (data, textStatus) {
@@ -1814,6 +1936,117 @@ $(function() {
             }
 		});
 	});
+	
+	// 베스트 상품 select박스 눌렀을 시
+	$("#store_viewPop_renew").on("change", ".bestSelect select", function() {
+		let userAge = $("#selAge").val();
+		let userGender = $("#selGen").val();
+		let categoryLargeId = $("#selCate").val();
+		
+		$.ajax({
+			type : 'get'
+			, cache: false
+			, url : '/store/getStoreBestProduct'
+			, dataType : 'json'
+			, data : {
+				userAge : userAge
+				, userGender : userGender
+				, categoryLargeId : categoryLargeId
+			}
+			, success : function(data) {
+				// console.log(data);
+				$("#storeBestProdArea").empty();
+				if(data.length == 0) {
+					$("#storeBestProdArea").html('<div class="no_strPrd"><dl class="no_list"><dt>설정하신 조건에 해당하는<br>베스트 상품이 없어요</dt></dl></div>');
+					return;
+				}
+				
+				let content = `<ul class='slide_list'>`;
+				
+				for (var i = 0; i < data.length; i++) {
+					content += `
+						<li>
+							<div class="box">
+								<a href="<c:url value='/store/goods?productDisplayId=\${data[i].productDisplayId}'/>" class="item a_detail">
+									<span class="thumb_flag best">\${i+1}</span>
+									<span class="thumImg">
+										<img src="\${data[i].productDisplaySrc}" alt="립리프 스티밍 립 마스크">
+									</span>
+									<div class="prd_name"><p class="tx_name">\${data[i].productDisplayName}</p></div>
+									<p class="prd_price">
+										<span class="tx_cur"><span class="tx_num">\${data[i].minprice}</span>원 </span>
+									</p>
+									<p class="prd_flag">
+									`;
+									if(data[i].discountflag == '1') 
+										content += '<span class="icon_flag sale">세일</span>';
+									if(data[i].couponflag == '1') 
+										content += '<span class="icon_flag coupon">쿠폰</span>';
+									if(data[i].presentflag == '1') 
+										content += '<span class="icon_flag gift">증정</span>';
+									if(data[i].todaypickupflag == '1') 
+										content += '<span class="icon_flag delivery">오늘드림</span>';
+					content += `	</p>
+								</a>
+								<button class="btn_zzim jeem" data-goodsno="\${data[i].productDisplayId}">
+									<span>찜하기전</span>
+								</button>
+								<button type="button" class="btnbag2" onclick="">장바구니 담기</button>
+							</div>
+						</li>
+					`;
+				}
+				
+				content += `</ul>`;
+				
+				$("#storeBestProdArea").html(content);
+            }
+			, error : function (data, textStatus) {
+                console.log('error');
+            }
+		});
+	});
+	
+	$("#store_viewPop_renew").on("click", '.btn_zzim.jeem', function() {
+		let productLikeBtn = $(this);
+		let productDisplayId = $(this).data("goodsno");
+		
+		toggleLikeItemStatus(productLikeBtn, productDisplayId);
+		
+	}) // .btn_zzim.jeem func close
+	
+	function toggleLikeItemStatus(productLikeBtn, productDisplayId) {
+		$.ajax({
+			url: "/productLikeToggle",
+			method:"GET",
+			cache:false,
+			
+			data:{
+				productDisplayId:productDisplayId
+			},
+			success: function (result) {
+				if (result === "true" ) {
+					console.log('success : toggleLikeStatus:'+result);
+					$(".layerAlim.zzimOn.wishPrd").show();
+					$(".layerAlim.zzimOn.wishPrd").fadeOut(2000);   
+					
+					$(productLikeBtn).addClass("on");
+	            } else {
+	            	console.log('false : toggleLikeStatus: ' + result);
+	            	$(".layerAlim.zzimOff.wishPrd").show();
+	            	$(".layerAlim.zzimOff.wishPrd").fadeOut(2000);
+	                $(productLikeBtn).removeClass("on");
+	            } //if
+			}, error : function (xhr, data, textStatus) {
+				if (xhr.status == 401) {
+	                   alert("로그인 후 이용가능 합니다.");
+	                   window.location.href = "/auth/login";   
+	            }else{
+	                   alert("서버 에러") 
+	            }
+	        } // success , error
+		}) // ajax
+	} // toggleLikeItemStatus
 	
 })
 

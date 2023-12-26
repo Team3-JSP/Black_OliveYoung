@@ -73,7 +73,7 @@ public class MainPageController {
 		if (principal != null) {
 			userId = principal.getName();
 		} // if
-		
+
 		List<ProductContainer> pdList = this.exhibitionService.similardisplService(userId);
 		model.addAttribute("pdList",pdList);
 		

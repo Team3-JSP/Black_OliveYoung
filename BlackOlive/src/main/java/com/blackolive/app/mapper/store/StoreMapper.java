@@ -18,6 +18,9 @@ public interface StoreMapper {
 	
 	List<StoreDTO> selectAllStore(@Param("userId") String userId); // 매장 리스트
 	
+	List<StoreDTO> selectAllStoreStock(@Param("tcs") String[] tcs, @Param("pss") String[] pss, 
+			@Param("productId") String productId, @Param("userId") String userId); // 매장 재고 리스트
+	
 	List<StoreDTO> selectStoreList(@Param("tcs") String[] tcs, @Param("pss") String[] pss
 			, @Param("city") String city, @Param("district") String district, @Param("userId") String userId); // 지역으로 검색
 	
@@ -37,4 +40,10 @@ public interface StoreMapper {
 	List<ProductContainer> selectProductName(String keyword); // 해당 키워드 상품 이름 리스트
 
 	StoreDetailDTO selectOneStoreDetail(@Param("storeId") String storeId); // 매장 상세 얻기
+
+	// 매장 베스트 상품 얻어오기
+	List<ProductContainer> selectStoreBestProduct(
+			@Param("userAge") int userAge
+			, @Param("userGender") int userGender
+			, @Param("categoryLargeId") String categoryLargeId);
 }
