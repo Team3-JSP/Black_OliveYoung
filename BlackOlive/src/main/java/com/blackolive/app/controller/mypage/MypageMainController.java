@@ -288,6 +288,7 @@ public class MypageMainController {
 		return "mypage.productQnA";
 	}
 	
+	/*
 	@GetMapping("/reviewwrite")
 	public String reviewwritecontroller(
 			Principal principal,
@@ -344,7 +345,7 @@ public class MypageMainController {
 		return "mypage.reviewview";
 	}
 	
-	
+	*/
 	
 	
 	
