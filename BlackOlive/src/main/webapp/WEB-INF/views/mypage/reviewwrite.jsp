@@ -4,220 +4,160 @@
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/inc/include.jspf" %>
 				
+	<div class="title-area linezero">
+		<h2 class="tit">리뷰</h2>
+	</div>
+
+	<ul class="comm1sTabs mgzero">
+		<li class="on" title="선택됨"><a href="javascript:void(0);" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
+		<li><a href="<%=contextPath %>/mypage/reviewview" onclick="" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
+	</ul>
+
+
+			<div class="banner_mypage">
+				<div class="slide_list">
+					
+			
+                   <div class="slide">
+                   <%-- 해당 이벤트 페이지로 이동 --%>
+	                   <a href="#" onclick="" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
+	                      	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
+	                   </a>
+                   </div>
+			
+					
+					
+				</div>
+				<div class="banner_arrow" style="display: none;">
+					<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
+					<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
+					<span class="paging"></span>
+					<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
+					<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
+				</div>
+			</div>
+		
 	
+	
+	<ul class="dot_list">
+		<li>리뷰는 배송 완료 후 90일 내 작성할 수 있습니다. (매장구매는 CJ ONE 포인트 적립 및 결제완료 시)</li>
+		<li>탑리뷰어는 리뷰 포인트 2배 지급 (최대 2,000P, 탑리뷰어로 선정된 기간 작성한 리뷰 대상)</li>
+		<li>리뷰 작성 포인트는 리뷰 작성 4일 뒤, 최대 혜택 기준으로 지급되며 중복 지급되지 않습니다.</li>
+	</ul>
+	<ul class="reviewReward">
+		<li>
+			<p class="dt">상세 리뷰</p>
+			<p class="fc">(일반 작성 리뷰)</p>
+			<p class="pt">100P</p>
+		</li>
+		<li>
+			<p class="dt">한달사용리뷰</p>
+			<p class="fc">(상품의 첫 리뷰 작성 이후 30일~120일 리뷰)</p>
+			<p class="pt">500P</p>
+		</li>
+		<li>
+			<p class="dt">얼리 리뷰</p>
+			<p class="fc">(상품의 1~10번째 리뷰)</p>
+			<p class="pt">1,000P</p>
+		</li>
+	</ul>
 
-				<script src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/mypage.header.js?dumm=202312210002"></script>
-				<script>
-					$(window).ready(function(){
-						mypage.header.init();
-					});
-				</script>
+	<div class="review-tab-area">
+		<div class="review-button-tab">
+			<!--[D] 버튼 활성화 on 클래스-->
+			<button type="button" class="review-check-button on" id="btnGeneralReview" data-attr="리뷰^리뷰유형^일반리뷰">일반리뷰
 				
+					<span class="review-count"><!-- 일반리뷰 개수 --></span>
+				
+			</button>
+			<button type="button" class="review-check-button" id="btnMonthlyUseReview" data-attr="리뷰^리뷰유형^한달사용리뷰">한달사용리뷰
+				<%-- 한달사용리뷰 <%=contextPath %>mypage/reviewmonthwrite --%>
+					<span class="review-count"><!-- 한달 사용 개수 --></span>
+				
+			</button>
+		</div>
+	</div>
+	<script>
+		$("div.review-button-tab button.review-check-button").on("click", function () {
+			location.href = '<%=contextPath %>/mypage/reviewmonthwrite';
+		});
+	</script>
 
+	<div class="review-content-area">
 
-
-
-
-
-
-					<div class="title-area linezero">
-						<h2 class="tit">리뷰</h2>
-					</div>
-
-					<ul class="comm1sTabs mgzero">
-						<li class="on" title="선택됨"><a href="javascript:void(0);" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
-						<li><a href="#n" onclick="javascript:mypage.gdasList.goCompleteList({ t_page: '마이페이지_리뷰', t_click: '나의리뷰탭' });" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
-					</ul>
-
+	
+	
+		<!-- 리뷰 영역 -->
+		<div class="general-review on" id="generalReviewArea">
+			
+				
+			<div class="general-review-list on">
 					
-					<!--
-					<div class="banner_mypage">
-						<a href="#;" onClick="common.link.moveTopReviewer();"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/mypage/banner_reviewer.jpg" alt="리뷰어 라운지" /></a>
-					</div>
-					-->
-					
-					
-					
-					
+				<table class="board-list-2s new">
+					<caption>리뷰 목록</caption>
+					<colgroup>
+						<col style="width:62%;">
+						<col style="width:21%;">
+						<col style="width:17%;">
+					</colgroup>
+					<thead>
+					<tr>
+						<th scope="col">상품</th>
+						<th scope="col">작성기간</th>
+						<th scope="col">리뷰 작성</th>
+					</tr>
+					</thead>
+					<tbody id="tbGdast">
 					
 						
-							<div class="banner_mypage">
-								<div class="slide_list">
+						<!-- 작성 가능한 물품 (배송상태가 배송완료) -->
+						<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
+						<tr>
+							<td class="subject">
+								<div class="area">
 									
-										
-					                        <div class="slide">
-												<a href="javascript:;" onclick="mypage.gdasList.handleClickReviewRollingBanner('https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102970002', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_띠배너', t_number: '1', t_banner_name: '탑리뷰어 프리미엄 혜택👑'})" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
-						                        	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
-						                        </a>
-						                    </div>
-										
+							
+									<a class="thum" href="<%-- 해당 상품 상세보기 이동 --%>" data-attr="리뷰^리뷰상품^상품클릭">
+										<img src="<%-- 상품표시 이미지 링크 --%>" alt="<%-- 상품표시명 --%>" onerror="common.errorImg(this);">
+									</a>
+									<div class="textus">
+										<dl class="data review-data">
+											<dt>주문일자</dt>
+											<dd><!-- 주문일자  -->
+												
+												<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
+																								
+											</dd>
+										</dl>
+										<a class="" href="<%-- 상품 상세보기 이동 --%>" data-attr="리뷰^리뷰상품^상품클릭">
+											<span class="tit"><!-- 브랜드명 --></span>
+											<span class="txt oneline"><!-- 상품표시명 --></span>
+											
+												<p class="txt_option">
+													<em>옵션</em>단독기획
+												</p>
+											
+										</a>
+									</div>
+								
 										
 									
 								</div>
-								<div class="banner_arrow" style="display: none;">
-									<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
-									<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
-									<span class="paging"></span>
-									<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
-									<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
-								</div>
-							</div>
-						
+							</td>
+							<td class="col777"><strong>~ <%-- 주문일자 + 60일 --%></strong></td>
+							<td data-ord-no="Y2310266671336" data-goods-no="A000000113670">
+							<%-- 리뷰 작성 버튼 --%>
+								<button type="button" class="btn-review--small" data-pur-mbr-yn="Y" data-gdas-sct-cd="10" data-gdas-seq="" data-ord-no="Y2310266671336" data-goods-no="A000000113670" data-gdas-tp-cd="00" data-item-no="001" data-item-nm="단독기획" data-lgc-goods-no="8809495680825" data-ord-goods-seq="1" data-ord-con-yn="N" data-thnl-path-nm="10/0000/0011/A00000011367029ko.jpg?l=ko" data-oper-dt="" data-str-no="" data-origin-bizpl-cd="" data-pos-no="" data-receipt-no="" data-brnd-nm="메이크프렘" data-prgs-stat-cd="20" data-renew-used1mm-gdas-yn="N" onclick="mypage.gdasList.appraisalRegist(this, {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_일반리뷰작성', goodsNo: 'A000000113670', goodsname: '[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획'});" data-attr="리뷰^작성버튼^리뷰 작성">리뷰 작성</button>
+							</td>
+						</tr>
 					
-					
-					<ul class="dot_list">
-						<li>리뷰는 배송 완료 후 90일 내 작성할 수 있습니다. (매장구매는 CJ ONE 포인트 적립 및 결제완료 시)</li>
-						<li>탑리뷰어는 리뷰 포인트 2배 지급 (최대 2,000P, 탑리뷰어로 선정된 기간 작성한 리뷰 대상)</li>
-						<li>리뷰 작성 포인트는 리뷰 작성 4일 뒤, 최대 혜택 기준으로 지급되며 중복 지급되지 않습니다.</li>
-					</ul>
-					<ul class="reviewReward">
-						<li>
-							<p class="dt">상세 리뷰</p>
-							<p class="fc">(일반 작성 리뷰)</p>
-							<p class="pt">100P</p>
-						</li>
-						<li>
-							<p class="dt">한달사용리뷰</p>
-							<p class="fc">(상품의 첫 리뷰 작성 이후 30일~120일 리뷰)</p>
-							<p class="pt">500P</p>
-						</li>
-						<li>
-							<p class="dt">얼리 리뷰</p>
-							<p class="fc">(상품의 1~10번째 리뷰)</p>
-							<p class="pt">1,000P</p>
-						</li>
-					</ul>
-
-					<div class="review-tab-area">
-						<div class="review-button-tab">
-							<!--[D] 버튼 활성화 on 클래스-->
-							<button type="button" class="review-check-button on" id="btnGeneralReview" data-attr="리뷰^리뷰유형^일반리뷰">일반리뷰
-								
-									<span class="review-count">2</span>
-								
-							</button>
-							<button type="button" class="review-check-button" id="btnMonthlyUseReview" data-attr="리뷰^리뷰유형^한달사용리뷰">한달사용리뷰
-								
-									<span class="review-count">1</span>
-								
-							</button>
-						</div>
-					</div>
-
-					<div class="review-content-area">
 						
-							
-							
-								<!-- 리뷰 영역 -->
-								<div class="general-review on" id="generalReviewArea">
-									
+						
+					</tbody>
+				</table>
+								
 										
-											<div class="general-review-list on">
-													
-												<table class="board-list-2s new">
-													<caption>리뷰 목록</caption>
-													<colgroup>
-														<col style="width:62%;">
-														<col style="width:21%;">
-														<col style="width:17%;">
-													</colgroup>
-													<thead>
-													<tr>
-														<th scope="col">상품</th>
-														<th scope="col">작성기간</th>
-														<th scope="col">리뷰 작성</th>
-													</tr>
-													</thead>
-													<tbody id="tbGdast">
-													
-														
-														
-														<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-														<tr>
-															<td class="subject">
-																<div class="area">
-																	
-																		
-																		
-
-																		
-																			<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000113670','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_상품상세', goodsNo: 'A000000113670', goodsname: '[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획'});" data-attr="리뷰^리뷰상품^상품클릭">
-																				<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0011/A00000011367029ko.jpg?l=ko" alt="[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획" onerror="common.errorImg(this);">
-																			</a>
-																			<div class="textus">
-																				<dl class="data review-data">
-																					<dt>주문일자</dt>
-																					<dd>2023.10.26
-																						<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-																						
-																						
-																					</dd>
-																				</dl>
-																				<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000113670','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_상품상세', goodsNo: 'A000000113670', goodsname: '[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획'});" data-attr="리뷰^리뷰상품^상품클릭">
-																					<span class="tit">메이크프렘</span>
-																					<span class="txt oneline">[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획</span>
-																					
-																						<p class="txt_option"><em>옵션</em>단독기획</p>
-																					
-																				</a>
-																			</div>
-																		
-																		
-																	
-																</div>
-															</td>
-															<td class="col777"><strong>~ 2024.01.24</strong></td>
-															<td data-ord-no="Y2310266671336" data-goods-no="A000000113670">
-																<button type="button" class="btn-review--small" data-pur-mbr-yn="Y" data-gdas-sct-cd="10" data-gdas-seq="" data-ord-no="Y2310266671336" data-goods-no="A000000113670" data-gdas-tp-cd="00" data-item-no="001" data-item-nm="단독기획" data-lgc-goods-no="8809495680825" data-ord-goods-seq="1" data-ord-con-yn="N" data-thnl-path-nm="10/0000/0011/A00000011367029ko.jpg?l=ko" data-oper-dt="" data-str-no="" data-origin-bizpl-cd="" data-pos-no="" data-receipt-no="" data-brnd-nm="메이크프렘" data-prgs-stat-cd="20" data-renew-used1mm-gdas-yn="N" onclick="mypage.gdasList.appraisalRegist(this, {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_일반리뷰작성', goodsNo: 'A000000113670', goodsname: '[단독기획]메이크프렘 세이프 미 릴리프 모이스처 클렌징폼150ml 1+1기획'});" data-attr="리뷰^작성버튼^리뷰 작성">리뷰 작성</button>
-															</td>
-														</tr>
-													
-														
-														
-														<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-														<tr>
-															<td class="subject">
-																<div class="area">
-																	
-																		
-																		
-
-																		
-																			<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000110118','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_상품상세', goodsNo: 'A000000110118', goodsname: '테일러푸룬주스180ml'});" data-attr="리뷰^리뷰상품^상품클릭">
-																				<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0011/A00000011011803ko.jpg?l=ko" alt="테일러푸룬주스180ml" onerror="common.errorImg(this);">
-																			</a>
-																			<div class="textus">
-																				<dl class="data review-data">
-																					<dt>구매일자</dt>
-																					<dd>2023.10.06
-																							
-																						<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-																						<span>매장</span> 
-																						
-																					</dd>
-																				</dl>
-																				<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000110118','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_상품상세', goodsNo: 'A000000110118', goodsname: '테일러푸룬주스180ml'});" data-attr="리뷰^리뷰상품^상품클릭">
-																					<span class="tit">테일러</span>
-																					<span class="txt oneline">테일러푸룬주스180ml</span>
-																					
-																				</a>
-																			</div>
-																		
-																		
-																	
-																</div>
-															</td>
-															<td class="col777"><strong>~ 2024.01.04</strong></td>
-															<td data-ord-no="12023100613030109100100169" data-goods-no="A000000110118">
-																<button type="button" class="btn-review--small" data-pur-mbr-yn="Y" data-gdas-sct-cd="60" data-gdas-seq="" data-ord-no="12023100613030109100100169" data-goods-no="A000000110118" data-gdas-tp-cd="00" data-item-no="001" data-item-nm=" " data-lgc-goods-no="8809170543407" data-ord-goods-seq="" data-ord-con-yn="" data-thnl-path-nm="10/0000/0011/A00000011011803ko.jpg?l=ko" data-oper-dt="20231006" data-str-no="D319" data-origin-bizpl-cd="D319" data-pos-no="1001" data-receipt-no="00169" data-brnd-nm="테일러" data-prgs-stat-cd="20" data-renew-used1mm-gdas-yn="" onclick="mypage.gdasList.appraisalRegist(this, {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_일반리뷰작성', goodsNo: 'A000000110118', goodsname: '테일러푸룬주스180ml'});" data-attr="리뷰^작성버튼^리뷰 작성">리뷰 작성</button>
-															</td>
-														</tr>
-													
-													</tbody>
-												</table>
-												
-												
-												
+										
 			
 
 	<div class="pageing">
@@ -233,22 +173,22 @@
 	
 	</div>
 
-												
-											</div>
-										
-										
-									
-								</div>
-								<!-- // 리뷰 영역 -->
-							
-						
-					</div>
+				
+			</div>
+		
+		
+			
+		</div>
+		<!-- // 리뷰 영역 -->
+			
+		
+	</div>
 
-					<form id="frmGdasList" name="frmGdasList">
-						<input type="hidden" id="goodsNo" name="goodsNo" value="">
-						<input type="hidden" id="ordNo" name="ordNo" value="">
-						<input type="hidden" id="gdasCnt" name="gdasCnt" value="2">
-					</form>
+<form id="frmGdasList" name="frmGdasList">
+	<input type="hidden" id="goodsNo" name="goodsNo" value="">
+	<input type="hidden" id="ordNo" name="ordNo" value="">
+	<input type="hidden" id="gdasCnt" name="gdasCnt" value="2">
+</form>
 <script type="text/javascript" src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/gdas.js?dumm=202312210002"></script>
 <script>
 $(document).ready(function(){
@@ -361,16 +301,6 @@ function popLayerCloseReview(target){
 <div class="popup-contents" id="pop_cont" style="top: 1100px; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%;">
 
    
-
-
-
-
-
-
-
-
-
-
 
 <script>
 imgDraw = function(){

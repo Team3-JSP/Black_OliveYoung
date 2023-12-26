@@ -124,6 +124,7 @@
 			        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
 			    WHERE user_id = #{userid}
 			    AND qna_date BETWEEN SYSDATE - (INTERVAL '1' MONTH) AND SYSDATE
+			    ORDER BY qna_date desc
 			) subquery
 		WHERE rn = 1 
 		AND ROWNUM <= 4 
@@ -169,6 +170,7 @@
 			        LEFT JOIN category_mid cm ON cs.category_mid_id = cm.category_mid_id
 			    WHERE user_id = #{userid}
 			    AND qna_date between to_date( #{ startdate } ,'YYYY-MM-DD' ) and to_date( #{enddate} , 'YYYY-MM-DD')
+			    ORDER BY qna_date desc
 			) subquery
 		WHERE rn = 1 
 	</select>

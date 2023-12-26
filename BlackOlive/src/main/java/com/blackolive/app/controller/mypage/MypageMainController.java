@@ -280,8 +280,8 @@ public class MypageMainController {
 		return "mypage.productQnA";
 	}
 	
-	@GetMapping("/review")
-	public String reviewcontroller(
+	@GetMapping("/reviewwrite")
+	public String reviewwritecontroller(
 			Principal principal,
 			Model model
 			) throws ClassNotFoundException, SQLException {
@@ -295,7 +295,49 @@ public class MypageMainController {
 		model.addAttribute("sideVO", sideVO);
 				
 		
-		return "mypage.review";
+		return "mypage.reviewwrite";
 	}
+	
+	
+	@GetMapping("/reviewmonthwrite")
+	public String reviewmonthwritecontroller(
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+		
+		
+		return "mypage.reviewmonthwrite";
+	}
+	
+	
+	@GetMapping("/reviewview")
+	public String reviewviewcontroller(
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+		
+		
+		return "mypage.reviewview";
+	}
+	
+	
+	
+	
 	
 }

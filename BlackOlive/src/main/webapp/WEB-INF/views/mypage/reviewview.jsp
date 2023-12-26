@@ -5,232 +5,171 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="mypage-conts">
-				<script src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/mypage.header.js?dumm=202312210002"></script>
-				<script>
-					$(window).ready(function(){
-						mypage.header.init();
-					});
-				</script>
 				
+	<div class="title-area linezero">
+		<h2 class="tit">리뷰</h2>
+	</div>
 
-
-
-
-
-
-
-					<div class="title-area linezero">
-						<h2 class="tit">리뷰</h2>
-					</div>
-
-					<ul class="comm1sTabs mgzero">
-						<li><a href="#n" onclick="javascript:mypage.gdasCompleteList.goGdasList(null, { t_page: '마이페이지_리뷰', t_click: '리뷰작성탭' });" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
-						<li class="on" title="선택됨"><a href="javascript:void(0);" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
-					</ul>
-
-					
-					<!--
-					<div class="banner_mypage">
-						<a href="#;" onClick="common.link.moveTopReviewer();"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/mypage/banner_reviewer.jpg" alt="리뷰어 라운지" /></a>
-					</div>
-					-->
-					
-					
-					
-					
-					
-						
-							<div class="banner_mypage">
-								<div class="slide_list">
-									
-										
-					                        <div class="slide">
-												<a href="javascript:;" onclick="mypage.gdasCompleteList.handleClickReviewRollingBanner('https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102970002', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_띠배너', t_number: '1', t_banner_name: '탑리뷰어 프리미엄 혜택👑'})" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
-						                        	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
-						                        </a>
-						                    </div>
-										
-										
-									
-								</div>
-								<div class="banner_arrow" style="display: none;">
-									<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
-									<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
-									<span class="paging"></span>
-									<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
-									<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
-								</div>
-							</div>
-						
-					
-					
-
-					
-					
-					
-					
-
-					<!--##  리뷰 고도화 1차 ##  문구 수정 및 html 추가 -->
-					<ul class="dot_list">
-						<li>리뷰 정책 위반으로 블라인드된 리뷰는 상품상세페이지 리뷰목록에 노출되지 않습니다.<br>
-							블라인드 리뷰 운영정책을 확인해주세요 <button type="button" class="rw-btn-notice" onclick="popLayerOpenReview('reviewBlind');">자세히보기</button></li>
-					</ul>
-
-					<div class="con_txt">
-						<h3 class="tit">누적 리뷰 건수<span>1</span>건</h3>
-					</div>
-
-					
-					<table class="board-list-2s mgT20 new board-list-2s_myreview">
-						<caption>상품, 리뷰로 이루어진 리뷰 목록 표</caption>
-						<colgroup>
-							<col style="width:359px;">
-							<col style="width:310px;">
-							<col style="width:auto">
-						</colgroup>
-						<thead>
-							<tr>
-								<th scope="col">상품</th>
-								<th scope="col" colspan="2">리뷰</th>
-							</tr>
-						</thead>
-						<tbody>
+	<ul class="comm1sTabs mgzero">
+		<li><a href="<%=contextPath%>/mypage/reviewwrite" onclick="" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
+		<li class="on" title="선택됨"><a href="javascript:void(0);" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
+	</ul>
 
 	
+	<!--
+	<div class="banner_mypage">
+		<a href="#;" onClick="common.link.moveTopReviewer();"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/mypage/banner_reviewer.jpg" alt="리뷰어 라운지" /></a>
+	</div>
+	-->
+			<div class="banner_mypage">
+				<div class="slide_list">
+					
+						
+	                        <div class="slide">
+								<a href="javascript:;" onclick="mypage.gdasCompleteList.handleClickReviewRollingBanner('https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102970002', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_띠배너', t_number: '1', t_banner_name: '탑리뷰어 프리미엄 혜택👑'})" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
+		                        	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
+		                        </a>
+		                    </div>
+						
+				</div>
+				<div class="banner_arrow" style="display: none;">
+					<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
+					<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
+					<span class="paging"></span>
+					<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
+					<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
+				</div>
+			</div>
 		
-							<tr>
-								<td class="subject">
-									<div class="area">
-			
-			
-				
 
-				
-									<div class="area">
-										<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
-											<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014788204ko.jpg?l=ko" alt="필리밀리 듀얼 면봉 200P" onerror="common.errorImg(this);">
-										</a>
-										<div class="textus">
-											<dl class="data review-data">
-												<dt>주문일자</dt>
-												<dd>2023.09.04
-													
-													
-												</dd>
-											</dl>
-											<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
-												<span class="tit">필리밀리</span>
-												<span class="txt oneline">필리밀리 듀얼 면봉 200P</span>
-												
-											</a>
-										</div>
-									</div>
-				
-				
-			
-									</div>
-								</td>
-								<td class="subject">
-									<div class="area">
-										<div class="textus" style="width:90%;">
-											<dl class="data review-data">
-												<dt>작성일자</dt>
-												<dd>2023.10.25</dd>
-											</dl>
-											<div class="rating">
-												<span class="txt">
-			
-				
-				
-					
-				
-				
-				
-			
-												</span>
-												<span class="point pt5"></span>
-											</div>
-											<div class="review-flag-wrap">
-												
-												
-												
-											</div>
-			
-			
-				
-					
-					
-											<span class="link " data-gdas-seq="23152495" data-ord-no="Y2309042169426" data-goods-no="A000000147882" data-gdas-tp-cd="20" data-gdas-sct-cd="10">
-												
-												
-												
+	<!--##  리뷰 고도화 1차 ##  문구 수정 및 html 추가 -->
+	<ul class="dot_list">
+		<li>리뷰 정책 위반으로 블라인드된 리뷰는 상품상세페이지 리뷰목록에 노출되지 않습니다.<br>
+			블라인드 리뷰 운영정책을 확인해주세요 <button type="button" class="rw-btn-notice" onclick="popLayerOpenReview('reviewBlind');">자세히보기</button></li>
+	</ul>
+
+	<div class="con_txt">
+		<h3 class="tit">누적 리뷰 건수<span>1</span>건</h3>
+	</div>
+
 	
+	<table class="board-list-2s mgT20 new board-list-2s_myreview">
+		<caption>상품, 리뷰로 이루어진 리뷰 목록 표</caption>
+		<colgroup>
+			<col style="width:359px;">
+			<col style="width:310px;">
+			<col style="width:auto">
+		</colgroup>
+		<thead>
+			<tr>
+				<th scope="col">상품</th>
+				<th scope="col" colspan="2">리뷰</th>
+			</tr>
+		</thead>
+		<tbody>
+
+
+
+			<tr>
+				<td class="subject">
+					<div class="area">
+
+					<div class="area">
+						<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
+							<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014788204ko.jpg?l=ko" alt="필리밀리 듀얼 면봉 200P" onerror="common.errorImg(this);">
+						</a>
+						<div class="textus">
+							<dl class="data review-data">
+								<dt>주문일자</dt>
+								<dd>2023.09.04
+									
+									
+								</dd>
+							</dl>
+							<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
+								<span class="tit">필리밀리</span>
+								<span class="txt oneline">필리밀리 듀얼 면봉 200P</span>
+								
+							</a>
+						</div>
+					</div>
+
+
+
+					</div>
+				</td>
+				<td class="subject">
+					<div class="area">
+						<div class="textus" style="width:90%;">
+							<dl class="data review-data">
+								<dt>작성일자</dt>
+								<dd>2023.10.25</dd>
+							</dl>
+							<div class="rating">
+								<span class="txt">
+
+
+								</span>
+								<span class="point pt5"></span>
+							</div>
+							<div class="review-flag-wrap">
+								
+								
+								
+							</div>
+
+
 	
-													
+							<span class="link " data-gdas-seq="23152495" data-ord-no="Y2309042169426" data-goods-no="A000000147882" data-gdas-tp-cd="20" data-gdas-sct-cd="10">
+								
+												
 													넘조아여 
 엄마가 다 뺏어갔어요
 어쩜좋아여~~~~~!!!
-												
-												
-											</span>
-					
-					
-					
-				
-				<!-- ## 리뷰 고도화 1차 ## : 리뷰 신고 제거 -->
-				
-
-			
-										</div>
-									</div>
-								</td>
-								<td>
-									
-										
-										
-											<button type="button" class="btn-review--small" data-gdas-seq="23152495" data-ord-no="Y2309042169426" data-goods-no="A000000147882" data-gdas-tp-cd="20" data-gdas-sct-cd="10" data-item-no="001" data-item-nm="" data-lgc-goods-no="8809628730120" data-pnt-pay-yn="Y" data-write-yn="N" data-thnl-path-nm="10/0000/0014/A00000014788204ko.jpg?l=ko" data-prgs-stat-cd="20" data-oper-dt="2023.09.04" onclick="mypage.gdasCompleteList.appraisalModify(this, {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_리뷰수정', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰수정^리뷰수정">리뷰수정</button><br>
-										
-										
-										
-									
-									
-										<button type="button" class="btn-review--small" onclick="mypage.reviewerInfo.goReviewDetail('23152495', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_리뷰상세보기'})" data-attr="리뷰^리뷰보기^리뷰보기">리뷰보기</button><br>
-									
-								</td>
-							</tr>
 							
+							
+							</span>
 		
-	
-	
+		
+		
 
-						</tbody>
-					</table>
-					
+				<!-- ## 리뷰 고도화 1차 ## : 리뷰 신고 제거 -->
 
+
+
+						</div>
+					</div>
+				</td>
+				<td>
 					
+					<%-- 리뷰 수정 버튼 --%>
+					<button type="button" class="btn-review--small" data-gdas-seq="23152495" data-ord-no="Y2309042169426" data-goods-no="A000000147882" data-gdas-tp-cd="20" data-gdas-sct-cd="10" data-item-no="001" data-item-nm="" data-lgc-goods-no="8809628730120" data-pnt-pay-yn="Y" data-write-yn="N" data-thnl-path-nm="10/0000/0014/A00000014788204ko.jpg?l=ko" data-prgs-stat-cd="20" data-oper-dt="2023.09.04" onclick="mypage.gdasCompleteList.appraisalModify(this, {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_리뷰수정', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰수정^리뷰수정">리뷰수정</button><br>
+							
+					<%-- 리뷰 보기 버튼 --%>
+					<button type="button" class="btn-review--small" onclick="mypage.reviewerInfo.goReviewDetail('23152495', {t_page: '마이페이지_리뷰', t_click: '나의리뷰탭_리뷰상세보기'})" data-attr="리뷰^리뷰보기^리뷰보기">리뷰보기</button><br>
 					
+				</td>
+			</tr>
 			
+		</tbody>
+	</table>
+	
 
 	<div class="pageing">
 	
-	
-		
 			
 		<strong title="현재 페이지">1</strong>
-			
-			
 		
-	
 	
 	</div>
 
 					
 					<!-- ## 리뷰 고도화 1차 ## : 삭제 -->
 					
-					<form id="frmGdasList" name="frmGdasList">
-						<input type="hidden" id="goodsNo" name="goodsNo" value="">
-						<input type="hidden" id="ordNo" name="ordNo" value="">
-					</form>
+<form id="frmGdasList" name="frmGdasList">
+	<input type="hidden" id="goodsNo" name="goodsNo" value="">
+	<input type="hidden" id="ordNo" name="ordNo" value="">
+</form>
 <script type="text/javascript" src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/gdas.js?dumm=202312210002"></script>
 <script type="text/javascript" src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/reviewerInfo.js?dumm=202312210002"></script>
 <script>
@@ -335,17 +274,6 @@ function popLayerCloseReview(target){
 <div class="popup-contents" id="pop_cont" style="top: 612px; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%;">
 
    
-
-
-
-
-
-
-
-
-
-
-
 <script>
 imgDraw = function(){
 	
@@ -398,12 +326,6 @@ imgDraw = function(){
 </script>
 
 
-
-
-
-
-	
-	
 
 
 <div class="popup-contents rw-form-wrap type-write" id="gdasLayerPop">
@@ -481,16 +403,6 @@ imgDraw = function(){
 							</ul>
 						</div>
 
-
-
-
-
-
-
-
-
-
-					
 				
 			</div>
 		</li>
@@ -525,12 +437,6 @@ imgDraw = function(){
 				<span class="tit"><span class="oyblind">필수입력</span>솔직한 상품 리뷰를 남겨주세요  <button type="button" class="rw-btn-notice">자세히보기</button></span><!-- 리뷰 고도화 : 변경 -->
 				<div class="step_cont"><!-- 리뷰 고도화 : 리뷰 작성 마크업 변경 -->
 					<div class="rw-textarea-inner">
-						
-							
-							
-								
-							
-						
 						
 						<textarea id="txtGdasCont" title="리뷰작성" placeholder="꿀팁 가득, 상세한 리뷰를 작성해보세요!
 도움수가 올라가면 포인트도 받고,
@@ -597,21 +503,6 @@ imgDraw = function(){
 
 				<div class="step_cont">
 					<!-- 리뷰 고도화 : 추가 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 					<div class="photo-list-info">
@@ -1406,34 +1297,9 @@ function fnTrimSubstring(conText, conLengMax){
 
 <div class="layer_pop_wrap w920" id="layerWrap920" style="z-index: 999; display: block; left: 50%; margin-left: -460px; top: 535.5px; margin-top: 0px;">
 
-   
-
-
-
-
-
-
-
 <!-- rate_01, rate_02, rate_03, rate_04 -->
 
 	
-	
-	
-	
-		
-	
-	
-
-
-
-
-
-	
-	
-		
-	
-
-
 <div class="review-detail-view">
 	<p class="review-detail-view__tit">리뷰 상세보기 <button type="button" class="rw-popup-layer-close" onclick="goods.gdas.closeReviewerGdasDetailPop('23152495');"></button></p>
 

@@ -5,179 +5,166 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="mypage-conts">
-				<script src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/mypage.header.js?dumm=202312210002"></script>
-				<script>
-					$(window).ready(function(){
-						mypage.header.init();
-					});
-				</script>
 				
+	<div class="title-area linezero">
+		<h2 class="tit">리뷰</h2>
+	</div>
 
+	<ul class="comm1sTabs mgzero">
+		<li class="on" title="선택됨"><a href="<%=contextPath %>/mypage/reviewwrite" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
+		<li><a href="<%=contextPath %>/mypage/reviewview" onclick="" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
+	</ul>
 
-
-
-
-
-
-					<div class="title-area linezero">
-						<h2 class="tit">리뷰</h2>
-					</div>
-
-					<ul class="comm1sTabs mgzero">
-						<li class="on" title="선택됨"><a href="javascript:void(0);" data-attr="리뷰^리뷰_SortingTab^리뷰 작성">리뷰 작성</a></li>
-						<li><a href="#n" onclick="javascript:mypage.gdasList.goCompleteList({ t_page: '마이페이지_리뷰', t_click: '나의리뷰탭' });" data-attr="리뷰^리뷰_SortingTab^나의 리뷰">나의 리뷰</a></li>
-					</ul>
-
-					
-					<!--
-					<div class="banner_mypage">
-						<a href="#;" onClick="common.link.moveTopReviewer();"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/mypage/banner_reviewer.jpg" alt="리뷰어 라운지" /></a>
-					</div>
-					-->
-					
-					
-					
-					
+	
+	<!--
+	<div class="banner_mypage">
+		<a href="#;" onClick="common.link.moveTopReviewer();"><img src="https://static.oliveyoung.co.kr/pc-static-root/image/mypage/banner_reviewer.jpg" alt="리뷰어 라운지" /></a>
+	</div>
+	-->
+	
+	
+	
+	
+	
+		
+			<div class="banner_mypage">
+				<div class="slide_list">
 					
 						
-							<div class="banner_mypage">
-								<div class="slide_list">
-									
-										
-					                        <div class="slide">
-												<a href="javascript:;" onclick="mypage.gdasList.handleClickReviewRollingBanner('https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102970002', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_띠배너', t_number: '1', t_banner_name: '탑리뷰어 프리미엄 혜택👑'})" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
-						                        	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
-						                        </a>
-						                    </div>
-										
-										
-									
-								</div>
-								<div class="banner_arrow" style="display: none;">
-									<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
-									<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
-									<span class="paging"></span>
-									<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
-									<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
-								</div>
-							</div>
+	                        <div class="slide">
+								<a href="javascript:;" onclick="mypage.gdasList.handleClickReviewRollingBanner('https://www.oliveyoung.co.kr/store/planshop/getPlanShopDetail.do?dispCatNo=500000102970002', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_띠배너', t_number: '1', t_banner_name: '탑리뷰어 프리미엄 혜택👑'})" data-attr="리뷰^롤링배너^탑리뷰어 프리미엄 혜택👑^1">
+		                        	<img src="https://image.oliveyoung.co.kr/uploads/images/display/900000600040002/135/4852865991872837957.jpg" alt="탑리뷰어 프리미엄 혜택👑" onerror="common.errorImg(this);">
+		                        </a>
+		                    </div>
+						
 						
 					
+				</div>
+				<div class="banner_arrow" style="display: none;">
+					<button type="button" data-role="none" class="slick_arrow_prev" aria-label="Previous" role="button">이전</button>
+					<button type="button" data-role="none" class="slick_arrow_next" aria-label="Next" role="button">다음</button>
+					<span class="paging"></span>
+					<button type="button" role="button" class="slick_autoplay slick_pause"><span>정지</span></button>
+					<button type="button" role="button" class="slick_autoplay slick_play" style="display:none"><span>재생</span></button>
+				</div>
+			</div>
+		
+	
+	
+	<ul class="dot_list">
+		<li>리뷰는 배송 완료 후 90일 내 작성할 수 있습니다. (매장구매는 CJ ONE 포인트 적립 및 결제완료 시)</li>
+		<li>탑리뷰어는 리뷰 포인트 2배 지급 (최대 2,000P, 탑리뷰어로 선정된 기간 작성한 리뷰 대상)</li>
+		<li>리뷰 작성 포인트는 리뷰 작성 4일 뒤, 최대 혜택 기준으로 지급되며 중복 지급되지 않습니다.</li>
+	</ul>
+	<ul class="reviewReward">
+		<li>
+			<p class="dt">상세 리뷰</p>
+			<p class="fc">(일반 작성 리뷰)</p>
+			<p class="pt">100P</p>
+		</li>
+		<li>
+			<p class="dt">한달사용리뷰</p>
+			<p class="fc">(상품의 첫 리뷰 작성 이후 30일~120일 리뷰)</p>
+			<p class="pt">500P</p>
+		</li>
+		<li>
+			<p class="dt">얼리 리뷰</p>
+			<p class="fc">(상품의 1~10번째 리뷰)</p>
+			<p class="pt">1,000P</p>
+		</li>
+	</ul>
+
+	<div class="review-tab-area">
+		<div class="review-button-tab">
+			<!--[D] 버튼 활성화 on 클래스-->
+			<button type="button" class="review-check-button" id="btnGeneralReview" data-attr="리뷰^리뷰유형^일반리뷰">일반리뷰
+				
+					<span class="review-count">2</span>
+				
+			</button>
+			<button type="button" class="review-check-button on" id="btnMonthlyUseReview" data-attr="리뷰^리뷰유형^한달사용리뷰">한달사용리뷰
+				
+					<span class="review-count">1</span>
+				
+			</button>
+		</div>
+	</div>
+
+	<div class="review-content-area">
+		
+	
+		<!-- 한달사용리뷰 영역 -->
+		<div class="monthly-use-review on" id="monthlyUseReviewArea">
+			
+		
+			<div class="monthly-use-review-list on">
+				<div class="monthly-use-review-list on">
 					
-					<ul class="dot_list">
-						<li>리뷰는 배송 완료 후 90일 내 작성할 수 있습니다. (매장구매는 CJ ONE 포인트 적립 및 결제완료 시)</li>
-						<li>탑리뷰어는 리뷰 포인트 2배 지급 (최대 2,000P, 탑리뷰어로 선정된 기간 작성한 리뷰 대상)</li>
-						<li>리뷰 작성 포인트는 리뷰 작성 4일 뒤, 최대 혜택 기준으로 지급되며 중복 지급되지 않습니다.</li>
-					</ul>
-					<ul class="reviewReward">
-						<li>
-							<p class="dt">상세 리뷰</p>
-							<p class="fc">(일반 작성 리뷰)</p>
-							<p class="pt">100P</p>
-						</li>
-						<li>
-							<p class="dt">한달사용리뷰</p>
-							<p class="fc">(상품의 첫 리뷰 작성 이후 30일~120일 리뷰)</p>
-							<p class="pt">500P</p>
-						</li>
-						<li>
-							<p class="dt">얼리 리뷰</p>
-							<p class="fc">(상품의 1~10번째 리뷰)</p>
-							<p class="pt">1,000P</p>
-						</li>
-					</ul>
-
-					<div class="review-tab-area">
-						<div class="review-button-tab">
-							<!--[D] 버튼 활성화 on 클래스-->
-							<button type="button" class="review-check-button" id="btnGeneralReview" data-attr="리뷰^리뷰유형^일반리뷰">일반리뷰
-								
-									<span class="review-count">2</span>
-								
-							</button>
-							<button type="button" class="review-check-button on" id="btnMonthlyUseReview" data-attr="리뷰^리뷰유형^한달사용리뷰">한달사용리뷰
-								
-									<span class="review-count">1</span>
-								
-							</button>
-						</div>
-					</div>
-
-					<div class="review-content-area">
+					<table class="board-list-2s new">
+						<caption>리뷰 목록</caption>
+						<colgroup>
+							<col style="width:62%;">
+							<col style="width:21%;">
+							<col style="width:17%;">
+						</colgroup>
+						<thead>
+						<tr>
+							<th scope="col">상품</th>
+							<th scope="col">작성기간</th>
+							<th scope="col">리뷰 작성</th>
+						</tr>
+						</thead>
+						<tbody id="tbGdast">
 						
 							
-								<!-- 한달사용리뷰 영역 -->
-								<div class="monthly-use-review on" id="monthlyUseReviewArea">
+							
+							<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
+							<tr>
+								<td class="subject">
+									<div class="area">
+										
+									
+									
+
+									
+										<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
+											<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014788204ko.jpg?l=ko" alt="필리밀리 듀얼 면봉 200P" onerror="common.errorImg(this);">
+										</a>
+										<div class="textus">
+											<dl class="data review-data">
+												<dt>주문일자</dt>
+												<dd>2023.09.04
+													<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
+													
+													
+												</dd>
+											</dl>
+											<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
+												<span class="tit">필리밀리</span>
+												<span class="txt oneline">필리밀리 듀얼 면봉 200P</span>
+												
+											</a>
+										</div>
+									
 									
 										
-											<div class="monthly-use-review-list on">
-												<div class="monthly-use-review-list on">
-													
-													<table class="board-list-2s new">
-														<caption>리뷰 목록</caption>
-														<colgroup>
-															<col style="width:62%;">
-															<col style="width:21%;">
-															<col style="width:17%;">
-														</colgroup>
-														<thead>
-														<tr>
-															<th scope="col">상품</th>
-															<th scope="col">작성기간</th>
-															<th scope="col">리뷰 작성</th>
-														</tr>
-														</thead>
-														<tbody id="tbGdast">
-														
-															
-															
-															<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-															<tr>
-																<td class="subject">
-																	<div class="area">
-																		
-																			
-																			
+									</div>
+								</td>
+								<td class="col777"><strong>~ <%-- 첫 리뷰 작성일 + 120일 --%></strong></td>
+								<td data-ord-no="Y2309042169426" data-goods-no="A000000147882">
+									<!--[D] 한달사용리뷰 monthly-use 클래스 추가-->
+									<button type="button" class="btn-review--small monthly-use" data-pur-mbr-yn="Y" data-ord-no="Y2309042169426" data-ord-goods-seq="5" data-goods-no="A000000147882" data-gdas-tp-cd="00" data-gdas-sct-cd="10" data-item-no="001" data-item-nm="" data-lgc-goods-no="8809628730120" data-thnl-path-nm="10/0000/0014/A00000014788204ko.jpg?l=ko" data-oper-dt="2023.09.04" data-str-no="" data-origin-bizpl-cd="" data-pos-no="" data-receipt-no="" data-brnd-nm="필리밀리" data-prgs-stat-cd="20" data-renew-used1mm-gdas-yn="Y" data-org-gdas-seq="23152495" onclick="mypage.gdasCompleteList.appraisalRegist(this, {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_리뷰작성'});" data-attr="리뷰^한달사용리뷰작성^한달사용리뷰 작성">
+										한달사용리뷰 작성
+										<span class="point-label">500P 지급</span>
+									</button>
+								</td>
+							</tr>
+						
+						</tbody>
+					</table>
+						
 
-																			
-																				<a class="thum" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
-																					<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014788204ko.jpg?l=ko" alt="필리밀리 듀얼 면봉 200P" onerror="common.errorImg(this);">
-																				</a>
-																				<div class="textus">
-																					<dl class="data review-data">
-																						<dt>주문일자</dt>
-																						<dd>2023.09.04
-																							<!-- ## 리뷰 고도화 1.8차 ## 매장구매 인경우 operDt 로 변경  -->
-																							
-																							
-																						</dd>
-																					</dl>
-																					<a class="" href="javascript:mypage.gdasList.moveGoodsDetailReview('A000000147882','리뷰_리뷰상품', {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_상품상세', goodsNo: 'A000000147882', goodsname: '필리밀리 듀얼 면봉 200P'});" data-attr="리뷰^리뷰상품^상품클릭">
-																						<span class="tit">필리밀리</span>
-																						<span class="txt oneline">필리밀리 듀얼 면봉 200P</span>
-																						
-																					</a>
-																				</div>
-																			
-																			
-																		
-																	</div>
-																</td>
-																<td class="col777"><strong>~ 2024.02.22</strong></td>
-																<td data-ord-no="Y2309042169426" data-goods-no="A000000147882">
-																	<!--[D] 한달사용리뷰 monthly-use 클래스 추가-->
-																	<button type="button" class="btn-review--small monthly-use" data-pur-mbr-yn="Y" data-ord-no="Y2309042169426" data-ord-goods-seq="5" data-goods-no="A000000147882" data-gdas-tp-cd="00" data-gdas-sct-cd="10" data-item-no="001" data-item-nm="" data-lgc-goods-no="8809628730120" data-thnl-path-nm="10/0000/0014/A00000014788204ko.jpg?l=ko" data-oper-dt="2023.09.04" data-str-no="" data-origin-bizpl-cd="" data-pos-no="" data-receipt-no="" data-brnd-nm="필리밀리" data-prgs-stat-cd="20" data-renew-used1mm-gdas-yn="Y" data-org-gdas-seq="23152495" onclick="mypage.gdasCompleteList.appraisalRegist(this, {t_page: '마이페이지_리뷰', t_click: '리뷰작성탭_한달사용리뷰_리뷰작성'});" data-attr="리뷰^한달사용리뷰작성^한달사용리뷰 작성">
-																		한달사용리뷰 작성
-																		<span class="point-label">500P 지급</span>
-																	</button>
-																</td>
-															</tr>
-														
-														</tbody>
-													</table>
-													
-
-													
+									
 			
 
 	<div class="pageing">
@@ -193,23 +180,23 @@
 	
 	</div>
 
-												</div>
-											</div>
-										
-										
-									
-								</div>
-								<!-- //한달사용리뷰 영역 -->
-							
-							
-						
-					</div>
+		</div>
+	</div>
 
-					<form id="frmGdasList" name="frmGdasList">
-						<input type="hidden" id="goodsNo" name="goodsNo" value="">
-						<input type="hidden" id="ordNo" name="ordNo" value="">
-						<input type="hidden" id="gdasCnt" name="gdasCnt" value="1">
-					</form>
+			
+		
+	</div>
+	<!-- //한달사용리뷰 영역 -->
+
+	
+		
+	</div>
+
+	<form id="frmGdasList" name="frmGdasList">
+		<input type="hidden" id="goodsNo" name="goodsNo" value="">
+		<input type="hidden" id="ordNo" name="ordNo" value="">
+		<input type="hidden" id="gdasCnt" name="gdasCnt" value="1">
+	</form>
 <script type="text/javascript" src="https://static.oliveyoung.co.kr/pc-static-root/js/mypage/gdas.js?dumm=202312210002"></script>
 <script>
 $(document).ready(function(){
@@ -325,17 +312,6 @@ function popLayerCloseReview(target){
 <div class="popup-contents" id="pop_cont" style="top: 719px; width: 650px; margin: -258px 0px 0px -325px; z-index: 999; left: 50%; display: block;">
 
    
-
-
-
-
-
-
-
-
-
-
-
 <script>
 imgDraw = function(){
 	
@@ -411,8 +387,8 @@ imgDraw = function(){
 						<img src="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0014/A00000014788204ko.jpg?l=ko" alt="필리밀리 듀얼 면봉 200P" onerror="common.errorImg(this);">
 					</span>
 					<dl class="txt_info">
-						<dt>필리밀리</dt>
-						<dd>필리밀리 듀얼 면봉 200P</dd>
+						<dt><!-- 브랜드명 --></dt>
+						<dd><!-- 상품표시명 --></dd>
 						
 					</dl>
 				</div>
@@ -449,61 +425,51 @@ imgDraw = function(){
 		<li>
 			<div class="step_cont">
 				
-				
-					<!-- 올영체험단인경우 아래 포인트내용 미노출처리함 --> 
-						<div id="rwReviewComment" class="rw-review-comment rw-review-comment-renewal">
-							<strong class="rw-review-title">포인트 지급 안내</strong>
-							<ul class="point-info-list">
-							
-								
-									<li class="list-item">
-										<p class="monthly-review-text">리뷰 100P<span class="list-bar"></span>한달사용리뷰 500P (탑리뷰어 2배)</p>
-									</li>
-									<li class="list-item">
-										<p>도움이 돼요 건당 5P</p>
-									</li>
-								
-								
-							
-							</ul>
-						</div>
-
-
-
-
-
-
-
-
-
-
+		
+			<!-- 올영체험단인경우 아래 포인트내용 미노출처리함 --> 
+				<div id="rwReviewComment" class="rw-review-comment rw-review-comment-renewal">
+					<strong class="rw-review-title">포인트 지급 안내</strong>
+					<ul class="point-info-list">
 					
-				
+						
+							<li class="list-item">
+								<p class="monthly-review-text">리뷰 100P<span class="list-bar"></span>한달사용리뷰 500P (탑리뷰어 2배)</p>
+							</li>
+							<li class="list-item">
+								<p>도움이 돼요 건당 5P</p>
+							</li>
+						
+						
+					
+					</ul>
+				</div>
+
+
 			</div>
 		</li>
 		
 		
 		<li>
-			
-				<div class="rw-photo-guide">
-					<span class="rw-photo-guide__tit">리뷰 작성 TIP</span>
-					<ul>
+		
+			<div class="rw-photo-guide">
+				<span class="rw-photo-guide__tit">리뷰 작성 TIP</span>
+				<ul>
+					
+						<li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasPhotoGd/D000000003961/2022/825/6299271936977009954.jpeg" alt="">0</li>
 						
-							<li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasPhotoGd/D000000003961/2022/825/6299271936977009954.jpeg" alt="">0</li>
-							
-								
-							
-						
-							<li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasPhotoGd/D000000003961/2022/825/5719987119609844113.jpg" alt="">1</li>
 							
 						
-						<!-- <li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2020/04/07/186236590724.png" alt=""></li> -->
-					</ul>
-					<p>
-							
-							직접 사용하는 모습이나<br>제품의 디테일을 보여주세요! (브러시결, 두께, 크기 등)
-					</p>
-				</div>
+					
+						<li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasPhotoGd/D000000003961/2022/825/5719987119609844113.jpg" alt="">1</li>
+						
+					
+					<!-- <li><img src="https://image.oliveyoung.co.kr/uploads/images/gdasEditor/2020/04/07/186236590724.png" alt=""></li> -->
+				</ul>
+				<p>
+						
+						직접 사용하는 모습이나<br>제품의 디테일을 보여주세요! (브러시결, 두께, 크기 등)
+				</p>
+			</div>
 			
 		</li>
 		
@@ -512,11 +478,6 @@ imgDraw = function(){
 				<span class="tit"><span class="oyblind">필수입력</span>솔직한 상품 리뷰를 남겨주세요  <button type="button" class="rw-btn-notice">자세히보기</button></span><!-- 리뷰 고도화 : 변경 -->
 				<div class="step_cont"><!-- 리뷰 고도화 : 리뷰 작성 마크업 변경 -->
 					<div class="rw-textarea-inner">
-						
-							
-							
-								
-							
 						
 						
 						<textarea id="txtGdasCont" title="리뷰작성" placeholder="꿀팁 가득, 상세한 리뷰를 작성해보세요!
@@ -582,21 +543,6 @@ imgDraw = function(){
 
 				<div class="step_cont">
 					<!-- 리뷰 고도화 : 추가 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 					<div class="photo-list-info">
