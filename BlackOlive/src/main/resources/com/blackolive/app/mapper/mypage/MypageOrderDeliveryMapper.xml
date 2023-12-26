@@ -313,6 +313,7 @@
 		FROM delivery d left join olive_user u on d.user_id = u.user_id 
 		                left join olive_order o on d.user_id = o.user_id 
 		where order_id = #{ orderId } 
+			AND rownum = 1
 	</select>
 	
 	

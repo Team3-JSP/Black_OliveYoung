@@ -27,6 +27,9 @@ public interface MypageMainMapper {
 	//마이페이지 상품 QnA 목록 가져오기
 	public List<ProductQnAVO> getproductQnA(String userid) throws ClassNotFoundException, SQLException;
 	
+	//마이페이지 상품 QnA 목록 메인 가져오기
+	public List<ProductQnAVO> getproductQnAmain(String userid) throws ClassNotFoundException, SQLException;
+	
 	//마이페이지 상품 QnA 날짜에 따른 목록 가져오기
 	public List<ProductQnAVO> getproductQnAwithDate(@Param("userid") String userid,
 					@Param("startdate") String startdate,
