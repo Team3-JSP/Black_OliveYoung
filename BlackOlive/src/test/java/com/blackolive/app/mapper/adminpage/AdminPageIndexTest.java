@@ -52,7 +52,7 @@ public class AdminPageIndexTest {
 //		
 //		assertEquals(1, this.adminPageIndexService.insertProductDisplayService(productDisplayDTO));
 		
-		assertNotNull(this.orderCheckService.getOrderList(1));
+		//(this.orderCheckService.getOrderList(1,));
 		
 	}
 

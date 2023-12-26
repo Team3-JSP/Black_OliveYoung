@@ -22,7 +22,7 @@
 	</resultMap>
 	
 	<!-- public List<ReviewVO> mypagereviewList(String userid) throws ClassNotFoundException, SQLException;	 -->
-	<select id="mypagereviewList" resultMap="java.util.List">
+	<select id="mypagereviewList" resultType="java.util.List">
 		SELECT 
 		    to_date(order_date, 'YYYY-MM-DD') AS orderDate, 
 		    brand_name AS brandName,
@@ -45,7 +45,7 @@
 	</select>
 	
 	<!-- public List<ReviewVO> mypagereviewmonthList(String userid) throws ClassNotFoundException, SQLException; -->
-	<select id="mypagereviewmonthList" resultMap="java.util.List">
+	<select id="mypagereviewmonthList" resultType="java.util.List">
 		SELECT 
 		    TO_DATE(order_date, 'YYYY-MM-DD') AS orderDate, 
 		    brand_name AS brandName,
@@ -82,7 +82,7 @@
 	</select>
 			
 	<!-- public List<ReviewVO> mypagereviewWriteList(String userid) throws ClassNotFoundException, SQLException; -->
-	<select id="mypagereviewWriteList" resultMap="java.util.List">
+	<select id="mypagereviewWriteList" resultType="java.util.List">
 		SELECT 
 		    TO_DATE(order_date, 'YYYY-MM-DD') AS orderDate,
 		    brand_name AS brandName,

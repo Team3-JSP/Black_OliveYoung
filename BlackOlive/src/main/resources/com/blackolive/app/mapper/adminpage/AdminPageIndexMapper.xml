@@ -64,11 +64,84 @@
 		SELECT product_display_seq.nextval FROM dual
 	</select>
 	
+	<select id="productSeq" resultType="int">
+		SELECT product_seq.nextval FROM dual
+	</select>
+	
 	<!-- // 상품 표시 데이터 insert insertProductDisplay
 	public int insertProductDisplay (@Param("productDisplay") ProductDisplayDTO productDisplay); -->
 	<insert id="insertProductDisplay">
 		INSERT INTO product_display (PRODUCT_DISPLAY_ID, BRAND_ID, PRODUCT_DISPLAY_NAME, PRODUCT_DISPLAY_LIKE, PRODUCT_DISPLAY_OPTION, PRODUCT_DISPLAY_REGDATE)
 		VALUES(#{productDisplay.productDisplayId}, #{productDisplay.brandId}, #{productDisplay.productDisplayName},0 ,#{productDisplay.productDisplayOption}, SYSDATE )
+	</insert>
+	
+	<!-- 	// 상품 데이터 insert
+	public int insertProduct(@Param("product") List<ProductDTO> product); -->
+	<insert id="insertProduct" parameterType="java.util.List">
+		 
+		 <foreach collection="product" item="product" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product (
+             PRODUCT_ID
+      ,      PRODUCT_DISPLAY_ID
+      ,      CATEGORY_SMALL_ID
+      ,      PRODUCT_NAME
+      ,      PRODUCT_PRICE
+      ,      PRODUCT_STOCK
+      )
+      SELECT 
+      		#{product.productId},
+			#{product.productDisplayId},
+			#{product.categorySmallId},
+			#{product.productName},
+			#{product.productPrice},
+			#{product.productStock} 
+      FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- // 상품 표시 이미지 insert
+	public ProductDisplayImgDTO insertProductDisplayImg(@Param("productDisplayImgDTO")ProductDisplayImgDTO productDisplayImgDTO); -->
+	
+	<insert id="insertProductDisplayImg">
+		INSERT INTO product_display_img
+		VALUES(product_display_img_seq.nextval, #{productDisplayImgDTO.productDisplayId}, #{productDisplayImgDTO.productDisplaySrc})
+	</insert>
+	
+	<!-- // 상품 표시 설명 이미지 insert
+	public int insertProductDisplayInfoImgs(@Param("displayInfoDTOs") List<ProductDisplayInfoDTO> displayInfoDTOs); -->
+	<insert id="insertProductDisplayInfoImgs" parameterType="java.util.List">
+	
+			 <foreach collection="displayInfoDTOs" item="displayInfoDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product_explaination_img (
+    		  PRODUCT_EXPLAINATION_IMG_ID,
+    		  PRODUCT_DISPLAY_ID,
+    		  PRODUCT_EXPLAINATION_IMG_SRC
+			)
+      		SELECT 
+			product_explaination_img_seq.nextval,
+			#{displayInfoDTOs.productDisplayId},
+			#{displayInfoDTOs.productExplainationImgSrc}
+      		FROM DUAL
+		</foreach>
+	</insert>
+	<!-- // 상품 이미지 insert
+	public int insertProductImgs(@Param("productImgDTOs") List<ProductImgDTO> productImgDTOs); -->
+	
+	<insert id="insertProductImgs" parameterType="java.util.List">
+	
+	 <foreach collection="productImgDTOs" item="productImgDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product_img (
+    		  PRODUCT_IMG_ID,
+    		  PRODUCT_ID,
+    		  PRODUCT_IMG_SRC
+			)
+      		SELECT 
+			product_img_seq.nextval,
+			#{productImgDTOs.productId},
+			#{productImgDTOs.productImgSrc}
+      		FROM DUAL
+		</foreach>
+
 	</insert>
 	
 	

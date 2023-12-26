@@ -1,23 +1,29 @@
 package com.blackolive.app.controller.adminpage;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.blackolive.app.domain.adminpage.OrderCheckDTO;
+import com.blackolive.app.domain.adminpage.OrderRegisterDTO;
 import com.blackolive.app.domain.adminpage.ProductDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayImgDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayInfoDTO;
+import com.blackolive.app.domain.adminpage.ProductImgDTO;
 import com.blackolive.app.domain.adminpage.QnaListDTO;
 import com.blackolive.app.domain.productList.PageDTO;
 import com.blackolive.app.service.adminpage.AdminPageIndexService;
@@ -65,22 +71,120 @@ public class AdminController {
 	}
 	
 	@PostMapping("/product/reg")
-	public String productReg(ProductDTO products, @RequestParam("formFileMultiple")MultipartFile formFileMultiple ){
-		// 1. 첨부된 파일 유무 확인 후에 서버 파일 저장.
-		CommonsMultipartFile multipartFile = products.getProductImg();
-		System.out.println("multipartFile: " + multipartFile);
-		/*
-		 * for (int i = 0; i < jsondto.getProductDataList().size(); i++) { MultipartFile
-		 * multipartFile = jsondto.getProductDataList().get(i).getProductImg(); } // for
-		 */		
+	public String productReg(OrderRegisterDTO orderRegisterDTO, Principal principal
+			, HttpServletRequest request) throws IllegalStateException, IOException{
 		
-		System.out.println(formFileMultiple);
+		int displayIdSeq = this.adminPageIndexService.getproductIdSeqService();
+		String productDisplayId = "pd_" + displayIdSeq;
+		// String brandId = principal.getName();
+		String brandId = "br_00000012";
+		String smallCategoryId = orderRegisterDTO.getSmallCategory();
 		
-		if (products == null) {
+		System.err.println(">>> orderRegisterDTO: " + orderRegisterDTO.toString());
+		System.err.println(">>> multipartFile: " + orderRegisterDTO.getProducts().toString());
+		
+		char productDisplayOption = 'N';
+		if (orderRegisterDTO.getProducts().size() >= 2) {
+			productDisplayOption = 'Y';
+		}
+		ProductDisplayDTO productDisplayDTO = new ProductDisplayDTO(productDisplayId, brandId, orderRegisterDTO.getProductDisplayName(), productDisplayOption);
+		
+		// 상품 정보 삽입
+		
+		
+		List<ProductDTO> productDTO = orderRegisterDTO.getProducts();
+		List<CommonsMultipartFile> productImgs = new ArrayList<CommonsMultipartFile>();
+		for (int i = 0; i < productDTO.size(); i++) {
+			int productSeq = this.adminPageIndexService.productSeq();
+			productDTO.get(i).setProductDisplayId(productDisplayId);
+			productDTO.get(i).setCategorySmallId(smallCategoryId);
+			productDTO.get(i).setProductId("pr_"+productSeq);
+			productImgs.add(productDTO.get(i).getProductImg());
+		}
+		
+		// 상품 테이블 저장
+		//
+		int rowCnt = this.adminPageIndexService.insertProductDisplayService(productDisplayDTO, productDTO);
+		
+		// 사진 저장
+		
+		// 상품 표시 이미지 저장
+		String productDisplayUploadRealPath = request.getServletContext().getRealPath("/resources/images/productDisplay");
+		CommonsMultipartFile productDisplayImg = orderRegisterDTO.getFormFileMultiple();
+		String productDisplayImgName = productDisplayImg.getOriginalFilename();
+		String afterproductDisplayImgName = getFileNameCheck(productDisplayUploadRealPath, productDisplayImgName);
+		File productDisplayFile = new File(productDisplayUploadRealPath, afterproductDisplayImgName);
+		productDisplayImg.transferTo(productDisplayFile);
+		ProductDisplayImgDTO productDisplayImgDTO = new ProductDisplayImgDTO(productDisplayId,"/resources/images/productDisplay/"+afterproductDisplayImgName);
+		int pdIrowCnt = this.adminPageIndexService.insertProductDisplayImg(productDisplayImgDTO);
+		
+		// 상품 표시 설명 이미지 저장
+		List<CommonsMultipartFile> productDisplayExplainImgs = orderRegisterDTO.getMultiInfoImgs();
+		String productInfosUploadRealPath = request.getServletContext().getRealPath("/resources/images/productExImgs");
+		String [] productDisplayExplainImgsName = new String [productDisplayExplainImgs.size()];
+		String [] afterProductDisplayExplainImgsName = new String[productDisplayExplainImgs.size()];
+		File productInfoFile = null;
+		ProductDisplayInfoDTO displayInfoDTO = null;
+		List<ProductDisplayInfoDTO> displayInfoDTOs = new ArrayList<>();
+		
+		for (int i = 0; i < productDisplayExplainImgs.size(); i++) {
+			productDisplayExplainImgsName[i] = productDisplayExplainImgs.get(i).getOriginalFilename();
+			afterProductDisplayExplainImgsName[i] = getFileNameCheck(productInfosUploadRealPath, productDisplayExplainImgsName[i]);
+			productInfoFile = new File(productInfosUploadRealPath, afterProductDisplayExplainImgsName[i]);
+			productDisplayExplainImgs.get(i).transferTo(productInfoFile);
+			displayInfoDTO = new ProductDisplayInfoDTO(productDisplayId, "/resources/images/productExImgs/"+afterproductDisplayImgName);
+			displayInfoDTOs.add(displayInfoDTO);
+		}
+		int productInfoRowCnt = this.adminPageIndexService.insertProductDisplayInfoImgs(displayInfoDTOs); // 실제 DB에 경로 저장
+		
+		// 상품 이미지 저장
+		String productUploadRealPath = request.getServletContext().getRealPath("/resources/images/product");
+		String productImgsName[] = new String [productImgs.size()];
+		String afterproductImgsName[] = new String [productImgs.size()];
+		File productFiles = null;
+		ProductImgDTO productImgDTO = null;
+		List<ProductImgDTO> productImgDTOs = new ArrayList<>();
+		for (int i = 0; i < productImgs.size(); i++) {
+			productImgsName[i] = productImgs.get(i).getOriginalFilename();
+			afterproductImgsName[i] = getFileNameCheck(productUploadRealPath, productImgsName[i]);
+			productFiles = new File(productUploadRealPath, afterproductImgsName[i]);
+			productImgs.get(i).transferTo(productFiles);
+			productImgDTO = new ProductImgDTO(productDTO.get(i).getProductId(),"/resources/images/product/"+afterproductImgsName[i]);
+			productImgDTOs.add(productImgDTO);
+		}
+		int productImgRowCnt = this.adminPageIndexService.insertProductImgs(productImgDTOs);
+		
+		System.err.println("productUploadRealPath"+productUploadRealPath);
+		System.err.println("productDisplayUploadRealPath"+productDisplayUploadRealPath);
+		System.err.println("productInfosUploadRealPath"+productInfosUploadRealPath);
+		
+		// 상품 프로모션 등록
+		
+		// 상품 구매정보 등록
+		
+		
+		
+		if (orderRegisterDTO.getProducts() == null) {
 			return "adminpage/productregister?error";
 		}
-		return "redirect:/adminpage";
+		return "redirect:/adminpage/product/register?success";
 	} // productReg
+	
+	// upload폴더 안에 a.txt
+	private String getFileNameCheck(String uploadRealPath, String originalFilename) {
+		int index = 1;      
+		while( true ) {         
+			File f = new File(uploadRealPath, originalFilename);         
+			if( !f.exists() ) return originalFilename;         
+			
+			String fileName = originalFilename.substring(0, originalFilename.length() - 4 ); 
+			String ext =  originalFilename.substring(originalFilename.length() - 4 );  
+			
+			originalFilename = fileName+"-"+(index)+ext;
+
+			index++;
+		} // while 
+	}
 	
 	@GetMapping("/order/check")
 	public String orderCheck(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,

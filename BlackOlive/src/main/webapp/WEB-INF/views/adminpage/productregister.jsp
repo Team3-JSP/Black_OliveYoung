@@ -22,9 +22,8 @@
                 <h5 class="card-title">상품 등록</h5>
 
                 <!-- General Form Elements -->
-                <form action="/adminpage/product/reg" method="post" id="productForm" enctype="multipart/form-data">
-                  <!-- CSRF 토큰 추가 -->
-        		  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                <form action="/adminpage/product/reg?${_csrf.parameterName}=${_csrf.token}" method="post" id="productForm" enctype="multipart/form-data">
+                 
                   <div class="row mb-3">
                     <div class="col-sm-3">
                       <select class="form-select" aria-label="Total Category" id="totalCategory">
@@ -45,7 +44,7 @@
                       </select>
                     </div>
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="Small Category" id="smallCategory">
+                      <select class="form-select" aria-label="Small Category" id="smallCategory" name="smallCategory">
                         <option selected disabled>소분류</option>
                       </select>
                     </div>
@@ -114,13 +113,13 @@
                     id="discountPromotion"
                   >
                     <div class="col-sm-4">
-                      <input type="text" class="form-control" />
+                      <input type="text" class="form-control" name="promotionDiscountPrice" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionDiscountStartDay" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionDiscountEndDay" />
                     </div>
                   </div>
                   <div
@@ -128,22 +127,25 @@
                     id="couponPromotion"
                     style="visibility: hidden"
                   >
-                    <div class="col-sm-4">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
+                    <div class="col-sm-2">
+                      <select class="form-select" aria-label="Coupon Promotion" id="promotionCouponKind" name="promotionCouponKind">
                         <option selected disabled>쿠폰 프로모션</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">기본할인쿠폰</option>
+                        <option value="2">%할인쿠폰</option>
                       </select>
                     </div>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                    <div class="col-sm-2">
+                      <input type="text" name="promotionCouponName" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" name="promotionCouponDiscount" class="form-control">
+                    </div>
+                    
+                    <div class="col-sm-2">
+                      <input type="date" class="form-control" name="promotionCouponStartDay" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionCouponEndDay" />
                     </div>
                   </div>
                   <div
@@ -151,22 +153,21 @@
                     style="visibility: hidden"
                     id="presentPromotion"
                   >
-                    <div class="col-sm-4">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
+                    <div class="col-sm-2">
+                      <select class="form-select" aria-label="Default select example" id="promotionPresentKind" name="promotionPresentKind">
                         <option selected disabled>증정 프로모션</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">1+1증정</option>
+                        <option value="2">2+1증정</option>
                       </select>
                     </div>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                    <div class="col-sm-2">
+                     <input type="text" name="promotionPresentName" class="form-control">
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionPresentStartDay" />
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control" name="promotionPresentEndDay" />
                     </div>
                   </div>
 
@@ -259,25 +260,22 @@
 
     function addOption() {
     	 var optionTemplate =
-    	        '<div class="row mb-2" id="productForm">' +
+    		 '<div class="row mb-2" id="productForm">' +
     	        '   <label class="col-sm-2 col-form-label">상품</label>' +
     	        '   <div class="col-sm-4">' +
-    	        '       <input type="text"  style="display: none;" name="productId" value="1"/>' +
-    	        '       <input type="text"  style="display: none;" name="productDisplayId" value="1"/>' +
-    	        '       <input type="text"  style="display: none;" name="categorySmallId" value="1"/>' +
-    	        '       <input type="text" class="form-control col-sm-2" placeholder="상품명" name="productName" />' +
+    	        '       <input type="text" class="form-control col-sm-2" placeholder="상품명" name="products[' + productIndex + '].productName" />' +
     	        '   </div>' +
     	        '   <div class="col-sm-3">' +
-    	        '       <input type="text" class="form-control" placeholder="상품 가격" name="productPrice" />' +
+    	        '       <input type="text" class="form-control" placeholder="상품 가격" name="products[' + productIndex + '].productPrice" />' +
     	        '   </div>' +
     	        '   <div class="col-sm-2">' +
-    	        '       <input type="text" class="form-control" placeholder="재고 수량" name="productStock" />' +
+    	        '       <input type="text" class="form-control" placeholder="재고 수량" name="products[' + productIndex + '].productStock" />' +
     	        '   </div>' +
     	        '   <div class="col-sm-1">' +
     	        '       <button type="button" class="btn btn-primary deleteBtn">X</button>' +
     	        '   </div>' +
     	        '   <div class="col-sm-6 mt-2">' +
-    	        '       <input type="file" class="form-control-file" name="productImg"/>' +
+    	        '       <input type="file" class="form-control-file" name="products[' + productIndex + '].productImg" />' +
     	        '   </div>' +
     	        '   <hr>' +
     	        '</div>';
@@ -438,7 +436,10 @@
  
  </script>
  <script>
+ /* 구매정보 스크립트 */
  $(function() {
+	 
+	var buyInfoIndex = 0; 
 	$('#buyInfoCategory').on('change', function() {
 		
 		var buyInfoCategory = $(this).val();
@@ -467,7 +468,8 @@
 
 				    // 두 번째 열
 				    var col2 = $('<div class="col-sm-9" data-buyinfo="' + buyinfoTitleId + '"></div>');
-				    col2.append('<input type="text" class="form-control" />');
+				    col2.append('<input type="number" class="form-control" value="'+buyinfoTitleId+'" style="display: none" name="buyInfos['+buyInfoIndex+'].buyinfoTitleId"/> ');
+				    col2.append('<input type="text" class="form-control" name="buyInfos['+buyInfoIndex+'].buyinfoTitle" />');
 				    newRow.append(col2);
 
 				    // 세 번째 열
@@ -477,6 +479,7 @@
 
 				    // buyInfoCollection에 새로운 행 추가
 				    $('#buyInfoCollection').append(newRow);
+				    buyInfoIndex++;
 				}
 			}
 			,error: function(buyInfoData) {

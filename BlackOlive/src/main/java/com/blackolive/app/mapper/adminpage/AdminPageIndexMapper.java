@@ -1,12 +1,15 @@
 package com.blackolive.app.mapper.adminpage;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.blackolive.app.domain.adminpage.BuyInfoDTO;
+import com.blackolive.app.domain.adminpage.ProductDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayImgDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayInfoDTO;
+import com.blackolive.app.domain.adminpage.ProductImgDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -26,10 +29,23 @@ public interface AdminPageIndexMapper {
 	// 상품 표시 id에 쓸 시퀀스 미리 갖고오기
 	public int getproductIdSeq(); 
 	
+	public int productSeq();
+	
 	
 	// 상품 표시 데이터 insert insertProductDisplay
 	public int insertProductDisplay (@Param("productDisplay") ProductDisplayDTO productDisplay);
 	
+	// 상품 데이터 insert
+	public int insertProduct(@Param("product") List<ProductDTO> product);
+	
+	// 상품 표시 이미지 insert
+	public int insertProductDisplayImg(@Param("productDisplayImgDTO")ProductDisplayImgDTO productDisplayImgDTO);
+	
+	// 상품 표시 설명 이미지 insert
+	public int insertProductDisplayInfoImgs(@Param("displayInfoDTOs") List<ProductDisplayInfoDTO> displayInfoDTOs);
+	
+	// 상품 이미지 insert
+	public int insertProductImgs(@Param("productImgDTOs") List<ProductImgDTO> productImgDTOs);
 	
 	// ================= Rest Mapper ======================
 	

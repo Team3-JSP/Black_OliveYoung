@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blackolive.app.domain.adminpage.ProductDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayImgDTO;
+import com.blackolive.app.domain.adminpage.ProductDisplayInfoDTO;
+import com.blackolive.app.domain.adminpage.ProductImgDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.mapper.adminpage.AdminPageIndexMapper;
@@ -46,11 +50,42 @@ public class AdminPageIndexServiceImpl implements AdminPageIndexService{
 	// 상품 표시 데이터 삽입
 	@Override
 	@Transactional
-	public int insertProductDisplayService(ProductDisplayDTO productDisplay) {
+	public int insertProductDisplayService(ProductDisplayDTO productDisplay, List<ProductDTO> product) {
 		
 		int rowCnt = this.adminPageIndexMapper.insertProductDisplay(productDisplay);
 		
+		int productRowCnt = this.adminPageIndexMapper.insertProduct(product);
 		return rowCnt;
+	}
+
+	@Override
+	@Transactional
+	public int insertProduct(List<ProductDTO> product) {
+		
+		return this.adminPageIndexMapper.insertProduct(product);
+	}
+
+	@Override
+	public int insertProductDisplayImg(ProductDisplayImgDTO productDisplayImgDTO) {
+		
+		return this.adminPageIndexMapper.insertProductDisplayImg(productDisplayImgDTO);
+	}
+
+	@Override
+	public int insertProductDisplayInfoImgs(List<ProductDisplayInfoDTO> displayInfoDTOs) {
+		
+		return this.adminPageIndexMapper.insertProductDisplayInfoImgs(displayInfoDTOs);
+	}
+
+	@Override
+	public int insertProductImgs(List<ProductImgDTO> productImgDTOs) {
+
+		return this.adminPageIndexMapper.insertProductImgs(productImgDTOs);
+	}
+
+	@Override
+	public int productSeq() {
+		return this.adminPageIndexMapper.productSeq();
 	} 
 	
 

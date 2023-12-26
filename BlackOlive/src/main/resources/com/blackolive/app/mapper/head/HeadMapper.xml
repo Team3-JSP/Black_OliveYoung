@@ -11,7 +11,7 @@
 		<collection property="largeList" resultMap="LargeResultMap"></collection>
 	</resultMap> -->
 
-	<resultMap type="com.blackolive.app.domain.head.CategoryLargeDTO" id="LargeResultMap">
+	<resultMap type="com.blackolive.app.domain.head.CategoryLargeDTO" id="LargeResultMap" >
         <id property="categoryLargeId" column="category_large_id"/>
         <result property="categoryLargeName" column="category_large_name"/>
         <result property="categoryTotalId" column="category_total_Id"/>
@@ -84,14 +84,14 @@
 		<result property="reviewImgSrc" column="review_img_src"/>
 	</resultMap>
 
-    <select id="getHeadCategory" resultMap="LargeResultMap">
+    <select id="getHeadCategory" resultMap="LargeResultMap" resultType="java.util.List">
         SELECT cl.category_large_id, cl.category_large_name, cl.category_total_id
         FROM category_large cl
         WHERE cl.category_total_id = #{categoryTotalId}
         ORDER BY cl.category_large_id ASC
     </select>
 
-    <select id="getHeadCategoryMid" resultMap="MidResultMap">
+    <select id="getHeadCategoryMid" resultMap="MidResultMap" resultType="java.util.List">
         SELECT cm.category_mid_id, cm.category_mid_name, cm.category_large_id
         FROM category_mid cm
         JOIN category_large cl ON cm.category_large_id = cl.category_large_id
