@@ -140,7 +140,13 @@ public class ExhibitionServiceImpl implements ExhibitionService{
 	@Override
 	public OliveUserDTO selectUserInfoService(String userId) {
 		// TODO Auto-generated method stub
-		return this.mainPageMapper.selectUserInfo(userId);
+		if (this.mainPageMapper.selectUserInfo(userId) == null) {
+			return this.mainPageMapper.selectUserInfo("user1");
+		}else {
+			return this.mainPageMapper.selectUserInfo(userId);
+		}
+		
+		
 	}
 
 	@Override
@@ -164,6 +170,45 @@ public class ExhibitionServiceImpl implements ExhibitionService{
 	public List<ProductContainer> similardisplService(String userId) {
 		
 		return this.mainPageMapper.similardispl(similarProductService(userId));
+	}
+
+	
+
+	@Override
+	public int checkUserVIewService(String userId, String categoryMidId) {
+			int check = this.mainPageMapper.checkUserVIew(userId, categoryMidId);
+			
+			if (check == 0) {
+				return this.mainPageMapper.insertUserView(userId, categoryMidId);
+			}else {
+				return this.mainPageMapper.updateUserView(userId, categoryMidId);
+			}
+			
+	}
+
+	
+
+	@Override
+	public List<ProductContainer> selectUserVIewService(String userId, List<String> categoryMidId) {
+		
+		return this.mainPageMapper.selectUserVIew(userId, selectcategoryMidIdService(userId));
+	}
+
+	@Override
+	public List<String> selectcategoryMidIdService(String userId) {
+		// TODO Auto-generated method stub
+		try {
+			if (this.mainPageMapper.selectcategoryMidId(userId) == null || (this.mainPageMapper.selectcategoryMidId(userId).size() == 0)) {
+				return this.mainPageMapper.selectcategoryMidId("user1");
+			}else {
+				return this.mainPageMapper.selectcategoryMidId(userId);
+			}
+		} catch (Exception e) {
+			return this.mainPageMapper.selectcategoryMidId("user1");
+		}
+		
+		
+		
 	}
 
 } // class
