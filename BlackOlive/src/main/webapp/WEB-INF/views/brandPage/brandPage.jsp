@@ -751,11 +751,11 @@ function updatePagingUI(currentPage, totalPages) {
 					</div>
 				</div>
 			  <!-- 유튜브 링크  -->
-			  
+			   
 				<div class="brandBox" data-sort="7" id="dataSortBox" corner-no="266">
 					<div class="brand-promotion video_box">
 						<div class="brand-promotion-container">
-							<h3 class="tit">${videoList.brand_Slogan}</h3>
+							<h3 class="tit">제주 성산에서 자라난 흑당근으로 모공그늘이별</h3>
 							<div class="video_masking_box">
 								<div id="promotion-video-player" data-plyr-provider="Youtube"
 									data-plyr-embed-id="9HU0a9cM6tM">
@@ -763,7 +763,7 @@ function updatePagingUI(currentPage, totalPages) {
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 										title="[goodal] Black Carrot Vita-A Retinol Ampoule 흑당근 비타A 레티놀 앰플🥕"
 										width="640" height="360"
-										src="${videoList.brand_Video_Link};controls=1&amp;modestbranding=1&amp;fs=1&amp;rel=0&amp;playsinline=1&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fwww.oliveyoung.co.kr&amp;widgetid=1"
+										src="https://www.youtube.com/embed/9HU0a9cM6tM?version=1&amp;autoplay=1&amp;controls=1&amp;modestbranding=1&amp;fs=1&amp;rel=0&amp;playsinline=1&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fwww.oliveyoung.co.kr&amp;widgetid=1"
 										data-gtm-yt-inspected-28="true"
 										data-gtm-yt-inspected-33="true"></iframe>
 								</div>
