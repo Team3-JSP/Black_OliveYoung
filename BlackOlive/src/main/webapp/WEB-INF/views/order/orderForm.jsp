@@ -404,7 +404,6 @@
 					
 					$.ajax({
 						type : 'get'
-						, async : false
 						, cache: false
 						, url : '/Black_OY/olive/getProStockAjax.do'
 						, dataType : 'json'
@@ -469,6 +468,7 @@
 			// 선물포장 서비스 팝업창
 			$("#gift_wrapping_01").on("click", function() {
 				$("#infoGiftBoxOrder").show();
+				popupCenter($("#infoGiftBoxOrder"));
 				$("body").append(dimm);
 			});
 			
@@ -536,12 +536,6 @@
 			$("#o2o_dlv_area > td > table > tbody > tr input").on("click", function() {
 				$("#dlv_dlexPayAmt1").show();
 			});
-			
-			$("#dlv_dlexPayAmt1").on("click", function() {
-				$("#todayDlvCostNoti").show();
-				$("body").append(dimm);
-			});
-			
 			
 			// 오늘드림 배송비 업데이트
 			let product_price = $("#orderForm > div.order_payment_box > div.right_area > ul > li:nth-child(1) > span.tx_cont > span").text()
@@ -704,33 +698,33 @@
 							<tr>
 								<td id="dlv_time1">11:00 ~ 13:00</td>
 								<td id="dlv_todayDlvSp1">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="금일-빠름배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="금일-빠름배송">
 								</td>
 								<td id="dlv_nextdayDlvSp1">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="익일-빠름배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="익일-빠름배송">
 								</td>
 							</tr>
 							<tr>
 								<td id="dlv_time2"></td>
 								<td id="dlv_todayDlvSp2">
-									<input type="radio" class="rad18" name="temp_chk" data-price="5000" disabled="" value="금일-34배송">
+									<input type="radio" class="rad18" name="today_param" data-price="5000" disabled="" value="금일-34배송">
 								</td>
 								<td id="dlv_nextdayDlvSp2">
-									<input type="radio" class="rad18" name="temp_chk" data-price="5000" disabled="" value="익일-34배송">
+									<input type="radio" class="rad18" name="today_param" data-price="5000" disabled="" value="익일-34배송">
 								</td>
 							</tr>
 							<tr>
 								<td id="dlv_time3">22:00 ~ 24:00</td>
 								<td id="dlv_todayDlvSp3">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="금일-미드나잇배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="금일-미드나잇배송">
 								</td>
 								<td id="dlv_nextdayDlvSp3">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="익일-미드나잇배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="익일-미드나잇배송">
 								</td>
 							</tr>
 							</tbody>
 						</table>
-						<p class="charge" id="dlv_dlexPayAmt1" style="display:none;"><span id="dlv_dlexPayAmt2">배송비 : 0원</span><a href="javascript:void(0);" onclick="fnLayerSet('todayDlvCostNoti', 'open');"></a></p>
+						<p class="charge" id="dlv_dlexPayAmt1" style="display:none;"><span id="dlv_dlexPayAmt2">배송비 : 0원</span><a href="javascript:void(0);" onclick="popupOpen('todayDlvCostNoti')"></a></p>
 						<ul class="notice">
 정							<li>모든 배송은 비대면으로 진행됩니다.</li>
 						</ul>
@@ -1338,8 +1332,8 @@
 									오늘드림 배송상품
 									<dl class="gift_area">
 										<dt>
-											<input type="checkbox" name="packaginOption" id="giftBoxYn_temp" data-attr="배송요청사항^선물포장서비스" disabled="disabled" style="cursor: not-allowed;"><label for="giftBoxYn_temp" class="gift_boxTit">선물포장 서비스</label>
-											<input type="hidden" name="giftBoxYn" id="giftBoxYn" value="N">
+											<input type="checkbox" name="packagingOption2" id="giftBoxYn_temp" data-attr="배송요청사항^선물포장서비스" disabled="disabled" style="cursor: not-allowed;"><label for="giftBoxYn_temp" class="gift_boxTit">선물포장 서비스</label>
+											<input type="hidden" name="packagingOption" id="giftBoxYn" value="N">
 										</dt>
 										<dd id="gift_wrapping_01">정보
 											<div class="sv_infos">가능한 상품들을 선물 포장하여<br>준비해드립니다. 하단의 포장 가능<br>상품을 확인해주세요!</div>
@@ -2987,7 +2981,7 @@
 </div>
 <!--// 매장픽업서비스 안내 팝업 -->
 <!-- 오늘드림 배송비 안내 팝업 -->
-<div class="layer_pop_wrap todayDlvCostNoti" id="todayDlvCostNoti" style="z-index: 999; display: none; margin-left: -208.5px; top: 495.5px; " data-ref-comparekey="todayDlvCostNoti">
+<div class="layer_pop_wrap todayDlvCostNoti" id="todayDlvCostNoti" style="z-index: 999; display: none; ">
 	<div class="layer_cont">
 		<h2 class="layer_title2">오늘드림 배송비 안내</h2>
 		<div class="pop-conts">

@@ -11,83 +11,72 @@
 <body>
 
 <script>
+	//세 자리마다 , 찍기
+	function formatStringWithCommas(str) {
+	    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	$(function() {
-		// 세 자리마다 , 찍기
-		function formatStringWithCommas(str) {
-		    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+		$(".btnGreenW").on("click", function() {
+			location.href = '<c:url value="/"/>';
+		});
 		
-		// 결제 정보 얻어오기
-		$.ajax({
-			type : 'post'
-			, async : false
-			, cache: false
-			, url : '/Black_OY/olive/getPayment.do'
-			, dataType : 'json'
-			, data : { order_id : '${order_id}' }
-			, success : function(data) {
-				$("#total_price").text(data.total_price.toLocaleString());
-				$("#cd_price").text(data.cd_price);
-				$("#delivery_price").text(data.delivery_price);
-				$("#pay_price").text(data.pay_price.toLocaleString());
-				
-				console.log(data);
-            }
-			, error : function (data, textStatus) {
-				console.log('error');
-            }
-		}); 
-		
-		if(${empty click}) {
-			
-			// 배송 정보 가지고 오기
-			$.ajax({
+		$(".btnGreen").on("click", function() {
+			location.href = '/olive/orderDelivery.do';
+		});
+	})
+	
+	$.ajax({
 				type : 'post'
-				, async : false
 				, cache: false
-				, url : '/Black_OY/olive/getOrderDelivery.do'
+				, url : '<c:url value="/store/getOrderDelivery"/>'
 				, dataType : 'json'
-				, data : { order_id : '${order_id}' }
+				, data : { 
+					orderId : '${orderId}'
+					, '${_csrf.parameterName }' : '${_csrf.token }'
+				}
 				, success : function(data) {
+					console.log(data);
+					
 					let tbody = $("#Contents > div.order_end_box > div:nth-child(3) > table > tbody");
 					
 					let tr = $("<tr>");
 					let th = $("<th>").attr("scope", "row").text("받는분");
-					let td = $("<td>").text(data.deli_recipient);
+					let td = $("<td>").text(data.deliveryRecipient);
 					tr.append(th).append(td);
 					tbody.append(tr);
 					
 					tr = $("<tr>");
 					th = $("<th>").attr("scope", "row").text("연락처1");
-					td = $("<td>").text(data.deli_tel);
+					td = $("<td>").text(data.deliveryTel);
 					tr.append(th).append(td);
 					tbody.append(tr);
 					
-					if(data.deli_tel2 != "") {
+					if(data.deliveryTel2 != "") {
 						tr = $("<tr>");
 						th = $("<th>").attr("scope", "row").text("연락처2");
-						td = $("<td>").text(data.deli_tel2);
+						td = $("<td>").text(data.deliveryTel2);
 						tr.append(th).append(td);
 						tbody.append(tr);
 					}
 					
 					tr = $("<tr>");
 					th = $("<th>").attr("scope", "row").text("주소");
-					td = $("<td>").html(`<p>도로명 주소 : \${data.deli_road_addr} \${data.deli_baddr}</p>`
-											+ `<p class='colorGrey'>지번주소 : \${data.deli_addr} \${data.deli_baddr}</p>`);
+					td = $("<td>").html(`<p>도로명 주소 : \${data.deliveryRoadAddr} \${data.deliveryDetailAddr}</p>`
+											+ `<p class='colorGrey'>지번주소 : \${data.deliveryAddr} \${data.deliveryDetailAddr}</p>`);
 					tr.append(th).append(td);
 					tbody.append(tr);
 					
 					tr = $("<tr>");
 					th = $("<th>").attr("scope", "row").text("공동현관 출입방법");
-					td = $("<td>").css("colspan", "3").text(data.req_select);
+					td = $("<td>").css("colspan", "3").text(data.requestSelect);
 					tr.append(th).append(td);
 					tbody.append(tr);
 					
-					if(data.req_content != "") {
+					if(data.requestContent != "") {
 						tr = $("<tr>");
 						th = $("<th>").attr("scope", "row").text("출입방법 상세");
-						td = $("<td>").css("colspan", "3").text(data.req_content);
+						td = $("<td>").css("colspan", "3").text(data.requestContent);
 						tr.append(th).append(td);
 						tbody.append(tr);
 					}
@@ -97,27 +86,12 @@
 					td = $("<td>").css("colspan", "3").text("배송직후");
 					tr.append(th).append(td);
 					tbody.append(tr);
-					
-					// console.log(data);
 	            }
 				, error : function (data, textStatus) {
 					console.log('error');
 	            }
 			}); 
-		}
-		
-		
-		$(".btnGreenW").on("click", function() {
-			location.href = '<c:url value="/"/>';
-		});
-		
-		$(".btnGreen").on("click", function() {
-			location.href = '/olive/orderDelivery.do';
-		});
-	})
 </script>
-	<input type="hidden" value="${orderHandler.totalPay }">
-	<input type="hidden" value="${orderHandler.totalPrice }">
 	<!-- #Container -->
 	<div id="Container">
 		<!-- #Contents -->
@@ -128,7 +102,7 @@
 				<ul class="step_list">
 					<li><span class="step_num tx_num">1</span> 장바구니</li>
 					<li><span class="step_num tx_num">2</span> 주문/결제</li>
-					<li class="last on"><span class="hide">현재단계</span><span class="step_num tx_num">3</span> 주문완료</li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
+					<li class="last on"><span class="hide">현재단계</span><span class="step_num tx_num">3</span> 주문완료</li>
 				</ul>
 			</div>
 			<!--// title_box -->
@@ -137,7 +111,7 @@
 				<!-- 무통장 입금 외 결제 시 -->
 				<div class="order_title">
 					<p>주문이 <span>완료</span>되었습니다.</p>
-					<span class="tx_order_info">주문번호 : <strong class="tx_num">${order_id }</strong></span>
+					<span class="tx_order_info">주문번호 : <strong class="tx_num">${orderId }</strong></span>
 				</div>
 				<!--//무통장 입금 외 결제 시 -->
 			
@@ -158,24 +132,24 @@
 						<tbody>
 						<tr>
 							<th scope="row">총상품금액</th><!-- 2017-01-20 수정 : 총상품금액, 총배송비, 총 할인금액 추가 -->
-							<td><span class="tx_num" id="total_price">0</span>원</td>
+							<td><span class="tx_num" id="total_price">${paymentDTO.totalPrice }</span>원</td>
 						</tr>
 						<tr>
 							<th scope="row">총할인금액</th>
 							<td>
-								<span class="tx_price">-<span class="tx_num" id="cd_price">0</span>원</span>
+								<span class="tx_price">-<span class="tx_num" id="cd_price">${paymentDTO.couponDiscountPrice }</span>원</span>
 		
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">총배송비</th>
-							<td><span class="tx_num" id="delivery_price">0</span>원</td>
+							<td><span class="tx_num" id="delivery_price">${paymentDTO.deliveryPrice }</span>원</td>
 						</tr>
 						<!-- 2017-01-20 수정 : 최종 결제금액 영역 추가  -->
 						<tr class="last_tot_price">
 							<th scope="row">최종 결제금액</th>
 							<td>
-								<span class="tx_price"><span class="tx_num" id="pay_price">0</span>원</span>
+								<span class="tx_price"><span class="tx_num" id="pay_price">${paymentDTO.paymentPrice }</span>원</span>
 
 							</td>
 						</tr>
@@ -186,21 +160,20 @@
 				</div>
 
 				<c:if test="${empty click}">
-				
-				<div class="inner_box">
-					<!-- 배송정보 -->
-					<h2 class="sub-title2">배송정보</h2>
-					<table class="tbl_data_view type2"><!-- 2017-01-20 수정 : type2 클래스 추가 -->
-						<caption>배송정보 안내</caption>
-						<colgroup>
-							<col style="width:170px">
-							<col style="width:*">
-						</colgroup>
-						<tbody>
-						</tbody>
-					</table>
-					<!--// 배송정보 -->
-				</div>
+					<div class="inner_box">
+						<!-- 배송정보 -->
+						<h2 class="sub-title2">배송정보</h2>
+						<table class="tbl_data_view type2">
+							<caption>배송정보 안내</caption>
+							<colgroup>
+								<col style="width:170px">
+								<col style="width:*">
+							</colgroup>
+							<tbody>
+							</tbody>
+						</table>
+						<!--// 배송정보 -->
+					</div>
 				</c:if>
 
 				<ul class="info_dot_list type2 mgT20 mgL100"><!--  2019-12-13 class 변경 -->

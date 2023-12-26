@@ -3,11 +3,13 @@ package com.blackolive.app.service.order;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blackolive.app.controller.order.OrderHandler;
 import com.blackolive.app.domain.order.CouponDTO;
 import com.blackolive.app.domain.order.DeliveryDTO;
 import com.blackolive.app.domain.order.OrderProductContainer;
+import com.blackolive.app.domain.order.PaymentDTO;
 import com.blackolive.app.mapper.order.OrderMapper;
 
 import lombok.AllArgsConstructor;
@@ -43,18 +45,49 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int orderService(OrderHandler orderHandler) {
+	@Transactional
+	public String orderService(OrderHandler orderHandler) {
+		this.orderMapper.insertOrder(orderHandler);
+		this.orderMapper.insertPayment(orderHandler);
+
+		String[] product_id = orderHandler.getProducts();
+		String[] temp = null;
+		String cat_m_id = null;
+
+		for (int i = 0; i < product_id.length; i++) {
+			temp = product_id[i].split("-");
+			cat_m_id = this.orderMapper.selectCatMID(temp[0]);
+			this.orderMapper.updateProStuck(temp[0], Integer.parseInt(temp[1]));
+			if (orderHandler.getClick().equals("장바구니")) {
+				this.orderMapper.deleteCart(orderHandler.getUserId(), temp[0]);
+			}
+			this.orderMapper.insertOrderProduct(temp[0], Integer.parseInt(temp[1]), cat_m_id);
+		}
+
+		if (orderHandler.getQuickYN().equals("Y")) {
+			this.orderMapper.insertToday(orderHandler);
+		}
+
 		/*
-		 * for (int i = 0; i < product_id.length; i++) { temp =
-		 * product_id[i].split("-"); cat_m_id = dao.selectCatMID(conn, temp[0]);
-		 * dao.updateProStuck(conn, temp[0], Integer.parseInt(temp[1]));
-		 * if(map.get("click").equals("장바구니")) { dao.deleteCart(conn,
-		 * (String)map.get("user_id"), temp[0]); } dao.insertOrderProduct(conn, temp[0],
-		 * Integer.parseInt(temp[1]), cat_m_id); }
+		 * if (orderHandler.getPickupYN().equals("Y")) {
+		 * this.orderMapper.insertPickup(orderHandler); }
 		 */
+
+		String orderId = this.orderMapper.selectCurrOrderID();
 		
-		return 1;
+		return orderId;
+	}
+
+	@Override
+	public PaymentDTO getPayment(String orderId) {
+		return this.orderMapper.selectOnePayment(orderId);
+	}
+
+	@Override
+	public DeliveryDTO getOrderDelivery(String orderId) {
+		return this.orderMapper.selectOrderDelivery(orderId);
 	}
 	
 	
+
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.blackolive.app.domain.order.DeliveryDTO;
 import com.blackolive.app.domain.order.OrderProductContainer;
+import com.blackolive.app.domain.order.PaymentDTO;
 import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.service.order.OrderService;
 import com.blackolive.app.service.usermodify.UsermodifyService;
@@ -65,10 +66,17 @@ public class OrderController {
 	}
 	
 	@PostMapping("/getOrderForm")
-	public String getOrderForm(OrderHandler orderHandler, Model model) {
-		model.addAttribute("orderHandler", orderHandler);
+	public String getOrderForm(Principal principal, OrderHandler orderHandler, Model model) {		
+		orderHandler.setUserId(principal.getName());
+		String orderId = this.orderService.orderService(orderHandler);
 		
-		this.orderService.orderService(orderHandler);
+		PaymentDTO paymentDTO = this.orderService.getPayment(orderId);
+		DeliveryDTO deliveryDTO = this.orderService.getOrderDelivery(orderId);
+
+		
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("paymentDTO", paymentDTO);
+		model.addAttribute("deliveryDTO", deliveryDTO);
 		
 		return "order.orderComplete";
 	}
