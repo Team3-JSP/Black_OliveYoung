@@ -173,5 +173,15 @@
 		WHERE rn = 1 
 	</select>
 	
+<!--  public List<PersonalAskVO> getAskList( @Param("userId") String userId ) throws ClassNotFoundException, SQLException; -->	
+	<select id="getAskList" resultType="PersonalAskVO">
+		SELECT personal_ask_status, personal_ask_content, personal_ask_date
+    	FROM personal_ask
+    	WHERE user_id =#{userId}
+    	<![CDATA[
+         	 AND ROWNUM <=4
+        ]]>
+        ORDER BY personal_ask_id DESC
+	</select>
 	
 </mapper>

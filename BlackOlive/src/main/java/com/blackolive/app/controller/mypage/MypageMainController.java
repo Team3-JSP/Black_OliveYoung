@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blackolive.app.domain.counselor.Criteria;
+import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.mypage.BrandLikeVO;
 import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.DeliveryVO;
@@ -19,6 +21,7 @@ import com.blackolive.app.domain.mypage.OrderVO;
 import com.blackolive.app.domain.mypage.PaymentVO;
 import com.blackolive.app.domain.mypage.ProductLikeVO;
 import com.blackolive.app.domain.mypage.ProductQnAVO;
+import com.blackolive.app.service.counselor.PersonalAskService;
 import com.blackolive.app.service.mypage.MypageLayoutService;
 import com.blackolive.app.service.mypage.MypageLikeService;
 import com.blackolive.app.service.mypage.MypageMainService;
@@ -42,6 +45,9 @@ public class MypageMainController {
 	
 	@Autowired
 	private MypageLikeService likeService;
+	
+	@Autowired
+	private PersonalAskService personalAskService;
 	
 	//마이페이지로 이동 컨트롤러 메서드
 	//회원id -  
@@ -72,6 +78,8 @@ public class MypageMainController {
 		model.addAttribute("likeVO", likeVO);
 		
 		//1:1문의내역
+		List<PersonalAskVO> askVO = this.mainService.personalAskListService(userid);
+		model.addAttribute("askVO", askVO);
 		
 		//상품 QnA 내역
 		List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid);
