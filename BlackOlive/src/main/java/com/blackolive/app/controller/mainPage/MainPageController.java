@@ -65,14 +65,21 @@ public class MainPageController {
 		model.addAttribute("todayGoods", todayGoods);
 		List<BrandTopDTO> mbrandlist = this.exhibitionService.getTopBrandService();
 		model.addAttribute("mbrandlist",mbrandlist);
+
+		List<ExhibitionBannerDTO> midBanner = this.exhibitionService.getExhibitionBannerService(1);
+		model.addAttribute("midBanner",midBanner);
 		
 		String userId="johndoe5";
 		if (principal != null) {
 			userId = principal.getName();
 		} // if
-		
+
 		List<ProductContainer> pdList = this.exhibitionService.similardisplService(userId);
 		model.addAttribute("pdList",pdList);
+		
+		List<ProductContainer> recommendList = this.exhibitionService.selectUserVIewService(userId, null);
+		model.addAttribute("recommendList",recommendList);
+		
 		return "mainPage.mainPage";
 	} // example
 	
@@ -194,4 +201,28 @@ public class MainPageController {
 		
 		return "mainPage.topReviewer";
 	}
+	
+	@GetMapping("/pdList")
+	public String pdList(@RequestParam int type,Principal principal,Model model){
+		
+		List<ProductContainer> pdList = null;
+		
+		String userId = "user1";
+		if (principal != null) {
+			userId = principal.getName();
+		}
+		
+		if (type == 1) {
+			pdList = this.exhibitionService.similardisplService(userId);
+		}else {
+			pdList = this.exhibitionService.selectUserVIewService(userId, null);
+		}
+		
+		model.addAttribute("pdList",pdList);
+		
+		return "/mainPage/pdList";
+		
+	}
+	
+	
 } // class

@@ -20,7 +20,7 @@
 	<!-- 회원정보 수정 -->
 	<update id="infoUpdate">
 		UPDATE olive_user SET user_password = #{userPassword}, user_email = #{userEmail}
-										, user_name = #{userName}, user_tel = #{userTel} 
+										, user_name = #{userName, jdbcType=VARCHAR}, user_tel = #{userTel, jdbcType=VARCHAR} 
 		WHERE user_id = #{userId} 
 	</update>
 	

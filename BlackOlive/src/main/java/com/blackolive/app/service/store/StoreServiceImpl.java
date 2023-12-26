@@ -24,6 +24,11 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreDTO> getStoreService(String userId) {
 		return this.storeMapper.selectAllStore(userId);
 	}
+	
+	@Override
+	public List<StoreDTO> getStoreStockService(String[] tcs, String[] pss, String productId, String userId) {
+		return this.storeMapper.selectAllStoreStock(tcs, pss, productId, userId);
+	}
 
 	@Override
 	public List<CityDTO> getCityService() {
@@ -74,5 +79,10 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public StoreDetailDTO getStoreDetail(String storeId) {
 		return this.storeMapper.selectOneStoreDetail(storeId);
+	}
+
+	@Override
+	public List<ProductContainer> getStoreBestProduct(int userAge, int userGender, String categoryLargeId) {
+		return this.storeMapper.selectStoreBestProduct(userAge, userGender, categoryLargeId);
 	}
 }

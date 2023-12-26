@@ -6,6 +6,7 @@
 <%@ include file="/WEB-INF/inc/include.jspf"%>
 
 <div id="Contents">
+	<form id="form1" method="POST" action="/counselor/personalAskList">
 	<div class="sub_title_area customer">
 		<h1>
 			고객센터 <span>무엇을 도와드릴까요?</span>
@@ -14,11 +15,12 @@
 
 	<ul class="comm1sTabs threeSet customer">
 		<li id="tabFaq"><a href="/counselor/faq">FAQ</a></li>
-		<li id="tab1on1" class="on"><a href="javascript:common.link.moveQnaList();" title="선택됨">1:1문의</a></li>
+		<li id="tab1on1" class="on"><a href="#" title="선택됨">1:1문의</a></li>
 		<li id="tabNotice"><a	href="/counselor/notice">공지사항</a></li>
 	</ul>
 
 	<!-- 등록 게시판 -->
+
 	<table class="board-write-1s mgT40">
 		<caption>문의유형, FAQ, 내용, 답변등록 알림(선택)으로 이루어진 1:1 문의 등록 표</caption>
 		<colgroup>
@@ -28,13 +30,16 @@
 		<tbody>
 			<tr>
 				<th scope="col"><label for="TypeInquiry">문의유형</label></th>
-				<td><select id="cnslLrgCate" name="cnslLrgCd"
+				<td>
+				<select id="cnslLrgCate" name="cnslLrgCd"
 					title="문의유형 항목을 선택하세요" style="width: 192px;">
 						<option value="">선택해주세요</option>
-				</select> <select id="cnslMidCate" name="cnslMidCd" title="문의유형 항목을 선택하세요"
+				</select>
+				<select id="cnslMidCate" name="cnslMidCd" title="문의유형 항목을 선택하세요"
 					style="width: 192px;">
-						<option value="">선택해주세요</option>
-				</select></td>
+					<option value="">선택해주세요</option>
+				</select>
+				</td>
 			</tr>
 			
 			<!-- 문의상품 선택 -->
@@ -57,7 +62,7 @@
 
 			<tr class="textarea">
 				<th scope="col"><label for="InputTextarea">내용</label></th>
-				<td><textarea id="InputTextarea" name="inqCont" cols="5"
+				<td><textarea id="InputTextarea" name="personalAskContent" cols="5"
 						rows="1" placeholder="문의내용을 입력해주세요.(2000자 이내)"
 						style="width: 98%; height: 280px;" disabled="disabled"></textarea>
 					<div id="multiple-thumbnail" class="full">
@@ -67,7 +72,7 @@
 								<button type="button" id="btnFile" class="file">
 									<em id="imgCnt" class="count"><span>0</span>3</em>
 								</button>
-							</label> <input type="file" id="inputFile" name="cnslFile"
+							</label> <input type="file" id="inputFile" name="personalAskImg"
 								class="btnFileAdd" value="첨부파일" title="첨부파일 선택"
 								style="display: none;" accept="image/*">
 
@@ -145,7 +150,17 @@
 			</tr>
 		</tbody>
 	</table>
+<div class="area1sButton pdT30">
+<a href="javascript:;" id="cnslSubmit" class="btnGreen">등록</a>
+<a href="javascript:;" id="cnslCancel" class="btnGray">취소</a>
+</div>
 
+<input type="hidden" name="askCategoryId" id="askCategoryId" value=""/>
+<input type="hidden" name="orderId" id="orderId" value="" />
+<!-- <input type="hidden" name="personalAskContent" id="askconts" value="" /> -->
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+</form>
+</div>
 	<!-- //등록 게시판 -->
 	
 	<!-- ajax -->
@@ -330,37 +345,18 @@ $(function() {
 
 <!-- popup -->
 <div class="popup-contents" id="pop_cont" tabindex="0" style="top: 15%; margin-top: 0px; width: 800px; display:none;">
-
-</div>
-<div id="dim" style="display:none;"></div>
-
-	
-<!-- 팝업창 script 영역 -->
-
-	<!-- 기간설정 -->
-
-<script>
-
-$(function () {
-	//팝업창 띄우기
-	$(".ButtonSubmit").on("click", function () {
-
-		$("#pop_cont").css("display", "block");
-		$("#dim").css("display", "block");
-		let conts = `<div class="pop-conts">
+<div class="pop-conts">
 			<h1 class="ptit">문의상품 선택</h1>
 			
 			<!-- 기간설정 조회 -->
 			
 		<fieldset class="search-period mgT30">
 			<legend></legend>
-			<!-- 2019.10.20 오프라인리뷰관련 추가 -->
-			
 
 			<div class="select_con">
 			<p>구매기간</p>
 				<ul class="select-month">
-	<!-- 			[3394070] 올영체험단 리뷰 배너 오류 문의 件 요청으로 올영체험단 리뷰는 시작시 12개월로 선택되게 조건 변경 -->
+	
 					<li class="on"><button type="button" data-month="-1">1개월</button></li>
 					<li><button type="button" data-month="-3">3개월</button></li>
 					<li><button type="button" data-month="-6">6개월</button></li>
@@ -387,6 +383,14 @@ $(function () {
 
 			<button type="button" class="btnLookup" id="do-search-period">조회</button>
 		</fieldset>
+	<script src="<%=contextPath %>/resources/js/searchoptiondateonly.js"></script>
+	<%
+		String myPageURL = "/counselor/personalAsk";
+	%>
+	<script>
+		var myPageURL = "<%= myPageURL %>"
+	</script>
+	
 			<!-- //기간설정 조회 -->
 			
 			<!-- 데이터 목록 -->
@@ -404,7 +408,7 @@ $(function () {
 					<!-- 구매내역 있을 시 -->
 				<li class="ordList" id="Y2311037571226">
 					<div class="listup-main-data">
-						<input type="radio" id="DataListUp1_0" name="DataListUp">
+						<input type="radio" id="DataListUp1_0" name="orderId">
 						<input type="hidden" class="nm" value="">
 						<label class="clicks" for="DataListUp1_0">
 							<span class="data">
@@ -420,7 +424,7 @@ $(function () {
 						<li>
 							<input type="radio" name="DataListUp" id="DataListUp3s1_0" value="A000000163041" seq="1"/>
 							<input type="hidden" class="nm" value="">
-							<label for="DataListUp3s1_0">요
+							<label for="DataListUp3s1_0">
 								<span class="state">${list.orderStatus }</span>
 								<em> ${list.productDisplayName}</em>
 								<span>${list.productName}</span>
@@ -453,58 +457,74 @@ $(function () {
 			</div>
 			<!-- //데이터 목록 -->
 			<button type="button" class="ButtonClose">팝업창 닫기</button>
-		</div>`;
-		//
-		$("#pop_cont").html(conts);
+		</div>
+</div>
+<div id="dim" style="display:none;"></div>
+
+	
+<!-- 팝업창 script 영역 -->
+
+	<!-- 기간설정 -->
+
+<script>
+$(function () {
+	//팝업창 띄우기
+	$(".ButtonSubmit").on("click", function () {
+		$("#pop_cont").css("display", "block");
+		$("#dim").css("display", "block");
 	});
-});
-
-//팝업창 닫기
-// 선택버튼 클릭
-
-$("#pop_cont").on("click", ".btnGreen", function () {
- 	$("#goodsInquiry").val("");
- 	if( !$("input[type='radio']:checked").length ){
-    	alert("문의 상품을 선택하세요.")	;
-    } else{ 
-    	var checkedValue = $("input:radio:checked").siblings().find('label  span.txt em').text();
-    	
-    	console.log($("input:radio:checked").find('label').text() );
-    	$("#goodsInquiry").val(checkedValue);
+	
+	//팝업창 닫기
+	$(".ButtonClose").on("click", function () {
+		$("#goodsInquiry").val("");
+	 	var checkedRadio = $("input[type='radio']:checked");
+	 	checkedRadio.prop('checked', false);
 		$("#pop_cont").css("display", "none");
 		$("#dim").css("display", "none");
-    }
-});
-// 취소버튼 클릭
-$("#pop_cont").on("click", ".btnGray", function(e) {
+	});
 
-	if ( $('#DataListUp1_0').hasClass('selected') ||  $('#DataListUp3s1_0').hasClass('selected') ) {
-		alert("조회 및 선택된 문의상품정보는 저장되지 않습니다.");
-    } 
-    $("#pop_cont").css("display", "none");
-	$("#dim").css("display", "none");
-    
-});
+	// 선택버튼 클릭
+	$("#pop_cont").on("click", ".btnGreen", function () {
+	 	$("#goodsInquiry").val("");
+	 	var checkedRadio = $("input[type='radio']:checked");
+	 	if( !checkedRadio.length ){
+	    	alert("문의 상품을 선택하세요.")	;
+	    } else{ 
+	    	var checkedValue = $("input:radio:checked").next().next().find('em').text();
+	    	$("#goodsInquiry").val(checkedValue);
+	    	checkedRadio.prop('checked', false);
+			$("#pop_cont").css("display", "none");
+			$("#dim").css("display", "none");
+	    }
+	});
+	
+	// 취소버튼 클릭
+	$(".btnGray").on("click", function(e) {
 
+		if ( $('#DataListUp1_0').hasClass('selected') ||  $('#DataListUp3s1_0').hasClass('selected') ) {
+			alert("조회 및 선택된 문의상품정보는 저장되지 않습니다.");
+	    } 
+	    $("#pop_cont").css("display", "none");
+		$("#dim").css("display", "none");
+	    
+	});
 
-//주문조회 리스트
-$(function () {
-$('#pop_cont').on('click', '.btn-arrow', function () {
-    event.preventDefault();
-    var parentLi = $('.ordList');
-    var clickedLi = $(this).closest('.ordList');
-    
-    parentLi.not(clickedLi).removeClass('open');
-    clickedLi.toggleClass('open');
-    
-    $('.ordList').each(function() {
-        var isOpen = $(this).hasClass('open');
-        var text = isOpen ? '상품선택' : '주문선택';
-        $(this).find('.btn-arrow').text(text);
-        $(this).find('.listup-main-data').toggleClass('disabled', isOpen);
-        $(this).find("#DataListUp1_0").prop('disabled', isOpen);
-    });
-});
+	//주문조회 리스트
+	$('#pop_cont').on( 'click', '.btn-arrow',function() {
+		event.preventDefault();
+		var parentLi = $('.ordList');
+		var clickedLi = $(this).closest('.ordList');
+
+		parentLi.not(clickedLi).removeClass('open');
+		clickedLi.toggleClass('open');
+		$('.ordList').each( function() {
+			var isOpen = $(this).hasClass('open');
+			var text = isOpen ? '상품선택' : '주문선택';
+			$(this).find('.btn-arrow').text(text);
+			$(this).find('.listup-main-data').toggleClass('disabled', isOpen);
+			$(this).find("#DataListUp1_0").prop('disabled', isOpen);
+		});
+	});
 });
 </script>
 
@@ -555,51 +575,60 @@ $('#pop_cont').on('click', '.btn-arrow', function () {
 	$("#mid").val(mid);
 	$("#end").val(end);
 
-	function inputChek() {
-		if ($("#cnslLrgCate option:checked").text("선택해주세요")
-				|| $("#cnslMidCate option:checked").text("선택해주세요")) {
-			alert("문의 유형을 선택하세요.");
-		} else if ($("#InputTextarea").val("")) {
-			alert("내용을 입력하세요.");
-		}
-	}
-/* 	
- 	$("#cnslLrgCate").on("change", function(){
-		var lrgVal = $(this).val();
-		
-		$("#cnslLrgCate option").attr("selected", "selected");
-		
-	}); */
-/*	$("#cnslMidCate").on("change", function(){
-		var midVal = $(this).val();
-		$('#cnslMidCate option').prop('selected', false);
-		$("#cnslLrgCate option[value='" + midVal + "']").prop('selected', true);
-	}); */
-	
-	//var lrgVal = $("#cnslLrgCate").val();
-	
-	// 해당하는 select 요소의 옵션들 중 선택한 값을 가진 옵션에 selected 속성 추가
-	//$("#cnslLrgCate").find("option[value='" + lrgVal + "']").prop("selected", true);
-	
-	/* function askCategory() {
-		var lrgVal = $("#cnslLrgCate").val();
-		var midVal = $("#cnslMidCate").val();
-		$("#cnslLrgCate option[value='" + lrgVal + "']").prop('selected', true);
-		$("#cnslMidCate option[value='" + midVal + "']").prop('selected', true);
-		
-		if ($("#cnslLrgCate option:checked").val("")
-				|| $("#cnslMidCate option:checked").text("선택해주세요")) {
-			alert("문의 유형을 선택하세요.");
-		} else if ($("#InputTextarea").val("")) {
-			alert("내용을 입력하세요.");
-		}
-	}
-	 */
-	
-	/* 
 
-	alert("문의가 접수되었습니다.");
-	alert("사진 첨부는 최대 3장까지 가능합니다."); */
+
+	function askCategory() {
+		var lrgIndex = $('#cnslLrgCate').prop('selectedIndex');
+		var midIndex = $('#cnslMidCate').prop('selectedIndex');
+	    console.log(lrgIndex);
+	    console.log(midIndex);
+	    var categoryMapping = {
+	        '1': {
+	            '1': "AC_00000002",
+	            '2': "AC_00000003",
+	            '3': "AC_00000004",
+	            '4': "AC_00000005",
+	            '5': "AC_00000006",
+	            '6': "AC_00000007"
+	        },
+	        '3': {
+	            '1': "AC_00000008",
+	            '2': "AC_00000009",
+	            '3': "AC_00000010",
+	            '4': "AC_00000011"
+	        },
+	        '2': {
+	            '1': "AC_00000012",
+	            '2': "AC_00000013",
+	            '3': "AC_00000014",
+	            '4': "AC_00000015"
+	        }
+	    };
+
+	    var categoryId = categoryMapping[lrgIndex] && categoryMapping[lrgIndex][midIndex] ? categoryMapping[lrgIndex][midIndex] : "";
+	    console.log(categoryId);
+	    return categoryId;
+	}
+	
+	$(function() {
+		$('#cnslMidCate').on('change', function() {
+		    var categoryId = askCategory();
+	        $('#askCategoryId').val(categoryId);
+		});
+		$('.ordList').on('click', function() {
+		    var orderInfo = $(this).find('.clicks em').text(); 
+		    var orderId = orderInfo.match(/주문번호: (\w+)/)[1];
+		    console.log(orderId);
+		    $("#orderId").val(orderId);
+		    
+		});
+	    $("#cnslSubmit").on("click", function () {
+	    	alert("문의가 접수되었습니다.");
+	    	$("#form1").submit();
+	    	
+		});
+	});
+
 </script>
 	
 

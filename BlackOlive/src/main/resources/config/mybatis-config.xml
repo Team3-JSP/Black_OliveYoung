@@ -67,6 +67,11 @@
 			<typeAlias type="com.blackolive.app.domain.counselor.FaqVO" alias="FaqVO"/>
 			<typeAlias type="com.blackolive.app.domain.counselor.PersonalAskVO" alias="PersonalAskVO"/>
 			
+			<!-- order -->
+			<typeAlias type="com.blackolive.app.domain.order.DeliveryDTO" alias="DeliveryDTO"/>
+			<typeAlias type="com.blackolive.app.domain.order.CouponDTO" alias="CouponDTO"/>
+			<typeAlias type="com.blackolive.app.domain.order.OrderProductContainer" alias="OrderProductContainer"/>
+			<typeAlias type="com.blackolive.app.domain.order.PaymentDTO" alias="PaymentDTO"/>
 	</typeAliases>
 	
 	<!-- 언더바를 대문자를 바꿔주는 작업 -->
@@ -100,6 +105,9 @@
 		<mapper resource="com/blackolive/app/mapper/counselor/CounselorPersonalAskMapper.xml"/>
 		
 		<mapper resource="com/blackolive/app/mapper/search/SearchMapper.xml"/>
+
+		<mapper resource="com/blackolive/app/mapper/order/OrderMapper.xml"/>
+		
 		
 	</mappers>
 	

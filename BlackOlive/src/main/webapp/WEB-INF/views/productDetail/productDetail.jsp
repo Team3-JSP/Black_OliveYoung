@@ -2304,9 +2304,41 @@ function reviewAjax(currentPage, productDisplayId) {
 <script>
 // 주문 스크립트
 
+// 바로구매 클릭
 $(function() {
 	$("#cartBtn").on("click", function() {
+		let flag = false;
+		let params = ""; 
 		
+		if($(".option_add_area.pkg_goods_n").length == 1) {
+			let products = $(".option_add_area > div");
+			
+			for (var i = 0; i < products.length; i++) {
+				if($(products[i]).css("display") == "block") {
+					let product_id = $(products[i]).attr("id");
+					let cnt = $("#input_" + product_id).val();
+					params += "products=" + product_id + "-" + cnt + "&" ;
+					flag = true;
+				}
+			}
+			
+			params = params.substr(0, params.length-1);
+			
+			if(!flag) {
+				alert("상품을 선택해주세요.");
+				return;
+			}
+		} else {
+			params = "products=" + $('#pro_id').val() + "-" + $('#cartCnt').val();
+		}
+		
+		if($("#deliveDay").prop("checked")) {
+			params += "&quickYN=Y";
+		} else {
+			params += "&quickYN=N";
+		}
+		
+		location.href = '<c:url value="/store/getOrderForm"/>' + '?' + params + "&click=바로구매";
 	});
 })
 </script>

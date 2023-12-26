@@ -156,6 +156,7 @@
 			GROUP BY cl.category_large_id, category_large_name
 			HAVING sum(product_cnt) > 50
 		</if>
+		ORDER BY category_large_id
 	</select>
 	
 	<select id="selectSaleRankingProduct" resultType="ProductContainer">

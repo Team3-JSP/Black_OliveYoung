@@ -95,68 +95,47 @@ public class UsermodifyController {
 	}
 	
 	// 회원정보수정 휴대폰인증 완료_POST (팝업>부모창 이동)
-	// modify_phlast > name_update
-	@PostMapping("/modify_phlast")
-	public String newInfoOk( Principal principal, HttpSession session
+	@PostMapping("/info_modification")
+	public String newInfoOk( Principal principal, Model model
 									, @RequestParam ("userName") String newName
-									, @RequestParam ("userTel") String newTel
+									, @RequestParam ("userTel") String inputTel
 									) throws SQLException, ClassNotFoundException{
-		log.info("newInfoOk_POST..." + newName + newTel );
+		log.info("newInfoOk_POST..." + newName + inputTel );
 		String userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
     
-		userDto.setUserName(newName);
-		userDto.setUserTel(newTel.substring(0, 3)+"-"+newTel.substring(3,7)+"-"+newTel.substring(7));
-		session.setAttribute("userDto", userDto);
-		log.info("인증완료"+userDto);
-
-		return "usermodify.name_update";
-	}
-	 
-	// 회원정보수정 휴대폰인증정보 반환  (name_update > info_modification) 
-	@PostMapping("/info_modification")
-	public String infoModify( Principal principal, OliveUserDTO userDto, HttpSession session ) throws SQLException, ClassNotFoundException{
-		log.info( "infoModify_POST...");
-		log.info(session.getAttribute("userDto") );
-		//로그인 회원 정보
+		String newTel = inputTel.substring(0, 3)+"-"+inputTel.substring(3,7)+"-"+inputTel.substring(7);
 		
-		String userId = principal.getName();
-		userDto = this.usermodifyService.getUser(userId);
-		 
-		OliveUserDTO newInfo = (OliveUserDTO) session.getAttribute("userDto");
+		model.addAttribute("userDto", userDto);
+		model.addAttribute("newName", newName);
+		model.addAttribute("newTel", newTel);
+		log.info("인증완료"+newName+"/"+newTel);
 
-	    log.info("인증정보출력"+newInfo);
-	    session.setAttribute("userDto", newInfo);
 		return "usermodify.info_modification";
 	}
 
-
 	// 회원정보수정 완료_POST
 	@PostMapping("/info_modification_ok")
-	public String infoModifyOk( Principal principal
+	public String infoModifyOk( Principal principal, OliveUserDTO userDto
 			 , @RequestParam("email_addr1") String email1
 			 , @RequestParam("email_addr2") String email2
-			 , HttpSession session
+			 , @RequestParam("userName") String userName
+			 , @RequestParam("userTel") String userTel
+			 , @RequestParam("userPassword") String newPassword
 						) throws SQLException, ClassNotFoundException{
 		log.info("infoModifyOk_POST...");
-		log.info("수정완료"+ session.getAttribute("userDto"));
+		log.info("수정완료"+ userDto );
 		// 로그인 회원 정보
 		String userId = principal.getName();
 		OliveUserDTO currentUser  = this.usermodifyService.getUser(userId);
-		OliveUserDTO userDto = (OliveUserDTO) session.getAttribute("userDto");
 		String inputEmail = email1+"@"+email2;
 		// 사용자정보 업데이트
-		currentUser.setUserName(userDto.getUserName());
-		currentUser.setUserTel(userDto.getUserTel());
 		currentUser.setUserEmail(inputEmail);
-		
-		String newPassword = userDto.getUserPassword();
+		currentUser.setUserName(userName);
+		currentUser.setUserTel(userTel);
 		currentUser.setUserPassword(passwordEncoder.encode(newPassword));
 
-
-		session.setAttribute("userDto", currentUser);
 		this.usermodifyService.infoModify(currentUser);
-		session.removeAttribute("userDto");
 		 
 		return "usermodify.info_modification_ok";
 	}

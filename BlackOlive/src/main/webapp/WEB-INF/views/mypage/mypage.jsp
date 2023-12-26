@@ -51,13 +51,13 @@
 						<c:forEach items="${ likeVO }" var="pl">
 							<li data-goods-no="${ pl.productId }">
 								<div class="prd_info">
-									<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" class="prd_thumb goodsList"
+									<a href="<%=contextPath %>/store/goods?productDisplayId=${pl.productDisplayId}" class="prd_thumb goodsList"
 										data-ref-goodsno="${ pl.productId }" data-ref-dispcatno=""
 										data-ref-itemno="001"><span class="thumb_flag best">베스트</span><img
 										src="${ pl.productDisplaySrc }" alt="${ pl.productDisplayId }"
 										onerror="common.errorImg(this);"></a>
 									<div class="prd_name">
-										<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" class="goodsList"
+										<a href="<%=contextPath %>/store/goods?productDisplayId=${pl.productDisplayId}" class="goodsList"
 											data-ref-goodsno="${ pl.productId }" data-ref-dispcatno=""
 											data-ref-itemno="001"><span class="tx_brand">${ pl.brandName }</span>
 											<p class="tx_name">${ pl.productDisplayName }</p></a>
@@ -112,14 +112,17 @@
 				<div class="list-customer">
 					<ul>
 						<c:choose>
-							<c:when test="${ not empty userpAsk }">
-								<c:forEach items="${ userpAsk }" var="pa">
+							<c:when test="${ not empty askVO }">
+								<c:forEach items="${ askVO }" var="askVO">
 										<li>
 											<p class="stit">
 
-												<strong style="background:#ff7f00">${ pa.paskState }</strong>
-												<a href="<%-- 1:1문의 페이지 - 해당문의로 이동 --%>">${ pa.paskQuestion }</a>
-												<span class="data">${ pa.paskDate }</span>
+												<strong style="background:#ff7f00">${ askVO.personalAskStatus }</strong>
+												<a href="<%-- 1:1문의 페이지 - 해당문의로 이동 --%>">${ askVO.personalAskContent }</a>
+												<span class="data">
+													<fmt:formatDate value="${askVO.personalAskDate}" pattern="yyyy.MM.dd" var="askDate"/> 
+													${askDate}
+												</span>
 											</p>	
 										</li>
 									

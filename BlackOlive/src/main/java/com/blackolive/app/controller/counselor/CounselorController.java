@@ -17,7 +17,6 @@ import com.blackolive.app.domain.counselor.FaqVO;
 import com.blackolive.app.domain.counselor.PageDTO;
 import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.counselor.noticeVO;
-import com.blackolive.app.domain.mypage.OrderVO;
 import com.blackolive.app.domain.signin.OliveUserDTO;
 import com.blackolive.app.service.counselor.CounselorService;
 import com.blackolive.app.service.counselor.PersonalAskService;
@@ -104,53 +103,83 @@ public class CounselorController {
 	
 	// 1:1문의하기 목록 이동
 	@GetMapping("/personalAskList")
-	public String personalAskListcontroller( Principal principal ) throws ClassNotFoundException, SQLException {
+	public String personalAskListcontroller( Principal principal, Model model
+			, @RequestParam(name = "startDate", required = false) String startdate
+			, @RequestParam(name = "endDate", required = false) String enddate
+			, String userId, Criteria criteria) throws ClassNotFoundException, SQLException {
 		log.info("personalAskListcontroller_GET....");
-		String userId = principal.getName();
+		userId=principal.getName();
+		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
+		if (startdate == null) {
+			List<PersonalAskVO> myAskList = this.personalAskService.selectPersonalAskList(userId);
+			model.addAttribute("myAskList", myAskList);
+			int askListCnt = this.personalAskService.getTotal(criteria, userId);
+			model.addAttribute("pageMaker", new PageDTO(criteria, askListCnt));
+		} else {
+			//날짜 조회 
+			List<PersonalAskVO> myAskList = this.personalAskService.selectPersonalAskListDate(userId, startdate, enddate);
+			model.addAttribute("myAskList", myAskList);
+			int askListCnt = this.personalAskService.getTotal(criteria, userId);
+			model.addAttribute("pageMaker", new PageDTO(criteria, askListCnt));
+		}
+
 		return "counselor.personalAskList";
 	}
 	
-	// 1:1문의하기 이동
+
+	// 1:1문의하기 등록 이동
 	@GetMapping("/personalAsk")
 	public String personalAskcontroller( Principal principal, Model model, String userId,
 						@RequestParam(name = "startDate", required = false) String startdate,
-						@RequestParam(name = "endDate", required = false) String enddate,
-						@RequestParam(name = "searchOrderType", required = false) String searchType
-													) throws ClassNotFoundException, SQLException {
+						@RequestParam(name = "endDate", required = false) String enddate
+												) throws ClassNotFoundException, SQLException {
 		log.info("personalAskcontroller_GET....");
 		userId = principal.getName();
 		OliveUserDTO userDto = this.usermodifyService.getUser(userId);
 
-		String orderType = null;
-		if ( startdate == null  ) {
-			List<OrderVO> orderList = this.orderDeliveryService.orderlistservice(userId);
-			model.addAttribute("orderList", orderList);
-	
-		//구매 기간 설정시	
-		} else if (searchType.equals("")) {		
-			List<OrderVO> orderList = this.orderDeliveryService.orderlistservicewithdate(userId, startdate, enddate);
-			model.addAttribute("orderList", orderList);
-		}	
-		
-		
-		List<PersonalAskVO> myOrderlist = this.personalAskService.selectOrderList(userId);
-		model.addAttribute("userDto", userDto);
-		model.addAttribute("myOrderlist", myOrderlist);
+		if (startdate == null) {
+			List<PersonalAskVO> myOrderlist = this.personalAskService.selectOrderList(userId); 
+			model.addAttribute("myOrderlist", myOrderlist);
+			model.addAttribute("userDto", userDto);
+		} else {
+			//날짜 조회 
+			List<PersonalAskVO> myOrderlist = this.personalAskService.selectOrderListDate(userId, startdate, enddate);
+			model.addAttribute("myOrderlist", myOrderlist);
+			model.addAttribute("userDto", userDto);
+		}
 
 		return "counselor.personalAsk";
 	}
 	
 	// 1:1문의 등록
-	@PostMapping("/personalAsk")
-	public String personalAskUpload( Principal principal, Model model, String userId, PersonalAskVO askVo) throws ClassNotFoundException, SQLException {
+	@PostMapping("/personalAskList")
+	public String personalAskUpload( Principal principal, Model model, String userId
+												,@RequestParam("askCategoryId") String askCategoryId										
+												,@RequestParam(value="orderId", required=false) String orderId
+												,@RequestParam("personalAskContent") String personalAskContent												
+												,@RequestParam(value="personalAskImg", required=false) String personalAskImg												
+												, PersonalAskVO askVo) throws ClassNotFoundException, SQLException {
 		log.info("personalAskUpload_POST....");
-		askVo.setUserId(principal.getName());
-		this.personalAskService.insertPersonalAsk(askVo);
+		log.info("askCategoryId : " +askCategoryId +"orderId : " +orderId);
+		//로그인 정보
+		userId = principal.getName();
+		askVo.setAskCategoryId(askCategoryId);
+		askVo.setPersonalAskContent(personalAskContent);
+		if ( orderId !=null) {
+		askVo.setOrderId(orderId);
+		} else {
+			askVo.setOrderId(null);
+		}
+		if(personalAskImg !=null ) {
+		askVo.setPersonalAskImg(personalAskImg);
+		} else {
+			askVo.setPersonalAskImg(null);
+		}
+		this.personalAskService.insertPersonalAsk(askVo, userId,askCategoryId,orderId,personalAskContent, personalAskImg);
 		
-		return "counselor.personalAskList";
+		return "redirect:/counselor/personalAskList";
 	}
 	
-
 	@GetMapping("/notice")
 	public String noticecontroller(
 			@RequestParam(name = "tabs", required = false) String tabs,
