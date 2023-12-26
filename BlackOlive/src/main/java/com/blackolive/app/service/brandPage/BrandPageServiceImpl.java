@@ -3,7 +3,9 @@ package com.blackolive.app.service.brandPage;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.blackolive.app.domain.brandPage.BrandPageDTO;
@@ -23,21 +25,79 @@ public class BrandPageServiceImpl implements BrandPageService  {
 		return brandpageMapper.getBrands(brandId);
 	}
 
+	  @Autowired
+	    private Environment environment; // Environment 객체 주입
+
+	    private int pageSize; // 페이지당 아이템 수
+
+	    // 생성자를 통해 프로퍼티 값 주입
+	    @Autowired
+	    public BrandPageServiceImpl(Environment environment) {
+	        String pageSizeProperty = environment.getProperty("page.size");
+	        
+	        if (pageSizeProperty != null) {
+	            try {
+	                this.pageSize = Integer.parseInt(pageSizeProperty);
+	            } catch (NumberFormatException e) {
+	                // Handle the exception as needed, e.g., log an error
+	                log.error("Failed to parse page.size property as an integer.", e);
+	                this.pageSize = 8;  // Set a default value or handle it in another way
+	            }
+	        } else {
+	            // Handle the case when the property is null
+	            log.error("page.size property is null.");
+	            this.pageSize = 8;  // Set a default value or handle it in another way
+	        }
+	    }
+	 
+	   @Override
+	    public List<BrandPageDTO> pagingList(String brandId, String sort, String dispcatno, int page) throws Exception {
+	        log.info("BrandPageServiceImpl pagingList call...");
+
+	        try {
+	            // 페이징 처리를 위한 추가 로직
+	            int startRow = (page - 1) * pageSize + 1; // 시작 행
+	            int endRow = startRow + pageSize - 1; // 끝 행
+
+	            List<BrandPageDTO> brandPageList = brandpageMapper.pagingList(brandId, sort, dispcatno, startRow, endRow);
+
+	     
+	            
+	            return brandPageList;
+	        } catch (Exception e) {
+	            log.error("Error in pagingList: " + e.getMessage(), e);
+	            throw new Exception("Failed to retrieve paged brand page list.", e);
+	        }
+	    }
+	   
+	   @Override
+	    public int getTotalPages(String brandId, String sort, String dispcatno) {
+	        try {
+	            int totalRecords = brandpageMapper.getTotalRecords(brandId, sort, dispcatno);
+	            return (int) Math.ceil((double) totalRecords / pageSize);
+	        } catch (Exception e) {
+	            log.error("Error in getTotalPages: " + e.getMessage(), e);
+	            return 0; // 예외 처리 로직을 추가하여 실패 시 기본값을 반환하도록 수정할 수 있습니다.
+	        }
+	    }
+	   
 	@Override
-	public List<BrandPageDTO> getSortBrands(String brandId, String sort, String dispcatno, int numOfItems)
+	public List<BrandPageDTO> getSortBrands(String brandId, String sort, String dispcatno
+			, int numOfItems, int pageNumber, int pageSize )
 			throws ClassNotFoundException, SQLException {
-		return brandpageMapper.getSortBrands(brandId, dispcatno, sort, numOfItems);
+		return brandpageMapper.getSortBrands(brandId, dispcatno, sort, numOfItems, pageNumber,
+	             pageSize );
 	}
 
 	@Override
 	public String createBrandPageHtml(String brandId, String sort, String dispcatno, int numOfItems
-			)throws Exception {
+			,int pageNumber, int pageSize)throws Exception {
  
 		
 		log.info("> BRAND PAGE HTML......");
 		
 		StringBuilder html = new StringBuilder();
-	    List<BrandPageDTO> brandPageList = getSortBrands(brandId, sort, dispcatno, numOfItems);
+	    List<BrandPageDTO> brandPageList = getSortBrands(brandId, sort, dispcatno, numOfItems, pageNumber, pageSize);
 	    
         System.out.println(" brandPageList.size(): " + brandPageList );
        // BrandPageDTO product = new BrandPageDTO();   
@@ -142,9 +202,11 @@ public class BrandPageServiceImpl implements BrandPageService  {
 		return brandpageMapper.getReviews(brandId);
 	}
 
+
 	@Override
-	public List<BrandPageDTO> pagingList(int page) throws Exception {
-		
+	public List<BrandPageDTO> pagingList(String brandId, String sort, String dispcatno, int startRow, int endRow)
+			throws Exception {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

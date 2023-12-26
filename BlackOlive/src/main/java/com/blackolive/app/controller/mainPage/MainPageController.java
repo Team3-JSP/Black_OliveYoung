@@ -66,10 +66,10 @@ public class MainPageController {
 		List<BrandTopDTO> mbrandlist = this.exhibitionService.getTopBrandService();
 		model.addAttribute("mbrandlist",mbrandlist);
 		
-		String userId="user1";
-		if (principal != null) {
+		String userId="johndoe5";
+		/* if (principal != null) {
 			userId = principal.getName();
-		} // if
+		} // if */
 		
 		List<ProductContainer> pdList = this.exhibitionService.similardisplService(userId);
 		model.addAttribute("pdList",pdList);

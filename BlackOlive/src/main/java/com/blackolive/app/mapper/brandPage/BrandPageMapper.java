@@ -14,11 +14,16 @@ public interface BrandPageMapper {
 	public BrandPageDTO getBrands(@Param("brandId") String brandId);
 	// 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기   
 	public List<BrandPageDTO> getSortBrands(@Param("brandId") String brandId,@Param("dispcatno") String dispcatno
-			,@Param("sort") String sort, @Param("numOfItems") int numOfItems);
+			,@Param("sort") String sort, @Param("numOfItems") int numOfItems,@Param("pageNumber") int pageNumber,
+            @Param("pageSize") int pageSize);
 	//베스트상품 4개(술라이드바용)
 	public List<BrandPageDTO> getsellProduct(@Param("brandId") String brandId,@Param("categoryId") String categoryId);
 	//리뷰 가져오기 
 	public List<BrandPageDTO> getReviews(@Param("brandId") String brandId);
+	// 페이지 
+	public List<BrandPageDTO> pagingList(String brandId, String sort, String dispcatno, int startRow, int endRow);
+	//총페이지
+	public int getTotalRecords(String brandId, String sort, String dispcatno);
 	
 	// 리뷰 클릭시  상세보기 
 	

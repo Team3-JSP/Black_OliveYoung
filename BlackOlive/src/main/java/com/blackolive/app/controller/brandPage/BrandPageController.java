@@ -35,13 +35,14 @@ public class BrandPageController {
 	
 	  @GetMapping("/brandList")
 	    public String brandListPage() {
-	        return "brandPageList";
+	        return "brandPage.brandList";
 	    }
 	  
 	  @GetMapping
 	    public String brandPage(
 	            @RequestParam("brandId") String brandId,
 	            @RequestParam(value = "page", defaultValue = "1") int page,
+	            @RequestParam(value = "numOfItems", defaultValue = "8") int numOfItems,
 	            @RequestParam(value = "pageSize", defaultValue = "8") int pageSize,
 	            Model model) {
 	        log.info("brandId : " + brandId);
@@ -52,7 +53,7 @@ public class BrandPageController {
 	            model.addAttribute("brand", brand);
 
 	            // 기본으로 보여줄 상품 목록 (인기순, 전체)
-	            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01",8);
+	            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, "p", "cate_01", numOfItems, page, pageSize);
 
 	            // 페이징을 위한 로직 추가
 	            int startIdx = (page - 1) * pageSize;
