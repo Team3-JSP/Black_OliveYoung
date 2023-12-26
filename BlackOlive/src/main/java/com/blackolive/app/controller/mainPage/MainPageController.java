@@ -65,7 +65,7 @@ public class MainPageController {
 		model.addAttribute("todayGoods", todayGoods);
 		List<BrandTopDTO> mbrandlist = this.exhibitionService.getTopBrandService();
 		model.addAttribute("mbrandlist",mbrandlist);
-		
+
 		List<ExhibitionBannerDTO> midBanner = this.exhibitionService.getExhibitionBannerService(1);
 		model.addAttribute("midBanner",midBanner);
 		

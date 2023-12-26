@@ -42,19 +42,32 @@ public class BrandPageAjaxController {
     public ResponseEntity<String> getSortBrands(
             @RequestParam("brandId") String brandId,
             @RequestParam("sort") String sort,
-            @RequestParam("dispcatno") String dispcatno ) {
-        log.info("> brandId:" + brandId);
-       // log.info("> dispcatno:" + dispcatno);
-       // log.info("> sort:" + sort);
+            @RequestParam("dispcatno") String dispcatno,
+            @RequestParam(value = "numOfItems", defaultValue = "8") int numOfItems,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "8") int pageSize) {
+    	  log.info("> brandId:" + brandId);
+          log.info("> sort:" + sort);
+          log.info("> dispcatno:" + dispcatno);
+          log.info("> numOfItems:" + numOfItems);
+          log.info("> page:" + page);
+          log.info("> pageSize:" + pageSize);
         
         
 
         try {
-            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno);
+           
             
+            // 페이징을 위한 계산
+            int startIdx = (page - 1) * pageSize + 1;
+            int endIdx = startIdx + pageSize - 1;
+
+            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno, numOfItems, startIdx, endIdx);
+
+        
             
-            
-            String brandPageHtml = brandPageService.createBrandPageHtml(brandId, sort,dispcatno);
+            String brandPageHtml = brandPageService.createBrandPageHtml(brandId, sort, dispcatno, numOfItems, 
+            		page, pageSize);
             
             return new ResponseEntity<>(brandPageHtml, HttpStatus.OK);
         } catch (Exception e) {
