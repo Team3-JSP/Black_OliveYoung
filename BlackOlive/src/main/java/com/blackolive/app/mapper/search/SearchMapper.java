@@ -12,7 +12,7 @@ public interface SearchMapper {
 
 	// 검색된 상품 리스트
 	public List<ProductContainer> searchProductList(
-			@Param("searchWord") String searchWord,
+			@Param("searchWord") String[] searchWord,
 			@Param("categorySmallId") String categorySmallId,
 			@Param("sort") String sort,
 			@Param("brandId") String[] brandId,
@@ -26,17 +26,17 @@ public interface SearchMapper {
 			@Param("quickyn") String quickyn
 			);
 	// 검색된 상품의 스몰 카테고리
-	public List<CategorySmallDTO> searchCategorySmall(@Param("searchWord") String searchWord);
+	public List<CategorySmallDTO> searchCategorySmall(@Param("searchWord") String[] searchWord);
 	// 검색된 상품의 브랜드 목록
-	public List<BrandDTO> searchBrandList(@Param("searchWord") String searchWord, @Param("categorySmallId")String categorySmallId);
+	public List<BrandDTO> searchBrandList(@Param("searchWord") String[] searchWord, @Param("categorySmallId")String categorySmallId);
 	// 검색된 상품의 총 레코드 수
-	public int searchTotalRecords(@Param("searchWord") String searchWord, 
+	public int searchTotalRecords(@Param("searchWord") String[] searchWord, 
 			@Param("categorySmallId")String categorySmallId, 
 			@Param("brandId")String brandId[],
 			@Param("minPrice") int minPrice,
 			@Param("maxPrice") int maxPrice);
 	// 검색된 상품의 페이지 수
-	public int searchTotalPages(@Param("searchWord") String searchWord, 
+	public int searchTotalPages(@Param("searchWord") String[] searchWord, 
 			@Param("categorySmallId")String categorySmallId, 
 			@Param("perPage")int perPage, 
 			@Param("brandId")String brandId[],

@@ -188,9 +188,25 @@ $(function() {
 
 		$('.btnInquiry.goods_qna_inquiry').on('click', function() {
 			
-			$('#pop_cont').show();
-			$('.dimm').css('display', 'block');
-			$('#sForm')[0].reset();
+			$.ajax({
+				url: "/loginCheck",
+				method:"GET",
+				cache:false,
+				success: function (result) {
+					$('#pop_cont').show();
+					$('.dimm').css('display', 'block');
+					$('#sForm')[0].reset();
+				}, error : function (xhr, data, textStatus) {
+					if (xhr.status == 401) {
+		                   alert("로그인 후 이용가능 합니다.");
+		                         window.location.href = "/auth/login";   
+		               }else{
+		                    alert("서버 에러") 
+		               }
+		        } // success , error
+			}) // ajax
+			
+			
 			
 		}) // btnInquiry
 		

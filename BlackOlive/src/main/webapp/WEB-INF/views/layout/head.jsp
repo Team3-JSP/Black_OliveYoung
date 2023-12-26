@@ -340,8 +340,6 @@
 						<label for="query">'블프'를 검색해보세요</label><input type="text"
 							id="query" name="" value="" class="inp_placeholder"
 							data-placeholder="'블프'를 검색해보세요" data-ref-linkurl=""
-							onkeypress="javascript:pressCheck_WEB_MainSearch((event),this);"
-							onkeydown="javascript:downCheck_WEB_MainSearch((event));"
 							autocomplete="off">
 					</div>
 					<button id="searchSubmit">검색</button>
@@ -1105,14 +1103,14 @@ function setCookie(cookie_name, value, days) {
 $(function(){
 	$(".cookiedelete").on("click",function(){
 		deleteCookie('productItems');
-		
+		$(".cate_prd_list.gtm_common_recent_list").empty();
 		$.ajax({
-			url: "<%=contextPath%>/olive/history.do",
+			url: "/history",
 			
 			cache: false,
 			success:function( response ) {
 				$(".cate_prd_list.gtm_common_recent_list").empty();
-	              $(".cate_prd_list.gtm_common_recent_list").append( response );
+	              //$(".cate_prd_list.gtm_common_recent_list").append( response );
 	          }
 	        , error		: function() {
 	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );

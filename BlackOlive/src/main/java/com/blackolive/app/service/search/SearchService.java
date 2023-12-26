@@ -12,7 +12,7 @@ public interface SearchService {
 	
 	// 검색된 상품 리스트
 		public List<ProductContainer> searchProductListService(
-				String searchWord,
+				String[] searchWord,
 				String categorySmallId,
 				String sort,
 				String[] brandId,
@@ -24,17 +24,17 @@ public interface SearchService {
 				String quickyn
 				);
 		// 검색된 상품의 스몰 카테고리
-		public List<CategorySmallDTO> searchCategorySmallService(String searchWord);
+		public List<CategorySmallDTO> searchCategorySmallService(String[] searchWord);
 		// 검색된 상품의 브랜드 목록
-		public List<BrandDTO> searchBrandListService(String searchWord, String categorySmallId);
+		public List<BrandDTO> searchBrandListService(String[] searchWord, String categorySmallId);
 		// 검색된 상품의 총 레코드 수
-		public int searchTotalRecordsService(String searchWord, 
+		public int searchTotalRecordsService(String[] searchWord, 
 				String categorySmallId, 
 				String brandId[],
 				int minPrice,
 				int maxPrice);
 		// 검색된 상품의 페이지 수
-		public int searchTotalPagesService(String searchWord, 
+		public int searchTotalPagesService(String[] searchWord, 
 				String categorySmallId, 
 				int perPage, 
 				String brandId[],

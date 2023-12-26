@@ -29,7 +29,7 @@ public class SearchController {
 	private static int totalpage = 0;
 	
 	@GetMapping("/search")
-	public String searchProduct(@RequestParam(value = "searchWord")String searchWord
+	public String searchProduct(@RequestParam(value = "searchWord")String[] searchWord
 			, @RequestParam(value="sort", defaultValue = "1") String sort
 			, @RequestParam(value="brandId", defaultValue = "") String[] brandId
 			, @RequestParam(value="categorySmallId",defaultValue="") String categorySmallId

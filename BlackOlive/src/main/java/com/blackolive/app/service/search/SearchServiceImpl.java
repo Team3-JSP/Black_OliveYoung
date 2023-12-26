@@ -18,7 +18,7 @@ public class SearchServiceImpl implements SearchService {
 	private SearchMapper searchMapper;
 	
 	@Override
-	public List<ProductContainer> searchProductListService(String searchWord, String categorySmallId, String sort,
+	public List<ProductContainer> searchProductListService(String[] searchWord, String categorySmallId, String sort,
 			String[] brandId, int currentPage, int perPage, String userId, int minPrice,
 			int maxPrice, String quickyn) {
 		
@@ -32,26 +32,26 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<CategorySmallDTO> searchCategorySmallService(String searchWord) {
+	public List<CategorySmallDTO> searchCategorySmallService(String[] searchWord) {
 		// TODO Auto-generated method stub
 		return this.searchMapper.searchCategorySmall(searchWord);
 	}
 
 	@Override
-	public List<BrandDTO> searchBrandListService(String searchWord, String categorySmallId) {
+	public List<BrandDTO> searchBrandListService(String[] searchWord, String categorySmallId) {
 		// TODO Auto-generated method stub
 		return this.searchMapper.searchBrandList(searchWord, categorySmallId);
 	}
 
 	@Override
-	public int searchTotalRecordsService(String searchWord, String categorySmallId, String[] brandId, int minPrice,
+	public int searchTotalRecordsService(String[] searchWord, String categorySmallId, String[] brandId, int minPrice,
 			int maxPrice) {
 		// TODO Auto-generated method stub
 		return this.searchMapper.searchTotalRecords(searchWord, categorySmallId, brandId, minPrice, maxPrice);
 	}
 
 	@Override
-	public int searchTotalPagesService(String searchWord, String categorySmallId, int perPage, String[] brandId,
+	public int searchTotalPagesService(String[] searchWord, String categorySmallId, int perPage, String[] brandId,
 			int minPrice, int maxPrice) {
 		// TODO Auto-generated method stub
 		return this.searchMapper.searchTotalPages(searchWord, categorySmallId, perPage, brandId, minPrice, maxPrice);
