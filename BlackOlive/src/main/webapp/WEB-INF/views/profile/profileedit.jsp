@@ -234,10 +234,18 @@
 
 $(document).ready(function() {
 
-	var finding = $("ul#skinTypeList :input").filter(function () {
+	var finding1 = $("ul#skinTypeList :input").filter(function () {
 		return $(this).val() === '${ profile.skintypeId }'
 	})
 	
+	finding1.addClass("checked");
+	
+
+	var finding2 = $("ul#skinToneList :input").filter(function () {
+		return $(this).val() === '${ profile.skintoneId }'
+	})
+	
+	finding2.addClass("checked");
 	
 	alert(finding.val())		
 	//.prop("checked", true);
