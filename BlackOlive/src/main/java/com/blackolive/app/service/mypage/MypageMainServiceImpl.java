@@ -45,4 +45,10 @@ public class MypageMainServiceImpl implements MypageMainService {
 		return this.mapper.getAskList(userId);
 	}
 
+	@Override
+	public List<ProductQnAVO> productQnAmainservice(String userid) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return this.mapper.getproductQnAmain(userid);
+	}
+
 }

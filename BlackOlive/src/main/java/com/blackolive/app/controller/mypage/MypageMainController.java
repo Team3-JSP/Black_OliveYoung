@@ -277,7 +277,7 @@ public class MypageMainController {
 		//상품QnA 가져오기
 		if (startdate == null) {
 			//처음 페이지 
-			List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid) ; 
+			List<ProductQnAVO> qnaVO = this.mainService.productQnAmainservice(userid) ; 
 			model.addAttribute("qnaVO", qnaVO);
 		} else {
 			//날짜에 따른 조회 
@@ -288,6 +288,7 @@ public class MypageMainController {
 		return "mypage.productQnA";
 	}
 	
+	/*
 	@GetMapping("/reviewwrite")
 	public String reviewwritecontroller(
 			Principal principal,
@@ -344,7 +345,7 @@ public class MypageMainController {
 		return "mypage.reviewview";
 	}
 	
-	
+	*/
 	
 	
 	

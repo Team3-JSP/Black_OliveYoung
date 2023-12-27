@@ -172,7 +172,8 @@ function navigateToURL(url) {
 			
 			let eyear = $("#cal-end-year option:selected").val();
 			let emonth = $("#cal-end-month option:selected").val().padStart(2, '0');		
-			let edate = $("#cal-end-day option:selected").val().padStart(2, '0');
+			let edate = $("#cal-end-day option:selected").val().padStart(2, '0');	
+
 			
 			let startDate = `${syear}-${smonth}-${sdate}`;
 			

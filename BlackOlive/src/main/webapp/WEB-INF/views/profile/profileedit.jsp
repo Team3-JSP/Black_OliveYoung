@@ -740,7 +740,12 @@ $(document).ready(function() {
 
 
 
-
+<script>
+	
+	$("button#myConditionSaveBtn").on("click", function () {
+		location.href = "/profile/myprofile";
+	})
+</script>
 
 
 

@@ -14,6 +14,9 @@ public interface MypageMainService {
 	//주문배송 단계별 개수 불러오기 서비스
 	public DeliveryStatusVO deliveryStatus(String userid) throws ClassNotFoundException, SQLException;
 	
+	//상품 QnA 메인 목록 불러오기 서비스
+	public List<ProductQnAVO> productQnAmainservice(String userid) throws ClassNotFoundException, SQLException;
+	
 	//상품 QnA 목록 불러오기 서비스
 	public List<ProductQnAVO> productQnAservice(String userid) throws ClassNotFoundException, SQLException;
 	

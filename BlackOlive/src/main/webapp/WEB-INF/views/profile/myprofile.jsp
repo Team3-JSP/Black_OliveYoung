@@ -161,7 +161,7 @@
       <!-- reviewer-profile-info :: 리뷰어 프로필 끝 -->
 
       <!-- 누적리뷰영역 -->
-       
+       <%-- 
           
           <div class="reviewer-profile-content">
 
@@ -170,7 +170,7 @@
                       <div>
                           누적 리뷰 <span>
                           
-                           <%-- 누적 리뷰 개수 --%>
+                           <!-- 누적 리뷰 개수 -->
                           
                       </span>
                       </div>
@@ -190,27 +190,27 @@
                   <div class="reviewer-profile-content__body" id="reviewerGdasList">
                       
                       
-                  <%-- 처음 약 10개 로딩, 그 이후 스크롤시 ajax로 10개 더 불러오기 --%>
+                  <!-- 처음 약 10개 로딩, 그 이후 스크롤시 ajax로 10개 더 불러오기 -->
                           
                       <div class="rw-box">
                           
                           
                               
                               
-                                  <a href="<%-- 리뷰한 상품 상세로 이동 --%>" onclick="mypage.gdasList.moveGoodsDetailReview('A000000181612','리뷰어프로필_리뷰상품', {t_page: _isMyProfilePageYN === 'Y' ? '내프로필' : '리뷰어프로필', t_click: '리뷰탭_상품상세', goodsNo: 'A000000181612', goodsname: '[브라이언 PICK] 마르시끄 링클 리페어 팔자 주름패치 36개'})" class="rw-box__link" data-attr="리뷰어프로필^리뷰상품^상품클릭">
+                                  <a href="<!-- 리뷰한 상품 상세로 이동 -->" onclick="mypage.gdasList.moveGoodsDetailReview('A000000181612','리뷰어프로필_리뷰상품', {t_page: _isMyProfilePageYN === 'Y' ? '내프로필' : '리뷰어프로필', t_click: '리뷰탭_상품상세', goodsNo: 'A000000181612', goodsname: '[브라이언 PICK] 마르시끄 링클 리페어 팔자 주름패치 36개'})" class="rw-box__link" data-attr="리뷰어프로필^리뷰상품^상품클릭">
                               
                               <div class="rw-box-figure">
                                   <div class="rw-box-figure__img">
                                       
                                       
-                                          <img src="<%-- 상품표시이미지 --%>" alt="<%-- 상품표시명 --%>" onerror="common.errorImg(this);">
+                                          <img src="<!-- 상품표시이미지 -->" alt="<!-- 상품표시명 -->" onerror="common.errorImg(this);">
                                       
                                   </div>
                                   <div class="rw-box-figcaption">
                                       
-                                      <p class="rw-box-figcaption__brand"><%-- 브랜드명 --%></p>
+                                      <p class="rw-box-figcaption__brand"><!-- 브랜드명 --></p>
                                       
-                                      <p class="rw-box-figcaption__name"><%-- 상품표시명 --%></p>
+                                      <p class="rw-box-figcaption__name"><!-- 상품표시명 --></p>
                                       
                                   </div>
                               </div>
@@ -218,18 +218,18 @@
                           
                           
                           
-                          <a href="<%-- 리뷰 상세보기 모달창 --%>" class="rw-box__link" onclick="mypage.reviewerInfo.goReviewDetail('24597496')" data-attr="리뷰어프로필^더보기^더보기">
+                          <a href="<!-- 리뷰 상세보기 모달창 -->" class="rw-box__link" onclick="mypage.reviewerInfo.goReviewDetail('24597496')" data-attr="리뷰어프로필^더보기^더보기">
                               <div class="rw-box__first-line">
                                   <span class="review_point">
-                                  <%-- 별점에 따른 표시 스크립트 --%>
+                                  <!-- 별점에 따른 표시 스크립트 -->
                                       <span class="point" style="width:100%">5점만점에 5점</span>
                                   
                                   </span>
                                   <span class="review_point_text">
-                                      <span>작성일자 <%-- 작성일자 --%></span>
+                                      <span>작성일자 <!-- 작성일자 --></span>
                                       
                                       
-                                          <span class="ico_offlineStore"><%-- 구매위치(매장,온라인...) --%></span>
+                                          <span class="ico_offlineStore"><!-- 구매위치(매장,온라인...) --></span>
                                       
                                       
                                   </span>
@@ -237,7 +237,7 @@
                                
 
                               <div class="rw-box__second-line">
-                                  <%-- 구매 태그 --%>
+                                  <!-- 구매 태그 -->
                                       <span>재구매</span>
                                   
                                   
@@ -247,13 +247,13 @@
                               </div>
                                   
                               <p class="rw-box__description">
-							<%-- 리뷰 내용 --%>
+							<!-- 리뷰 내용 -->
 							</p>
 				                              
                           </a>
                           
                               <div class="review_tag">
-                                  <%-- 리뷰 태그 --%>
+                                  <!-- 리뷰 태그 -->
                                       <span>팔자패치</span>
                                   
                                       <span>나이트</span>
@@ -272,14 +272,14 @@
                                          <span class="num">
                                          
                                              
-                                             <%-- 리뷰 도움 개수 --%>
+                                             <!-- 리뷰 도움 개수 -->
                                          
                                          </span>
                                      </button>
                                  
                                  
                              
-                                  <input type="hidden" name="recommCnt_24597496" value="<%-- 리뷰 도움 개수 --%>">
+                                  <input type="hidden" name="recommCnt_24597496" value="<!-- 리뷰 도움 개수 -->">
                               </div>
                               
                               
@@ -294,7 +294,7 @@
                   <!-- reviewer-profile-content__body :: 누적리뷰 리스트 끝 -->
               </div>
           
-            
+            --%>
             <!-- 누적리뷰영역 -->
         </div>
 
