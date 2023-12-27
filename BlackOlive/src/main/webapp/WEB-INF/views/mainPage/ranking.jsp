@@ -90,7 +90,7 @@
 				reviewId : reviewId
 			}
 			, success: function (data) {
-				// console.log(data);
+				 console.log(data);
 				var date = new Date(data.reviewRegdate);
 				var formattedDate =
 					  date.getFullYear() + '.' +
@@ -227,11 +227,13 @@
 										reviewDetailContent += '<ul>';
 										
 										for (var i = 0; i < data.reviewimg.length; i++) {
-											reviewDetailContent += '<li>';
-											reviewDetailContent += '<span>';
-											reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="">`;											
-											reviewDetailContent += '</span>';
-											reviewDetailContent += '</li>';
+											if(data.reviewimg[i].reviewImgSrc != null) {
+												reviewDetailContent += '<li>';
+												reviewDetailContent += '<span>';
+												reviewDetailContent += `<img src="\${data.reviewimg[i].reviewImgSrc}" alt="">`;											
+												reviewDetailContent += '</span>';
+												reviewDetailContent += '</li>';
+											}
 										}
 										
 										reviewDetailContent += '</ul>';
@@ -428,7 +430,7 @@
 		    $(".bimg").find('img').attr("src", $(this).find('img').attr('src'))
 		    	.css({
 		    		"height" : "100%"
-		    		, "width" : "80%"
+		    		, "width" : "60%"
 		    	});
 		    $(".bimg").show();
 		}).on("mouseout", ".review-detail-thumb ul li span", function() {
