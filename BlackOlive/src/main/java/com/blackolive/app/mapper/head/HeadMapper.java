@@ -44,7 +44,7 @@ public interface HeadMapper {
 	
 	AllCategoryDTO getTotalCategory(String productDisplayId);
 
-	// 랭킹 카테고리 중분류 이름 리스트
+	// 랭킹 카테고리 대분류 이름 리스트
 	List<CategoryLargeDTO> selectRankingCatLargeName(@Param("type") String type) throws SQLException; 
 
 	// 판매 랭킹 상품 리스트

@@ -2304,9 +2304,41 @@ function reviewAjax(currentPage, productDisplayId) {
 <script>
 // 주문 스크립트
 
+// 바로구매 클릭
 $(function() {
 	$("#cartBtn").on("click", function() {
+		let flag = false;
+		let params = ""; 
 		
+		if($(".option_add_area.pkg_goods_n").length == 1) {
+			let products = $(".option_add_area > div");
+			
+			for (var i = 0; i < products.length; i++) {
+				if($(products[i]).css("display") == "block") {
+					let product_id = $(products[i]).attr("id");
+					let cnt = $("#input_" + product_id).val();
+					params += "products=" + product_id + "-" + cnt + "&" ;
+					flag = true;
+				}
+			}
+			
+			params = params.substr(0, params.length-1);
+			
+			if(!flag) {
+				alert("상품을 선택해주세요.");
+				return;
+			}
+		} else {
+			params = "products=" + $('#pro_id').val() + "-" + $('#cartCnt').val();
+		}
+		
+		if($("#deliveDay").prop("checked")) {
+			params += "&quickYN=Y";
+		} else {
+			params += "&quickYN=N";
+		}
+		
+		location.href = '<c:url value="/store/getOrderForm"/>' + '?' + params + "&click=바로구매";
 	});
 })
 </script>
@@ -2817,3 +2849,27 @@ $(function () {
 		} // toggleLikeItemStatus
 	
 </script>
+
+<!-- <script>
+var socket = new WebSocket('ws://' + window.location.host + '/ws/product');
+
+socket.onmessage = function(event) {
+    var message = event.data;
+    var parts = message.split(':');
+    var productDisplayId = parts[0];
+    var viewerCount = parts[1];
+
+    // productId에 해당하는 상품페이지의 현재 접속자 수를 업데이트합니다.
+    updateViewerCount(productDisplayId, viewerCount);
+};
+
+socket.onclose = function(event) {
+    console.log('WebSocket closed: ' + event.code + ', ' + event.reason);
+};
+
+function updateViewerCount(productDisplayId, viewerCount) {
+    // 실제 상황에 맞게 해당 상품페이지의 뷰어 수를 업데이트하는 로직을 구현합니다.
+    // 예를 들면, HTML 요소에 업데이트된 뷰어 수를 표시하거나 다른 동작을 수행할 수 있습니다.
+    console.log('Product ' + productDisplayId + ' viewers: ' + viewerCount);
+}
+</script> -->

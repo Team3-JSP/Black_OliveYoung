@@ -47,7 +47,7 @@
 				<c:forEach items="${ likeVO }" var="pl">
 					<tr class="">
 						<td class="subject"><div class="area">
-								<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" name="Like" class="thum goodsList"
+								<a href="<%=contextPath %>/store/goods?productDisplayId=${pl.productDisplayId}" name="Like" class="thum goodsList"
 									data-ref-goodsno="${ pl.productDisplayId }" data-ref-dispcatno=""
 									data-ref-itemno="001">
 									<img src="${ pl.productDisplaySrc }"
@@ -55,7 +55,7 @@
 									onerror="common.errorImg(this);">
 								</a>
 								<div class="textus">
-									<a href="<%=contextPath %>/olive/productDetail.do?goodsNo=${pl.productDisplayId}&displNum=${pl.categorySmallId}${pl.categoryMidId}" name="Like" class="goodsList"
+									<a href="<%=contextPath %>/store/goods?productDisplayId=${pl.productDisplayId}" name="Like" class="goodsList"
 										data-ref-goodsno="${ pl.productDisplayId }" data-ref-dispcatno=""
 										data-ref-itemno="001">
 										<span class="tit">${ pl.brandName }</span>

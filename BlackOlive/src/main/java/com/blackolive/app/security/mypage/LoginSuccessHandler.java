@@ -29,14 +29,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// TODO Auto-generated method stub		
 		log.warn("> login Success");
 		
-		List<String> roles = new ArrayList<String>();
+		List<String> roleNames = new ArrayList<String>();
 		
 		authentication.getAuthorities().forEach(
 				auth->{
-					roles.add(auth.getAuthority());
+					roleNames.add(auth.getAuthority());
 					}
 				);
-		log.warn("role : " + roles);
+		log.warn("role : " + roleNames);
 		
 		String uri = "/";
 		RequestCache requestCache = new HttpSessionRequestCache();

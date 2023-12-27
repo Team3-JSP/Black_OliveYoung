@@ -147,8 +147,7 @@
 		</header>
 
 		<section id="ct" class="certify_user2 certifyWrap certifyWrap_02">
-			<form id="cplogn" name="cplogn" method="post"
-				action="">
+			<form id="cplogn" name="cplogn" method="post" action="/usermodify/info_modification" target="parentWindow">>
 				<div class="">
 					<fieldset>
 						<legend>휴대폰 본인확인 입력</legend>
@@ -292,8 +291,7 @@
 				}
 			</script>
 			<div class="footer_kmc">
-				<a
-					href="javascript:goAgreePop('/kmcis/comm/kmcisHpUse_popUpBox.html','personal','all');"
+				<a href="javascript:goAgreePop('/kmcis/comm/kmcisHpUse_popUpBox.html','personal','all');"
 					title="이용약관 전문보기-새창" style="color: #4F4F4F;">이용약관</a> | <a href="#"
 					onclick="window.open('http://www.sktelecom.com/view/footer/privacy.do','skt','left=0,top=0,scrollbars=yes,realzable=yes');return false;"
 					title="SKT 개인정보처리방침 전문보기-새창" style="color: #4F4F4F;"> 개인정보처리방침</a>
@@ -308,7 +306,11 @@
 	</div>
 <!-- script영역 -->
 <script>
-
+function formSubmit() {
+	var form = $("#cplogn");
+	form.submit();
+}
+$(function () {
   	$('#securityNum').keydown(function(event) {
     	if ( event.which == 13 ){
      		$("#btnSubmit").click();	
@@ -348,30 +350,15 @@
 			return false;
 		}
 		alert("인증이 완료되었습니다.");
-		document.domain="localhost";
-		opener.name = "parentPage";
-		// $("#cplogn").attr("target", "parentPage");
-		// $("#cplogn").attr("action", "/usermodify/modify_phlast");
-
-		 $("#cplogn").submit();
-		 var parentForm = window.opener.document.getElementById('parentForm'); 
-		 parentForm.submit();
-		 setTimeout(() => {
-			window.location.href="${pageContext.request.contextPath}/usermodify/modify_phlast";
-			close();
-		}, 500); 
-		return true;
+ 		close();
+ 		formSubmit();
 	});
+	
 	$("#btnCancel").on("click", function () {
 		alert("인증이 취소되었습니다.");
 		close();
 	});
-
-/* 	function popClose(){
-		opener.document.form1.target = "";
-		opener.document.form1.action = "";
-		self.close();
-	} */
+});
 </script>
 </body>
 </html>

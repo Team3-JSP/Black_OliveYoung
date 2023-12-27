@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blackolive.app.domain.counselor.Criteria;
+import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.mypage.BrandLikeVO;
 import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.DeliveryVO;
@@ -19,6 +21,7 @@ import com.blackolive.app.domain.mypage.OrderVO;
 import com.blackolive.app.domain.mypage.PaymentVO;
 import com.blackolive.app.domain.mypage.ProductLikeVO;
 import com.blackolive.app.domain.mypage.ProductQnAVO;
+import com.blackolive.app.service.counselor.PersonalAskService;
 import com.blackolive.app.service.mypage.MypageLayoutService;
 import com.blackolive.app.service.mypage.MypageLikeService;
 import com.blackolive.app.service.mypage.MypageMainService;
@@ -42,6 +45,9 @@ public class MypageMainController {
 	
 	@Autowired
 	private MypageLikeService likeService;
+	
+	@Autowired
+	private PersonalAskService personalAskService;
 	
 	//마이페이지로 이동 컨트롤러 메서드
 	//회원id -  
@@ -72,6 +78,8 @@ public class MypageMainController {
 		model.addAttribute("likeVO", likeVO);
 		
 		//1:1문의내역
+		List<PersonalAskVO> askVO = this.mainService.personalAskListService(userid);
+		model.addAttribute("askVO", askVO);
 		
 		//상품 QnA 내역
 		List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid);
@@ -269,7 +277,7 @@ public class MypageMainController {
 		//상품QnA 가져오기
 		if (startdate == null) {
 			//처음 페이지 
-			List<ProductQnAVO> qnaVO = this.mainService.productQnAservice(userid) ; 
+			List<ProductQnAVO> qnaVO = this.mainService.productQnAmainservice(userid) ; 
 			model.addAttribute("qnaVO", qnaVO);
 		} else {
 			//날짜에 따른 조회 
@@ -280,8 +288,9 @@ public class MypageMainController {
 		return "mypage.productQnA";
 	}
 	
-	@GetMapping("/review")
-	public String reviewcontroller(
+	/*
+	@GetMapping("/reviewwrite")
+	public String reviewwritecontroller(
 			Principal principal,
 			Model model
 			) throws ClassNotFoundException, SQLException {
@@ -295,7 +304,49 @@ public class MypageMainController {
 		model.addAttribute("sideVO", sideVO);
 				
 		
-		return "mypage.review";
+		return "mypage.reviewwrite";
 	}
+	
+	
+	@GetMapping("/reviewmonthwrite")
+	public String reviewmonthwritecontroller(
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+		
+		
+		return "mypage.reviewmonthwrite";
+	}
+	
+	
+	@GetMapping("/reviewview")
+	public String reviewviewcontroller(
+			Principal principal,
+			Model model
+			) throws ClassNotFoundException, SQLException {
+		//모듈 DB 데이터 가져오기
+		String userid = principal.getName();		
+		//해더
+		MypageHeaderVO headerVO = this.layoutService.mypageHeader(userid);
+		model.addAttribute("headerVO", headerVO);
+		//사이드바
+		int sideVO = this.layoutService.mypageSide(userid);
+		model.addAttribute("sideVO", sideVO);
+		
+		
+		return "mypage.reviewview";
+	}
+	
+	*/
+	
+	
 	
 }

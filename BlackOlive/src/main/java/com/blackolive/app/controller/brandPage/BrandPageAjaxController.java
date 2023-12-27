@@ -42,7 +42,8 @@ public class BrandPageAjaxController {
     public ResponseEntity<String> getSortBrands(
             @RequestParam("brandId") String brandId,
             @RequestParam("sort") String sort,
-            @RequestParam("dispcatno") String dispcatno ) {
+            @RequestParam("dispcatno") String dispcatno,
+            @RequestParam(value = "numOfItems", defaultValue = "8") int numOfItems) {
         log.info("> brandId:" + brandId);
        // log.info("> dispcatno:" + dispcatno);
        // log.info("> sort:" + sort);
@@ -50,11 +51,11 @@ public class BrandPageAjaxController {
         
 
         try {
-            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno);
+            List<BrandPageDTO> brandList = brandPageService.getSortBrands(brandId, sort, dispcatno, numOfItems);
             
             
             
-            String brandPageHtml = brandPageService.createBrandPageHtml(brandId, sort,dispcatno);
+            String brandPageHtml = brandPageService.createBrandPageHtml(brandId, sort, dispcatno, numOfItems);
             
             return new ResponseEntity<>(brandPageHtml, HttpStatus.OK);
         } catch (Exception e) {
@@ -63,6 +64,3 @@ public class BrandPageAjaxController {
         }
     }
 }
-
-
-

@@ -18,7 +18,6 @@ import com.blackolive.app.service.counselor.PersonalAskService;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@Controller
 @Log4j
 public class AskKeywordArrAjaxController {
 

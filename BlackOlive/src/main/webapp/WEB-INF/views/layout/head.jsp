@@ -279,8 +279,8 @@
 			<div class="top_util">
 				<ul class="menu_list" id="menu_list_header">
 					
+					
 						<sec:authorize access="isAnonymous()">
-							<li class="join"><a href="/adminpage/" data-attr="공통^헤더^회원가입">관리자 페이지</a></li>
 							<li class="join"><a href="<%=contextPath%>/join/joinCheck" data-attr="공통^헤더^회원가입">회원가입</a></li>
 							<li class="login"><a href="<%=contextPath%>/auth/login"
 								data-attr="공통^헤더^로그인">로그인</a></li>
@@ -295,12 +295,14 @@
 								data-attr="공통^헤더^마이페이지">마이페이지</a></li>
 
 						</sec:authorize>
-
+					<sec:authorize access="hasAuthority('ADMIN')">
+						<li class="join"><a href="/adminpage/" data-attr="공통^헤더^회원가입">관리자 페이지</a></li>
+					</sec:authorize>
 
 					<c:choose>
 						<c:when test="${empty sessionScope.principal }">
 							<li class="cart"><a href="<%=contextPath%>/basket"
-								data-attr="공통^헤더^장바구니">장바구니1 <span id="cartToCnt"></span>
+								data-attr="공통^헤더^장바구니">장바구니 <span id="cartToCnt"></span>
 							</a></li>
 						</c:when>
 						<c:otherwise>
@@ -338,8 +340,6 @@
 						<label for="query">'블프'를 검색해보세요</label><input type="text"
 							id="query" name="" value="" class="inp_placeholder"
 							data-placeholder="'블프'를 검색해보세요" data-ref-linkurl=""
-							onkeypress="javascript:pressCheck_WEB_MainSearch((event),this);"
-							onkeydown="javascript:downCheck_WEB_MainSearch((event));"
 							autocomplete="off">
 					</div>
 					<button id="searchSubmit">검색</button>
@@ -1103,14 +1103,14 @@ function setCookie(cookie_name, value, days) {
 $(function(){
 	$(".cookiedelete").on("click",function(){
 		deleteCookie('productItems');
-		
+		$(".cate_prd_list.gtm_common_recent_list").empty();
 		$.ajax({
-			url: "<%=contextPath%>/olive/history.do",
+			url: "/history",
 			
 			cache: false,
 			success:function( response ) {
 				$(".cate_prd_list.gtm_common_recent_list").empty();
-	              $(".cate_prd_list.gtm_common_recent_list").append( response );
+	              //$(".cate_prd_list.gtm_common_recent_list").append( response );
 	          }
 	        , error		: function() {
 	            alert( '서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.' );

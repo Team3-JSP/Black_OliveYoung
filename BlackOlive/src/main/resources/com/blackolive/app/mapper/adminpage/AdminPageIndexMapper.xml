@@ -61,8 +61,175 @@
 	public int getproductIdSeq();  -->
 	
 	<select id="getproductIdSeq" resultType="int">
-		SELECT product_display_seq.nextval FROM dual;
+		SELECT product_display_seq.nextval FROM dual
 	</select>
+	
+	<select id="productSeq" resultType="int">
+		SELECT product_seq.nextval FROM dual
+	</select>
+	
+	<!-- // 상품 표시 데이터 insert insertProductDisplay
+	public int insertProductDisplay (@Param("productDisplay") ProductDisplayDTO productDisplay); -->
+	<insert id="insertProductDisplay">
+		INSERT INTO product_display (PRODUCT_DISPLAY_ID, BRAND_ID, PRODUCT_DISPLAY_NAME, PRODUCT_DISPLAY_LIKE, PRODUCT_DISPLAY_OPTION, PRODUCT_DISPLAY_REGDATE)
+		VALUES(#{productDisplay.productDisplayId}, #{productDisplay.brandId}, #{productDisplay.productDisplayName},0 ,#{productDisplay.productDisplayOption}, SYSDATE )
+	</insert>
+	
+	<!-- 	// 상품 데이터 insert
+	public int insertProduct(@Param("product") List<ProductDTO> product); -->
+	<insert id="insertProduct" parameterType="java.util.List">
+		 
+		 <foreach collection="product" item="product" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product (
+             PRODUCT_ID
+      ,      PRODUCT_DISPLAY_ID
+      ,      CATEGORY_SMALL_ID
+      ,      PRODUCT_NAME
+      ,      PRODUCT_PRICE
+      ,      PRODUCT_STOCK
+      )
+      SELECT 
+      		#{product.productId},
+			#{product.productDisplayId},
+			#{product.categorySmallId},
+			#{product.productName},
+			#{product.productPrice},
+			#{product.productStock} 
+      FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- // 상품 표시 이미지 insert
+	public ProductDisplayImgDTO insertProductDisplayImg(@Param("productDisplayImgDTO")ProductDisplayImgDTO productDisplayImgDTO); -->
+	
+	<insert id="insertProductDisplayImg">
+		INSERT INTO product_display_img
+		VALUES(product_display_img_seq.nextval, #{productDisplayImgDTO.productDisplayId}, #{productDisplayImgDTO.productDisplaySrc})
+	</insert>
+	
+	<!-- // 상품 표시 설명 이미지 insert
+	public int insertProductDisplayInfoImgs(@Param("displayInfoDTOs") List<ProductDisplayInfoDTO> displayInfoDTOs); -->
+	<insert id="insertProductDisplayInfoImgs" parameterType="java.util.List">
+	
+			 <foreach collection="displayInfoDTOs" item="displayInfoDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product_explaination_img (
+    		  PRODUCT_EXPLAINATION_IMG_ID,
+    		  PRODUCT_DISPLAY_ID,
+    		  PRODUCT_EXPLAINATION_IMG_SRC
+			)
+      		SELECT 
+			product_explaination_img_seq.nextval,
+			#{displayInfoDTOs.productDisplayId},
+			#{displayInfoDTOs.productExplainationImgSrc}
+      		FROM DUAL
+		</foreach>
+	</insert>
+	<!-- // 상품 이미지 insert
+	public int insertProductImgs(@Param("productImgDTOs") List<ProductImgDTO> productImgDTOs); -->
+	
+	<insert id="insertProductImgs" parameterType="java.util.List">
+	
+	 <foreach collection="productImgDTOs" item="productImgDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO product_img (
+    		  PRODUCT_IMG_ID,
+    		  PRODUCT_ID,
+    		  PRODUCT_IMG_SRC
+			)
+      		SELECT 
+			product_img_seq.nextval,
+			#{productImgDTOs.productId},
+			#{productImgDTOs.productImgSrc}
+      		FROM DUAL
+		</foreach>
+
+	</insert>
+	
+	<select id="getPromotionDiscountSeq" resultType="int">
+		SELECT promotion_discount_seq.nextval FROM dual
+	</select>
+	<select id="getPromotionCouponSeq" resultType="int">
+		SELECT promotion_coupon_seq.nextval FROM dual
+	</select>
+	<select id="getPromotionPresentSeq" resultType="int">
+		SELECT promotion_present_seq.nextval FROM dual
+	</select>
+	
+	<!-- // 할인 프로모션 insert
+	public String insertDiscountPromotion(@Param("promotionDiscountDTO") PromotionDiscountDTO promotionDiscountDTO); -->
+	
+	<insert id="insertDiscountPromotion">
+			INSERT INTO promotion_discount 
+			VALUES (
+			#{promotionDiscountId},
+			 #{promotionDiscountDTO.promotionDiscountPrice}, 
+			 #{promotionDiscountDTO.promotionDiscountStartDay}, 
+			 #{promotionDiscountDTO.promotionDiscountEndDay}
+			 )
+	</insert>
+	
+<!-- 	// 쿠폰 프로모션 insert
+	public String insertCouponPromotion(@Param("promotionCouponDTO") PromotionCouponDTO promotionCouponDTO); -->
+	
+	<insert id="insertCouponPromotion" keyProperty="id">
+			INSERT INTO promotion_coupon 
+			VALUES (#{promotionCouponId},
+			 #{promotionCouponDTO.promotionCouponName},
+			 #{promotionCouponDTO.promotionCouponKind},
+			 #{promotionCouponDTO.promotionCouponDiscount}, 
+			 #{promotionCouponDTO.promotionCouponStartDay}, 
+			 #{promotionCouponDTO.promotionCouponEndDay}
+			 )
+	</insert>
+	
+<!-- 	// 증정 프로모션 insert
+	public String insertPresentPromotion(@Param("promotionPresentDTO") PromotionPresentDTO promotionPresentDTO); -->
+	<insert id="insertPresentPromotion" keyProperty="id" >
+			INSERT INTO promotion_present 
+			VALUES (
+			#{promotionPresentId},
+			 #{promotionPresentDTO.promotionPresentKind},
+			 #{promotionPresentDTO.promotionPresentName},
+			 #{promotionPresentDTO.promotionPresentStartDay}, 
+			 #{promotionPresentDTO.promotionPresentEndDay}
+			 )
+	</insert>
+	
+	<!-- // 프로모션 insert
+	public int insertPromotion(@Param("productDisplayId") String productDisplayId
+			, @Param("promotionDiscountId") String promotionDiscountId
+			, @Param("promotionCouponId")String promotionCouponId
+			, @Param("promotionPresentId")String promotionPresentId); -->
+			
+	<insert id="insertPromotion">
+		INSERT INTO product_promotion
+		VALUES ('pmd'|| product_promotion_seq.nextval
+		, #{productDisplayId}
+		, #{promotionDiscountId}
+		, #{promotionCouponId}
+		, #{promotionPresentId})
+	
+	</insert>
+	
+	<!-- // 구매정보 insert
+	public int insertBuyInfo(@Param("productDisplayId") String productDisplayId,@Param("buyInfoDTOs") List<BuyInfoDTO> buyInfoDTOs); -->
+	<insert id="insertBuyInfo" parameterType="java.util.Map">
+	
+	 <foreach collection="buyInfoDTOs" item="buyInfoDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO buyinfo_content (
+    		  BUYINFO_CONTENT_ID,
+    		  PRODUCT_DISPLAY_ID,
+    		  BUYINFO_TITLE_ID,
+    		  BUYINFO_CONTENT
+			)
+      		SELECT 
+			buyinfo_content_seq.nextval,
+			#{productDisplayId},
+			#{buyInfoDTOs.buyinfoTitleId},
+			#{buyInfoDTOs.buyinfoTitle}
+      		FROM DUAL
+		</foreach>
+
+	</insert>
 	
 	
 	<!-- ================= Rest Mapper ======================= -->

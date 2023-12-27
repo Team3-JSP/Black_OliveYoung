@@ -28,7 +28,7 @@
 						<ul class="way" data-control="hover">
 							<li class="type1"><span class="bg"
 								style="display: block; position: absolute; width: 88px; height: 88px; margin-left: -44px; background: url('/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top: 0; left: 50%;"></span>
-								<a href="javascript:;" class="btn btn_em" id="verifyPh"  onclick="verifyPh();"  title="새 창" target=""> <span>휴대전화 인증</span></a></li>
+								<a href="javascript:;" class="btn btn_em" id="verifyPh" onclick="verifyPh();" title="새 창" target=""> <span>휴대전화 인증</span></a></li>
 
 							<li class="type2" style="border-right: 0px;"><span	class="bg"
 								style="display: block; position: absolute; width: 88px; height: 88px; margin-left: -44px; background: url('/resources/images/cjone/ico_regi_complete.png') no-repeat left top; top: 0; left: 50%;"></span><a
@@ -86,14 +86,13 @@
 	</div>
 </div>
 <!--//contents-->
-	
+<%-- 	<input type="hidden" name="newName" value="${newName }"/>
+	<input type="hidden" name="newTel" value="${newTel }"/> --%>
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
 
 <script type="text/javascript">
 	$(function() {
-		console.log("name: "+"${userDto.userName}");
-		console.log("tel: "+"${userDto.userTel}");
 		$('[data-control="hover"]').hover();
 	});
 
@@ -104,8 +103,6 @@
 	function verifyPh(){
 		document.domain="localhost";
 		window.open("/usermodify/modify_phfirst", "_blank","width=496,height=823");
-		
-
 	}
 
     </script>

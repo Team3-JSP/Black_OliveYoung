@@ -22,7 +22,8 @@
                 <h5 class="card-title">상품 등록</h5>
 
                 <!-- General Form Elements -->
-                <form>
+                <form action="/adminpage/product/reg?${_csrf.parameterName}=${_csrf.token}" method="post" id="productForm" enctype="multipart/form-data">
+                 
                   <div class="row mb-3">
                     <div class="col-sm-3">
                       <select class="form-select" aria-label="Total Category" id="totalCategory">
@@ -43,14 +44,14 @@
                       </select>
                     </div>
                     <div class="col-sm-3">
-                      <select class="form-select" aria-label="Small Category" id="smallCategory">
+                      <select class="form-select" aria-label="Small Category" id="smallCategory" name="smallCategory">
                         <option selected disabled>소분류</option>
                       </select>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="inputText" class="col-sm-2 col-form-label"
-                      >상품명 :
+                      >상품 표시명 :
                     </label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" name="productDisplayName" />
@@ -58,12 +59,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <input
-                      class="form-control-file"
-                      type="file"
-                      id="formFileMultiple"
-                      multiple
-                    />
+                    <input class="form-control-file" type="file" id="formFileMultiple" name="formFileMultiple" multiple />
                     <hr>
                   </div>
 
@@ -117,13 +113,13 @@
                     id="discountPromotion"
                   >
                     <div class="col-sm-4">
-                      <input type="text" class="form-control" />
+                      <input type="text" class="form-control" name="promotionDiscountPrice" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionDiscountStartDay" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionDiscountEndDay" />
                     </div>
                   </div>
                   <div
@@ -131,22 +127,25 @@
                     id="couponPromotion"
                     style="visibility: hidden"
                   >
-                    <div class="col-sm-4">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
+                    <div class="col-sm-2">
+                      <select class="form-select" aria-label="Coupon Promotion" id="promotionCouponKind" name="promotionCouponKind">
                         <option selected disabled>쿠폰 프로모션</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">기본할인쿠폰</option>
+                        <option value="2">%할인쿠폰</option>
                       </select>
                     </div>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                    <div class="col-sm-2">
+                      <input type="text" name="promotionCouponName" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                      <input type="text" name="promotionCouponDiscount" class="form-control">
+                    </div>
+                    
+                    <div class="col-sm-2">
+                      <input type="date" class="form-control" name="promotionCouponStartDay" />
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionCouponEndDay" />
                     </div>
                   </div>
                   <div
@@ -154,22 +153,21 @@
                     style="visibility: hidden"
                     id="presentPromotion"
                   >
-                    <div class="col-sm-4">
-                      <select
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
+                    <div class="col-sm-2">
+                      <select class="form-select" aria-label="Default select example" id="promotionPresentKind" name="promotionPresentKind">
                         <option selected disabled>증정 프로모션</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">1+1증정</option>
+                        <option value="2">2+1증정</option>
                       </select>
                     </div>
-                    <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                    <div class="col-sm-2">
+                     <input type="text" name="promotionPresentName" class="form-control">
                     </div>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" />
+                      <input type="date" class="form-control" name="promotionPresentStartDay" />
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control" name="promotionPresentEndDay" />
                     </div>
                   </div>
 
@@ -192,6 +190,7 @@
                       class="form-control-file"
                       type="file"
                       id="formFileMultiple"
+                      name="multiInfoImgs"
                       multiple
                     />
                   	</div>
@@ -220,7 +219,7 @@
                    
                    </div>
                    <div class="row mb-3" id="buyInfoCollection">
-
+	
                   
                   </div>
                   <!-- 제출 버튼 -->
@@ -228,7 +227,7 @@
                   <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Submit Button</label>
                     <div class="col-sm-10">
-                      <button type="button" class="btn btn-primary" id="submitBtn">
+                      <button type="submit" class="btn btn-primary" id="submitBtn">
                         Submit Form
                       </button>
                     </div>
@@ -253,37 +252,41 @@
     <!-- End #main -->
     
     <script>
+    var productIndex = 0; // 상품 인덱스를 유지하기 위한 변수
+    
     $("#productAddBtn").on("click", function () {
       addOption();
     });
 
     function addOption() {
-      var optionTemplate =
-        '<div class="row mb-2" id="productForm"> ' +
-        '<label class="col-sm-2 col-form-label">상품</label> ' +
-        '<div class="col-sm-4">' +
-        '   <input type="text" class="form-control col-sm-2" placeholder="상품명" name= "productName" />' +
-        "</div>" +
-        '<div class="col-sm-3">' +
-        '   <input type="text" class="form-control" placeholder="상품 가격" name="productPrice"/>' +
-        "</div>" +
-        '<div class="col-sm-2">' +
-        '   <input type="text" class="form-control" placeholder="재고 수량" name="stockQuantity" />' +
-        "</div>" +
-        '<div class="col-sm-1">' +
-        '   <button type="button" class="btn btn-primary deleteBtn">X</button>' +
-        "</div>" +
-        '<div class="col-sm-6 mt-2">' +
-        '   <input type="file" class="form-control-file" name="productImg"/>' +
-        "</div>" +
-        "<hr>" +
-        "</div>";
+    	 var optionTemplate =
+    		 '<div class="row mb-2" id="productForm">' +
+    	        '   <label class="col-sm-2 col-form-label">상품</label>' +
+    	        '   <div class="col-sm-4">' +
+    	        '       <input type="text" class="form-control col-sm-2" placeholder="상품명" name="products[' + productIndex + '].productName" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-3">' +
+    	        '       <input type="text" class="form-control" placeholder="상품 가격" name="products[' + productIndex + '].productPrice" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-2">' +
+    	        '       <input type="text" class="form-control" placeholder="재고 수량" name="products[' + productIndex + '].productStock" />' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-1">' +
+    	        '       <button type="button" class="btn btn-primary deleteBtn">X</button>' +
+    	        '   </div>' +
+    	        '   <div class="col-sm-6 mt-2">' +
+    	        '       <input type="file" class="form-control-file" name="products[' + productIndex + '].productImg" />' +
+    	        '   </div>' +
+    	        '   <hr>' +
+    	        '</div>';
 
       $("#productFormCollection").append(optionTemplate);
 
       $(".deleteBtn").click(function () {
         $(this).closest("#productForm").remove();
       });
+      
+      productIndex++;
     } // function
     $(function () {
       $(document).on("click", ".deleteBtn", function () {
@@ -433,7 +436,10 @@
  
  </script>
  <script>
+ /* 구매정보 스크립트 */
  $(function() {
+	 
+	var buyInfoIndex = 0; 
 	$('#buyInfoCategory').on('change', function() {
 		
 		var buyInfoCategory = $(this).val();
@@ -462,7 +468,8 @@
 
 				    // 두 번째 열
 				    var col2 = $('<div class="col-sm-9" data-buyinfo="' + buyinfoTitleId + '"></div>');
-				    col2.append('<input type="text" class="form-control" />');
+				    col2.append('<input type="number" class="form-control" value="'+buyinfoTitleId+'" style="display: none" name="buyInfos['+buyInfoIndex+'].buyinfoTitleId"/> ');
+				    col2.append('<input type="text" class="form-control" name="buyInfos['+buyInfoIndex+'].buyinfoTitle" />');
 				    newRow.append(col2);
 
 				    // 세 번째 열
@@ -472,6 +479,7 @@
 
 				    // buyInfoCollection에 새로운 행 추가
 				    $('#buyInfoCollection').append(newRow);
+				    buyInfoIndex++;
 				}
 			}
 			,error: function(buyInfoData) {
@@ -485,31 +493,150 @@
 }) // ready close
  
  </script>
- 
  <script>
+ /*
  $(function() {
-	
-	$('#submitBtn').on('click', function() {
-		
-		var productDisplayName = $('#productDisplayName').val();
-		
-		var products = [];
+	    $('#submitBtn').on('click', function() {
+	    	
+alert('상품 등록중');
+	    	
+	    	var productDisplayName = $("input[name='productDisplayName']").val();
+	    	var categorySmallId = $('#smallCategory').val();
+	    	
+	    	var formData = new FormData();
+	        var productDataList = [];
+	        var dynamicGroups = $('#productFormCollection .row');
+	        
+	        dynamicGroups.each(function(index) {
+	            var productId = '1';
+	            var productDisplayId = '1';
+	            var productName = $(this).find("input[name='productName']").val();
+	            var productPrice = parseInt($(this).find("input[name='productPrice']").val(), 10);
+	            var productStock = parseInt($(this).find("input[name='productStock']").val(), 10);
+	            var productImgInput = $(this).find("input[name='productImg']")[0];
+	            
+	            alert(productImgInput.files[0]);
+	            
+	            if (productImgInput.files && productImgInput.files.length > 0) {
+	                // 파일이 있는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock,
+	                    productImg: productImgInput.files[0]
+	                };
 
-		$("#productFormCollection").find(".row").each(function () {
-		    var product = {
-		        productName: $(this).find("input[name='productName']").val(),
-		        productPrice: $(this).find("input[name='productPrice']").val(),
-		        stockQuantity: $(this).find("input[name='stockQuantity']").val(),
-		        productImg: $(this).find("input[name='productImg']").val()
-		    };
-		    products.push(product);
-		});
-		
-	    alert(products)
-	    console.log(products);
+	                productDataList.push(productData);
+	            } else {
+	                // 파일이 없는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock
+	                };
+
+	                productDataList.push(productData);
+	            } // else
+	            
+	            
+	        }); // for each
+	        formData.append('productDataList', JSON.stringify(productDataList));
+	        
+	        console.log("FormData Contents:");
+	        for (let pair of formData.entries()) {
+	            console.log(pair[0] + ', ' + (pair[1] instanceof File ? 'File' : pair[1]));
+	        };
+	        
+	        $('#productForm').submit();
+	    	
+	    }) // click function
 	    
-	}) // click close
-	 
-}) // ready close
+	    
+	    
+}); // ready function
+ */
+ </script>
+ <script>
+ /*
+ $(function() {
+	    $('#submitBtn').on('click', function() {
+	        var productDisplayName = $("input[name='productDisplayName']").val();
+	        var categorySmallId = $('#smallCategory').val();
+
+	        var formData = new FormData();
+	        var productDataList = [];
+	        var dynamicGroups = $('#productFormCollection .row');
+	        
+	        dynamicGroups.each(function(index) {
+	            var productId = '1';
+	            var productDisplayId = '1';
+	            var productName = $(this).find("input[name='productName']").val();
+	            var productPrice = parseInt($(this).find("input[name='productPrice']").val(), 10);
+	            var productStock = parseInt($(this).find("input[name='productStock']").val(), 10);
+	            var productImgInput = $(this).find("input[name='productImg']")[0];
+	            
+	            alert(productImgInput.files[0]);
+	            
+	            if (productImgInput.files && productImgInput.files.length > 0) {
+	                // 파일이 있는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock,
+	                    productImg: productImgInput.files[0]
+	                };
+
+	                productDataList.push(productData);
+	            } else {
+	                // 파일이 없는 경우
+	                var productData = {
+	                    productId: productId,
+	                    productDisplayId: productDisplayId,
+	                    productName: productName,
+	                    productPrice: productPrice,
+	                    productStock: productStock
+	                };
+
+	                productDataList.push(productData);
+	            }
+	            
+	            
+	        });
+	        formData.append('productDataList', JSON.stringify(productDataList));
+
+	        console.log("FormData Contents:");
+	        for (let pair of formData.entries()) {
+	            console.log(pair[0] + ', ' + (pair[1] instanceof File ? 'File' : pair[1]));
+	        };
+	        
+	        $.ajax({
+	            url: "/adminrest/product/registration",
+	            type: "POST",
+	            data: ({form:formData}),
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            beforeSend: function(xhr) {
+	                xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+	            },
+	            success: function(data) {
+	                alert('성공');
+	                alert(productDTO);
+	                window.location.href = "localhost/adminpage/";
+	            },
+	            error: function(error) {
+	                alert('실패');
+	                console.log(error);
+	            }
+	        });
+	    });
+	});
+ */
  </script>
 
