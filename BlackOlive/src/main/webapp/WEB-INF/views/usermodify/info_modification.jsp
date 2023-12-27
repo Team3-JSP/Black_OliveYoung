@@ -29,12 +29,6 @@
 								<div class="table_header">
 									<h3 class="h3_tit">기본정보</h3>
 									<div class="info">
-
-										<!-- <a id="auth_btn_area" href="javascript:callAuthLayer()"
-											;="" class="btn btn_sm" style="display: none;"><span
-											class="arr">전체 정보 확인 및 수정</span></a> <a
-											href="https://www.cjone.com/cjmweb/member/withdrawal.do?coopco_cd=7030&amp;brnd_cd=3000&amp;mcht_no=3000"
-											class="btn btn_sm"><span class="arr">회원탈퇴</span></a> -->
 									</div>
 								</div>
 								<div class="table_col">
@@ -51,17 +45,15 @@
 												<th scope="row">이름</th>
 												<td>
 													<div class="input_group">
-														<span id="hg_nm_area" name = "userName">
-														${userDto.userName}
-														<%-- <c:choose>
+														<span id="hg_nm_area" name = "username">
+														 <c:choose>
 															<c:when test= "${not empty newName}">
 																${newName}
 															</c:when>
 															<c:otherwise>
 																${userDto.userName}
 															</c:otherwise>
-														</c:choose> --%>
-														
+														</c:choose>
 														</span>
 														<a href="#" class="btn btn_sm" id="lnChangeName">
 														<span class="arr">변경하기</span></a>
@@ -110,15 +102,16 @@
 												<td>
 													<div>
 														<span class="input_txt w100 phon_write" id="mobileNoInfo" name="userTel">
-<%-- 														<c:choose>
-														<c:when test= "${not empty param.newTel}">
+ 														
+ 														<c:choose>
+														<c:when test= "${not empty newTel}">
 																${newTel}
 															</c:when>
 															<c:otherwise>
-																
+																${userDto.userTel}
 															</c:otherwise>
-														</c:choose> --%>
-														${userDto.userTel}
+														</c:choose> 
+														
 														</span>
 								
 															<a href="<%=contextPath%>/usermodify/name_update" class="btn btn_sm">
@@ -1885,6 +1878,8 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" name="userName" id="userName" value="" />
+				<input type="hidden" name="userTel" id="userTel" value="" />
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</form>
 		</div>
@@ -1970,38 +1965,6 @@ $(document).ready(function () {
         }
 
 
-	    
-	    
-/* 
-    
-	function alertMsg(objId, ErrMsg){
-		$("#"+objId).html(ErrMsg);
-		$("#"+objId).show();
-	}
-    
-	function showErrorMsg(occur_loc, occur_msg){
-		$("#msg_pwd").addClass("hide");
-		$("#msg_pwd_chedk").addClass("hide");
-		$("#alert_mob_no").addClass("hide");
-		$("#alert_email_addr").addClass("hide");
-		
-		$("#mbr_id").removeClass("error");
-		$("#pwd").removeClass("error");
-		$("#pwd_chedk").removeClass("error");
-		$("#mob_no_1").removeClass("error");
-		$("#email_addr1").removeClass("error");
-		
-		$("#" + occur_loc).addClass("error");
-		if(occur_msg.length < 1){
-			$("#msg_" + occur_loc).removeClass("hide");
-		} else {
-			$("#msg_" + occur_msg)
-			$("#msg_" + occur_msg).removeClass("hide");
-		}
-	}
-     */
-
-
 
     // 회원수정 체크
      function checkInput() {
@@ -2074,16 +2037,25 @@ $(document).ready(function () {
 	<script>
 	$(function () {
 		var userTel = 	"${userDto.userTel}";
-		var newTel = "${newTel}";
 		var mobileNoText =  $("#mobileNoInfo").text(); 
 
 			var arr = userTel.split('-', 3);
 			var tel1 = arr[0];
 			var tel2 = arr[1];
 			var tel3 = arr[2];
-			$("#usertel").val(tel1+"-"+tel2+"-"+tel3);
+			$("#userTel").val(tel1+"-"+tel2+"-"+tel3);
 			$("#mobileNoInfo").text(tel1+"-"+"****"+"-"+tel3);
 
+			 var newTel = "${newTel}"; // 파라미터로 전달된 newTel 값
+
+			if (newTel && newTel !== 'null' && newTel !== 'undefined') {
+			   var arr = newTel.split('-', 3);
+			   var newtel1 = arr[0];
+			   var newtel2 = arr[1];
+			   var newtel3 = arr[2];
+			   $("#userTel").val(newtel1+"-"+newtel2+"-"+newtel3);
+			   $("#mobileNoInfo").text(newtel1+"-"+"****"+"-"+newtel3);
+			}
 	});
 
 	</script>
@@ -2152,7 +2124,11 @@ $("#btn_submit").on("change", function () {
 		event.preventDefault();
 		location.href = "/usermodify/name_update"; 
 	});
-
+	
+	var uName = $("#hg_nm_area").text().trim();
+	console.log ( uName);
+	$("#userName").val(uName);
+	
 	$("#btn_submit").on("click", function () {
 		if (chkPwd() ) {
 			$("#form1").submit();

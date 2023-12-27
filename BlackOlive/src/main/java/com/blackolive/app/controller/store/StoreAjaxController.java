@@ -1,6 +1,7 @@
 package com.blackolive.app.controller.store;
 
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blackolive.app.domain.head.CategoryLargeDTO;
 import com.blackolive.app.domain.productList.ProductContainer;
 import com.blackolive.app.domain.store.DistrictDTO;
 import com.blackolive.app.domain.store.StoreDTO;
 import com.blackolive.app.domain.store.StoreDetailDTO;
+import com.blackolive.app.service.head.HeadService;
 import com.blackolive.app.service.store.StoreService;
 
 import lombok.AllArgsConstructor;
@@ -24,10 +27,29 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class StoreAjaxController {
 	private StoreService storeService;
+	private HeadService headService;
 	
 	@GetMapping("/getDistrict/{city_id}")
 	public ResponseEntity<List<DistrictDTO>> getDistrict(@PathVariable String city_id) {
 		return new ResponseEntity<>(this.storeService.getDistrictService(city_id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getStoreAl")
+	public ResponseEntity<List<StoreDTO>> getStoreAll(Principal principal) {
+		String userId = null;
+		if (principal != null) {
+			userId = principal.getName();
+		}
+		return new ResponseEntity<>(this.storeService.getStoreService(userId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getStoreStockList/{productId}")
+	public ResponseEntity<List<StoreDTO>> getStoreStockList(String[] tcs, String[] pss, @PathVariable String productId, Principal principal) {
+		String userId = null;
+		if (principal != null) {
+			userId = principal.getName();
+		}
+		return new ResponseEntity<>(this.storeService.getStoreStockService(tcs, pss, productId, userId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/getStoreList")
@@ -68,5 +90,15 @@ public class StoreAjaxController {
 	@GetMapping("/getStoreDetail")
 	public ResponseEntity<StoreDetailDTO> getStoreDetail(String storeId) {
 		return new ResponseEntity<>(this.storeService.getStoreDetail(storeId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getCategoryLarge") 
+	public ResponseEntity<List<CategoryLargeDTO>> getCategoryLarge() throws SQLException {
+		return new ResponseEntity<>(this.headService.getRankingCatLargeName(""), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getStoreBestProduct")
+	public ResponseEntity<List<ProductContainer>> getStoreBestProduct(int userAge, int userGender, String categoryLargeId) {
+		return new ResponseEntity<>(this.storeService.getStoreBestProduct(userAge, userGender, categoryLargeId), HttpStatus.OK);
 	}
 }

@@ -51,4 +51,53 @@ select * from productcontainer where product_display_id in
 				</foreach>
 </select>
 
+
+<!-- int insertUserView(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	int checkUserVIew(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	int updateUserView(@Param("userId")String userId, @Param("categoryMidId")String categoryMidId);
+	
+	public List<ProductContainer> selectUserVIew(@Param("userId")String userId, @Param("categoryMidId")List<String> categoryMidId); -->
+
+<insert id="insertUserView">
+	INSERT INTO user_view (view_seq,user_id,category_mid_id,cnt) VALUES(userview_seq.NEXTVAL,#{userId},#{categoryMidId},1)
+</insert>
+
+<select id="checkUserVIew" resultType="int">
+	select count(*) from user_view where user_id =#{userId} AND category_mid_id=#{categoryMidId}
+</select>
+
+	<update id="updateUserView">
+		UPDATE user_view
+		SET cnt = cnt +1
+		WHERE user_id =#{userId} AND category_mid_id=#{categoryMidId}
+	</update>
+	
+	<select id="selectUserVIew" resultType="ProductContainer">
+		SELECT * 
+				 FROM ( 
+				    SELECT * 
+				    FROM PRODUCTCONTAINER 
+				WHERE category_mid_id IN
+				<foreach collection="categoryMidId" item="categoryMidId" open="("
+					close=")" separator=",">
+					#{categoryMidId}
+				</foreach>
+			
+
+		    ORDER BY DBMS_RANDOM.VALUE
+		)		 WHERE ROWNUM &lt;= 20
+	</select>
+	
+	<select id="selectcategoryMidId" resultType="String">
+		SELECT category_mid_id FROM ( 
+				 SELECT category_mid_id FROM user_view 
+				 WHERE user_id = #{userId}
+				GROUP BY category_mid_id 
+				 ORDER BY count(*) DESC 
+				 ) 
+				 WHERE ROWNUM &lt;= 2 
+	</select>
+
 </mapper>

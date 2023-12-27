@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blackolive.app.domain.counselor.PersonalAskVO;
 import com.blackolive.app.domain.mypage.DeliveryStatusVO;
 import com.blackolive.app.domain.mypage.ProductQnAVO;
 import com.blackolive.app.mapper.mypage.MypageMainMapper;
@@ -36,6 +37,12 @@ public class MypageMainServiceImpl implements MypageMainService {
 			throws ClassNotFoundException, SQLException {
 		log.info(">> productQnA Date service");
 		return this.mapper.getproductQnAwithDate(userid, startdate, enddate);
+	}
+
+	@Override
+	public List<PersonalAskVO> personalAskListService(String userId) throws ClassNotFoundException, SQLException {
+		log.info(">> personalAskListService");
+		return this.mapper.getAskList(userId);
 	}
 
 }

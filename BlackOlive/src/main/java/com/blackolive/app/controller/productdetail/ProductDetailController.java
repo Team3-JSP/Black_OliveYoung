@@ -1,6 +1,7 @@
 package com.blackolive.app.controller.productdetail;
 
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import com.blackolive.app.domain.productdetail.QnAListDTO;
 import com.blackolive.app.domain.review.ReviewDTO;
 import com.blackolive.app.domain.review.ReviewImgDTO;
 import com.blackolive.app.domain.review.ReviewScoreDTO;
+import com.blackolive.app.service.exhibition.ExhibitionService;
 import com.blackolive.app.service.productList.ProductListService;
 import com.blackolive.app.service.productdetail.ProductDetailService;
 import com.blackolive.app.service.review.ReviewService;
@@ -44,6 +46,7 @@ public class ProductDetailController {
 	private ProductDetailService productDetailService;
 	private ProductListService productListService;
 	private ReviewService reviewService;
+	private ExhibitionService exhibitionService;
 	
 	@GetMapping()
 	public String getProductInfo(@RequestParam("productDisplayId")String productDisplayId,
@@ -51,6 +54,7 @@ public class ProductDetailController {
 			@RequestParam(value="productId", defaultValue = "ALL")String productId,
 			@RequestParam(value="currentPage", defaultValue = "1") int currentPage,
 			@RequestParam(value="searchType1",defaultValue = "Y")String searchType_1,
+			Principal principal,
 			HttpServletRequest request,
 					Model model) throws UnsupportedEncodingException {
 		//=======================  해당 상품의 모든 카테고리 ===========================
@@ -169,6 +173,13 @@ public class ProductDetailController {
 		    }
 		}
 		request.getSession().setAttribute("productHistory", history);
+		
+		String userId="user1";
+		if (principal != null) {
+			userId = principal.getName();
+		} // if
+		
+		this.exhibitionService.checkUserVIewService(userId, CategoryMidId);
 		
 		return "productDetail.productDetail";
 	}

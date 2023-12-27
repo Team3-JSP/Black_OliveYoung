@@ -3,19 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="/WEB-INF/inc/include.jspf" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/Black_OY/js/head.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link rel="stylesheet" href="/Black_OY/css/style.css">
 <title>블랙올리브영 온라인몰</title>
 </head>
-<body>
-	
+<body>	
 	<script>
 		// form check
 		function formCheck() {
@@ -121,76 +118,52 @@
 				
 			return true;
 		}
+		
+		let dimm = $("<div>").addClass("dimm"); 
+		function popupOpen(popup) {
+			$('#'+popup).show();
+			popupCenter($('#'+popup));
+			$('body').append(dimm);
+		}
+		
+		function closeWindow() {
+            window.close();
+        }
 	</script>
 
 	<script>
 		$(function() {
 			// 유저의 쿠폰 가져오기
 			$.ajax({
-				type : 'post'
-				, async : false
+				type : 'get'
 				, cache: false
-				, url : '/Black_OY/olive/getCoupon.do'
+				, url : '<c:url value="/store/getHasCoupon"/>'
 				, dataType : 'json'
-				, data : { user_id : '${logOn.user_id}' }
 				, success : function(data) {
-					if(data == "") {
-						$(".couponView").text(`보유쿠폰 (0)`)
-						$("#userCpPop > div > h2").text(`보유쿠폰 (0)`)
+					//console.log(data)
+					
+					if(data.length == 0) {
+						$(".couponView").text(`보유쿠폰 (0)`);
+						$("#userCpPop > div > h2").text(`보유쿠폰 (0)`);
 					}
 					
-					$(".couponView").text(`보유쿠폰 (\${data.userCoupon.length})`)
-					$("#userCpPop > div > h2").text(`보유쿠폰 (\${data.userCoupon.length})`)
-					console.log(data);
+					$(".couponView").text(`보유쿠폰 (\${data.length})`);
+					$("#userCpPop > div > h2").text(`보유쿠폰 (\${data.length})`);
 	            }
 				, error : function (data, textStatus) {
 					console.log('error');
 	            }
 			}); 
 			
-			// 팝업 창 
-			let dimm = $("<div>").addClass("dimm"); 
-			$("#pickupHide2 > td > span > button").on("click", function() {
-				$("#securityInfo").show();
-				$("body").append(dimm);
-			});
-			
-			$("#securityInfo > div > button").on("click", function() {
-				$("#securityInfo").hide();
-				$(".dimm").remove();
-			});
-			
-			$("#orderForm > div.order_payment_box > div.left_area > table:nth-child(6) > tbody > tr:nth-child(1) > th > button")
-				.on("click", function() {
-					$("#OliveGiftInfo").show();
-					$("body").append(dimm);
-				});
-			
-			$("#OliveGiftInfo > div > button").on("click", function() {
-				$("#OliveGiftInfo").hide();
-				$(".dimm").remove();
-			})
-			
-			$("#orderForm > div.order_payment_box > div.left_area > table:nth-child(6) > tbody > tr:nth-child(2) > th > button")
-				.on("click", function() {
-					$("#CJGiftInfo").show();
-					$("body").append(dimm);
-				});
-			
-			$("#CJGiftInfo > div > button").on("click", function() {
-				$("#CJGiftInfo").hide();
-				$(".dimm").remove();
-			})
-			
 			// 연락처1, 연락처 2 설정
-			let tel1 = '${dto.deli_tel}';
+			let tel1 = '${dto.deliveryTel}';
 			let tel1s = tel1.split("-");
 			$("#rmitCellSctNo_exist").val(tel1s[0]);
 			$("#rmitCellTxnoNo_exist").val(tel1s[1]);
 			$("#rmitCellEndNo_exist").val(tel1s[2]);
 			
 			
-			let tel2 = '${dto.deli_tel2}';
+			let tel2 = '${dto.deliveryTel2}';
 			if(tel2 != null && tel2 != "") {
 				let tel2s = tel2.split("-");
 				$("#rmitTelRgnNo_exist").val(tel2s[0]);
@@ -258,23 +231,22 @@
 			$("#dlvpSelect").on("change", function() {
 				$.ajax({
 					type : 'get'
-					, async : false
 					, cache: false
-					, url : '/Black_OY/olive/getDelivery.do'
+					, url : '<c:url value="/store/getDelivery"/>'
 					, dataType : 'json'
-					, data : { delivery_id : $(this).val() }
+					, data : { deliveryId : $(this).val() }
 					, success : function(data) {
-						$("#dlvpNm_exist_span").text(data.del_name);
-						$("#rmitNm_exist").val(data.deli_recipient);
+						$("#dlvpNm_exist_span").text(data.deliveryName);
+						$("#rmitNm_exist").val(data.deliveryRecipient);
 						
-						let tel1 = data.deli_tel;
+						let tel1 = data.deliveryTel;
 						let tel1s = tel1.split("-");
 						$("#rmitCellSctNo_exist").val(tel1s[0]);
 						$("#rmitCellTxnoNo_exist").val(tel1s[1]);
 						$("#rmitCellEndNo_exist").val(tel1s[2]);
 						
 						
-						let tel2 = data.deli_tel2;
+						let tel2 = data.deliveryTel2;
 						if(tel2 != null && tel2 != "") {
 							let tel2s = tel2.split("-");
 							$("#rmitTelRgnNo_exist").val(tel2s[0]);
@@ -282,20 +254,20 @@
 							$("#rmitTelEndNo_exist").val(tel2s[2]);
 						}
 						
-						$("#stnmRmitPostNo_exist").val(data.deli_zip);
-						$("#stnmPostAddr_exist").text(data.deli_road_addr);
-						$("#baseAddr_exist").text(data.deli_addr);
-						$("#tempRmitDtlAddr_exist").val(data.deli_baddr);
+						$("#stnmRmitPostNo_exist").val(data.deliveryZipcode);
+						$("#stnmPostAddr_exist").text(data.deliveryRoadAddr);
+						$("#baseAddr_exist").text(data.deliveryAddr);
+						$("#tempRmitDtlAddr_exist").val(data.deliveryDetailAddr);
 						
 						let spans = $("#tabDoorInfo > tbody > tr:nth-child(1) > td > span");
 						for (var i = 0; i < spans.length; i++) {
-							if($(spans[i]).find("input").val() == data.req_select) {
+							if($(spans[i]).find("input").val() == data.requestSelect) {
 								$(spans[i]).find("input").prop("checked", true);
 								break;
 							}
 						}
 						
-						$("#door_type_exist").val(data.req_content);
+						$("#door_type_exist").val(data.requestContent);
 						
 						// console.log(data.delivery_id);
 						// console.log(data);
@@ -307,15 +279,14 @@
 			});
 			
 			// 출입방법 dto 설정
-			/* ${dto.req_select} */
 			let spans = $("#tabDoorInfo > tbody > tr:nth-child(1) > td > span");
 			for (var i = 0; i < spans.length; i++) {
-				if($(spans[i]).find("input").val() == '${dto.req_select}') {
+				if($(spans[i]).find("input").val() == '${dto.requestSelect}') {
 					$(spans[i]).find("input").prop("checked", true);
 					break;
 				}
 			}
-			$("#door_type_exist").val('${dto.req_content}');
+			$("#door_type_exist").val('${dto.requestContent}');
 			
 			// 배송 메시지 -> 직접 입력하기 눌렀을 때
 			$("#mbrMemoCont").on("change", function() {
@@ -345,20 +316,7 @@
 				$("#visitTypeDescExist").css("display", "table-row")
 				$("#visitTypeDescExist > th").text("기타 상세 내용");
 			});
-			
-			// 보유쿠폰 누를 시 가지고 있는 쿠폰을 보여줌
-			$("#orderForm > div.order_payment_box > div.left_area > a").on("click", function() {
-				$("#userCpPop").show();
-				$("body").append(dimm);
-			});
-			
-			$("#userCpPop > div > button").on("click", function() {
-				$("#userCpPop").hide();
-				$(".dimm").remove();
-			});
-			
-			
-			
+	
 			// 포인트, 기프트카드 정리
 			$("#oyGiftCard_btn").on("click", function() {
 				alert("등록된 기프트 카드가 없습니다.");
@@ -370,19 +328,14 @@
 			
 			// 포인트 적용 버튼을 눌렀을 때
 			$("#cjonePnt_btn").on("click", function() {
-				if(${logOn.u_point} < 1000) {
+				if(${userDto.userPoint} < 1000) {
 					alert("CJONE포인트는 최소 1,000원 이상\n보유 시 사용 가능합니다.");
 					return;
-				}
-				
-				
-			});
-			
-			
-			
+				}	
+			});		
+					
 			// 가지고 있는 포인트 표시
-			$("#cjonePnt").text('${logOn.u_point}');
-			
+			$("#cjonePnt").text('${userDto.userPoint}');
 			
 			// 동의 부분 처리
 			$("#btnDetailAgree").on("click", function() {
@@ -451,7 +404,6 @@
 					
 					$.ajax({
 						type : 'get'
-						, async : false
 						, cache: false
 						, url : '/Black_OY/olive/getProStockAjax.do'
 						, dataType : 'json'
@@ -459,7 +411,7 @@
 						, success : function(data) {
 							if(data.cnt == 0) {
 								alert("현재 상품의 재고가 소진되었습니다.");
-								location.href = '<%=contextPath%>/olive/main.do';
+								location.href = '<c:url value="/"/>';
 							}
 							// console.log(data);
 			            }
@@ -468,23 +420,11 @@
 			            }
 					});
 					
+					closeWindow();
 					$("#orderForm").submit();
 				}
 			});
-			
-			
-			// 총 배송비 상세보기 팝업 창
-			$("#orderForm > div.order_payment_box > div.right_area > ul > li.line_top2 > span.tx_tit > button")
-				.on("click", function() {
-					$("#deliveryInfo").show();
-					$("body").append(dimm);
-				});
-			
-			$("#getDlexDtlPopAjax > button").on("click", function() {
-				$("#deliveryInfo").hide();
-				$(".dimm").remove();
-			})
-			
+		
 			// 상품이 로딩되고 최종 결제 정보에 업데이트하기
 			let pur_price = $(".pur_price");
 			let totalPrice = 0;
@@ -528,6 +468,7 @@
 			// 선물포장 서비스 팝업창
 			$("#gift_wrapping_01").on("click", function() {
 				$("#infoGiftBoxOrder").show();
+				popupCenter($("#infoGiftBoxOrder"));
 				$("body").append(dimm);
 			});
 			
@@ -596,12 +537,6 @@
 				$("#dlv_dlexPayAmt1").show();
 			});
 			
-			$("#dlv_dlexPayAmt1").on("click", function() {
-				$("#todayDlvCostNoti").show();
-				$("body").append(dimm);
-			});
-			
-			
 			// 오늘드림 배송비 업데이트
 			let product_price = $("#orderForm > div.order_payment_box > div.right_area > ul > li:nth-child(1) > span.tx_cont > span").text()
 			let deli_price;
@@ -652,7 +587,8 @@
 		
 		<form name="pickupOrderForm" id="pickupOrderForm">
 		</form>
-		<form name="orderForm" id="orderForm" method="post" action="<%=contextPath %>/olive/orderForm.do" target="setOrderRequest">
+		<form name="orderForm" id="orderForm" method="post" action="<c:url value='/store/getOrderForm'/>" target="setOrderRequest">
+			<input type="hidden" id="deliveryId" name="deliveryId" value="${dto.deliveryId }">
 			<input type="hidden" id="quickYn" name="quickYn" value="Y">
 			<input type="hidden" id="click" name="click" value="${click}">
 			<input type="hidden" id="point_price" name="point_price" value="0">
@@ -670,6 +606,8 @@
 			<input type="hidden" id="orgQuickYn" name="orgQuickYn" value="N">
 			<input type="hidden" id="quick24hdisplay" name="quick24hdisplay" value="Y">
 			<input type="hidden" id="default24HHardSet" name="default24HHardSet" value="N">
+			
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 			<!-- 배송지 정보 -->
 			<div class="title_wrap">
@@ -691,30 +629,23 @@
 					<th scope="row">배송지선택</th>
 					<td>
 						<span class="chk_area mgzero">
-							<input type="radio" id="btn_dlvp_exist" name="inpAddrSel" value="" targetid="exist" data-attr="배송지정보^1_배송지선택" checked>
+							<input type="radio" id="btn_dlvp_exist" name="inpAddrSel" value="" targetid="exist" checked>
 							<label for="btn_dlvp_exist">기존 배송지</label>
 						</span>
 						<!-- 2020-08-04 o2oJJ 24H 화면 제어로 인한 주석 처리 -->
 						
 						<span class="chk_area">
-							<input type="radio" id="btn_dlvp_new" name="inpAddrSel" value="" targetid="new" data-attr="배송지정보^1_배송지선택">
+							<input type="radio" id="btn_dlvp_new" name="inpAddrSel" value="" targetid="new">
 							<label for="btn_dlvp_new">신규 배송지</label>
 						</span>
 						
 
-						<div class="show" id="dlvpSelect_div"><!-- 기존 배송지 라디오 선택 시 show 클래스 붙여주세요 -->
+						<div class="show" id="dlvpSelect_div">
 							<!--[오늘드림 구매에서 일반배송으로 주문서 들어왔을때 선택한 배송지 셋팅을 위해서 사용 :jwkim]-->
 							<input type="hidden" name="selectDlvSeq" value="">
-							<select id="dlvpSelect" name="mbrDlvpSeq" class="selH28" title="배송지를 선택해주세요." style="width:200px" data-attr="배송지정보^1_배송지선택">
-							<c:forEach items="${list }" var="list">
-								<c:choose>
-									<c:when test="${list.deli_name eq dto.deli_name }">
-										<option value="${list.delivery_id }" selected>${list.deli_name }</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${list.delivery_id }">${list.deli_name }</option>
-									</c:otherwise>
-								</c:choose>
+							<select id="dlvpSelect" name="mbrDlvpSeq" class="selH28" title="배송지를 선택해주세요." style="width:200px">
+							<c:forEach items="${userDeliveryList }" var="list">
+								<option value="${list.deliveryId }" selected>${list.deliveryName }</option>
 							</c:forEach>
 							</select>
 						</div>
@@ -726,8 +657,8 @@
 					<!--// 2019-11-15 추가 (오늘드림배송 시)-->
 					<tr type="exist" style="display: table-row;">
 						<th scope="row">배송지명</th>
-						<td id="dlvpNm_exist_span">${dto.deli_name }</td>
-						<input type="hidden" id="dlvpNm_exist" name="dlvpNm" value="${dto.deli_name }" title="배송지명을 입력해주세요." style="width:200px" this="배송지명은">
+						<td id="dlvpNm_exist_span">${dto.deliveryName }</td>
+						<input type="hidden" id="dlvpNm_exist" name="dlvpNm" value="${dto.deliveryName }" title="배송지명을 입력해주세요." style="width:200px" this="배송지명은">
 					</tr>
 
 				<tr id="o2o_dlv_area" style="display:none;">
@@ -767,33 +698,33 @@
 							<tr>
 								<td id="dlv_time1">11:00 ~ 13:00</td>
 								<td id="dlv_todayDlvSp1">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="금일-빠름배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="금일-빠름배송">
 								</td>
 								<td id="dlv_nextdayDlvSp1">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="익일-빠름배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="익일-빠름배송">
 								</td>
 							</tr>
 							<tr>
 								<td id="dlv_time2"></td>
 								<td id="dlv_todayDlvSp2">
-									<input type="radio" class="rad18" name="temp_chk" data-price="5000" disabled="" value="금일-34배송">
+									<input type="radio" class="rad18" name="today_param" data-price="5000" disabled="" value="금일-34배송">
 								</td>
 								<td id="dlv_nextdayDlvSp2">
-									<input type="radio" class="rad18" name="temp_chk" data-price="5000" disabled="" value="익일-34배송">
+									<input type="radio" class="rad18" name="today_param" data-price="5000" disabled="" value="익일-34배송">
 								</td>
 							</tr>
 							<tr>
 								<td id="dlv_time3">22:00 ~ 24:00</td>
 								<td id="dlv_todayDlvSp3">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="금일-미드나잇배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="금일-미드나잇배송">
 								</td>
 								<td id="dlv_nextdayDlvSp3">
-									<input type="radio" class="rad18" name="temp_chk" data-price="2500" disabled="" value="익일-미드나잇배송">
+									<input type="radio" class="rad18" name="today_param" data-price="2500" disabled="" value="익일-미드나잇배송">
 								</td>
 							</tr>
 							</tbody>
 						</table>
-						<p class="charge" id="dlv_dlexPayAmt1" style="display:none;"><span id="dlv_dlexPayAmt2">배송비 : 0원</span><a href="javascript:void(0);" onclick="fnLayerSet('todayDlvCostNoti', 'open');"></a></p>
+						<p class="charge" id="dlv_dlexPayAmt1" style="display:none;"><span id="dlv_dlexPayAmt2">배송비 : 0원</span><a href="javascript:void(0);" onclick="popupOpen('todayDlvCostNoti')"></a></p>
 						<ul class="notice">
 정							<li>모든 배송은 비대면으로 진행됩니다.</li>
 						</ul>
@@ -903,17 +834,17 @@
 				<tr id="pickupHide1" type="exist" style="display: table-row;">
 					<th scope="row">받는분</th>
 					<td class="imp_data"><!-- 2017-01-18 추가 : 필수입력사항 아이콘 추가 -->
-						<input type="text" id="rmitNm_exist" name="rmitNm" value="${dto.deli_recipient }" orgvalue="" class="inpH28" title="받는분 이름을 입력해주세요." style="width:200px" this="받는분 이름은" data-attr="배송지정보^1_받는분">
-						<span class="chk_area"><input type="checkbox" id="copyToDlvp_exist" targetid="exist"> <label for="copyToDlvp_exist">주문자정보와 동일</label></span><!-- 2017-01-18 수정 : 위치변경 -->
+						<input type="text" id="rmitNm_exist" name="rmitNm" value="${dto.deliveryRecipient }" class="inpH28" title="받는분 이름을 입력해주세요." style="width:200px" this="받는분 이름은">
+						<span class="chk_area"><input type="checkbox" id="copyToDlvp_exist" targetid="exist"> <label for="copyToDlvp_exist">주문자정보와 동일</label></span>
 					</td>
 				</tr>
 				<tr class="sumtr1" id="pickupHide2" type="exist" style="display: table-row;">
 					<th scope="row">연락처1</th>
-					<td class="imp_data"><!-- 2017-01-18 추가 : 필수입력사항 아이콘 추가 -->
-						<select id="rmitCellSctNo_exist" name="rmitCellSctNo" class="selH28" title="연락처1 앞자리를 선택해주세요." style="width:90px" orgvalue="" data-attr="배송지정보^1_연락처1">
+					<td class="imp_data">
+						<select id="rmitCellSctNo_exist" name="rmitCellSctNo" class="selH28" title="연락처1 앞자리를 선택해주세요." style="width:90px">
 							<option value="" selected="selected">선택</option>
 							
-								<option value="010" >010</option>
+								<option value="010">010</option>
 							
 								<option value="011">011</option>
 							
@@ -980,10 +911,9 @@
 								<option value="0507">0507</option>
 							
 						</select>
-						- <input type="text" id="rmitCellTxnoNo_exist" name="rmitCellTxnoNo" value="" orgvalue="" class="inpH28" title="연락처1 가운데 자리를 입력해주세요." this="연락처1 가운데 자리는" style="width:90px" data-attr="배송지정보^1_연락처1">
-						- <input type="text" id="rmitCellEndNo_exist" name="rmitCellEndNo" value="" orgvalue="" class="inpH28" title="연락처1 마지막 4자리를 입력해주세요." this="연락처1 마지막 자리는" style="width:90px" data-attr="배송지정보^1_연락처1">
-						<!-- <span class="chk_area"><input type="checkbox" id="chkSafe_exist" name="chkSafe" value="123" /> <label for="chkSafe">안심번호 사용</label></span> -->
-						<span class="info_security"><button type="button" data-rel="layer" data-target="securityInfo" class="chk_area">안심번호 서비스 안내</button></span>
+						- <input type="text" id="rmitCellTxnoNo_exist" name="rmitCellTxnoNo" value="" class="inpH28" title="연락처1 가운데 자리를 입력해주세요." this="연락처1 가운데 자리는" style="width:90px">
+						- <input type="text" id="rmitCellEndNo_exist" name="rmitCellEndNo" value="" class="inpH28" title="연락처1 마지막 4자리를 입력해주세요." this="연락처1 마지막 자리는" style="width:90px">
+						<span class="info_security"><button type="button" class="chk_area" onclick="popupOpen('securityInfo')">안심번호 서비스 안내</button></span>
 					</td>
 				</tr>
 				<tr class="sumtr2" id="pickupHide3" type="exist" style="display: table-row;">
@@ -1066,12 +996,10 @@
 				<tr id="pickupHide4" type="exist" style="display: table-row;">
 					<th scope="row">주소</th>
 					<td class="imp_data"><!-- 2017-01-25 수정 : 클래스 추가 -->
-						<input type="text" id="stnmRmitPostNo_exist" name="rmitPostNo" value="${dto.deli_zip }" class="inpH28" title="우편번호를 검색해주세요." style="width:90px" readonly="readonly">
+						<input type="text" id="stnmRmitPostNo_exist" name="deliveryZipcode" value="${dto.deliveryZipcode }" class="inpH28" title="우편번호를 검색해주세요." style="width:90px" readonly="readonly">
 						<input type="hidden" id="rmitPostNo_exist" name="stnmRmitPostNo" value="" title="우편번호를 검색해주세요.">
-						
-							<!-- // 2020-08-05 o2oJJ 24H에서의 우편번호 찾기 버튼 제어를 위해서 기존 버튼 hide 처리후 제어 버튼 추가 -->
-							<button type="button" class="btnSmall wGreen w100" id="search-zipcode-pop_exist" style="display:none;" data-attr="배송지정보^1_주소"><span>우편번호 찾기 (기존)</span></button>
-							<button type="button" class="btnSmall wGreen w100" id="search-zipcode-pop_exist_r" data-attr="배송지정보^1_주소"><span>우편번호 찾기</span></button>
+						<button type="button" class="btnSmall wGreen w100" id="search-zipcode-pop_exist" style="display:none;" data-attr="배송지정보^1_주소"><span>우편번호 찾기 (기존)</span></button>
+						<button type="button" class="btnSmall wGreen w100" id="search-zipcode-pop_exist_r" data-attr="배송지정보^1_주소"><span>우편번호 찾기</span></button>
 						
 						<div class="addr_box">
 							<input type="hidden" id="stnmRmitPostAddr_exist" name="stnmRmitPostAddr" value="" class="inpH28" title="우편번호를 검색해주세요." readonly="readonly">
@@ -1079,16 +1007,16 @@
 							<!-- 주소 입력 시 보여지는 부분 -->
 							<p class="addr_new">
 								<span class="tx_tit">도로명</span> :
-								<span class="tx_addr" id="stnmPostAddr_exist">${dto.deli_road_addr }</span><!--  도로명주소를 넣어주세요 -->
-								<input type="hidden" name="region" id="region" value="${dto.deli_road_addr }">
+								<span class="tx_addr" id="stnmPostAddr_exist">${dto.deliveryRoadAddr }</span><!--  도로명주소를 넣어주세요 -->
+								<input type="hidden" name="region" id="region" value="${dto.deliveryRoadAddr }">
 							</p>
 							<p class="addr_old">
 								<span class="tx_tit">지번</span> :
-								<span class="tx_addr" id="baseAddr_exist">${dto.deli_addr }</span><!--  지번주소를 넣어주세요 -->
+								<span class="tx_addr" id="baseAddr_exist">${dto.deliveryAddr }</span><!--  지번주소를 넣어주세요 -->
 							</p>
 							<!--// 주소 입력 시 보여지는 부분 -->
 						</div>
-						<input type="text" id="tempRmitDtlAddr_exist" value="${dto.deli_baddr }" class="inpH28" title="상세주소를 입력해주세요." style="width:500px;" this="상세 주소는" maxlength="30">
+						<input type="text" id="tempRmitDtlAddr_exist" value="${dto.deliveryDetailAddr }" class="inpH28" title="상세주소를 입력해주세요." style="width:500px;" this="상세 주소는" maxlength="30">
 						<input type="hidden" id="stnmRmitDtlAddr_exist" name="stnmRmitDtlAddr" value="." orgvalue="." class="inpH28" title="상세주소를 입력해주세요." style="width:500px" this="상세 주소는">
 						<input type="hidden" id="rmitDtlAddr_exist" name="rmitDtlAddr" value="." orgvalue="." class="inpH28" title="상세주소를 입력해주세요." style="width:500px">
 						<input type="hidden" id="emdNm_exist" name="emdNm" value="신림동">
@@ -1311,7 +1239,7 @@
 					<tr>
 						<th scope="row">배송 메시지</th>
 						<td>
-							<select id="mbrMemoCont" class="selH28" title="택배배송 메시지를 선택해주세요." style="width:350px" data-attr="배송요청사항^배송메세지" name="deliMsg">
+							<select id="mbrMemoCont" class="selH28" title="택배배송 메시지를 선택해주세요." style="width:350px" name="deliveryMsg">
 								<option name="배송메시지를 선택해주세요." value="">배송메시지를 선택해주세요.</option>
 								<option value="그냥 문 앞에 놓아 주시면 돼요.">그냥 문 앞에 놓아 주시면 돼요.</option>
 								/n
@@ -1355,16 +1283,16 @@
 					<tr type="exist" class="quick_area">
 						<th scope="row">공동현관 출입방법</th>
 						<td class="imp_data">
-							<span class="chk_area mgzero"><input type="radio" id="btn_door_manner_temp1" name="o2oVisitTypeSp" value="비밀번호" checked="" data-attr="배송지정보^2_공동현관 출입방법"><label for="btn_door_manner_temp1">비밀번호</label></span>
-							<span class="chk_area"><input type="radio" id="btn_door_manner_temp2" name="o2oVisitTypeSp" value="경비실 호출" data-attr="배송지정보^2_공동현관 출입방법"><label for="btn_door_manner_temp2">경비실 호출</label></span>
-							<span class="chk_area"><input type="radio" id="btn_door_manner_temp3" name="o2oVisitTypeSp" value="자유출입가능" data-attr="배송지정보^2_공동현관 출입방법"><label for="btn_door_manner_temp3">자유출입가능</label></span>
-							<span class="chk_area"><input type="radio" id="btn_door_manner_temp4" name="o2oVisitTypeSp" value="기타사항"  data-attr="배송지정보^2_공동현관 출입방법"><label for="btn_door_manner_temp4">기타사항</label></span>
+							<span class="chk_area mgzero"><input type="radio" id="btn_door_manner_temp1" name="visitHow" value="비밀번호" checked=""><label for="btn_door_manner_temp1">비밀번호</label></span>
+							<span class="chk_area"><input type="radio" id="btn_door_manner_temp2" name="visitHow" value="경비실 호출"><label for="btn_door_manner_temp2">경비실 호출</label></span>
+							<span class="chk_area"><input type="radio" id="btn_door_manner_temp3" name="visitHow" value="자유출입가능"><label for="btn_door_manner_temp3">자유출입가능</label></span>
+							<span class="chk_area"><input type="radio" id="btn_door_manner_temp4" name="visitHow" value="기타사항"><label for="btn_door_manner_temp4">기타사항</label></span>
 						</td>
 					</tr>
 					<tr type="exist" class="quick_area" id="visitTypeDescExist">
 						<th scope="row">기타 상세 내용</th>
 						<td class="imp_data">
-							<input type="text" id="door_type_exist" name="o2oVisitTypeDesc" class="inpH28" title="공동현관 출입방법 상세내용." style="width: 500px" data-attr="배송지정보^2_공동현관 비밀번호">
+							<input type="text" id="door_type_exist" name="visitPwd" class="inpH28" title="공동현관 출입방법 상세내용." style="width: 500px" data-attr="배송지정보^2_공동현관 비밀번호">
 						</td>
 					</tr>
 
@@ -1396,11 +1324,6 @@
 				</div>
 
 			<!-- 주문상품정보 -->
-			<!-- <h2 class="sub-title2 underline">주문상품정보</h2> --><!-- 2017-01-24 수정 : 해당 타이틀 삭제 -->
-
-			<!-- fix/3275248 bmiy20 cjone point 적립불가건에 대해 사용 불가 처리 추가 -->
-
-					<!-- 2020-08-04 o2oJJ 24H 화면 제어로 인한 주석 처리 -->
 
 						<h2 class="sub-title2">
 							<input type="hidden" name="quickYN" id="quickYN" value="${quickYN}">
@@ -1409,8 +1332,8 @@
 									오늘드림 배송상품
 									<dl class="gift_area">
 										<dt>
-											<input type="checkbox" name="giftBoxYn_temp" id="giftBoxYn_temp" data-attr="배송요청사항^선물포장서비스" disabled="disabled" style="cursor: not-allowed;"><label for="giftBoxYn_temp" class="gift_boxTit">선물포장 서비스</label>
-											<input type="hidden" name="giftBoxYn" id="giftBoxYn" value="N">
+											<input type="checkbox" name="packagingOption2" id="giftBoxYn_temp" data-attr="배송요청사항^선물포장서비스" disabled="disabled" style="cursor: not-allowed;"><label for="giftBoxYn_temp" class="gift_boxTit">선물포장 서비스</label>
+											<input type="hidden" name="packagingOption" id="giftBoxYn" value="N">
 										</dt>
 										<dd id="gift_wrapping_01">정보
 											<div class="sv_infos">가능한 상품들을 선물 포장하여<br>준비해드립니다. 하단의 포장 가능<br>상품을 확인해주세요!</div>
@@ -1450,34 +1373,33 @@
 						<c:forEach items="${productList }" var="list">
 							<tr>
 								<td colspan="5" itemno="001" entrno="C19275" brndcd="3440" tradeshpcd="1" staffdscntyn="Y" pntrsrvyn="Y" ordqty="1" thnlpathnm="https://image.oliveyoung.co.kr/uploads/images/goods/10/0000/0018/A00000018412902ko.jpg?l=ko"  purchasetype="N"><!-- 2017-01-13 수정 -->
-									<input type="hidden" name="pr_cnt" value="${list.proId }-${list.cnt}">
-									<input type="hidden" name="pro_id" value="${list.proId }">
+									<input type="hidden" name="products" value="${list.productId }-${list.orderProductCnt}">
+									<input type="hidden" name="pro_id" value="${list.productId }">
 									<div class="tbl_cont_area">
 											<div class="tbl_cell w700"><!-- 2017-01-24 수정 : 클래스명 변경 -->
 												<div class="prd_info">
 													<div class="prd_img">
-														<img src="${list.proImg }" alt="장바구니 상품 임시 이미지" onerror="common.errorImg(this);">
+														<img src="${list.productDisplaySrc }" alt="장바구니 상품 임시 이미지">
 													</div>
-													<div class="prd_name">
-														
-														<span>${list.brandName }</span><!-- 2017-01-26 수정 : 브랜드명 분리 -->
-														<p>${list.proName }</p>
+													<div class="prd_name">													
+														<span>${list.brandName }</span>
+														<p>${list.productDisplayName }</p>
 													</div>
-													<p class="prd_opt">											
-														<i class="tit">옵션</i>${list.displName }											
+													<p class="prd_opt" style="display: none">											
+														<i class="tit">옵션</i>${list.productDisplayName }											
 													</p>
 													<p class="prd_flag">
-														<c:if test="${list.prd eq 1}">
+														<c:if test="${list.discountflag eq 1}">
 															<span class="icon_flag sale">세일</span>
 														</c:if>
-														<c:if test="${list.prc eq 1}">
+														<c:if test="${list.couponflag eq 1}">
 															<span class="icon_flag coupon">쿠폰</span>
 														</c:if>
 														<!-- 기간계 상품, 브랜드 증정품만 아이콘 노출 -->
-														<c:if test="${list.prp eq 1}">
+														<c:if test="${list.presentflag eq 1}">
 															<span class="icon_flag gift" id="free_gift">증정</span>
 														</c:if>
-														<c:if test="${list.stock eq 1}">
+														<c:if test="${list.todaypickupflag eq 1}">
 															<span class="icon_flag delivery" id="quick_yn">오늘드림</span>
 														</c:if>	
 													</p>
@@ -1488,12 +1410,12 @@
 											
 											<!-- 2019-11-15 추가 (오늘드림배송 선물포장) End -->
 											<div class="tbl_cell w110">
-												<span class="cur_price"><span class="tx_num"><fmt:formatNumber value="${list.proPrice }" pattern="#,##0" /></span>원</span>
+												<span class="cur_price"><span class="tx_num"><fmt:formatNumber value="${list.minprice }" pattern="#,##0" /></span>원</span>
 											</div>
-											<div class="tbl_cell w100">${list.cnt }</div>
+											<div class="tbl_cell w100">${list.orderProductCnt }</div>
 											<div class="tbl_cell w110">
-												<span class="org_price"><span class="tx_num" id="normPrc_A000000184129/001"><fmt:formatNumber value="${list.proPrice*list.cnt }" pattern="#,##0" /></span>원</span><!-- 2017-01-24 수정 : 추가 -->
-												<span class="pur_price"><span class="tx_num" id="salePrc_A000000184129/001" data-price="${list.pafterPrice*list.cnt }"><fmt:formatNumber value="${list.pafterPrice*list.cnt }" pattern="#,##0" /></span>원</span>
+												<span class="org_price"><span class="tx_num" id="normPrc_A000000184129/001"><fmt:formatNumber value="${list.minprice*list.orderProductCnt }" pattern="#,##0" /></span>원</span><!-- 2017-01-24 수정 : 추가 -->
+												<span class="pur_price"><span class="tx_num" id="salePrc_A000000184129/001" data-price="${list.afterprice*list.orderProductCnt }"><fmt:formatNumber value="${list.afterprice*list.orderProductCnt }" pattern="#,##0" /></span>원</span>
 												<input type="hidden" id="orgNormPrc_A000000184129/001" value="31000">
 												<input type="hidden" id="orgSalePrc_A000000184129/001" value="23200">
 												<input type="hidden" id="imdtDscntAmt_A000000184129/001" value="0">
@@ -1519,7 +1441,7 @@
 			<!-- 증정품 -->
 			
 			
-			<input type="hidden" id="giftCount" value="0" orgvalue="0">
+			<input type="hidden" id="giftCount" value="0">
 			<div id="giftCartNo"></div>
 			<!--// 증정품 -->
 			
@@ -1528,9 +1450,7 @@
 				<div class="left_area">
 					<!-- 쿠폰할인정보 -->
 					<h2 class="sub-title2 width-inline">쿠폰할인정보</h2>
-					<a href="javascript:;" data-rel="layer" data-target="userCpPop" class="couponView" data-attr="쿠폰할인정보^보유쿠폰">
-						
-					</a>
+					<a href="javascript:;" class="couponView" onclick="popupOpen('userCpPop')"></a>
 					<table class="tbl_inp_form type2">
 						<caption>쿠폰할인정보 입력 폼</caption>
 						<colgroup>
@@ -1603,11 +1523,10 @@
 							<col style="width:170px">
 							<col style="width:*">
 						</colgroup>
-						<input type="hidden" id="lastAplyPntInputName" value="">
 						<tbody>
 						
 						<tr>
-							<th scope="row"><button type="button" class="btnGift btnGiftClick" data-rel="layer" data-target="OliveGiftInfo">올리브영 기프트카드</button></th>
+							<th scope="row"><button type="button" class="btnGift btnGiftClick" onclick="popupOpen('OliveGiftInfo')">올리브영 기프트카드</button></th>
 							<td>
 								<div>
 									<span class="inp_point_wrap">
@@ -1620,7 +1539,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><button type="button" class="btnGift btnGiftClick" data-rel="layer" data-target="CJGiftInfo"><span class="tx_num">CJ</span> 기프트카드</button></th>
+							<th scope="row"><button type="button" class="btnGift btnGiftClick" onclick="popupOpen('CJGiftInfo')"><span class="tx_num">CJ</span> 기프트카드</button></th>
 							<td>
 								<div>
 									<span class="inp_point_wrap">
@@ -1687,27 +1606,27 @@
 						<li class="bg_area"><!-- 2017-01-18 수정 : 클래스 추가 -->
 							<input type="hidden" id="payCouponIndex" value="" paycd="">
 							<input type="hidden" id="easyPayCd" value="">
-							<span><input type="radio" id="payMethod_11" name="payMethod" value="신용카드" cashreceipt="N" checked="checked" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_11" for="payMethod_11">신용카드</label></span>
+							<span><input type="radio" id="payMethod_11" name="payType" value="신용카드" cashreceipt="N" checked="checked" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_11" for="payMethod_11">신용카드</label></span>
 
 							
 							<span class="pay_24h_sh" style="display: none;"><input type="radio" id="payMethod_61" name="payMethod" value="61" cashreceipt="Y" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_61" for="payMethod_61">무통장입금</label></span>
 							
 
 							<!-- 2017-04-18 추가 -->
-							<span><input type="radio" id="payMethod_25" name="payMethod" value="PAYCO" cashreceipt="N" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_25" for="payMethod_25">PAYCO<span class="flag bn">혜택</span></label></span>
+							<span><input type="radio" id="payMethod_25" name="payType" value="PAYCO" cashreceipt="N"><label id="payMethodLabel_25" for="payMethod_25">PAYCO<span class="flag bn">혜택</span></label></span>
 							<!-- //2017-04-18 추가 -->
-							<span><input type="radio" id="payMethod_26" name="payMethod" value="카카오페이" cashreceipt="N" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_26" for="payMethod_26">카카오페이</label></span>
+							<span><input type="radio" id="payMethod_26" name="payType" value="카카오페이" cashreceipt="N"><label id="payMethodLabel_26" for="payMethod_26">카카오페이</label></span>
 							<!-- 20201021 배포에선 네이버페이 노출 제외 -->
-							<span><input type="radio" id="payMethod_29" name="payMethod" value="네이버페이" cashreceipt="N" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_29" for="payMethod_29">네이버페이<span class="flag bn">혜택</span></label></span>
+							<span><input type="radio" id="payMethod_29" name="payType" value="네이버페이" cashreceipt="N"><label id="payMethodLabel_29" for="payMethod_29">네이버페이<span class="flag bn">혜택</span></label></span>
 
-							<span><input type="radio" id="payMethod_22" name="payMethod" value="휴대폰결제" cashreceipt="N" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_22" for="payMethod_22">휴대폰결제</label></span>
+							<span><input type="radio" id="payMethod_22" name="payType" value="휴대폰결제" cashreceipt="N"><label id="payMethodLabel_22" for="payMethod_22">휴대폰결제</label></span>
 
-							<span><input type="radio" id="payMethod_21" name="payMethod" value="계좌이체" cashreceipt="Y" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_21" for="payMethod_21">계좌이체</label></span>
+							<span><input type="radio" id="payMethod_21" name="payType" value="계좌이체" cashreceipt="Y"><label id="payMethodLabel_21" for="payMethod_21">계좌이체</label></span>
 
 							<!-- 2017-01-18 수정 : 문화상품권/도서상품권 선택 삭제 -->
 							<!-- 2017-02-14 수정 : 문화상품권/도서상품권 선택 재추가 -->
-							<span><input type="radio" id="payMethod_24" name="payMethod" value="도서상품권" cashreceipt="Y" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_24" for="payMethod_24">도서상품권</label></span>
-							<span><input type="radio" id="payMethod_23" name="payMethod" value="문화상품권" cashreceipt="N" data-attr="결제수단선택^결제수단선택"><label id="payMethodLabel_23" for="payMethod_23">문화상품권</label></span>
+							<span><input type="radio" id="payMethod_24" name="payType" value="도서상품권" cashreceipt="Y"><label id="payMethodLabel_24" for="payMethod_24">도서상품권</label></span>
+							<span><input type="radio" id="payMethod_23" name="payType" value="문화상품권" cashreceipt="N"><label id="payMethodLabel_23" for="payMethod_23">문화상품권</label></span>
 						</li>
 						<!-- 신용카드 선택 시 -->
 						<li paymethod="11" style="display: list-item;">
@@ -1723,7 +1642,7 @@
 									<td>
 										<div id="cardDscnt_div">
 											<input type="hidden" id="cardCouponIndex" value="" acqrcd="" orgacqrcd="">
-											<select id="acqrCd" name="acqrCd" class="selH28" title="결제하실 카드를 선택해주세요." style="width:200px" data-attr="결제수단선택^카드정보선택">
+											<select id="acqrCd" name="cardType" class="selH28" title="결제하실 카드를 선택해주세요." style="width:200px" data-attr="결제수단선택^카드정보선택">
 												<option value="">카드를 선택해주세요.</option>
 												
 													<option value="BCC">BC카드</option>
@@ -1813,7 +1732,7 @@
 									<th scope="row">할부종류</th>
 									<td>
 										<div>
-											<select id="instMmCnt" name="instMmCnt" class="selH28" style="width:200px" data-attr="결제수단선택^할부종류" disabled="">
+											<select id="instMmCnt" name="installmentType" class="selH28" style="width:200px" data-attr="결제수단선택^할부종류" disabled="">
 												<option value="0">일시불</option>
 												<option value="2" targetid="nint2MmYn">2개월</option>
 												<option value="3" targetid="nint3MmYn">3개월</option>
@@ -1855,30 +1774,7 @@
 										</div>
 									</td>
 								</tr>
-								<!--// 2017-01-18 추가 : 카드 결제 안내 추가 -->
-								<!--
-								2017-01-18 수정 : 할부혜택 삭제
-								<tr>
-									<th scope="row">할부혜택</th>
-									<td>
-										<div>
-											<dl class="info_dot_list type2">
-												<dt>무이자할부 안내</dt>
-												<dd><span>신한카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>KB국민카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>삼성카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>현대카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>KB국민카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>신한카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>신한카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>KB국민카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-												<dd><span>신한카드</span> <span>5만원이상</span> 2,3,4,5,6,12개월</dd>
-											</dl>
-											<p class="tx_info mgT15">* 법인카드/체크카드는 할부 적용제외</p>
-										</div>
-									</td>
-								</tr>
-								-->
+								
 								</tbody>
 							</table>
 						</li>
@@ -2394,13 +2290,13 @@
 						<li>
 							<span class="tx_tit">쿠폰할인금액</span><!-- 2017-01-18 수정 : 문구수정 -->
 							<span class="tx_cont colorOrange"><span class="tx_num" id="totDscntAmt_span">0</span>원</span>
-							<input type="hidden" id="cd_price" name="cd_price" value="0">
+							<input type="hidden" id="cd_price" name="couponDiscountPrice" value="0">
 						</li>
 						
 						<li class="line_top2">
-							<span class="tx_tit">총 배송비 <button type="button" class="btnSmall wGray" onclick="fnLayerSet('deliveryInfo', 'open');"><span>상세보기</span></button></span>
+							<span class="tx_tit">총 배송비 <button type="button" class="btnSmall wGray" onclick="popupOpen('deliveryInfo');"><span>상세보기</span></button></span>
 							<span class="tx_cont"><span class="tx_num" id="dlexPayAmt_span">0</span>원</span>
-							<input type="hidden" name="deli_price" value="0">
+							<input type="hidden" name="deliveryPrice" value="0">
 						</li>
 						
 						<li id="oyGiftCardAplyAmt_li" style="display: none;">
@@ -2414,7 +2310,7 @@
 						<li>
 							<span class="tx_tit"><span class="tx_num">CJ ONE</span> 포인트</span>
 							<span class="tx_cont colorOrange"><span class="tx_num" id="cjonePntAplyAmt_span">0</span>원</span>
-							<input type="hidden" id="point_price" name="point_price" value="0">
+							<input type="hidden" id="point_price" name="pointPrice" value="0">
 						</li>
 						<!-- 임직원일 경우 -->
 						<li id="cafeteriaPntAplyAmt_li" style="display: none;">
@@ -2473,21 +2369,17 @@
 								<p class="tx_tit">결제대행 서비스 이용약관 동의</p>
 								<p class="tx_cont">
 									<input type="checkbox" id="agree_2_1" name="agreeChk" value="" title="전자금융거래 기본약관에 동의해주세요." data-attr="최종결제정보^6_결제대행동의"> <label for="agree_2_1">전자금융거래 기본약관</label>
-									<button type="button" class="btnSmall wGray" onclick="javascript:forder.orderForm.openPopup('https://static.oliveyoung.co.kr/pc-static-root/html/etc/foot_agreement.html','agree',400,900);"><span>약관보기</span></button>
+									<button type="button" class="btnSmall wGray" onclick="javascript:window.open('/resources/html/foot_agreement.html', '_blank', 'width=400, height=900, left=600');"><span>약관보기</span></button>
 								</p>
 								<p class="tx_cont">
 									<input type="checkbox" id="agree_2_2" name="agreeChk" value="" title="개인정보 수집 및 이용약관에 동의해주세요." data-attr="최종결제정보^6_결제대행동의"> <label for="agree_2_2">개인정보 수집 및 이용 동의</label>
-									<button type="button" class="btnSmall wGray" onclick="javascript:forder.orderForm.openPopup('https://static.oliveyoung.co.kr/pc-static-root/html/etc/foot_agreement_02.html','agree',400,900);"><span>약관보기</span></button>
+									<button type="button" class="btnSmall wGray" onclick="javascript:window.open('/resources/html/foot_agreement_02.html', '_blank', 'width=400, height=900, left=600');"><span>약관보기</span></button>
 								</p>
 								<p class="tx_cont">
 									<input type="checkbox" id="agree_2_3" name="agreeChk" value="" title="개인정보 제공 및 위탁약관에 동의해주세요." data-attr="최종결제정보^6_결제대행동의"> <label for="agree_2_3">개인정보 제공 및 위탁 동의</label>
-									<button type="button" class="btnSmall wGray" onclick="javascript:forder.orderForm.openPopup('https://static.oliveyoung.co.kr/pc-static-root/html/etc/foot_agreement_03.html','agree',400,900);"><span>약관보기</span></button>
+									<button type="button" class="btnSmall wGray" onclick="javascript:window.open('/resources/html/foot_agreement_03.html', '_blank', 'width=400, height=900, left=600');"><span>약관보기</span></button>
 								</p>
 							</li>
-							<!--
-                                CJOYPG-1745 :: 제3자제공 동의 항목 추가
-                                ## html 추가
-                            -->
 							
 						</ul>
 					</div>
@@ -2528,13 +2420,13 @@
 			</div>
 		</div>
 		<!--//  -->
-		<button class="layer_close">창 닫기</button>
+		<button class="layer_close" onclick="javascript:$('#OliveGiftInfo').hide();$('.dimm').remove()">창 닫기</button>
 	</div>
 </div>
 <!--// 올리브영 기프트카드 팝업 -->
 
 <!-- CJ 기프트카드 팝업 -->
-<div class="layer_pop_wrap w680" id="CJGiftInfo" style="display: none; margin-left: -340px; top: 1647px;">
+<div class="layer_pop_wrap w680" id="CJGiftInfo" style="display: none;">
 	<div class="layer_cont cjGiftcard">
 		<h2 class="gift_title">나의 <span class="tx_num">CJ</span> 기프트카드 <span class="total">총 <em class="tx_num" id="cjGiftQty">0</em>장</span></h2>
 		<!--  -->
@@ -2559,7 +2451,7 @@
 			</div>
 		</div>
 		<!--//  -->
-		<button class="layer_close">창 닫기</button>
+		<button class="layer_close" onclick="javascript:$('#CJGiftInfo').hide();$('.dimm').remove()">창 닫기</button>
 	</div>
 </div>
 <!--// CJ 기프트카드 팝업 -->
@@ -2577,7 +2469,7 @@
 			(올리브영 또는 택배사 내부 사정으로 인하여 서비스 지원이 제한될 수 있습니다.)
 		</div>
 		<!--// 스크롤 영역 -->
-		<button class="layer_close">창 닫기</button>
+		<button class="layer_close" onclick="javascript:$('#securityInfo').hide();$('.dimm').remove()">창 닫기</button>
 	</div>
 </div>
 <!--// 안심번호 서비스 안내 팝업 -->
@@ -2657,7 +2549,7 @@
 <!--// 현대카드 M포인트 사용안내 팝업 -->
 
 <!-- 배송비 상세정보 안내 팝업 -->
-<div class="layer_pop_wrap w410" id="deliveryInfo" style="z-index: 999; display: none; margin-left: -205px; top: 1706px;">
+<div class="layer_pop_wrap w410" id="deliveryInfo" style="z-index: 999; display: none;">
 	<div class="layer_cont" id="getDlexDtlPopAjax">
 		<h2 class="layer_title">배송비 상세정보</h2>
 		
@@ -3089,7 +2981,7 @@
 </div>
 <!--// 매장픽업서비스 안내 팝업 -->
 <!-- 오늘드림 배송비 안내 팝업 -->
-<div class="layer_pop_wrap todayDlvCostNoti" id="todayDlvCostNoti" style="z-index: 999; display: none; margin-left: -208.5px; top: 495.5px; " data-ref-comparekey="todayDlvCostNoti">
+<div class="layer_pop_wrap todayDlvCostNoti" id="todayDlvCostNoti" style="z-index: 999; display: none; ">
 	<div class="layer_cont">
 		<h2 class="layer_title2">오늘드림 배송비 안내</h2>
 		<div class="pop-conts">
@@ -3177,7 +3069,7 @@
 </div>
 <!-- // 20210226 일부상품 재고 부족 상품 안내 팝업 (픽업서비스 퍼블리싱) -->
 <!-- [3605144] 주문서 내 보유쿠폰 노출 기능 개발 요청 건 팝업 -->
-<div class="layer_pop_wrap userCp" id="userCpPop" style="display: none; margin-left: -290px; top: 1576px;" tabindex="0">
+<div class="layer_pop_wrap userCp" id="userCpPop" style="display: none;" tabindex="0">
 <div class="layer_cont">
 	<h2 class="layer_title"></h2>
 	<!-- 스크롤 영역 -->
@@ -3218,7 +3110,7 @@
 		<div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
 	</div>
 	<!--// 스크롤 영역 -->
-	<button class="layer_close">창 닫기</button>
+	<button class="layer_close" onclick="$('#userCpPop').hide();$('.dimm').remove()">창 닫기</button>
 </div>
 </div>
 <!-- [3605144] 주문서 내 보유쿠폰 노출 기능 개발 요청 건 팝업 -->
