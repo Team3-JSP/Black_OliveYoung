@@ -18,70 +18,55 @@
 	</select> 
 
 	<!-- 스킨케어순,마스크팩(대카테고리) 클릭시 가져오기, 인기순, 신상품순, 판매순 클릭시 가져오기 -->
-<select id="getSortBrands" resultType="BrandPageDTO">
-    SELECT *
-    FROM (
-        SELECT
-            pc.*,
-            ROWNUM AS rnum
-        FROM
-            productcontainer2 pc
-        WHERE
-            brand_id = #{brandId}
-            AND (
+	<select id="getSortBrands" resultType="BrandPageDTO">
+        SELECT *
+        FROM (
+            SELECT
+                pc.*,
+                ROWNUM AS rnum
+            FROM
+                productcontainer2 pc
+            WHERE
+                brand_id = #{brandId}
+                AND (
+                    <choose>
+                        <when test='dispcatno == null or dispcatno.equals("") or dispcatno =="cate_01"'>
+                            category_Large_Id IN ('0001', '0002', '0004')
+                        </when>
+                        <when test='dispcatno == "cate_02"'>
+                            category_Large_Id = '0001'
+                        </when>
+                        <when test='dispcatno == "cate_03"'>
+                            category_Large_Id = '0002'
+                        </when>
+                        <when test='dispcatno == "cate_04"'>
+                            category_Large_Id = '0004'
+                        </when>
+                    </choose>
+                )
+            AND ROWNUM &lt;= #{numOfItems}
+            ORDER BY
                 <choose>
-                    <when test='dispcatno == null or dispcatno.equals("") or dispcatno =="cate_01"'>
-                        category_Large_Id IN ('0001', '0002', '0004')
+                    <when test='sort == "p"'>
+                        product_Display_Like DESC
                     </when>
-                    <when test='dispcatno == "cate_02"'>
-                        category_Large_Id = '0001'
+                    <when test='sort == "n"'>
+                        product_Display_Regdate DESC
                     </when>
-                    <when test='dispcatno == "cate_03"'>
-                        category_Large_Id = '0002'
+                    <when test='sort == "s"'>
+                        ordercnt DESC
                     </when>
-                    <when test='dispcatno == "cate_04"'>
-                        category_Large_Id = '0004'
+                    <when test='sort == "l"'>
+                        afterPrice ASC
+                    </when>
+                    <when test='sort == "d"'>
+                        (minprice - afterprice) / minprice * 100 DESC
                     </when>
                 </choose>
-            )
-        AND ROWNUM &lt;= (#{pageNumber} * #{pageSize})
-        ORDER BY
-            <choose>
-                <when test='sort == "p"'>
-                    product_Display_Like DESC
-                </when>
-                <when test='sort == "n"'>
-                    product_Display_Regdate DESC
-                </when>
-                <when test='sort == "s"'>
-                    ordercnt DESC
-                </when>
-                <when test='sort == "l"'>
-                    afterPrice ASC
-                </when>
-                <when test='sort == "d"'>
-                    (minprice - afterprice) / minprice * 100 DESC
-                </when>
-            </choose>
-    )
-   WHERE rnum BETWEEN 1 AND #{numOfItems}
-</select>
+        )
+        WHERE rnum &lt;= #{numOfItems}
+	</select>
 
-<select id="pagingList" resultType="BrandPageDTO">
-        SELECT * FROM productcontainer2
-        WHERE brand_id = #{brandId}
-          AND sort = #{sort}
-          AND dispcatno = #{dispcatno}
-          AND ROWNUM BETWEEN #{startRow} AND #{endRow}
-    </select>
-    
-    <select id="getTotalRecords" resultType="int">
-        SELECT COUNT(*) FROM productcontainer2
-        WHERE brand_id = #{brandId}
-          AND sort = #{sort}
-          AND dispcatno = #{dispcatno}
-    </select>
-  
 
 	<!-- 베스트상품 4개(술라이드바용) -->
 	<select id="getsellProduct" resultType="BrandPageDTO">
@@ -98,6 +83,12 @@
                ]]>
 	</select>
 
+<!-- 유튜브 영상 가져오기  -->
+<select id="getBrandVideo" resultType="BrandPageDTO">
+SELECT *
+FROM BRAND_VIDEO
+WHERE brand_id=#{brandId}
+</select>
 	<!-- 리뷰가져오기 -->
 <select id="getReviews" resultType="BrandPageDTO">
     <![CDATA[
@@ -131,5 +122,3 @@
        
 	</select>
 </mapper>
-
-  

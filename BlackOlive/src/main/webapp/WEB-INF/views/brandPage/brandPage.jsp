@@ -751,6 +751,7 @@ function updatePagingUI(currentPage, totalPages) {
 					</div>
 				</div>
 			  <!-- 유튜브 링크  -->
+			   
 				<div class="brandBox" data-sort="7" id="dataSortBox" corner-no="266">
 					<div class="brand-promotion video_box">
 						<div class="brand-promotion-container">
@@ -791,8 +792,9 @@ function updatePagingUI(currentPage, totalPages) {
 						</div>
 					</div>
 				</div>
+				
 			</div>
-
+   
 			<div class="brand">
 				<div class="brandBox lineb">
 					<div class="tabHead">
@@ -998,8 +1000,14 @@ function updatePagingUI(currentPage, totalPages) {
 															</div>
 														</li>
 														</c:forEach>
-														 
-														
+													
+													</ul>
+												</div>
+												<div class="item slick-slide" data-slick-index="1"
+													aria-hidden="true" style="width: 1020px;" tabindex="-1"
+													role="option" aria-describedby="slick-slide21">
+													<ul class="prod-list">
+
 														<li></li>
 
 														<li></li>
@@ -1012,164 +1020,6 @@ function updatePagingUI(currentPage, totalPages) {
 													<ul class="prod-list">
 
 
-														<li id="">
-															<div class="prod">
-																<a
-																	href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=1"
-																	name="BrandA001436_Best" class="thumb goodsList"
-																	data-ref-goodsno="A000000162323"
-																	data-ref-dispcatno="9000002" data-ref-itemno="001"
-																	data-attr="브랜드관^구달_베스트^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-																	data-trk="/" tabindex="-1"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;13&quot;);"><img
-																	src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0016/A00000016232329ko.jpg?l=ko"
-																	alt="[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-																	class="pic-thumb" onerror="common.errorImg(this);"><span
-																	class="flag-badge best">베스트</span></a>
-																<div class="prod-info"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;13&quot;);">
-																	<a
-																		href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000162323&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=1"
-																		name="BrandA001436_Best" class="goodsList"
-																		data-ref-goodsno="A000000162323"
-																		data-ref-dispcatno="9000002" data-ref-itemno="001"
-																		data-attr="브랜드관^구달_베스트^[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획"
-																		data-trk="/" tabindex="-1"><div class="prod-brand">
-																			<strong class="exclusive"></strong>
-																		</div> <span class="prod-name double-line">[한정기획] 구달
-																			청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획</span>
-																		<div class="discount">
-																			<span class="origin">43,000원</span>
-																		</div>
-																		<div class="price">
-																			<strong class="total">30,960<span
-																				class="won">원</span></strong> <span class="oneday">오늘드림</span>
-																		</div>
-																		<div class="rating">
-																			<span class="point">4.7</span><span class="num">(999+)</span>
-																		</div>
-																		<div class="flags">
-																			<span class="flag sale">세일</span><span
-																				class="flag coupon">쿠폰</span>
-																		</div></a>
-																</div>
-																<div class="prod-func">
-																	<button type="button" class="favorite btn_zzim jeem"
-																		data-ref-goodsno="A000000162323" tabindex="-1">
-																		<span>찜하기</span>
-																	</button>
-																	<button type="button" class="cart"
-																		onclick="common.gf_regCart(this); return false;"
-																		data-goods-no="A000000162323" data-item-no="001"
-																		tabindex="-1">장바구니</button>
-																</div>
-
-															</div>
-														</li>
-
-														<li id="">
-															<div class="prod">
-																<a
-																	href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000168705&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=2"
-																	name="BrandA001436_Best" class="thumb goodsList"
-																	data-ref-goodsno="A000000168705"
-																	data-ref-dispcatno="9000002" data-ref-itemno="001"
-																	data-attr="브랜드관^구달_베스트^[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																	data-trk="/" tabindex="-1"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;14&quot;);"><img
-																	src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0016/A00000016870522ko.jpg?l=ko"
-																	alt="[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																	class="pic-thumb" onerror="common.errorImg(this);"><span
-																	class="flag-badge best">베스트</span></a>
-																<div class="prod-info"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;14&quot;);">
-																	<a
-																		href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000168705&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=2"
-																		name="BrandA001436_Best" class="goodsList"
-																		data-ref-goodsno="A000000168705"
-																		data-ref-dispcatno="9000002" data-ref-itemno="001"
-																		data-attr="브랜드관^구달_베스트^[1+1기획] 구달 맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																		data-trk="/" tabindex="-1"><div class="prod-brand">
-																			<strong class="exclusive"></strong>
-																		</div> <span class="prod-name double-line">[1+1기획] 구달
-																			맑은 어성초 진정 수분 선크림 50ml 1+1 기획 SPF50+ PA++++</span>
-																		<div class="price">
-																			<strong class="total">18,000<span
-																				class="won">원</span></strong> <span class="oneday">오늘드림</span>
-																		</div>
-																		<div class="rating">
-																			<span class="point">4.8</span><span class="num">(999+)</span>
-																		</div>
-																		<div class="flags blank"></div></a>
-																</div>
-																<div class="prod-func">
-																	<button type="button" class="favorite btn_zzim jeem"
-																		data-ref-goodsno="A000000168705" tabindex="-1">
-																		<span>찜하기</span>
-																	</button>
-																	<button type="button" class="cart"
-																		onclick="common.gf_regCart(this); return false;"
-																		data-goods-no="A000000168705" data-item-no="001"
-																		tabindex="-1">장바구니</button>
-																</div>
-
-															</div>
-														</li>
-														<li id="">
-															<div class="prod">
-																<a
-																	href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000182780&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=3"
-																	name="BrandA001436_Best" class="thumb goodsList"
-																	data-ref-goodsno="A000000182780"
-																	data-ref-dispcatno="9000002" data-ref-itemno="001"
-																	data-attr="브랜드관^구달_베스트^[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																	data-trk="/" tabindex="-1"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000182780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;15&quot;);"><img
-																	src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0018/A00000018278013ko.jpg?l=ko"
-																	alt="[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																	class="pic-thumb" onerror="common.errorImg(this);"><span
-																	class="flag-badge best">베스트</span></a>
-																<div class="prod-info"
-																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000182780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_베스트&quot;, &quot;15&quot;);">
-																	<a
-																		href="https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000182780&amp;dispCatNo=9000002&amp;trackingCd=BrandA001436_Best&amp;t_page=브랜드관&amp;t_click=베스트_상품상세&amp;t_number=3"
-																		name="BrandA001436_Best" class="goodsList"
-																		data-ref-goodsno="A000000182780"
-																		data-ref-dispcatno="9000002" data-ref-itemno="001"
-																		data-attr="브랜드관^구달_베스트^[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++"
-																		data-trk="/" tabindex="-1"><div class="prod-brand">
-																			<strong class="exclusive"></strong>
-																		</div> <span class="prod-name double-line">[1+1 기획]
-																			구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++</span>
-																		<div class="discount">
-																			<span class="origin">20,000원</span>
-																		</div>
-																		<div class="price">
-																			<strong class="total">16,560<span
-																				class="won">원</span></strong> <span class="oneday">오늘드림</span>
-																		</div>
-																		<div class="rating">
-																			<span class="point">4.8</span><span class="num">(999+)</span>
-																		</div>
-																		<div class="flags">
-																			<span class="flag sale">세일</span><span
-																				class="flag coupon">쿠폰</span>
-																		</div></a>
-																</div>
-																<div class="prod-func">
-																	<button type="button" class="favorite btn_zzim jeem"
-																		data-ref-goodsno="A000000182780" tabindex="-1">
-																		<span>찜하기</span>
-																	</button>
-																	<button type="button" class="cart"
-																		onclick="common.gf_regCart(this); return false;"
-																		data-goods-no="A000000182780" data-item-no="001"
-																		tabindex="-1">장바구니</button>
-																</div>
-
-															</div>
-														</li>
-														
 													</ul>
 												</div>
 											</div>
@@ -1221,7 +1071,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162318&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;1&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="reviewDetail('${review.reviewId}');display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
+																onclick="reviewDetail('rv_00000001');display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">${ review.reviewGrade }</span>
@@ -1266,7 +1116,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;2&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="reviewDetail('${review.reviewId}')">
+																onclick="reviewDetail('rv_00000001')">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1295,7 +1145,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162323&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;3&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000162323', '[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획', '2'); mypage.reviewerLounge.goReviewDetail('23102015', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'2'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000162323', '[한정기획] 구달 청귤 비타C 잡티케어 세럼 50ml+31ml 증정 기획', '2'); mypage.reviewerLounge.goReviewDetail('23102015', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'2'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1324,7 +1174,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000183371&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;4&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000183371', '[1+1기획] 구달 맑은 어성초 진정 수분 토너 300ml 기획(+300ml 리필)', '3'); mypage.reviewerLounge.goReviewDetail('22999186', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'3'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000183371', '[1+1기획] 구달 맑은 어성초 진정 수분 토너 300ml 기획(+300ml 리필)', '3'); mypage.reviewerLounge.goReviewDetail('22999186', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'3'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1362,7 +1212,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000182780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;5&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000182780', '[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++', '4'); mypage.reviewerLounge.goReviewDetail('23039309', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'4'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000182780', '[1+1 기획] 구달 맑은 어성초 진정 무기자차 선크림 50ml 1+1 기획 SPF50+ PA++++', '4'); mypage.reviewerLounge.goReviewDetail('23039309', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'4'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt4">4점</span>
@@ -1390,7 +1240,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000171077&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;6&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000171077', '구달 살구 콜라겐 탄력 마스크 1매', '5'); mypage.reviewerLounge.goReviewDetail('22881713', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'5'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000171077', '구달 살구 콜라겐 탄력 마스크 1매', '5'); mypage.reviewerLounge.goReviewDetail('22881713', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'5'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt3">3점</span>
@@ -1419,7 +1269,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000187780&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;7&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000187780', '[단독기획] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)', '6'); mypage.reviewerLounge.goReviewDetail('22915372', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'6'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000187780', '[단독기획] 구달 청귤 비타C 수분 아이패치 60매 (+60매 더블증정 단독기획)', '6'); mypage.reviewerLounge.goReviewDetail('22915372', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'6'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1457,7 +1307,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000190110&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;8&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000190110', '[단독기획]구달 흑당근 비타A 레티놀 탄력 크림 50ml 기획 (+크림 15ml*2ea)', '7'); mypage.reviewerLounge.goReviewDetail('23024154', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'7'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000190110', '[단독기획]구달 흑당근 비타A 레티놀 탄력 크림 50ml 기획 (+크림 15ml*2ea)', '7'); mypage.reviewerLounge.goReviewDetail('23024154', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'7'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1486,7 +1336,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000189175&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;9&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000189175', '[NEW] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획', '8'); mypage.reviewerLounge.goReviewDetail('22890557', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'8'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000189175', '[NEW] 구달 청귤 비타C 잡티케어 패드 70매+70매 리필기획', '8'); mypage.reviewerLounge.goReviewDetail('22890557', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'8'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt4">4점</span>
@@ -1515,7 +1365,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000190108&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;10&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000190108', '[재유PICK/단독기획]구달 흑당근 비타A 레티놀 탄력 앰플 30ml 기획 (+앰플 9ml*2ea)', '9'); mypage.reviewerLounge.goReviewDetail('22776824', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'9'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000190108', '[재유PICK/단독기획]구달 흑당근 비타A 레티놀 탄력 앰플 30ml 기획 (+앰플 9ml*2ea)', '9'); mypage.reviewerLounge.goReviewDetail('22776824', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'9'});">
 																<div class="topinfo">
 															
 																	<div class="review_stat type2">
@@ -1556,7 +1406,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000162318&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;11&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="javascript:display.brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
+																onclick="reviewDetail('rv_00000001').brandShopDetail.amplitudeReview('A000000162318', '구달 청귤 비타C 잡티케어 세럼 마스크 1매 ', '10'); mypage.reviewerLounge.goReviewDetail('23251131', {t_page:'브랜드관',t_click:'리뷰_리뷰상세보기',t_number:'10'});">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
@@ -1597,7 +1447,7 @@ function updatePagingUI(currentPage, totalPages) {
 																	onclick="javascript:gtm.goods.callGoodsGtmInfo(&quot;A000000168705&quot;, &quot;&quot;, &quot;ee-productClick&quot;, &quot;브랜드관_구달_리뷰&quot;, &quot;12&quot;);">
 															</p>
 															<div class="reviewCont"
-																onclick="reviewDetail('${review.reviewId}')">
+																onclick="reviewDetail('rv_00000001')">
 																<div class="topinfo">
 																	<div class="review_stat type2">
 																		<span class="point pt5">5점</span>
