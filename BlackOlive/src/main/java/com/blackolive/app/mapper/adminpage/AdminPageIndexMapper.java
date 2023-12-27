@@ -10,6 +10,9 @@ import com.blackolive.app.domain.adminpage.ProductDisplayDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayImgDTO;
 import com.blackolive.app.domain.adminpage.ProductDisplayInfoDTO;
 import com.blackolive.app.domain.adminpage.ProductImgDTO;
+import com.blackolive.app.domain.adminpage.PromotionCouponDTO;
+import com.blackolive.app.domain.adminpage.PromotionDiscountDTO;
+import com.blackolive.app.domain.adminpage.PromotionPresentDTO;
 import com.blackolive.app.domain.adminpage.SalesPerDayDTO;
 import com.blackolive.app.domain.adminpage.SalesPerMonthDTO;
 import com.blackolive.app.domain.head.CategoryLargeDTO;
@@ -46,6 +49,28 @@ public interface AdminPageIndexMapper {
 	
 	// 상품 이미지 insert
 	public int insertProductImgs(@Param("productImgDTOs") List<ProductImgDTO> productImgDTOs);
+	
+	public int getPromotionDiscountSeq();
+	public int getPromotionCouponSeq();
+	public int getPromotionPresentSeq();
+	
+	// 할인 프로모션 insert
+	public int insertDiscountPromotion(@Param("promotionDiscountId") String promotionDiscountId, @Param("promotionDiscountDTO") PromotionDiscountDTO promotionDiscountDTO);
+	
+	// 쿠폰 프로모션 insert
+	public int insertCouponPromotion(@Param("promotionCouponId") String promotionCouponId, @Param("promotionCouponDTO") PromotionCouponDTO promotionCouponDTO);
+	
+	// 증정 프로모션 insert
+	public int insertPresentPromotion(@Param("promotionPresentId") String promotionPresentId, @Param("promotionPresentDTO") PromotionPresentDTO promotionPresentDTO);
+	
+	// 프로모션 insert
+	public int insertPromotion(@Param("productDisplayId") String productDisplayId
+			, @Param("promotionDiscountId") String promotionDiscountId
+			, @Param("promotionCouponId")String promotionCouponId
+			, @Param("promotionPresentId")String promotionPresentId);
+	
+	// 구매정보 insert
+	public int insertBuyInfo(@Param("productDisplayId") String productDisplayId,@Param("buyInfoDTOs") List<BuyInfoDTO> buyInfoDTOs);
 	
 	// ================= Rest Mapper ======================
 	

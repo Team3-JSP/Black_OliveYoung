@@ -136,12 +136,12 @@
                       				${oc.deliveryCompany}
                       			</c:if>
                       			<c:if test="${empty oc.deliveryCompany }">
-                      				<select class="form-select" id="deliveryCompany">
-                          			<option value="1">CJ대한통운</option>
-                          			<option value="2">롯데</option>
-                          			<option value="3">한진</option>
-                          			<option value="4">로젠</option>
-                          			<option value="5">우체국</option>
+                      				<select class="form-select" id="deliveryCompany" name="deliveryCompany">
+                          			<option value="CJ대한통운">CJ대한통운</option>
+                          			<option value="롯데">롯데</option>
+                          			<option value="한진">한진</option>
+                          			<option value="로젠">로젠</option>
+                          			<option value="우체국">우체국</option>
                         		</select>
                       			</c:if>
                       		</td>
@@ -150,7 +150,7 @@
                       				${oc.invoiceNumber}
                       			</c:if>
                       			<c:if test="${empty oc.invoiceNumber}">
-                      				<input type="text" id="invoiceNumber"/>
+                      				<input type="text" id="invoiceNumber" name="invoiceNumber"/>
                       			</c:if>
                       		</td>
                       		<td>${oc.sendDate}</td>
@@ -235,7 +235,7 @@ $(function() {
 		$('.orderCheckBox:checked').each(function() {
 			
 			var orderId = $(this).data("id");
-			alert(orderId);
+			
 			selectedRows.push(orderId);
 		}) // each fuction
 		
@@ -245,9 +245,67 @@ $(function() {
 			method: "post",
 			cache: false,
 			data: ({selectedRows: selectedRows}),
+			 beforeSend: function(xhr) {
+					xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+					console.log(xhr);
+				},
 			success: function(data) {
 				alert('확인 성공')
-				
+				window.location.href = currentUrl;
+			},
+			error: function(data) {
+				alert('에러');
+			} // 에러
+		}); // ajax close
+		
+	}) // click function
+	
+}); // ready fuction
+</script>
+<script>
+/* 발송처리 버튼 눌렀을 때  */
+  
+ $(function() {
+	$('#sendProcess').on('click', function() {
+		
+		var currentUrl = window.location.href;
+		var sendProcessDTOs = [];
+		
+		$('.orderCheckBox:checked').each(function() {
+	
+			var orderId = $(this).data("id");
+			
+			var row = $(this).closest('tr');
+			
+			var deliveryCompany = row.find('#deliveryCompany').val();
+			var invoiceNumber = row.find('#invoiceNumber').val();
+
+			var selectedRows = {
+					orderId: orderId,
+					deliveryCompany : deliveryCompany,
+					invoiceNumber: invoiceNumber
+			}; 
+
+			sendProcessDTOs.push(selectedRows);
+		}); // each fuction
+		
+		console.log(sendProcessDTOs);
+		console.log(JSON.stringify(sendProcessDTOs));
+		
+		
+		$.ajax({
+			url: "/adminrest/order/sendConfirm",
+			method: "post",
+			cache: false,
+			data: {sendProcessDTOs: JSON.stringify(sendProcessDTOs)},
+			contentType : "json",
+			 beforeSend: function(xhr) {
+					xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+					console.log(xhr);
+				},
+			success: function(data) {
+				alert('확인 성공')
+				//window.location.href = currentUrl;
 			},
 			error: function(data) {
 				alert('에러');

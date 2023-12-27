@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class ProductPromotionDTO {
 
 	private String promotionDiscountId;
-	private Date promotionDiscountStartDay;
-	private Date promotionDiscountEndDay;
+	private String promotionDiscountStartDay;
+	private String promotionDiscountEndDay;
 	private int promotionDiscountPrice;
 	private String promotionCouponId;
 	private String promotionCouponName;
-	private Date promotionCouponStartDay;
-	private Date promotionCouponEndDay;
+	private String promotionCouponStartDay;
+	private String promotionCouponEndDay;
 	private int promotionCouponDiscount;
 	
 } // class

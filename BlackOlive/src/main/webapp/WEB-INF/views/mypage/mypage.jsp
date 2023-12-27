@@ -118,7 +118,7 @@
 											<p class="stit">
 
 												<strong style="background:#ff7f00">${ askVO.personalAskStatus }</strong>
-												<a href="<%-- 1:1문의 페이지 - 해당문의로 이동 --%>">${ askVO.personalAskContent }</a>
+												<a href="${pageContext.request.contextPath}/counselor/personalAskList">${ askVO.personalAskContent }</a>
 												<span class="data">
 													<fmt:formatDate value="${askVO.personalAskDate}" pattern="yyyy.MM.dd" var="askDate"/> 
 													${askDate}

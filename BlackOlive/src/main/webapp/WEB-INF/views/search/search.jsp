@@ -197,7 +197,12 @@ $(function(){
 			<!-- 검색어오류 영역 추가 (2017-01-13 추가)  -->
 			<div class="searchResultArea">
 				<p class="resultTxt">
-					<strong>${searchWord}</strong>검색결과 (전체 <span>${totalRecords}개</span>의
+				<strong>
+				<c:forEach items="${searchWord}" var="searchWord">
+				${searchWord}
+				</c:forEach>
+				</strong>
+					검색결과 (전체 <span>${totalRecords}개</span>의
 					상품)
 				</p>
 				<div class="searchWrap">
@@ -208,8 +213,8 @@ $(function(){
 							for="check_view">오늘드림 상품만 보기</label>
 					</div>
 					<input type="text" title="결과 내 검색창" placeholder="결과 내 검색"
-						id="reChk" onclick="return clickReSearchInput()"> <input
-						type="submit" value="검색" title="검색" onclick="return reSearch()">
+						id="reChk"> <input
+						id="reChk2" type="submit" value="검색" title="검색" onclick="reSearch()">
 				</div>
 			</div>
 			<!--// 검색어오류 영역 추가 -->
@@ -2288,6 +2293,13 @@ $(function(){
 	    }
 		const newParam = URLSearch.toString();
 		window.location.href = location.pathname + '?' + newParam
+	}
+	
+	function reSearch() {
+		let searchWord = $("#reChk").val();
+		//alert(searchWord)
+		let url = window.location.href;
+		window.location.href=url+"&searchWord="+searchWord
 	}
 	
 </script>
