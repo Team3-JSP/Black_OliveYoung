@@ -132,7 +132,7 @@ public class AdminController {
 			afterProductDisplayExplainImgsName[i] = getFileNameCheck(productInfosUploadRealPath, productDisplayExplainImgsName[i]);
 			productInfoFile = new File(productInfosUploadRealPath, afterProductDisplayExplainImgsName[i]);
 			productDisplayExplainImgs.get(i).transferTo(productInfoFile);
-			displayInfoDTO = new ProductDisplayInfoDTO(productDisplayId, "/resources/images/productExImgs/"+afterproductDisplayImgName);
+			displayInfoDTO = new ProductDisplayInfoDTO(productDisplayId, "/resources/images/productExImgs/"+afterProductDisplayExplainImgsName[i]);
 			displayInfoDTOs.add(displayInfoDTO);
 		}
 		int productInfoRowCnt = this.adminPageIndexService.insertProductDisplayInfoImgs(displayInfoDTOs); // 실제 DB에 경로 저장
@@ -159,8 +159,11 @@ public class AdminController {
 		System.err.println("productInfosUploadRealPath"+productInfosUploadRealPath);
 		
 		// 상품 프로모션 등록
+		int promotionRowCnt = this.adminPageIndexService.insertPromotion(orderRegisterDTO, productDisplayId);
 		
 		// 상품 구매정보 등록
+		
+		int buyInfoRowCnt = this.adminPageIndexService.insertBuyInfo(productDisplayId, orderRegisterDTO.getBuyInfos());
 		
 		
 		

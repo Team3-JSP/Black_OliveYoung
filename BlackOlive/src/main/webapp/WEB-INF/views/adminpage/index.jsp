@@ -84,7 +84,7 @@
                         <i class="bi bi-currency-dollar"></i>
                       </div>
                       <div class="ps-3">
-                        <h6>&#8361;3,264</h6>
+                        <h6>&#8361;3,264,020</h6>
                       </div>
                     </div>
                   </div>
@@ -113,7 +113,7 @@
                   </div>
 
                   <div class="card-body">
-                    <h5 class="card-title">이용객 <span>| This Year</span></h5>
+                    <h5 class="card-title">신규 가입자 수<span>| This Year</span></h5>
 
                     <div class="d-flex align-items-center">
                       <div

@@ -2849,3 +2849,27 @@ $(function () {
 		} // toggleLikeItemStatus
 	
 </script>
+
+<!-- <script>
+var socket = new WebSocket('ws://' + window.location.host + '/ws/product');
+
+socket.onmessage = function(event) {
+    var message = event.data;
+    var parts = message.split(':');
+    var productDisplayId = parts[0];
+    var viewerCount = parts[1];
+
+    // productId에 해당하는 상품페이지의 현재 접속자 수를 업데이트합니다.
+    updateViewerCount(productDisplayId, viewerCount);
+};
+
+socket.onclose = function(event) {
+    console.log('WebSocket closed: ' + event.code + ', ' + event.reason);
+};
+
+function updateViewerCount(productDisplayId, viewerCount) {
+    // 실제 상황에 맞게 해당 상품페이지의 뷰어 수를 업데이트하는 로직을 구현합니다.
+    // 예를 들면, HTML 요소에 업데이트된 뷰어 수를 표시하거나 다른 동작을 수행할 수 있습니다.
+    console.log('Product ' + productDisplayId + ' viewers: ' + viewerCount);
+}
+</script> -->

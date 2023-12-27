@@ -144,6 +144,93 @@
 
 	</insert>
 	
+	<select id="getPromotionDiscountSeq" resultType="int">
+		SELECT promotion_discount_seq.nextval FROM dual
+	</select>
+	<select id="getPromotionCouponSeq" resultType="int">
+		SELECT promotion_coupon_seq.nextval FROM dual
+	</select>
+	<select id="getPromotionPresentSeq" resultType="int">
+		SELECT promotion_present_seq.nextval FROM dual
+	</select>
+	
+	<!-- // 할인 프로모션 insert
+	public String insertDiscountPromotion(@Param("promotionDiscountDTO") PromotionDiscountDTO promotionDiscountDTO); -->
+	
+	<insert id="insertDiscountPromotion">
+			INSERT INTO promotion_discount 
+			VALUES (
+			#{promotionDiscountId},
+			 #{promotionDiscountDTO.promotionDiscountPrice}, 
+			 #{promotionDiscountDTO.promotionDiscountStartDay}, 
+			 #{promotionDiscountDTO.promotionDiscountEndDay}
+			 )
+	</insert>
+	
+<!-- 	// 쿠폰 프로모션 insert
+	public String insertCouponPromotion(@Param("promotionCouponDTO") PromotionCouponDTO promotionCouponDTO); -->
+	
+	<insert id="insertCouponPromotion" keyProperty="id">
+			INSERT INTO promotion_coupon 
+			VALUES (#{promotionCouponId},
+			 #{promotionCouponDTO.promotionCouponName},
+			 #{promotionCouponDTO.promotionCouponKind},
+			 #{promotionCouponDTO.promotionCouponDiscount}, 
+			 #{promotionCouponDTO.promotionCouponStartDay}, 
+			 #{promotionCouponDTO.promotionCouponEndDay}
+			 )
+	</insert>
+	
+<!-- 	// 증정 프로모션 insert
+	public String insertPresentPromotion(@Param("promotionPresentDTO") PromotionPresentDTO promotionPresentDTO); -->
+	<insert id="insertPresentPromotion" keyProperty="id" >
+			INSERT INTO promotion_present 
+			VALUES (
+			#{promotionPresentId},
+			 #{promotionPresentDTO.promotionPresentKind},
+			 #{promotionPresentDTO.promotionPresentName},
+			 #{promotionPresentDTO.promotionPresentStartDay}, 
+			 #{promotionPresentDTO.promotionPresentEndDay}
+			 )
+	</insert>
+	
+	<!-- // 프로모션 insert
+	public int insertPromotion(@Param("productDisplayId") String productDisplayId
+			, @Param("promotionDiscountId") String promotionDiscountId
+			, @Param("promotionCouponId")String promotionCouponId
+			, @Param("promotionPresentId")String promotionPresentId); -->
+			
+	<insert id="insertPromotion">
+		INSERT INTO product_promotion
+		VALUES ('pmd'|| product_promotion_seq.nextval
+		, #{productDisplayId}
+		, #{promotionDiscountId}
+		, #{promotionCouponId}
+		, #{promotionPresentId})
+	
+	</insert>
+	
+	<!-- // 구매정보 insert
+	public int insertBuyInfo(@Param("productDisplayId") String productDisplayId,@Param("buyInfoDTOs") List<BuyInfoDTO> buyInfoDTOs); -->
+	<insert id="insertBuyInfo" parameterType="java.util.Map">
+	
+	 <foreach collection="buyInfoDTOs" item="buyInfoDTOs" index="idx" separator=";" open="DECLARE BEGIN" close="; END;">
+    		  INSERT INTO buyinfo_content (
+    		  BUYINFO_CONTENT_ID,
+    		  PRODUCT_DISPLAY_ID,
+    		  BUYINFO_TITLE_ID,
+    		  BUYINFO_CONTENT
+			)
+      		SELECT 
+			buyinfo_content_seq.nextval,
+			#{productDisplayId},
+			#{buyInfoDTOs.buyinfoTitleId},
+			#{buyInfoDTOs.buyinfoTitle}
+      		FROM DUAL
+		</foreach>
+
+	</insert>
+	
 	
 	<!-- ================= Rest Mapper ======================= -->
 	
