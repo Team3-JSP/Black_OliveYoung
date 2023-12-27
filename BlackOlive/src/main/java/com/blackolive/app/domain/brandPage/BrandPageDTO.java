@@ -40,9 +40,9 @@ public class BrandPageDTO {
 	private int  productStock;
 	private int minprice;
     private String brandVideoId;
-    private String BrandSlogan;
-    private String BrandVideoLink;
-    private String BrandVideoDescription;
+    private String brandSlogan;
+    private String brandVideoLink;
+    private String brandVideoDescription;
 
 
 }
