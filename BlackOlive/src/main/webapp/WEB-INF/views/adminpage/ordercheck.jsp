@@ -279,7 +279,7 @@ $(function() {
 			
 			var deliveryCompany = row.find('#deliveryCompany').val();
 			var invoiceNumber = row.find('#invoiceNumber').val();
-			alert(invoiceNumber);
+
 			var selectedRows = {
 					orderId: orderId,
 					deliveryCompany : deliveryCompany,
@@ -298,6 +298,7 @@ $(function() {
 			method: "post",
 			cache: false,
 			data: {sendProcessDTOs: JSON.stringify(sendProcessDTOs)},
+			contentType : "json",
 			 beforeSend: function(xhr) {
 					xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
 					console.log(xhr);
