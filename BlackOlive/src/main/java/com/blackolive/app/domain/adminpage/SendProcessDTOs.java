@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SendProcessDTOs {
 	
-	private List<SendProcessDTO> selectedRows;
+	private List<SendProcessDTO> sendProcessDTOs;
 
 }

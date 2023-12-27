@@ -297,8 +297,8 @@ $(function() {
 			url: "/adminrest/order/sendConfirm",
 			method: "post",
 			cache: false,
-			data: {sendProcessDTOs: JSON.stringify(sendProcessDTOs)},
-			contentType : "json",
+			data: JSON.stringify({sendProcessDTOs: sendProcessDTOs}),
+			contentType : "application/json;charset=utf-8",
 			 beforeSend: function(xhr) {
 					xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
 					console.log(xhr);
